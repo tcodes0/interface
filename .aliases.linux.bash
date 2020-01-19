@@ -17,6 +17,7 @@ alias pbcopy='xclip -selection c'
 alias gls='/usr/bin/ls'
 alias google="s -p duckduckgo"
 alias .i="cd \$DOTFILE_PATH"
+alias grep='grep --color=auto'
 unalias find
 unalias stat
 unalias emulator
