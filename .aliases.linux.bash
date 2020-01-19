@@ -7,6 +7,8 @@
 #####################################################
 [[ $- != *i* ]] && return
 
+alias ls='ls -ph --color=always'
+
 #========== Override macos
 alias gmv='mv'
 alias gsed='sed'

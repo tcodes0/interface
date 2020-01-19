@@ -5,86 +5,21 @@
 #####################################################
 [[ $- != *i* ]] && return
 
-###############
-#-------general
-###############
-alias cd='cd -P'
-alias cd='cl'
-alias rm='rm -ri'
-alias cp='cp -RHi'
-alias mv='gmv -i'
-alias mkdir='mkdir -p'
-alias ..='cl ..'
-alias df='df -h'
-alias ln='ln -si'
-alias disk='diskutil'
-alias part='partutil'
-alias dd='gdd status=progress bs=4M'
-alias srit='source $HOME/.bashrc && clear'
-alias pbc='pbcopy'
-alias pbp='pbpaste'
-alias grep='ggrep --color=auto'
-alias dirs='dirs -v'
-alias history='history | less'
-alias du='du -xa | sort -rn'
-alias stat='stat -Ll'
-alias j='jobs'
-alias f='fg'
-alias g='grep -Eie'
-alias ping='ping -c 1'
-alias em='emacs'
-alias sed='gsed'
-alias e='echo -e'
-alias less="\$PAGER"
-alias dircolors="gdircolors"
-alias python="python3"
-alias ncdu="ncdu -x --si"
-alias visudo="EDITOR=emacs && sudo visudo"
-alias shfmt="shfmt -i 2 -ln bash"
-alias shellcheck="shellcheck --color=auto -s bash"
-alias cat='bat --theme Monokai\ Extended\ Origin'
-alias gppr='gpsup && hub pull-request -b master --browse --assign thomazella'
-alias gpprd='gpsup && hub pull-request -b develop --browse --assign thomazella'
-alias hpr='hub pull-request'
-alias hprl='hub pr list'
-alias hprc='hub pr checkout'
-alias hprs='hub pr show'
-alias hisa='hub issue -l '
-alias his='hub issue'
-alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
-alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
-alias find="gfind"
-alias t="cat"
-alias l="less"
-################
-#-------. stuff
-################
+##################
+#-------dot stuff
+##################
 alias .d="cd \$HOME/Desktop"
 alias .c="cd \$HOME/Code"
 alias o.="open ."
 alias o="open"
 alias .i="cd \$HOME/Documents/GoogleDrive/Mackup"
 ####################
-#--------mac aliases
+#--------ls aliases
 ####################
-if [[ "$(uname -s)" =~ Darwin ]]; then
-  #on mac use gnu ls. BSD ls: ls -Gph
-  alias ls='gls -ph --color=always'
-  alias rn='react-native'
-  alias rns='nvm use lts/\* && react-native start'
-  alias rnsr='nvm use lts/\* && react-native start --reset-cache'
-else
-  alias ls='ls -ph --color=always'
-fi
+alias ls='gls -ph --color=always'
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
-###################
-#-----internet guys
-###################
-alias wget='wget -c'
-alias histg="history | grep"
-alias myip='curl http://ipecho.net/plain; echo'
 ###########
 #-----brew
 ###########
@@ -104,17 +39,6 @@ alias casks='brew search'
 alias caskh='brew cask home'
 alias caskI='brew cask install'
 alias caskR='brew cask uninstall'
-###################
-#--------bash files
-###################
-# alias bashrc='webstorm        ~/.zshrc'
-# alias bashaliases='webstorm   ~/.aliases.bash'
-# alias bashfunctions='webstorm ~/.functions.bash'
-# alias bashps1='webstorm       ~/.prompt.bash'
-alias bashrc='code        ~/.zshrc'
-alias bashaliases='code   ~/.aliases.bash'
-alias bashfunctions='code ~/.functions.bash'
-alias bashps1='code       ~/.prompt.bash'
 ###################
 # ----------mistakes
 ###################
@@ -295,9 +219,62 @@ alias lgw="WIPCOMMIT=1 && lg"
 alias caf="caffeinate"
 alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
-###################
-#------------dev
-###################
+###############
+#-------general
+###############
+alias cd='cd -P'
+alias cd='cl'
+alias rm='rm -ri'
+alias cp='cp -RHi'
+alias mv='gmv -i'
+alias mkdir='mkdir -p'
+alias ..='cl ..'
+alias df='df -h'
+alias ln='ln -si'
+alias disk='diskutil'
+alias part='partutil'
+alias dd='gdd status=progress bs=4M'
+alias srit='source $HOME/.bashrc && clear'
+alias pbc='pbcopy'
+alias pbp='pbpaste'
+alias grep='ggrep --color=auto'
+alias dirs='dirs -v'
+alias du='du -xa | sort -rn'
+alias stat='stat -Ll'
+alias j='jobs'
+alias f='fg'
+alias g='grep -Eie'
+alias ping='ping -c 1'
+alias em='emacs'
+alias sed='gsed'
+alias e='echo -e'
+alias less="\$PAGER"
+alias dircolors="gdircolors"
+alias python="python3"
+alias ncdu="ncdu -x --si"
+alias visudo="EDITOR=code && sudo visudo"
+alias shfmt="shfmt -i 2 -ln bash"
+alias shellcheck="shellcheck --color=auto -s bash"
+alias cat='bat --theme Monokai\ Extended\ Origin'
+alias gppr='gpsup && hub pull-request -b master --browse --assign thomazella'
+alias gpprd='gpsup && hub pull-request -b develop --browse --assign thomazella'
+alias hpr='hub pull-request'
+alias hprl='hub pr list'
+alias hprc='hub pr checkout'
+alias hprs='hub pr show'
+alias hisa='hub issue -l '
+alias his='hub issue'
+alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
+alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
+alias find="gfind"
+alias t="cat"
+alias l="less"
+alias rn='react-native'
+alias rns='nvm use lts/\* && react-native start'
+alias rnsr='nvm use lts/\* && react-native start --reset-cache'
+alias wget='wget -c'
+alias histg="history | grep"
+alias myip='curl http://ipecho.net/plain; echo'
 alias caniuse='caniuse --mobile'
 alias cani='caniuse'
 alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
