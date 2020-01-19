@@ -79,6 +79,21 @@ if [ -d "./Desktop" ]; then
   command cd ./Desktop
 fi
 
+# fast keyboard key response rate
+if [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
+  # don't run when on a real tty, only graphic X11 ttys
+  xset r rate 140 60
+fi
+
+# add ssh key to ssh agent, bypass prompt
+if [ ! "$SSH_AUTH_SOCK" ] && [ -f "$DOTFILE_PATH/.private-ssh-add.expect" ]; then
+  eval "$(ssh-agent)" 2>/dev/null 1>&2
+  "$DOTFILE_PATH/.private-ssh-add.expect" 2>/dev/null 1>&2
+fi
+
+# add gpg key to gpg agent, bypass prompt
+"$DOTFILE_PATH/.private-gpg-init.sh" 2>/dev/null 1>&2
+
 #tmux
 # [ ! "$TMUX" ] && {
 #   tmux attach || tmux new-session
