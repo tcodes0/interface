@@ -66,41 +66,20 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 export ERLANG_OPENSSL_PATH="/usr/local/opt/openssl"
 export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-javac --enable-shared-zlib --enable-dynamic-ssl-lib --enable-hipe --enable-sctp --enable-smp-support --enable-threads --enable-kernel-poll --enable-wx --enable-darwin-64bit --with-ssl=/usr/local/Cellar/openssl/1.0.2t"
 
+# gpg agent
+export GPGKEY=D600E88A0C5FE062
+
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
 [[ $- != *i* ]] && return
-
-# add ssh key to ssh agente, bypaass prompt
-if [ ! "$SSH_AUTH_SOCK" ] && [ -f $DOTFILE_PATH/.private-ssh-add.expect ]; then
-  eval "$(ssh-agent)" 2>/dev/null 1>&2
-  $DOTFILE_PATH/.private-ssh-add.expect 2>/dev/null 1>&2
-fi
-
-# start systemd user units
-for unit in x11-keyboard.service guake.service; do
-  unitFile="$HOME/.config/systemd/user/$unit"
-  if [ -f "$unitFile" ]; then
-    systemctl --user start "$unit"
-  fi
-  unset unitFile
-done
-
-# fast keyboard key response rate
-if [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
-  # don't run when on a real tty, only graphic X11 ttys
-  xset r rate 140 60
-fi
 
 # start on desktop
 if [ -d "./Desktop" ]; then
   command cd ./Desktop
 fi
 
-# gpg agent
-export GPGKEY=D600E88A0C5FE062
-
 #tmux
-[ ! "$TMUX" ] && {
-  tmux attach || tmux new-session
-}
+# [ ! "$TMUX" ] && {
+#   tmux attach || tmux new-session
+# }
