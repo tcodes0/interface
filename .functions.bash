@@ -1013,3 +1013,22 @@ gloltaccp() {
   fi
   eval "glol | head -$1 | tac | pbcopy"
 }
+
+# sequence
+se() {
+  if [ "$#" == 0 ]; then
+    echo "Run commands given as arguments in sequence"
+  fi
+  local statuses=()
+
+  for name in "$@"; do
+    $name
+    statuses+=($?)
+  done
+
+  for status in "${statuses[@]}"; do
+    if [ "$status" != '0' ]; then
+      return "$status"
+    fi
+  done
+}
