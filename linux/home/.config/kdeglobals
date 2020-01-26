@@ -245,7 +245,14 @@ Size=48
 MaximumRemoteSize=0
 
 [Shortcuts]
+Back=Ctrl+Left
+BackwardWord=Alt+Left
 DeleteFile=Shift+Del;\s
+DeleteWordBack=Alt+Backspace
+DeleteWordForward=Alt+Del
+DocumentBack=
+Forward=Ctrl+Right
+ForwardWord=Alt+Right
 Help=
 
 [SmallIcons]
