@@ -14,6 +14,7 @@ alias gmv='mv'
 alias gsed='sed'
 alias gdd='dd'
 alias pbcopy='xclip -selection c'
+alias pbpaste='xclip -selection c -o'
 alias gls='/usr/bin/ls'
 alias google="s -p duckduckgo"
 alias .i="cd \$DOTFILE_PATH"
