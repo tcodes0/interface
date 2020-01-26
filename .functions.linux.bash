@@ -44,6 +44,9 @@ chpwd() {
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-enter-dir"
     ;;
+  $HOME/Desktop/efis)
+    source "$HOME/Desktop/interface/chpwd-to-source/efis/on-enter-dir"
+    ;;
   *) ;;
   esac
 
@@ -77,6 +80,9 @@ chpwd() {
     ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-leave-dir"
+    ;;
+  $HOME/Desktop/efis)
+    source "$HOME/Desktop/interface/chpwd-to-source/efis/on-leave-dir"
     ;;
   *) ;;
   esac
