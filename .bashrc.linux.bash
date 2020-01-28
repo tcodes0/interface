@@ -25,6 +25,8 @@ export ANDROID_BUILD_TOOLS_VER="29.0.2"
 
 export PATH="\
 $HOME/bin:\
+$HOME/.asdf/installs/elixir/1.10.0/bin:\
+$HOME/.asdf/installs/nodejs/13.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
@@ -62,9 +64,9 @@ unset npm_config_prefix # NVM hates this
 
 # elixir/erlang with asdf
 export ERL_AFLAGS="-kernel shell_history enabled"
-# safe_source /usr/local/opt/asdf/asdf.sh
-export ERLANG_OPENSSL_PATH="/usr/local/opt/openssl"
-export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-javac --enable-shared-zlib --enable-dynamic-ssl-lib --enable-hipe --enable-sctp --enable-smp-support --enable-threads --enable-kernel-poll --enable-wx --enable-darwin-64bit --with-ssl=/usr/local/Cellar/openssl/1.0.2t"
+safe_source "$HOME/.asdf/asdf.sh"
+safe_source "$HOME/.asdf/completions/asdf.bash"
+export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-javac --enable-shared-zlib --enable-dynamic-ssl-lib --enable-hipe --enable-sctp --enable-smp-support --enable-threads --enable-kernel-poll --enable-wx"
 
 # gpg agent
 export GPGKEY=D600E88A0C5FE062
