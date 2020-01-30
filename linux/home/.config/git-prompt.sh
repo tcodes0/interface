@@ -328,8 +328,10 @@ __git_ps1() {
   local ps1pc_start='\u@\h:\w '
   local ps1pc_end='\$ '
   local printf_format=' (%s)'
-  GIT_BRANCH=$(git describe --contains --all HEAD)
-  export GIT_BRANCH
+  if git describe --contains --all HEAD >/dev/null 2>&1; then
+    GIT_BRANCH=$(git describe --contains --all HEAD)
+    export GIT_BRANCH
+  fi
 
   case "$#" in
   2 | 3)
