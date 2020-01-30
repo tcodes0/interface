@@ -33,8 +33,8 @@ export PATH="$ANDROID_SDK_ROOT/build-tools/28.0.0/:\
 $HOME/.asdf/installs/elixir/1.9.2/bin:\
 /usr/local/opt/libxslt/bin:\
 /usr/local/opt/openssl/bin:\
-$HOME/Documents/GoogleDrive/Mackup:\
 /usr/local/bin:\
+$HOME/Documents/GoogleDrive/Mackup:\
 /bin:\
 /usr/bin:\
 /sbin:\
