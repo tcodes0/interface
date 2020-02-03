@@ -45,6 +45,9 @@ chpwd() {
   $HOME/Desktop/helpers-console)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/helpers-console/on-enter-dir"
     ;;
+  $HOME/Desktop/acert)
+    source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-enter-dir"
+    ;;
   *) ;;
   esac
 
@@ -78,6 +81,9 @@ chpwd() {
     ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/helpers-console/on-leave-dir"
+    ;;
+  $HOME/Desktop/acert)
+    source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-leave-dir"
     ;;
   *) ;;
   esac
