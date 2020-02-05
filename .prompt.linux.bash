@@ -45,7 +45,7 @@ makePS1() {
     decorations=$auxiliarColor"#>"$spacer$end
   fi
 
-  horizontalLine="$auxiliarColor$underline$(printf %"${COLUMNS}"s)$end\\n"
+  horizontalLine="$auxiliarColor$underline$(printf %"$(((COLUMNS * 75) / 100))"s)$end\\n"
   workdir="$mainColor\\w $end"
 
   case "$1" in
