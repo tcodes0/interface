@@ -47,6 +47,9 @@ chpwd() {
   $HOME/Desktop/efis)
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-enter-dir"
     ;;
+  $HOME/Desktop/acert)
+    source "$HOME/Desktop/interface/chpwd-to-source/acert/on-enter-dir"
+    ;;
   *) ;;
   esac
 
@@ -83,6 +86,9 @@ chpwd() {
     ;;
   $HOME/Desktop/efis)
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-leave-dir"
+    ;;
+  $HOME/Desktop/acert)
+    source "$HOME/Desktop/interface/chpwd-to-source/acert/on-leave-dir"
     ;;
   *) ;;
   esac
