@@ -155,34 +155,6 @@ routine-pull() {
 
 #- - - - - - - - - - -
 
-pacu-wrapper() {
-  if ! mount | grep '/dev/sd[bc]1 on /boot' --quiet; then
-    echo '/boot doesnt seem to be mounted!'
-    return 1
-  fi
-
-  if ! mount | grep '/dev/sd[bc]1 on /media/efiPartition' --quiet; then
-    echo '/media/efiPartition doesnt seem to be mounted!'
-    return 1
-  fi
-
-  pacu
-  if [ "$?" == 1 ]; then
-    touch ~/.pacu-failed
-  fi
-}
-
-#- - - - - - - - - - -
-
-pacu-checker() {
-  if [ -f ~/.pacu-failed ]; then
-    echo "pacu failed last session."
-    \rm -f ~/.pacu-failed
-  fi
-}
-
-#- - - - - - - - - - -
-
 root() {
   \sudo bash -ic "$*"
 }

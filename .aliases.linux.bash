@@ -52,7 +52,5 @@ alias pacI='sudo pacman --sync --refresh --noconfirm'                           
 alias pacR='sudo pacman --remove'                                                                            # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps'                                                        # -Rdd
 alias pacu='sudo pacman --sync --sysupgrade --refresh --noconfirm && sudo pacman --sync --clean --noconfirm' # -Syu && Sc
-alias pacuOff='pacu-wrapper && systemctl poweroff'
-alias pacuReboot='pacu-wrapper && systemctl reboot'
 # others
 alias sysu='systemctl --user'
