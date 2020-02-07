@@ -160,3 +160,10 @@ root() {
 }
 
 #- - - - - - - - - - -
+unalias pacu
+pacu() {
+  sudo pacman --sync --sysupgrade --refresh --noconfirm # -Syu
+  sudo pacman --sync --clean --noconfirm                # Sc
+  asdf update
+  asdf plugin update --all
+}

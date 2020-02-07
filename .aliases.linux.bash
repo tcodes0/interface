@@ -51,6 +51,5 @@ alias pacs='pacman --sync --search'                                             
 alias pacI='sudo pacman --sync --refresh --noconfirm'                                                        # -S
 alias pacR='sudo pacman --remove'                                                                            # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps'                                                        # -Rdd
-alias pacu='sudo pacman --sync --sysupgrade --refresh --noconfirm && sudo pacman --sync --clean --noconfirm' # -Syu && Sc
 # others
 alias sysu='systemctl --user'
