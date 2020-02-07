@@ -160,7 +160,7 @@ root() {
 }
 
 #- - - - - - - - - - -
-unalias pacu
+unalias pacu >/dev/null 1>&2
 pacu() {
   sudo pacman --sync --sysupgrade --refresh --noconfirm # -Syu
   sudo pacman --sync --clean --noconfirm                # Sc
