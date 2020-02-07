@@ -22,6 +22,8 @@ alias grep='grep --color=auto'
 unalias find
 unalias stat
 unalias emulator
+alias rns="react-native start"
+alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
 
 #========== Generic

@@ -35,9 +35,8 @@ $HOME/.asdf/installs/nodejs/13.7.0/bin:\
 /usr/bin/core_perl:\
 /home/linuxbrew/.linuxbrew/bin:\
 $HOME/bin/monero-gui:\
-$HOME/Desktop/bats-core/bin:\
-$HOME/Desktop/bats-core/libexec/bats-core:\
 $HOME/rn-debugger:\
+$HOME/.config/yarn/global/node_modules/.bin:\
 $ANDROID_HOME/tools:\
 $ANDROID_HOME/platform-tools:\
 $ANDROID_HOME/tools/bin:\
