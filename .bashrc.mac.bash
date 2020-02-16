@@ -49,6 +49,7 @@ $HOME/.rvm/bin:\
 $HOME/.cargo/bin:\
 $HOME/Library/Android/sdk/tools:\
 $HOME/Library/Android/sdk/tools/bin:\
+$HOME/Desktop/bats-core/libexec/bats-core:\
 /Applications/Postgres.app/Contents/Versions/latest/bin"
 export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
 export CDPATH=$HOME:/Volumes:$HOME/Desktop
