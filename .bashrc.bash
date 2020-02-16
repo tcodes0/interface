@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034 disable=SC1090
 
 #it's recommended by a man page to set this here for better compatibility I guess
-tput init
+# tput init
 
 #========== Environment
 export HISTSIZE=3000
