@@ -1,0 +1,13 @@
+{
+  "name": "interface",
+  "version": "1.0.0",
+  "description": "doffiles and scripts",
+  "main": "index.js",
+  "repository": "git@github.com:Thomazella/interface.git",
+  "author": "Raphael Thomazella <thomazella9@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "bats -r ."
+  }
+}
