@@ -9,6 +9,7 @@ dhershman.Theme-Dusty-Dark
 donjayamanne.githistory
 dracula-theme.theme-dracula
 eamodio.remotehub
+Equinusocio.vsc-community-material-theme
 Equinusocio.vsc-material-theme
 equinusocio.vsc-material-theme-icons
 esbenp.prettier-vscode
@@ -52,6 +53,7 @@ robinbentley.sass-indented
 rokoroku.vscode-theme-darcula
 saratravi.elixir-formatter
 shakram02.bash-beautify
+silvenon.mdx
 timonwong.shellcheck
 TobiasTimm.shuriken
 truman.autocomplate-shell
