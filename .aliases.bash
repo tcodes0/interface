@@ -219,6 +219,7 @@ alias lgw="WIPCOMMIT=1 && lg"
 alias caf="caffeinate"
 alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
+alias gla="glo | head -10"
 ###############
 #-------general
 ###############
