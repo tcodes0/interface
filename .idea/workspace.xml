@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4809660a-7a53-43bc-b7c7-121f7bf54e6a" name="Default Changelist" comment="" />
+    <list default="true" id="4809660a-7a53-43bc-b7c7-121f7bf54e6a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/chpwd-to-source/acert/on-enter-dir" beforeDir="false" afterPath="$PROJECT_DIR$/chpwd-to-source/acert/on-enter-dir" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/chpwd-to-source/acert/on-leave-dir" beforeDir="false" afterPath="$PROJECT_DIR$/chpwd-to-source/acert/on-leave-dir" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -15,11 +18,11 @@
     <session id="-2042910136">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
+          <entry key="project.closed" value="4" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.3" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -41,7 +44,7 @@
     <favorites_list name="Mackup" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -52,6 +55,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
+  </component>
   <component name="ProjectFrameBounds">
     <option name="width" value="2560" />
     <option name="height" value="1080" />
@@ -61,7 +69,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -73,6 +80,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -107,11 +115,12 @@
       <workItem from="1575642470225" duration="66000" />
       <workItem from="1575642548492" duration="460000" />
       <workItem from="1575643022830" duration="1014000" />
+      <workItem from="1582145657921" duration="6000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1540000" />
+    <option name="totallyTimeSpent" value="1546000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="2560" height="1080" extended-state="0" />
