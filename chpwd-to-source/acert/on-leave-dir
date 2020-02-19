@@ -1,3 +1,1 @@
-unalias yarn 2>/dev/null 1>&2
-source $DOTFILE_PATH/.aliases.bash
 unset DONTPUSH
