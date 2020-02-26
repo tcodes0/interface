@@ -695,8 +695,9 @@ gcmsg() {
 
 #git tag push
 gtp() {
-  git tag "$1"
-  iflast git push -q origin "$1"
+  if git tag "$1"; then
+    git push -q origin "$1"
+  fi
 }
 
 #- - - - - - - - - - -
