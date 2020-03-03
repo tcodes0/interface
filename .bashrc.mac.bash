@@ -29,7 +29,8 @@ export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 
 # generic stuff
-export PATH="$ANDROID_SDK_ROOT/build-tools/28.0.0/:\
+export PATH="\
+$ANDROID_SDK_ROOT/build-tools/28.0.0/:\
 $HOME/.asdf/installs/elixir/1.9.2/bin:\
 /usr/local/opt/libxslt/bin:\
 /usr/local/opt/openssl/bin:\
