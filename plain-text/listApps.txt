@@ -14,13 +14,14 @@ Contacts.app
 Dashboard.app
 Dictionary.app
 Discord.app
+Docker.app
 EOS Studio.app
 FaceTime.app
 Figma.app
-FileZilla.app
 Firefox Developer Edition.app
 Flipper.app
 Font Book.app
+GIMP-2.10.app
 GPG Keychain.app
 Google Chrome.app
 HWMonitor.app
@@ -28,6 +29,7 @@ Hackintool.app
 Home.app
 Howler Timer.app
 Image Capture.app
+JetBrains Toolbox.app
 Kap.app
 Key Codes.app
 Launchpad.app
@@ -54,6 +56,7 @@ Safari.app
 Siri.app
 Slack.app
 Spotify.app
+Steam.app
 Stickies.app
 Stocks.app
 System Preferences.app
@@ -64,10 +67,8 @@ Utilities
 VLC.app
 Visual Studio Code.app
 VoiceMemos.app
-WebStorm.app
 Xcode.app
 iTerm.app
 iTunes.app
-qBittorrent.app
 scatter.app
 zoom.us.app
