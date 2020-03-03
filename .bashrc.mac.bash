@@ -35,6 +35,7 @@ $HOME/.asdf/installs/elixir/1.9.2/bin:\
 /usr/local/opt/openssl/bin:\
 /usr/local/bin:\
 $HOME/Documents/GoogleDrive/Mackup:\
+/usr/local/opt/ruby/bin:\
 /bin:\
 /usr/bin:\
 /sbin:\
@@ -44,7 +45,6 @@ $HOME/Documents/GoogleDrive/Mackup:\
 /usr/local/opt/go/libexec/bin:\
 $HOME/.config/yarn/global/node_modules/.bin:\
 /usr/local/opt/util-linux/bin:\
-/usr/local/opt/ruby/bin:\
 $HOME/.rvm/bin:\
 $HOME/.cargo/bin:\
 $HOME/Library/Android/sdk/tools:\
