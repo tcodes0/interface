@@ -998,6 +998,9 @@ adbc() {
     local version
     version=$(aapt dump badging android/app/build/outputs/apk/release/app-release.apk | g versionName | sed -Ee "s/^.*versionName='([^']+)'.*$/\1/g")
     mv android/app/build/outputs/apk/release/app-release.apk "$HOME/Desktop/${version}.apk"
+    if [ -f android/app/build/outputs/bundle/release/app-release.aab ]; then
+      mv android/app/build/outputs/bundle/release/app-release.aab "$HOME/Desktop/${version}-bundle.aab"
+    fi
   else
     echo "no android/app/build/outputs/apk/release/app-release.apk to copy"
   fi
