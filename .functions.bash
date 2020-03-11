@@ -731,6 +731,7 @@ gas() {
     cd android || return
   fi
   ./gradlew assembleRelease
+  ./gradlew bundleRelease
   cd ..
 }
 
