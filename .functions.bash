@@ -1050,14 +1050,18 @@ se() {
     return
   fi
   if [ "$#" == "0" ]; then
-    echo "Please provide service name to get 2fa code from"
+    printf "%s\n" "Please provide service name to get 2fa code from. Valid services:"
+    ls "$HOME/.2fa"
     return
   fi
   local FILE="$HOME/.2fa/$1"
   if ! stat "$FILE" >/dev/null 2>&1; then
-    echo "$1 doesn't appear to be a service with a local secret"
+    printf "%s\n" "$1 doesn't appear to be a service with a local secret. Valid services:"
+    ls "$HOME/.2fa"
     return
   fi
   chmod 600 "$FILE"
-  oathtool -b --totp "$(cat "$FILE")"
+  chmod -R 700 "$HOME/.2fa/.git"
+  oathtool -b --totp "$(cat "$FILE")" | pbcopy
+  pbpaste
 }
