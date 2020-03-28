@@ -1043,3 +1043,21 @@ se() {
     fi
   done
 }
+
+2fa() {
+  if ! command -v oathtool >/dev/null; then
+    echo "Please install oathtool"
+    return
+  fi
+  if [ "$#" == "0" ]; then
+    echo "Please provide service name to get 2fa code from"
+    return
+  fi
+  local FILE="$HOME/.2fa/$1"
+  if ! stat "$FILE" >/dev/null 2>&1; then
+    echo "$1 doesn't appear to be a service with a local secret"
+    return
+  fi
+  chmod 600 "$FILE"
+  oathtool -b --totp "$(cat "$FILE")"
+}
