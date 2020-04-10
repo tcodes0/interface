@@ -612,6 +612,13 @@ lg() {
   local scope=""
   local type=""
 
+  # check for another git process running at this time (rare edge-case)
+  # i.e. vscode and wait for it to finish
+  while [ -f "$PWD/.git/index.lock" ]; do
+    echo ".git/index.lock exits, waiting other process..."
+    sleep 1
+  done
+
   # git add --all, if fail exit
   if [ ! "$SKIPADD" ] && ! git add --all; then
     return 1
