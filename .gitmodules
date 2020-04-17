@@ -1,0 +1,3 @@
+[submodule "copy-pasta"]
+	path = copy-pasta
+	url = git@github.com:Thomazella/copy-pasta.git
