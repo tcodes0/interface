@@ -611,15 +611,17 @@ lg() {
   local msg=""
   local scope=""
   local type=""
-
-  # check for another git process running at this time (rare edge-case)
-  # i.e. vscode and wait for it to finish
-  while [ -f "$PWD/.git/index.lock" ]; do
-    echo ".git/index.lock exits, waiting other process..."
-    sleep 1
-  done
+  checkGitLock() {
+    # check for another git process running at this time (rare edge-case)
+    # i.e. vscode and wait for it to finish
+    while [ -f "$PWD/.git/index.lock" ]; do
+      echo ".git/index.lock exits, waiting other process..."
+      sleep 1
+    done
+  }
 
   # git add --all, if fail exit
+  checkGitLock
   if [ ! "$SKIPADD" ] && ! git add --all; then
     return 1
   fi
@@ -655,8 +657,10 @@ lg() {
       unset WIPCOMMIT
     fi
     echo commit msg \> "$msg"
+    checkGitLock
     git commit -q -m "$msg"
   else
+    checkGitLock
     git commit -q -v
   fi
 
