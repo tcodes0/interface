@@ -615,7 +615,7 @@ lg() {
   local msg=""
   local scope=""
   local type=""
-  local response=""
+  local response="y"
   local shouldPush='true'
   local manually_staged_files=""
   manually_staged_files=$(git diff --name-only --cached)
