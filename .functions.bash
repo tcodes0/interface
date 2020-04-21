@@ -604,6 +604,10 @@ aliasg() {
 # lg chore bar -> chore(misc): bar
 # lg chore app: fix stuff -> chore(app): fix stuff
 lg() {
+  ##########
+  ## vars ##
+  ##########
+
   local args="$*"
   local commitTypes=(build ci chore docs feat fix perf refactor revert style test)
   local defaultType="chore"
@@ -611,6 +615,10 @@ lg() {
   local msg=""
   local scope=""
   local type=""
+  local response=""
+  local shouldPush='true'
+  local manually_staged_files=""
+  manually_staged_files=$(git diff --name-only --cached)
   checkGitLock() {
     # check for another git process running at this time (rare edge-case)
     # i.e. vscode and wait for it to finish
@@ -620,12 +628,42 @@ lg() {
     done
   }
 
-  # git add --all, if fail exit
+  ######################
+  ## index management ##
+  ######################
+
+  # feedback that manually added files will be commited
+  if [ "$manually_staged_files" ]; then
+    echo "Comitting files already staged..."
+  fi
+
+  # confirm automatic add in advance, to avoid mistakes
+  # if already staged files manually, skip
+  if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
+    if [ ! "$SKIPADD" ]; then
+      echo "Running 'git add --all', ok? (y/n)"
+      read -r response
+    fi
+  fi
+
   checkGitLock
-  if [ ! "$SKIPADD" ] && ! git add --all; then
+  # git add --all, if fail exit                                                 *adding files here*
+  if [ ! "$SKIPADD" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
+    echo "Auto add off or opted-out of or 'git add --all' failed"
     return 1
+  else
+    # pick up newly added files in block above
+    manually_staged_files=$(git diff --name-only --cached)
+    if [ ! "$manually_staged_files" ]; then
+      echo "No staged files, and auto add opted-out of"
+      return 1
+    fi
   fi
   unset SKIPADD
+
+  ################
+  ## commit msg ##
+  ################
 
   if [ "$args" ]; then
     # check if first arg is a commit type
@@ -664,7 +702,10 @@ lg() {
     git commit -q -v
   fi
 
-  local shouldPush='true'
+  ##########
+  ## push ##
+  ##########
+
   if [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
