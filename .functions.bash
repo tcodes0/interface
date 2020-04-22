@@ -647,8 +647,8 @@ lg() {
   fi
 
   checkGitLock
-  # git add --all, if fail exit                                                 *adding files here*
-  if [ ! "$SKIPADD" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
+  # git add --all, if fail exit. Check for prompt response, check for files already added                         *adding files here*
+  if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
     echo "Auto add off or opted-out of or 'git add --all' failed"
     return 1
   else
