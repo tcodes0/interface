@@ -619,11 +619,14 @@ lg() {
   local shouldPush='true'
   local manually_staged_files=""
   manually_staged_files=$(git diff --name-only --cached)
+  localEcho() {
+    echo "lg > $*"
+  }
   checkGitLock() {
     # check for another git process running at this time (rare edge-case)
     # i.e. vscode and wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
-      echo ".git/index.lock exits, waiting other process..."
+      localEcho ".git/index.lock exits, waiting other process..."
       sleep 1
     done
   }
@@ -634,14 +637,14 @@ lg() {
 
   # feedback that manually added files will be commited
   if [ "$manually_staged_files" ]; then
-    echo "Comitting files already staged..."
+    localEcho "Comitting files already staged..."
   fi
 
   # confirm automatic add in advance, to avoid mistakes
   # if already staged files manually, skip
   if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
     if [ ! "$SKIPADD" ]; then
-      echo "Running 'git add --all', ok? (y/n)"
+      localEcho "Running 'git add --all', ok? (y/n)"
       read -r response
     fi
   fi
@@ -649,13 +652,13 @@ lg() {
   checkGitLock
   # git add --all, if fail exit. Check for prompt response, check for files already added                         *adding files here*
   if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
-    echo "Auto add off or opted-out of or 'git add --all' failed"
+    localEcho "Auto add off or opted-out of or 'git add --all' failed"
     return 1
   else
     # pick up newly added files in block above
     manually_staged_files=$(git diff --name-only --cached)
     if [ ! "$manually_staged_files" ]; then
-      echo "No staged files, and auto add opted-out of"
+      localEcho "No staged files, and auto add opted-out of"
       return 1
     fi
   fi
@@ -694,7 +697,7 @@ lg() {
       msg="${msg} [skip ci]"
       unset WIPCOMMIT
     fi
-    echo commit msg \> "$msg"
+    localEcho commit msg \> "$msg"
     checkGitLock
     git commit -q -m "$msg"
   else
@@ -1130,8 +1133,8 @@ notify() {
     echo "osascript not found on \$PATH. You running this on MacOs right?"
     return 1
   fi
-   title="Hello World"
-   text="Example notification. Use -h for help"
+  title="Hello World"
+  text="Example notification. Use -h for help"
   if [ "$1" ]; then
     title="$1"
   fi
