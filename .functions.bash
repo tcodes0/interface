@@ -697,7 +697,7 @@ lg() {
       msg="${msg} [skip ci]"
       unset WIPCOMMIT
     fi
-    localEcho commit msg \> "$msg"
+    localEcho commit msg: "$msg"
     checkGitLock
     git commit -q -m "$msg"
   else
