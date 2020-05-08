@@ -24,6 +24,7 @@ Font Book.app
 GIMP-2.10.app
 GPG Keychain.app
 Google Chrome.app
+GraphQL Playground.app
 HWMonitor.app
 Hackintool.app
 Home.app
@@ -39,6 +40,7 @@ Maps.app
 Messages.app
 Mission Control.app
 News.app
+NoSQL Workbench for Amazon DynamoDB.app
 Notes.app
 Phew.app
 Photo Booth.app

@@ -1,14 +1,13 @@
 akamud.vscode-theme-onedark
 anseki.vscode-color
+ark120202.vscode-typescript-pnp-plugin
 asvetliakov.snapshot-tools
 bierner.markdown-preview-github-styles
 codezombiech.gitignore
 dbaeumer.vscode-eslint
-Dennitz.vscode-generact
 dhershman.Theme-Dusty-Dark
 donjayamanne.githistory
 dracula-theme.theme-dracula
-eamodio.remotehub
 Equinusocio.vsc-community-material-theme
 Equinusocio.vsc-material-theme
 equinusocio.vsc-material-theme-icons
@@ -26,8 +25,6 @@ iampeterbanjo.elixirlinter
 jackytsu.text-transformer
 JakeBecker.elixir-ls
 janisdd.vscode-edit-csv
-jcbuisson.vue
-jetmartin.bats
 joshpeng.theme-charcoal-oceanicnext
 jpoissonnier.vscode-styled-components
 kamikillerto.vscode-colorize
@@ -39,9 +36,6 @@ mjmcloug.vscode-elixir
 ms-mssql.mssql
 ms-python.python
 ms-vscode.atom-keybindings
-ms-vsliveshare.vsliveshare
-msjsdiag.debugger-for-chrome
-octref.vetur
 pflannery.vscode-versionlens
 pkujundzic.elixir-symbols
 Prisma.vscode-graphql
@@ -49,11 +43,9 @@ rebornix.project-snippets
 rebornix.ruby
 redhat.java
 richie5um2.vscode-sort-json
-robinbentley.sass-indented
 rokoroku.vscode-theme-darcula
 shakram02.bash-beautify
 timonwong.shellcheck
-toba.vsfire
 TobiasTimm.shuriken
 truman.autocomplate-shell
 Tyriar.lorem-ipsum
@@ -65,7 +57,6 @@ vscjava.vscode-java-test
 vscjava.vscode-maven
 waderyan.gitblame
 WakaTime.vscode-wakatime
-WallabyJs.quokka-vscode
 wingrunr21.vscode-ruby
 wmaurer.change-case
 xabikos.JavaScriptSnippets
