@@ -48,6 +48,9 @@ chpwd() {
   $HOME/Desktop/acert)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-enter-dir"
     ;;
+  $HOME/Desktop/bot-trading)
+    source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot-trading/on-enter-dir"
+    ;;
   *) ;;
   esac
 
@@ -84,6 +87,12 @@ chpwd() {
     ;;
   $HOME/Desktop/acert)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-leave-dir"
+    ;;
+  $HOME/Desktop/bot-trading)
+    # dont cleanup if inside dir
+    if [[ ! "$PWD" =~ ^$HOME/Desktop/bot-trading/.* ]]; then
+      source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot-trading/on-leave-dir"
+    fi
     ;;
   *) ;;
   esac

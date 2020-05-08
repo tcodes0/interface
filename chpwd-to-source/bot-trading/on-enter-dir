@@ -1,0 +1,17 @@
+#! /usr/bin/env bash
+
+.bot() {
+  if [[ ! "$PWD" =~ ^$HOME/Desktop/bot-trading$ ]]; then
+    cd "$HOME/Desktop/bot-trading" || echo "failed to cd to $HOME/Desktop/bot-trading"
+  elif
+    [ -d "$PWD/packages/bot" ]
+  then
+    cd packages/bot || echo "failed to cd to packages/bot"
+  fi
+}
+
+.b() {
+  .bot "$@"
+}
+
+alias b.=.b

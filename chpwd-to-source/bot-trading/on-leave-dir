@@ -1,0 +1,2 @@
+unset -f .bot .b
+unalias b. 2>/dev/null 1>&2
