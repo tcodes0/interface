@@ -48,8 +48,8 @@ chpwd() {
   $HOME/Desktop/acert)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-enter-dir"
     ;;
-  $HOME/Desktop/bot-trading)
-    source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot-trading/on-enter-dir"
+  $HOME/Desktop/bot)
+    source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot/on-enter-dir"
     ;;
   *) ;;
   esac
@@ -88,10 +88,10 @@ chpwd() {
   $HOME/Desktop/acert)
     source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/acert/on-leave-dir"
     ;;
-  $HOME/Desktop/bot-trading)
+  $HOME/Desktop/bot)
     # dont cleanup if inside dir
-    if [[ ! "$PWD" =~ ^$HOME/Desktop/bot-trading/.* ]]; then
-      source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot-trading/on-leave-dir"
+    if [[ ! "$PWD" =~ ^$HOME/Desktop/bot/.* ]]; then
+      source "$HOME/Documents/GoogleDrive/Mackup/chpwd-to-source/bot/on-leave-dir"
     fi
     ;;
   *) ;;
@@ -624,6 +624,7 @@ lg() {
   local msg=""
   local scope=""
   local type=""
+  local pushResult=""
   local response="y"
   local shouldPush='true'
   local manually_staged_files=""
@@ -731,7 +732,18 @@ lg() {
     shouldPush='false'
   fi
   if [ $shouldPush == 'true' ]; then
-    gp
+    # push branch, save output to detect errors
+    pushResult=$(gp 2>&1)
+    if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
+      # handle no upstream branch error
+      localEcho "Push error: No upstream. Run 'git push --set-upstream origin fix/12/ci-cd' to make one? (y/n)"
+      read -r response
+      if [ "$response" == Y ] || [ "$response" == y ]; then
+        git push --set-upstream origin fix/12/ci-cd
+      else
+        localEcho "Not pushed"
+      fi
+    fi
   fi
   gss
 }

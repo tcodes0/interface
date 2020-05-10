@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
 .bot() {
-  if [[ ! "$PWD" =~ ^$HOME/Desktop/bot-trading$ ]]; then
-    cd "$HOME/Desktop/bot-trading" || echo "failed to cd to $HOME/Desktop/bot-trading"
+  if [[ ! "$PWD" =~ ^$HOME/Desktop/bot$ ]]; then
+    cd "$HOME/Desktop/bot" || echo "failed to cd to $HOME/Desktop/bot"
   elif
     [ -d "$PWD/packages/bot" ]
   then
