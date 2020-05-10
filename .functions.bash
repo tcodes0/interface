@@ -739,7 +739,7 @@ lg() {
       localEcho "Push error: No upstream. Run 'git push --set-upstream origin fix/12/ci-cd' to make one? (y/n)"
       read -r response
       if [ "$response" == Y ] || [ "$response" == y ]; then
-        git push --set-upstream origin fix/12/ci-cd
+        git push --set-upstream origin "$GIT_BRANCH"
       else
         localEcho "Not pushed"
       fi
