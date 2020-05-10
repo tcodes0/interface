@@ -736,7 +736,7 @@ lg() {
     pushResult=$(gp 2>&1)
     if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
       # handle no upstream branch error
-      localEcho "Push error: No upstream. Run 'git push --set-upstream origin fix/12/ci-cd' to make one? (y/n)"
+      localEcho "Push error: No upstream. Run 'git push --set-upstream origin $GIT_BRANCH' to make one? (y/n)"
       read -r response
       if [ "$response" == Y ] || [ "$response" == y ]; then
         git push --set-upstream origin "$GIT_BRANCH"
