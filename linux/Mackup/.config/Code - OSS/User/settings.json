@@ -4,7 +4,7 @@
   //
   "workbench.colorTheme": "Material Theme Darker High Contrast",
   "workbench.colorCustomizations": {
-    "[Shuriken]": {
+    "[Material Theme Darker High Contrast]": {
       "editor.background": "#141318",
       "activityBar.background": "#141318",
       "statusBar.background": "#141318",
@@ -49,7 +49,7 @@
       "comments": "#676767",
       "functions": "#7576be",
       // "functions": "#c8ca6e",
-      "strings": "#6b705f",
+      "strings": "#8b907f",
       // "strings": "#7c8169",
       // "types": "#8c8d50",
       // "variables": "#b3b3b3",

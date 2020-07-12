@@ -1,5 +1,5 @@
 [$Version]
-update_info=fonts_global.upd:Fonts_Global,fonts_global_toolbar.upd:Fonts_Global_Toolbar,filepicker.upd:filepicker-remove-old-previews-entry
+update_info=fonts_global.upd:Fonts_Global,fonts_global_toolbar.upd:Fonts_Global_Toolbar,filepicker.upd:filepicker-remove-old-previews-entry,kwin.upd:animation-speed,icons_remove_effects.upd:IconsRemoveEffects,style_widgetstyle_default_breeze.upd:StyleWidgetStyleDefaultBreeze
 
 [Appmenu Style]
 Style=InApplication
@@ -109,45 +109,45 @@ ForegroundPositive=39,174,96
 ForegroundVisited=127,140,141
 
 [DesktopIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=togamma
-ActiveSemiTransparent=false
-ActiveValue=0.699999988079071
-Animated=true
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=48
 
 [DialogIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=none
-ActiveSemiTransparent=false
-ActiveValue=1
-Animated=false
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=32
 
 [Emoticons]
-emoticonsTheme=Konqi
+emoticonsTheme=EmojiOne
 parseMode=2
 
 [General]
@@ -178,7 +178,7 @@ StartDragDist=4
 StartDragTime=500
 WheelScrollLines=8
 contrast=4
-widgetStyle=breeze
+widgetStyle=Breeze
 
 [KFileDialog Settings]
 Allow Expansion=false
@@ -204,41 +204,41 @@ listViewIconSize=0
 Dialog Size=758,826
 
 [MainToolbarIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=none
-ActiveSemiTransparent=false
-ActiveValue=1
-Animated=false
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=22
 
 [PanelIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=togamma
-ActiveSemiTransparent=false
-ActiveValue=0.699999988079071
-Animated=false
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=48
 
 [PreviewSettings]
@@ -256,22 +256,22 @@ ForwardWord=Alt+Right
 Help=
 
 [SmallIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=none
-ActiveSemiTransparent=false
-ActiveValue=1
-Animated=false
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=22
 
 [Toolbar style]
@@ -279,22 +279,22 @@ ToolButtonStyle=TextBesideIcon
 ToolButtonStyleOtherToolbars=TextBesideIcon
 
 [ToolbarIcons]
-ActiveColor=169,156,255
-ActiveColor2=0,0,0
-ActiveEffect=none
-ActiveSemiTransparent=false
-ActiveValue=1
-Animated=false
-DefaultColor=144,128,248
-DefaultColor2=0,0,0
-DefaultEffect=none
-DefaultSemiTransparent=false
-DefaultValue=1
-DisabledColor=34,202,0
-DisabledColor2=0,0,0
-DisabledEffect=togray
-DisabledSemiTransparent=true
-DisabledValue=1
+ActiveColor[$d]
+ActiveColor2[$d]
+ActiveEffect[$d]
+ActiveSemiTransparent[$d]
+ActiveValue[$d]
+Animated[$d]
+DefaultColor[$d]
+DefaultColor2[$d]
+DefaultEffect[$d]
+DefaultSemiTransparent[$d]
+DefaultValue[$d]
+DisabledColor[$d]
+DisabledColor2[$d]
+DisabledEffect[$d]
+DisabledSemiTransparent[$d]
+DisabledValue[$d]
 Size=22
 
 [WM]
