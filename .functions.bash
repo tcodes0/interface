@@ -718,11 +718,10 @@ lg() {
   ##########
   ## push ##
   ##########
-
-  if [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
+  if [ "$GIT_UPSTREAM" ] && [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
-  if [[ origin/master =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
+  if [ "$GIT_UPSTREAM" ] && [[ origin/master =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
   if [[ -1 =~ $GIT_BRANCH ]]; then
