@@ -47,7 +47,7 @@
   "editor.tokenColorCustomizations": {
     "[Material Theme Darker High Contrast]": {
       "comments": "#676767",
-      "functions": "#7576be",
+      "functions": "#7e7fdd",
       // "functions": "#c8ca6e",
       "strings": "#8b907f",
       // "strings": "#7c8169",
