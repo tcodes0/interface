@@ -167,3 +167,9 @@ pacu() {
   asdf update
   asdf plugin update --all
 }
+#- - - - - - - - - - -
+
+# base64 decode
+bd() {
+  base64 -d <<<"$@"
+}
