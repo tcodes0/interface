@@ -71,10 +71,7 @@
       "editor.action.copyLinesDownAction",
       "editor.action.commentLine"
     ],
-    "trueCtrlK": [
-      "cursorEndSelect",
-      "editor.action.clipboardCutAction"
-    ],
+    "trueCtrlK": ["cursorEndSelect", "editor.action.clipboardCutAction"],
     "findAndReplace": [
       "actions.find",
       "editor.action.startFindReplaceAction",
@@ -118,19 +115,14 @@
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "eslint.validate": [
-    "javascript",
-    "typescript",
-    "javascriptreact"
-  ],
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.validate": ["javascript", "typescript", "javascriptreact"],
   //
   // - - - - - - - - Python - - - - - - - - -
   //
-  "python.formatting.autopep8Args": [
-    "-a",
-    "-a",
-    "-a"
-  ],
+  "python.formatting.autopep8Args": ["-a", "-a", "-a"],
   "python.pythonPath": "python3",
   "python.linting.enabled": true,
   "python.formatting.provider": "autopep8",
@@ -146,9 +138,7 @@
   //
   "shellformat.path": "/usr/local/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
-  "shellcheck.customArgs": [
-    "-x"
-  ],
+  "shellcheck.customArgs": ["-x"],
   //
   // - - - - - - - - JS - - - - - - - - -
   //
@@ -172,10 +162,7 @@
   //
   // - - - - - - - - GENERAL - - - - - - - - -
   //
-  "colorize.include": [
-    ".js",
-    ".jsx"
-  ],
+  "colorize.include": [".js", ".jsx"],
   "colorize.languages": [
     "css",
     "sass",
@@ -234,5 +221,5 @@
   },
   "explorer.confirmDelete": false,
   "window.menuBarVisibility": "hidden",
-  "editor.mouseWheelScrollSensitivity": 3,
+  "editor.mouseWheelScrollSensitivity": 3
 }
