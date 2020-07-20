@@ -27,6 +27,7 @@ export PATH="\
 $HOME/bin:\
 $HOME/.asdf/installs/elixir/1.10.0/bin:\
 $HOME/.asdf/installs/nodejs/13.7.0/bin:\
+$HOME/.gem/ruby/2.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
