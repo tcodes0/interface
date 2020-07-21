@@ -44,12 +44,14 @@ alias .s='root'
 alias dol='dolphin'
 # pacman
 alias pac='pacman'
-alias paci='pacman --sync --info'                                                                            # -Si
-alias pacl='pacman --query'                                                                                  # -Q
-alias pacql='pacman --query --list'                                                                          # -Ql
-alias pacs='pacman --sync --search'                                                                          # -Ss
-alias pacI='sudo pacman --sync --refresh --noconfirm'                                                        # -S
-alias pacR='sudo pacman --remove'                                                                            # -R
-alias pacRdd='sudo pacman --remove --nodeps --nodeps'                                                        # -Rdd
+alias paci='pacman --sync --info'                     # -Si
+alias pacl='pacman --query'                           # -Q
+alias pacql='pacman --query --list'                   # -Ql
+alias pacs='pacman --sync --search'                   # -Ss
+alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
+alias pacR='sudo pacman --remove'                     # -R
+alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
 # others
 alias sysu='systemctl --user'
+alias tw='twitter'
+alias twt='twitter tweet'
