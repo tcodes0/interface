@@ -330,7 +330,7 @@ __git_ps1() {
   local printf_format=' (%s)'
   if git describe --contains --all HEAD >/dev/null 2>&1; then
     GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-    GIT_UPSTREAM="$(git rev-parse --abbrev-ref "$GIT_BRANCH"@{upstream})"
+    GIT_UPSTREAM="$(git rev-parse --abbrev-ref "$GIT_BRANCH"@{upstream} 2>/dev/null)"
     export GIT_BRANCH
     export GIT_UPSTREAM
   fi
