@@ -1,3 +1,0 @@
-unset MILESTONE MONGOMS_SYSTEM_BINARY 2>/dev/null 1>&2
-unalias ytw yt lg 2>/dev/null 1>&2
-source $DOTFILE_PATH/.aliases.bash
