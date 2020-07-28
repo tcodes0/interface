@@ -55,3 +55,4 @@ alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
 alias sysu='systemctl --user'
 alias tw='twitter'
 alias twt='twitter tweet'
+alias tx='tmux'
