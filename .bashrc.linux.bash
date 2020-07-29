@@ -84,7 +84,8 @@ fi
 # fast keyboard key response rate
 if [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
   # don't run when on a real tty, only graphic X11 ttys
-  xset r rate 140 60
+  # rate <delay> <repeat>
+  xset r rate 140 70
 fi
 
 # add ssh key to ssh agent, bypass prompt
