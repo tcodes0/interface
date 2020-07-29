@@ -11,20 +11,23 @@ goo() {
 }
 
 #========== Generic
-
+# need to run on-enter and on-leave back 2 back to avoid submodules conflicts
 chpwd() {
   case $PWD in
   $HOME/Desktop/trivia)
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-enter-dir"
     ;;
-  $HOME/Desktop/interface)
-    source "$HOME/Desktop/interface/chpwd-to-source/interface/on-enter-dir"
-    ;;
+  # $HOME/Desktop/interface)
+  #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-enter-dir"
+  #   ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-enter-dir"
     ;;
   $HOME/Desktop/efis)
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-enter-dir"
+    ;;
+  $HOME/Desktop/interface/priv)
+    source "$HOME/Desktop/interface/chpwd-to-source/priv/on-enter-dir"
     ;;
   *) ;;
   esac
@@ -33,14 +36,17 @@ chpwd() {
   $HOME/Desktop/trivia)
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-leave-dir"
     ;;
-  $HOME/Desktop/interface)
-    source "$HOME/Desktop/interface/chpwd-to-source/interface/on-leave-dir"
-    ;;
+  # $HOME/Desktop/interface)
+  #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-leave-dir"
+  #   ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-leave-dir"
     ;;
   $HOME/Desktop/efis)
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-leave-dir"
+    ;;
+  $HOME/Desktop/interface/priv)
+    source "$HOME/Desktop/interface/chpwd-to-source/priv/on-leave-dir"
     ;;
   *) ;;
   esac
@@ -48,27 +54,29 @@ chpwd() {
 
 #- - - - - - - - - - -
 
-drive-push() {
+absolute-drive-push() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
     echo "Usage: drive-push targets/to/push"
+    echo "Usage: drive-pull local remote"
     echo "Pushes target to google drive using rclone remote google-drive"
-    echo "Paths are relative to \$DOTFILE_PATH"
+    echo "Paths are absolute to \$DOTFILE_PATH"
     return
   fi
   if [[ "$#" == 1 ]]; then
     rclone copyto "$DOTFILE_PATH/$1" "google-drive:$1"
   else
-    rclone copyto "$DOTFILE_PATH/$1" "oogle-drive:$2"
+    rclone copyto "$DOTFILE_PATH/$1" "google-drive:$2"
   fi
 }
 
 #- - - - - - - - - - -
 
-drive-pull() {
+absolute-drive-pull() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
     echo "Usage: drive-pull target"
+    echo "Usage: drive-pull local remote"
     echo "Pulls target from google drive using rclone remote google-drive"
-    echo "Paths are relative to \$DOTFILE_PATH"
+    echo "Paths are absolute to \$DOTFILE_PATH"
     return
   fi
   if [[ "$#" == 1 ]]; then
