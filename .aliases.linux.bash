@@ -27,11 +27,9 @@ alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
 
 #========== Generic
-# aur
-alias aur='aurman'
-alias aurs='aurman --aur --sync --search'
-alias aurI='aurman --sync'
+######
 # misc
+######
 alias sys='systemctl'
 alias lsblk='lsblk -f'
 alias desktop='sudo systemctl start sddm.service'
@@ -42,16 +40,30 @@ alias ssh='ssh-ident'
 alias sudo='root'
 alias .s='root'
 alias dol='dolphin'
+########
 # pacman
+########
 alias pac='pacman'
 alias paci='pacman --sync --info'                     # -Si
 alias pacl='pacman --query'                           # -Q
 alias pacql='pacman --query --list'                   # -Ql
-alias pacs='pacman --sync --search'                   # -Ss
 alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
 alias pacR='sudo pacman --remove'                     # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
+# moved to a function to search AUR too
+# alias pacs='pacman --sync --search'                   # -Ss
+#####
+# yay
+#####
+alias yayi='yay --sync --info'                     # -Si
+alias yayl='yay --query'                           # -Q
+alias yayql='yay --query --list'                   # -Ql
+alias yayI='sudo yay --sync --refresh --noconfirm' # -S
+alias yayR='sudo yay --remove'                     # -R
+alias yayRdd='sudo yay --remove --nodeps --nodeps' # -Rdd
+########
 # others
+########
 alias sysu='systemctl --user'
 alias tw='twitter'
 alias twt='twitter tweet'

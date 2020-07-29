@@ -125,3 +125,11 @@ pacu() {
 bd() {
   base64 -d <<<"$@"
 }
+
+# search pacman and AUR
+pacs() {
+  pacman --sync --search "$@"
+  echo "fetching AUR results..."
+  # AUR is slower, so background it
+  yay --sync --search "$@" &
+}
