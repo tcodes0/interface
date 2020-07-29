@@ -2,7 +2,7 @@
 
 # Linux ~/.bashrc
 
-DOTFILE_PATH="/home/vacation/Desktop/interface"
+export DOTFILE_PATH="/home/vacation/Desktop/interface"
 
 # order matters here
 safe_source $DOTFILE_PATH/.bashrc.bash

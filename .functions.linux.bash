@@ -48,45 +48,45 @@ chpwd() {
 
 #- - - - - - - - - - -
 
-# drive-push() {
-#   if [ "$#" -gt 2 -o "$1" == -h -o "$#" == 0 ]; then
-#     echo "Usage: drive-push target"
-#     echo "Pushes target to google drive using rclone remote google-drive"
-#     echo "Paths are relative to $HOME/GoogleDrive/"
-#     return
-#   fi
-#   if [[ "$#" == 1 ]]; then
-#     rclone copyto $HOME/GoogleDrive/$1 google-drive:$1
-#   else
-#     rclone copyto $HOME/GoogleDrive/$1 google-drive:$2
-#   fi
-# }
+drive-push() {
+  if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
+    echo "Usage: drive-push targets/to/push"
+    echo "Pushes target to google drive using rclone remote google-drive"
+    echo "Paths are relative to \$DOTFILE_PATH"
+    return
+  fi
+  if [[ "$#" == 1 ]]; then
+    rclone copyto "$DOTFILE_PATH/$1" "google-drive:$1"
+  else
+    rclone copyto "$DOTFILE_PATH/$1" "oogle-drive:$2"
+  fi
+}
 
 #- - - - - - - - - - -
 
-# drive-pull() {
-#   if [ "$#" -gt 2 -o "$1" == -h -o "$#" == 0 ]; then
-#     echo "Usage: drive-pull target"
-#     echo "Pulls target from google drive using rclone remote google-drive"
-#     echo "Paths are relative to $HOME/GoogleDrive/"
-#     return
-#   fi
-#   if [[ "$#" == 1 ]]; then
-#     rclone copyto "google-drive:$1" "$HOME/GoogleDrive/$1"
-#   else
-#     rclone copyto "google-drive:$2" "$HOME/GoogleDrive/$1"
-#   fi
-# }
+drive-pull() {
+  if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
+    echo "Usage: drive-pull target"
+    echo "Pulls target from google drive using rclone remote google-drive"
+    echo "Paths are relative to \$DOTFILE_PATH"
+    return
+  fi
+  if [[ "$#" == 1 ]]; then
+    rclone copyto "google-drive:$1" "$DOTFILE_PATH/$1"
+  else
+    rclone copyto "google-drive:$2" "$DOTFILE_PATH/$1"
+  fi
+}
 
 #- - - - - - - - - - -
 
-# drive-list() {
-#   if [[ "$#" == 0 ]]; then
-#     rclone lsf google-drive:
-#   else
-#     rclone lsf "google-drive:$1"
-#   fi
-# }
+drive-list() {
+  if [[ "$#" == 0 ]]; then
+    rclone lsf google-drive:
+  else
+    rclone lsf "google-drive:$1"
+  fi
+}
 
 #- - - - - - - - - - -
 
