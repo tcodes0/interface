@@ -59,9 +59,9 @@ alias pacWhy='pacman --sync --info --info'            # -Sii
 alias yayi='yay --sync --info'                     # -Si
 alias yayl='yay --query'                           # -Q
 alias yayql='yay --query --list'                   # -Ql
-alias yayI='sudo yay --sync --refresh --noconfirm' # -S
-alias yayR='sudo yay --remove'                     # -R
-alias yayRdd='sudo yay --remove --nodeps --nodeps' # -Rdd
+alias yayI='yay --sync --refresh --noconfirm' # -S
+alias yayR='yay --remove'                     # -R
+alias yayRdd='yay --remove --nodeps --nodeps' # -Rdd
 alias yayWhy='yay --sync --info --info'            # -Sii
 ########
 # others
