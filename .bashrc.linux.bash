@@ -95,6 +95,6 @@ fi
 "$DOTFILE_PATH/.private-gpg-init.sh" 2>/dev/null 1>&2
 
 #tmux
-# [ ! "$TMUX" ] && {
-#   tmux attach || tmux new-session
-# }
+if [ ! "$TMUX" ]; then
+  tmux attach || tmux new-session
+fi
