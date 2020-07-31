@@ -1,19 +1,5 @@
 #! /usr/bin/env bash
-
 # Linux ~/.bashrc
-
-export DOTFILE_PATH="/home/vacation/Desktop/interface"
-
-# order matters here
-safe_source $DOTFILE_PATH/.bashrc.bash
-safe_source $DOTFILE_PATH/.aliases.bash
-safe_source $DOTFILE_PATH/.aliases.linux.bash
-safe_source $DOTFILE_PATH/.functions.bash
-safe_source $DOTFILE_PATH/.functions.linux.bash
-safe_source $DOTFILE_PATH/.private.bash
-safe_source $DOTFILE_PATH/.prompt.linux.bash
-safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
-safe_source /usr/share/bash-completion/bash_completion
 
 #========== Environment
 # android SDK
@@ -42,27 +28,18 @@ $ANDROID_HOME/tools/bin:\
 $ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VER:\
 /usr/local/go/bin"
 
-# generic stuff
-# export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-# export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
-# export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
-export CDPATH=$HOME/Desktop:/media:/
-export EDITOR='code -w'
-# export GOPATH="$HOME/.go"
-# LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW")
-# export LS_COLORS
-
 # NVM
 unset PREFIX            # NVM hates this
 unset npm_config_prefix # NVM hates this
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && safe_source "$NVM_DIR/nvm.sh"                   # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && safe_source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+[ -f "$NVM_DIR/nvm.sh" ] && safe_source "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -f "$NVM_DIR/bash_completion" ] && safe_source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+export EDITOR='code -w'
+# export GOPATH="$HOME/.go"
 
 # elixir/erlang with asdf
 export ERL_AFLAGS="-kernel shell_history enabled"
-safe_source "$HOME/.asdf/asdf.sh"
-safe_source "$HOME/.asdf/completions/asdf.bash"
 export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-javac --enable-shared-zlib --enable-dynamic-ssl-lib --enable-hipe --enable-sctp --enable-smp-support --enable-threads --enable-kernel-poll --enable-wx"
 
 # gpg agent
@@ -72,6 +49,29 @@ export GPGKEY=D600E88A0C5FE062
 # If not running interactively, skip remaining code #
 #####################################################
 [[ $- != *i* ]] && return
+
+export DOTFILE_PATH="/home/vacation/Desktop/interface"
+
+# order matters here
+safe_source $DOTFILE_PATH/.bashrc.bash
+safe_source $DOTFILE_PATH/.aliases.bash
+safe_source $DOTFILE_PATH/.aliases.linux.bash
+safe_source $DOTFILE_PATH/.functions.bash
+safe_source $DOTFILE_PATH/.functions.linux.bash
+safe_source $DOTFILE_PATH/.private.bash
+safe_source $DOTFILE_PATH/.prompt.linux.bash
+safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
+# AUR  lscolors-git package
+safe_source /usr/share/LS_COLORS/dircolors.sh
+safe_source /usr/share/bash-completion/bash_completion
+safe_source "$HOME/.asdf/asdf.sh"
+safe_source "$HOME/.asdf/completions/asdf.bash"
+
+# generic stuff
+# export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+# export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+# export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
+export CDPATH=$HOME/Desktop:/media:/
 
 # start on desktop
 if [ -d "./Desktop" ]; then
