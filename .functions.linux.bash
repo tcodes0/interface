@@ -17,9 +17,9 @@ chpwd() {
   $HOME/Desktop/trivia)
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-enter-dir"
     ;;
-  # $HOME/Desktop/interface)
-  #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-enter-dir"
-  #   ;;
+    # $HOME/Desktop/interface)
+    #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-enter-dir"
+    #   ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-enter-dir"
     ;;
@@ -36,9 +36,9 @@ chpwd() {
   $HOME/Desktop/trivia)
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-leave-dir"
     ;;
-  # $HOME/Desktop/interface)
-  #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-leave-dir"
-  #   ;;
+    # $HOME/Desktop/interface)
+    #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-leave-dir"
+    #   ;;
   $HOME/Desktop/helpers-console)
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-leave-dir"
     ;;
@@ -54,12 +54,12 @@ chpwd() {
 
 #- - - - - - - - - - -
 
-absolute-drive-push() {
+relative-drive-push() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
-    echo "Usage: drive-push targets/to/push"
-    echo "Usage: drive-pull local remote"
+    echo "Usage: relative-drive-push targets/to/push"
+    echo "Usage: relative-drive-pull local remote"
     echo "Pushes target to google drive using rclone remote google-drive"
-    echo "Paths are absolute to \$DOTFILE_PATH"
+    echo "Paths are relative to \$DOTFILE_PATH"
     return
   fi
   if [[ "$#" == 1 ]]; then
@@ -69,20 +69,50 @@ absolute-drive-push() {
   fi
 }
 
+relative-dropbox-push() {
+  if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
+    echo "Usage: relative-dropbox-push targets/to/push"
+    echo "Usage: relative-dropbox-pull local remote"
+    echo "Pushes target to google dropbox using rclone remote google-dropbox"
+    echo "Paths are relative to \$DOTFILE_PATH"
+    return
+  fi
+  if [[ "$#" == 1 ]]; then
+    rclone copyto "$DOTFILE_PATH/$1" "dropbox:$1"
+  else
+    rclone copyto "$DOTFILE_PATH/$1" "dropbox:$2"
+  fi
+}
+
 #- - - - - - - - - - -
 
-absolute-drive-pull() {
+relative-drive-pull() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
-    echo "Usage: drive-pull target"
-    echo "Usage: drive-pull local remote"
+    echo "Usage: relative-drive-pull target"
+    echo "Usage: relative-drive-pull local remote"
     echo "Pulls target from google drive using rclone remote google-drive"
-    echo "Paths are absolute to \$DOTFILE_PATH"
+    echo "Paths are relative to \$DOTFILE_PATH"
     return
   fi
   if [[ "$#" == 1 ]]; then
     rclone copyto "google-drive:$1" "$DOTFILE_PATH/$1"
   else
     rclone copyto "google-drive:$2" "$DOTFILE_PATH/$1"
+  fi
+}
+
+relative-dropbox-pull() {
+  if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
+    echo "Usage: relative-dropbox-pull target"
+    echo "Usage: relative-dropbox-pull local remote"
+    echo "Pulls target from google dropbox using rclone remote google-dropbox"
+    echo "Paths are relative to \$DOTFILE_PATH"
+    return
+  fi
+  if [[ "$#" == 1 ]]; then
+    rclone copyto "dropbox:$1" "$DOTFILE_PATH/$1"
+  else
+    rclone copyto "dropbox:$2" "$DOTFILE_PATH/$1"
   fi
 }
 

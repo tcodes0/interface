@@ -50,6 +50,7 @@ alias pacql='pacman --query --list'                   # -Ql
 alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
 alias pacR='sudo pacman --remove'                     # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
+alias pacWhy='pacman --sync --info --info'            # -Sii
 # moved to a function to search AUR too
 # alias pacs='pacman --sync --search'                   # -Ss
 #####
@@ -61,6 +62,7 @@ alias yayql='yay --query --list'                   # -Ql
 alias yayI='sudo yay --sync --refresh --noconfirm' # -S
 alias yayR='sudo yay --remove'                     # -R
 alias yayRdd='sudo yay --remove --nodeps --nodeps' # -Rdd
+alias yayWhy='yay --sync --info --info'            # -Sii
 ########
 # others
 ########
