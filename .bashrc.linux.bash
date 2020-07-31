@@ -26,7 +26,6 @@ export ANDROID_BUILD_TOOLS_VER="29.0.2"
 export PATH="\
 $HOME/bin:\
 $HOME/.asdf/installs/elixir/1.10.0/bin:\
-$HOME/.asdf/installs/nodejs/13.7.0/bin:\
 $HOME/.gem/ruby/2.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
@@ -34,7 +33,6 @@ $HOME/.gem/ruby/2.7.0/bin:\
 /usr/bin/site_perl:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
-/home/linuxbrew/.linuxbrew/bin:\
 $HOME/bin/monero-gui:\
 $HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
@@ -43,13 +41,12 @@ $ANDROID_HOME/platform-tools:\
 $ANDROID_HOME/tools/bin:\
 $ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VER:\
 /usr/local/go/bin"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 
 # generic stuff
-# export PATH="$ANDROID_SDK_ROOT/build-tools/28.0.0/:$HOME/.asdf/installs/elixir/1.9.2/bin:/usr/local/opt/libxslt/bin:/usr/local/opt/openssl/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/Documents/GoogleDrive/Mackup:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/tools/bin:/Applications/Postgres.app/Contents/Versions/latest/bin"
+# export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+# export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 # export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
-export CDPATH=$HOME:/Media:/
+export CDPATH=$HOME/Desktop:/media:/
 export EDITOR='code -w'
 # export GOPATH="$HOME/.go"
 # LS_COLORS=$(cat "$HOME/Code/LS_COLORS/LS_COLORS_RAW")
