@@ -152,11 +152,22 @@ root() {
 #- - - - - - - - - - -
 
 pacu() {
-  sudo pacman --sync --sysupgrade --refresh --noconfirm # -Syu
-  sudo pacman --sync --clean --noconfirm                # Sc
+  # pacman
+  sudo pacman --sync --sysupgrade --refresh --noconfirm
+  sudo pacman --sync --clean --noconfirm
+  yay --sync --sysupgrade --noconfirm
+  # misc
+  mackup backup
+  yarn global upgrade --latest
+  cd "$NVM_DIR" && git pull
+  nvm install node
+  # aur
   asdf update
   asdf plugin update --all
+  # misc
+  gem update
 }
+
 #- - - - - - - - - - -
 
 # base64 decode
