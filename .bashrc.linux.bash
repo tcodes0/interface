@@ -95,6 +95,6 @@ fi
 "$DOTFILE_PATH/.private-gpg-init.sh" 2>/dev/null 1>&2
 
 #tmux
-if [ ! "$TMUX" ]; then
+if [ ! "$TMUX" ] && [ $UID == 1000 ]; then
   tmux attach || tmux new-session
 fi
