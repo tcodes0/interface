@@ -4,6 +4,10 @@ set -e
 if [ -f "${HOME}/bin/progress.sh" ]; then source "$HOME/bin/progress.sh"; fi
 
 work() {
+  if [[ "$(uname -s)" != Darwin ]]; then
+    return
+  fi
+
   [ "$1" == "silently" ] && local silently=">/dev/null 2>&1"
   set -e
 
@@ -34,7 +38,8 @@ work() {
   eval /usr/local/opt/ruby/bin/gem cleanup "$silently"
   [ "$silently" ] && progress finish "$?"
 
-  [ "$silently" ] && progress start "Updating Node"
+  [ "$silently" ] && progress start "Updating Node & nvm"
+  eval "cd $NVM_DIR && git pull $silently"
   eval "yes | nvm install node $silently"
   [ "$silently" ] && progress finish "$?"
 
