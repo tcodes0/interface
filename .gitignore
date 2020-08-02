@@ -8,6 +8,5 @@ trustdb*
 .npm*
 hub
 .ssh
-Library/*
 Backup-codes*
 password.bak
