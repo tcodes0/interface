@@ -51,6 +51,7 @@ alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
 alias pacR='sudo pacman --remove'                     # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
 alias pacWhy='pacman --sync --info --info'            # -Sii
+alias pacWhyFile='pacman -Qo'
 # moved to a function to search AUR too
 # alias pacs='pacman --sync --search'                   # -Ss
 #####
