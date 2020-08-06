@@ -10,3 +10,16 @@ hub
 .ssh
 Backup-codes*
 password.bak
+.aws/credentials
+.ngrok2/**
+Library/Processing/
+Library/Preferences/org.vim.MacVim.plist
+Library/Preferences/com.kapeli.dashdoc.plist
+Library/Preferences/org.videolan*
+Library/Preferences/com.github.atom.plist
+Library/Preferences/com.bohemiancoding.sketch3.plist
+Library/Preferences/com.amethyst.Amethyst.plist
+Library/Application Support/**/*
+Library/Preferences/Adobe Illustrator 19 Settings
+Library/Preferences/WebStorm*
+Library/Quicklook/FLIFImages.qlgenerator/Contents
