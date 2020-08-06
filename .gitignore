@@ -7,7 +7,6 @@ linux/Mackup/.atom*
 trustdb*
 .npm*
 hub
-.ssh
 Backup-codes*
 password.bak
 .aws/credentials
