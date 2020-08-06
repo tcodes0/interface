@@ -15,7 +15,7 @@ safe_source $DOTFILE_PATH/.bashrc.bash
 safe_source $DOTFILE_PATH/.aliases.bash
 # safe_source $DOTFILE_PATH/.aliases.mac.bash
 safe_source $DOTFILE_PATH/.functions.bash
-# safe_source $DOTFILE_PATH/.functions.mac.bash
+safe_source $DOTFILE_PATH/.functions.mac.bash
 safe_source $DOTFILE_PATH/.private.bash
 safe_source $DOTFILE_PATH/.prompt.mac.bash
 safe_source "$HOME/.yarn-completion.bash"
