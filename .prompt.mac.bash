@@ -1,1 +1,0 @@
-/Users/vamac/Documents/GoogleDrive/Mackup/.prompt.linux.bash
