@@ -177,14 +177,6 @@ bd() {
   base64 -d <<<"$@"
 }
 
-# search pacman and AUR
-pacs() {
-  pacman --sync --search "$@"
-  echo "fetching AUR results..."
-  # AUR is slower, so background it
-  yay --sync --search "$@" &
-}
-
 # -a means -rlptgoD
 sysbkp() {
   echo sudo rsync \
@@ -202,4 +194,13 @@ sysbkp() {
     --exclude=node_modules \
     --exclude=.cache/spotify \
     / '/media/<mount point>'
+  echo
+  echo sudo rsync \
+    -a \
+    --progress \
+    --delete-during \
+    --exclude=.DS_Store \
+    --exclude="._*" \
+    --exclude="._.*" \
+    /boot/ '/mnt/<mount point>'
 }

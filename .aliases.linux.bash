@@ -45,25 +45,25 @@ alias dol='dolphin'
 ########
 alias pac='pacman'
 alias paci='pacman --sync --info'                     # -Si
+alias pacii='pacman --sync --info --info'             # -Sii
 alias pacl='pacman --query'                           # -Q
 alias pacql='pacman --query --list'                   # -Ql
 alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
 alias pacR='sudo pacman --remove'                     # -R
 alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
-alias pacWhy='pacman --sync --info --info'            # -Sii
 alias pacWhyFile='pacman -Qo'
-# moved to a function to search AUR too
-# alias pacs='pacman --sync --search'                   # -Ss
 #####
 # yay
 #####
-alias yayi='yay --sync --info'                     # -Si
-alias yayl='yay --query'                           # -Q
-alias yayql='yay --query --list'                   # -Ql
+# search AUR too
+alias pacs='yay --sync --search'              # -Ss
+alias yayi='yay --sync --info'                # -Si
+alias yayii='yay --sync --info --info'        # -Sii
+alias yayl='yay --query'                      # -Q
+alias yayql='yay --query --list'              # -Ql
 alias yayI='yay --sync --refresh --noconfirm' # -S
 alias yayR='yay --remove'                     # -R
 alias yayRdd='yay --remove --nodeps --nodeps' # -Rdd
-alias yayWhy='yay --sync --info --info'            # -Sii
 ########
 # others
 ########
