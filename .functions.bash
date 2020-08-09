@@ -1135,7 +1135,7 @@ se() {
     ls "$HOME/.2fa"
     return
   fi
-  chmod 600 "$FILE"
+  chmod 600 "$HOME/.2fa/*"
   chmod -R 700 "$HOME/.2fa/.git"
   oathtool -b --totp "$(cat "$FILE")" | pbcopy
   pbpaste
