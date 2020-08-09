@@ -1,0 +1,19 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+#
+# <file system>                           <dir>                <type>     <options>                                       <dump>  <pass>
+#
+LABEL=Prach                                /                    btrfs      defaults,discard,noatime,ssd,compress=lzo           0  1
+#
+# LABEL=EFI-FEZ                            /boot               vfat       user,rw,umask=111,dmask=000,auto                     0  1
+LABEL=EFI-FOR                              /boot               vfat       user,rw,umask=111,dmask=000,auto                     0  1
+LABEL=EFI-MAG                              /mnt/efi-mag        vfat       user,rw,umask=111,dmask=000,noauto                   0  1
+#
+# Other disks...
+UUID=3CA3-C7F3                             /media/Leb           exfat      defaults,user,noauto                                0  0
+UUID=102adb18-3bb5-3258-824c-14fad6e99e6b  /media/Hie           hfsplus    ro,user,exec,noauto,async                           0  0
+UUID=fe981aad-8021-3cc3-949c-9c437ee7b8cc  /media/Izi           hfsplus    ro,user,exec,noauto,async                           0  0
+UUID=DA7473FF7473DD27                      /media/Win           ntfs       defaults,user,noauto                                0  0
+UUID=5010-878E                             /media/Sea           exfat      defaults,user,noauto                                0  0
+UUID=08B9-E05C                             /media/Vis           exfat      defaults,user,noauto                                0  0
+LABEL=Archlinux                            /media/Arch          ext4       rw,relatime,data=ordered,noauto                     0  1
