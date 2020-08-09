@@ -819,10 +819,6 @@ idea() {
   echo "$@" >>"$HOME/Desktop/ideas.txt"
 }
 
-sysbkp() {
-  echo sudo rsync -a --exclude /Volumes --progress / /Volumes/TARGET
-}
-
 getver() {
   grep --after-context=1 'versionCode ' <android/app/build.gradle | gsed --regexp-extended --expression="s/versionCode //i"
 }

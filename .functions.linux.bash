@@ -184,3 +184,22 @@ pacs() {
   # AUR is slower, so background it
   yay --sync --search "$@" &
 }
+
+# -a means -rlptgoD
+sysbkp() {
+  echo sudo rsync \
+    -a \
+    --progress \
+    --one-file-system \
+    --delete-during \
+    --exclude="/media/*" \
+    --exclude="/mnt/*" \
+    --exclude="/proc/*" \
+    --exclude="/sys/*" \
+    --exclude="/dev/*" \
+    --exclude="/boot/*" \
+    --exclude="/tmp/*" \
+    --exclude=node_modules \
+    --exclude=.cache/spotify \
+    / '/media/<mount point>'
+}
