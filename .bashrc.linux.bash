@@ -97,4 +97,5 @@ fi
 #tmux
 if [ ! "$TMUX" ] && [ $UID == 1000 ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
   tmux attach || tmux new-session
+  tmux source-file "$HOME/.tmux.conf"
 fi
