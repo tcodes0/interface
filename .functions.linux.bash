@@ -153,12 +153,13 @@ root() {
 
 pacu() {
   # pacman
-  sudo pacman --sync --sysupgrade --refresh --noconfirm
-  sudo pacman --sync --clean --noconfirm
-  yay --sync --sysupgrade --noconfirm
+  sudo pacman --sync --sysupgrade --refresh --noconfirm --clean
+  # sudo pacman --sync --clean --noconfirm
+  yay --sync --sysupgrade --refresh --noconfirm --clean
   # misc
   mackup backup
   yarn global upgrade --latest
+  yarn cache clean
   command cd "$NVM_DIR" && git pull
   nvm install node
   # aur
