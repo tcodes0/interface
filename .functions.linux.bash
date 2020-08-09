@@ -159,13 +159,14 @@ pacu() {
   # misc
   mackup backup
   yarn global upgrade --latest
-  cd "$NVM_DIR" && git pull
+  command cd "$NVM_DIR" && git pull
   nvm install node
   # aur
   asdf update
   asdf plugin update --all
   # misc
   gem update
+  command cd "$HOME/Desktop"
 }
 
 #- - - - - - - - - - -
