@@ -5,11 +5,13 @@ update_info=fonts_global.upd:Fonts_Global,fonts_global_toolbar.upd:Fonts_Global_
 Style=InApplication
 
 [ColorEffects:Disabled]
+ChangeSelectionColor=
 Color=56,56,56
 ColorAmount=0
 ColorEffect=0
 ContrastAmount=0.65
 ContrastEffect=1
+Enable=
 IntensityAmount=0.1
 IntensityEffect=2
 
@@ -152,7 +154,7 @@ parseMode=2
 
 [General]
 BrowserApplication[$e]=firefox-developer-edition.desktop
-ColorScheme=Breeze Dark
+ColorScheme=BreezeDark
 Name=Breeze Dark
 TerminalApplication[$e]=alacritty
 dbfile=/home/vacation/.mozilla/firefox/3okjfg7j.default-1572915977469/places.sqlite
