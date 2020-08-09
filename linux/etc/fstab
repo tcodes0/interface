@@ -3,7 +3,8 @@
 #
 # <file system>                           <dir>                <type>     <options>                                       <dump>  <pass>
 #
-LABEL=Prach                                /                    btrfs      defaults,discard,noatime,ssd,compress=lzo           0  1
+LABEL=Maglinux                             /media/Maglinux     btrfs      defaults,discard,noatime,noauto,compress=lzo         0  1
+LABEL=Prach                                /media/Prach        btrfs      defaults,discard,noatime,noauto,ssd,compress=lzo     0  1
 #
 # LABEL=EFI-FEZ                            /boot               vfat       user,rw,umask=111,dmask=000,auto                     0  1
 LABEL=EFI-FOR                              /boot               vfat       user,rw,umask=111,dmask=000,auto                     0  1
