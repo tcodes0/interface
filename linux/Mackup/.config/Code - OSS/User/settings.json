@@ -221,5 +221,6 @@
   },
   "explorer.confirmDelete": false,
   "window.menuBarVisibility": "hidden",
-  "editor.mouseWheelScrollSensitivity": 3
+  "editor.mouseWheelScrollSensitivity": 3,
+  "php.validate.executablePath": "/usr/bin/php"
 }

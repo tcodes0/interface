@@ -27,10 +27,24 @@ alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
 
 #========== Generic
+############
+# systemctl
+###########
+alias sys='systemctl'
+alias sysstat='systemctl status'
+alias sysrestart='systemctl restart'
+alias sysstart='systemctl start'
+alias sysstop='systemctl stop'
+alias sysenab='systemctl enable'
+alias sysu='systemctl --user'
+alias sysustat='systemctl --use status'
+alias sysurestart='systemctl --use restart'
+alias sysustart='systemctl --use start'
+alias sysustop='systemctl --use stop'
+alias sysuenab='systemctl --use enable'
 ######
 # misc
 ######
-alias sys='systemctl'
 alias lsblk='lsblk -f'
 alias desktop='sudo systemctl start sddm.service'
 alias sddm='sddm.service'
@@ -67,7 +81,6 @@ alias yayRdd='yay --remove --nodeps --nodeps' # -Rdd
 ########
 # others
 ########
-alias sysu='systemctl --user'
 alias tw='twitter'
 alias twt='twitter tweet'
 alias tx='tmux'
