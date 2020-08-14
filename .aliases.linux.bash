@@ -60,26 +60,42 @@ alias dol='dolphin'
 # pacman
 ########
 alias pac='pacman'
-alias paci='pacman --sync --info'                     # -Si
-alias pacii='pacman --sync --info --info'             # -Sii
-alias pacl='pacman --query'                           # -Q
-alias pacql='pacman --query --list'                   # -Ql
-alias pacI='sudo pacman --sync --refresh --noconfirm' # -S
-alias pacR='sudo pacman --remove'                     # -R
-alias pacRdd='sudo pacman --remove --nodeps --nodeps' # -Rdd
+alias pacInfo='pacman --sync --info'                           # -Si
+alias pacInfoVerbose='pacman --sync --info --info'             # -Sii
+alias pacList='pacman --query'                                 # -Q
+alias pacListVerbose='pacman --query --list'                   # -Ql
+alias pacInstall='sudo pacman --sync --refresh --noconfirm'    # -S
+alias pacRemove='sudo pacman --remove'                         # -R
+alias pacRemoveForce='sudo pacman --remove --nodeps --nodeps'  # -Rdd
+alias pacWhyFile='pacman -Qo'
+alias paci='pacInfo'
+alias pacii='pacInfoVerbose'
+alias pacl='pacList'
+alias pacql='pacListVerbose'
+alias pacI='pacInstall'
+alias pacR='pacRemove'
+alias pacRdd='pacRemoveForce'
 alias pacWhyFile='pacman -Qo'
 #####
 # yay
 #####
 # search AUR too
-alias pacs='yay --sync --search'              # -Ss
-alias yayi='yay --sync --info'                # -Si
-alias yayii='yay --sync --info --info'        # -Sii
-alias yayl='yay --query'                      # -Q
-alias yayql='yay --query --list'              # -Ql
-alias yayI='yay --sync --refresh --noconfirm' # -S
-alias yayR='yay --remove'                     # -R
-alias yayRdd='yay --remove --nodeps --nodeps' # -Rdd
+alias pacSearch='yay --sync --search'                 # -Ss
+alias yayInfo='yay --sync --info'                     # -Si
+alias yayInfoVerbose='yay --sync --info --info'       # -Sii
+alias yayList='yay --query'                           # -Q
+alias yayListVerbose='yay --query --list'             # -Ql
+alias yayInstall='yay --sync --refresh --noconfirm'   # -S
+alias yayRemove='yay --remove'                        # -R
+alias yayRemoveForce='yay --remove --nodeps --nodeps' # -Rdd
+alias pacs='pacSearch'
+alias yayi='yayInfo'
+alias yayii='yayInfoVerbose'
+alias yayl='yayList'
+alias yayql='yayListVerbose'
+alias yayI='yayInstall'
+alias yayR='yayRemove'
+alias yayRdd='yayRemoveForce'
 ########
 # others
 ########
