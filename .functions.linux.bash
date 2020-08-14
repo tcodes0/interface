@@ -177,6 +177,8 @@ bd() {
   base64 -d <<<"$@"
 }
 
+#- - - - - - - - - - -
+
 # -a means -rlptgoD
 sysbkp() {
   echo sudo rsync \
@@ -203,4 +205,18 @@ sysbkp() {
     --exclude="._*" \
     --exclude="._.*" \
     /boot/ '/mnt/<mount point>'
+}
+
+#- - - - - - - - - - -
+
+vpnUp(){
+  sudo wg-quick up wg0
+  sudo wg
+}
+
+#- - - - - - - - - - -
+
+vpnDown(){
+  sudo wg-quick down wg0
+  sudo wg
 }
