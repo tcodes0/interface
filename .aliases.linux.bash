@@ -12,6 +12,7 @@ alias ls='ls -ph --color=always'
 #========== Override macos
 alias gmv='mv'
 alias gsed='sed'
+alias gfind='find'
 alias gdd='dd'
 alias pbcopy='xclip -selection c'
 alias pbpaste='xclip -selection c -o'

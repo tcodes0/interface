@@ -298,8 +298,8 @@ findname() {
 #- - - - - - - - - - -
 
 findexec() {
-  if [ $# == "0" ]; then
-    precho "gfind . -name "*\$1*" -execdir $2 {} \\;"
+  if [ $# == "0" ] || [ $# != "2" ]; then
+    precho "gfind . -name "*\$1*" -execdir \$2 {} \\;"
     return
   fi
   gfind . -name "*$1*" -execdir "$2" {} \;
