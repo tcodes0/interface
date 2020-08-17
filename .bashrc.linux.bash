@@ -113,4 +113,3 @@ if grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
     command sudo mount /dev/disk/by-label/EFI-MAG /boot
   fi
 fi
-

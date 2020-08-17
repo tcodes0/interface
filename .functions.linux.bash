@@ -191,42 +191,19 @@ bd() {
 # --specials               preserve special files
 
 sysbkp() {
-  echo sudo rsync \
-    -a \
-    --progress \
-    --one-file-system \
-    --delete-during \
-    --exclude="/media/*" \
-    --exclude="/mnt/*" \
-    --exclude="/proc/*" \
-    --exclude="/sys/*" \
-    --exclude="/dev/*" \
-    --exclude="/boot/*" \
-    --exclude="/tmp/*" \
-    --exclude=node_modules \
-    --exclude=.cache/spotify \
-    / '/media/<mount point>'
-  echo
-  echo sudo rsync \
-    -a \
-    --progress \
-    --delete-during \
-    --exclude=.DS_Store \
-    --exclude="._*" \
-    --exclude="._.*" \
-    /boot/ '/mnt/<mount point>'
+  sysbkp.linux.sh
 }
 
 #- - - - - - - - - - -
 
-vpnUp(){
+vpnUp() {
   sudo wg-quick up wg0
   sudo wg
 }
 
 #- - - - - - - - - - -
 
-vpnDown(){
+vpnDown() {
   sudo wg-quick down wg0
   sudo wg
 }
