@@ -99,3 +99,18 @@ if [ ! "$TMUX" ] && [ $UID == 1000 ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
+
+# Check we're booting Maglinux by kernel arg with root UUID
+if grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
+  blkDevice="$(lsblk --raw --noheadings | sed -ne '/EFI-MAG/p' | sed -E 's/^([a-z0-9]+)\ .*/\1/g')"
+  # mount EFI-MAG to /boot if not mounted already
+  if ! grep --quiet "[/]dev[/]$blkDevice\ [/]boot" /proc/mounts; then
+    echo "Please authenticate as root to mount Maglinux /boot correctly. Aborting in 5s..."
+    command sudo -T 5 true
+    if grep --quiet '[/]boot' /proc/mounts; then
+      command sudo umount /boot
+    fi
+    command sudo mount /dev/disk/by-label/EFI-MAG /boot
+  fi
+fi
+
