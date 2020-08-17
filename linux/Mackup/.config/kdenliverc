@@ -1,0 +1,108 @@
+[KFileDialog Settings]
+Recent Files[$e]=VID_20200811_142808.mp4,file:$HOME/Videos/c4p.kdenlive,file:$HOME/Desktop/VID_20200811_142808.mp4
+Recent URLs[$e]=file:$HOME/Videos/
+listViewIconSize=0
+
+[MainWindow]
+Height 1080=1044
+State=AAAA/wAAAAD9AAAAAQAAAAIAAAamAAACMvwBAAAADvsAAAAYAG4AbwB0AGUAcwBfAHcAaQBkAGcAZQB0AAAAAAD/////AAAAcgEAAAP7AAAADgBsAGkAYgByAGEAcgB5AAAAAAD/////AAAAcgEAAAP7AAAAFABzAGMAcgBlAGUAbgBnAHIAYQBiAAAAAAD/////AAAAcgEAAAP7AAAAGgBhAHUAZABpAG8AcwBwAGUAYwB0AHIAdQBtAAAAAAD/////AAAAcgEAAAP7AAAAFgBwAHIAbwBqAGUAYwB0AF8AYgBpAG4BAAAAAAAAARMAAAByAQAAA/wAAAEUAAABEwAAAHIA////+gAAAAABAAAAAvsAAAAYAGUAZgBmAGUAYwB0AF8AcwB0AGEAYwBrAQAAAAD/////AAAAcgEAAAP7AAAAHgBjAGwAaQBwAF8AcAByAG8AcABlAHIAdABpAGUAcwAAAAAA/////wAAAHIBAAAD/AAAAigAAAFvAAAAlwD////6AAAAAQEAAAAC+wAAAB4AdAByAGEAbgBzAGkAdABpAG8AbgBfAGwAaQBzAHQBAAAAAP////8AAAAEAQAAA/sAAAAWAGUAZgBmAGUAYwB0AF8AbABpAHMAdAEAAAAA/////wAAAAQBAAAD/AAAA5gAAAMOAAABRAD////6AAAAAAEAAAAC+wAAABgAYwBsAGkAcABfAG0AbwBuAGkAdABvAHIBAAAAAP////8AAAFEAQAAA/sAAAAeAHAAcgBvAGoAZQBjAHQAXwBtAG8AbgBpAHQAbwByAQAAAAD/////AAABRAEAAAP7AAAAGAB1AG4AZABvAF8AaABpAHMAdABvAHIAeQAAAAAA/////wAAAHIBAAAD+wAAAAoAbQBpAHgAZQByAAAAAAD/////AAAAcgEAAAP7AAAAFgB2AGUAYwB0AG8AcgBzAGMAbwBwAGUAAAAAAP////8AAAFCAQAAA/sAAAAQAHcAYQB2AGUAZgBvAHIAbQAAAAAA/////wAAALEBAAAD+wAAABQAcgBnAGIAXwBwAGEAcgBhAGQAZQAAAAAA/////wAAAKsBAAAD+wAAABIAaABpAHMAdABvAGcAcgBhAG0AAAAAAP////8AAAFRAQAAAwAABqYAAAF3AAAABAAAAAQAAAAIAAAACPwAAAABAAAAAgAAAAIAAAAWAG0AYQBpAG4AVABvAG8AbABCAGEAcgEAAAAA/////wAAAAAAAAAAAAAAGABlAHgAdAByAGEAVABvAG8AbABCAGEAcgEAAAJD/////wAAAAAAAAAA
+ToolBarsMovable=Disabled
+Width 2560=1702
+
+[Recent Dirs]
+KdenliveClipFolder[$e]=$HOME/Desktop/,$HOME/Videos,$HOME/Documents
+KdenliveProjectsFolder[$e]=$HOME/Videos,$HOME/Documents
+
+[Recent Files]
+File1[$e]=$HOME/Videos/c4p.kdenlive
+Name1[$e]=c4p.kdenlive
+
+[Scope_Histogram]
+autoRefresh=true
+bEnabled=true
+gEnabled=true
+rEnabled=true
+realtime=false
+rec601=false
+sEnabled=false
+yEnabled=true
+
+[Scope_RGB Parade]
+autoRefresh=true
+axis=false
+gradref=false
+paintmode=0
+realtime=false
+
+[Scope_Vectorscope]
+75PBox=false
+autoRefresh=true
+axis=false
+backgroundmode=0
+colorspace_ypbpr=false
+gain=1
+iqlines=false
+paintmode=0
+realtime=false
+
+[Scope_Waveform]
+autoRefresh=true
+paintmode=0
+realtime=false
+rec601=false
+
+[UiSettings]
+ColorScheme=Breeze Dark
+
+[bin]
+treeviewheaders=AAAA/wAAAAAAAAABAAAAAAAAAAABAAAAAAAAAAAAAAAI/gAAAAcAAAAHAAAANAAAAAYAAAAnAAAABQAAAFMAAAAEAAAAMAAAAAMAAAA4AAAAAgAAAGQAAAABAAAAOgAAAQwAAAAIAQEAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAAIAAABDAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAD6AAAAABB
+
+[capture]
+decklink_capturedevice=4294967295
+decklink_extension=mov
+decklink_parameters=vcodec=dnxhd vb=145000k acodec=pcm_s16le threads=%threads
+defaultaudiocapture=0
+grab_extension=mov
+grab_parameters=-crf 25 -vcodec libx264 -preset veryfast -threads 0
+v4l_extension=mpg
+v4l_parameters=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads
+
+[env]
+defaultimageapp=/usr/bin/gimp
+defaultprojectfolder[$e]=$HOME/Videos
+ffmpegpath[$e]=/usr/bin/ffmpeg
+ffplaypath[$e]=/usr/bin/ffplay
+ffprobepath[$e]=/usr/bin/ffprobe
+mltpath[$e]=/usr/share/mlt/profiles
+rendererpath[$e]=/usr/bin/melt
+
+[project]
+externalProxyProfile=../Sub;;S03.MP4;../Clip;;.MXF
+vaapiEnabled=true
+
+[sdl]
+blackmagic_output_device=-1
+
+[settings]
+dialogSize=1024,700
+
+[shuttle]
+shuttlebuttons=button0=monitor_pause
+
+[timeline]
+headerwidth=180
+trackheight=67
+
+[unmanaged]
+automatictransitions=false
+default_profile=atsc_1080p_25
+defaultrescaleheight=1080
+defaultrescalewidth=1920
+monitor_audio=false
+previewScaling=8
+producerslist=avformat,avformat-novalidate,abnormal,color,colour,consumer,hold,loader,melt,melt_file,noise,timewarp,tone,decklink,frei0r.ising0r,frei0r.lissajous0r,frei0r.nois0r,frei0r.onecol0r,frei0r.partik0l,frei0r.plasma,frei0r.test_pat_B,frei0r.test_pat_C,frei0r.test_pat_G,frei0r.test_pat_I,frei0r.test_pat_L,frei0r.test_pat_R,pango,pixbuf,ladspa.1047,ladspa.1050,framebuffer,slowmotion,blipflash,count,qimage,qtext,kdenlivetitle,sdl_image,pgm,vorbis,xml,xml-string,xml-nogl
+project_fps=29.965034230753076
+widgetstyle=Default
+
+[version]
+version=20.04.3
