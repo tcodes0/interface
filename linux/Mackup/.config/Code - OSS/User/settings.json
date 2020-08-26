@@ -179,7 +179,7 @@
   "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
-  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
   "editor.tabSize": 2,
   "editor.wordBasedSuggestions": true,
