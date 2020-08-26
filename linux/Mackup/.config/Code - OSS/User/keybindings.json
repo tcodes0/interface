@@ -564,7 +564,7 @@
     "command": "-workbench.action.gotoLine"
   },
   {
-    "key": "alt+-",
+    "key": "ctrl+-",
     "command": "workbench.action.navigateBack"
   },
   {
@@ -621,5 +621,13 @@
     "key": "ctrl+left",
     "command": "-cursorWordStartLeft",
     "when": "textInputFocus"
+  },
+  {
+    "key": "ctrl+-",
+    "command": "-workbench.action.zoomOut"
+  },
+  {
+    "key": "ctrl+shift+-",
+    "command": "workbench.action.zoomOut"
   }
 ]
