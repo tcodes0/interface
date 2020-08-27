@@ -9,7 +9,7 @@ trustdb*
 hub
 Backup-codes*
 password.bak
-.aws/credentials
+linux/Mackup/.aws/credentials
 .ngrok2/**
 Library/Processing/
 Library/Preferences/org.vim.MacVim.plist
