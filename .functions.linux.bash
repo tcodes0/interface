@@ -155,8 +155,7 @@ pacu() {
   # pacman
   sudo pacman --sync --sysupgrade --refresh --noconfirm
   sudo pacman --sync --noconfirm --clean
-  # sudo pacman --sync --clean --noconfirm
-  yay --sync --sysupgrade --refresh --noconfirn
+  yay --sync --sysupgrade --refresh --noconfirm
   yay --sync --noconfirm --clean
   # misc
   mackup backup
