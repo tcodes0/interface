@@ -60,13 +60,13 @@ alias dol='dolphin'
 # pacman
 ########
 alias pac='pacman'
-alias pacInfo='pacman --sync --info'                           # -Si
-alias pacInfoVerbose='pacman --sync --info --info'             # -Sii
-alias pacList='pacman --query'                                 # -Q
-alias pacListVerbose='pacman --query --list'                   # -Ql
-alias pacInstall='sudo pacman --sync --refresh --noconfirm'    # -S
-alias pacRemove='sudo pacman --remove'                         # -R
-alias pacRemoveForce='sudo pacman --remove --nodeps --nodeps'  # -Rdd
+alias pacInfo='pacman --sync --info'                          # -Si
+alias pacInfoVerbose='pacman --sync --info --info'            # -Sii
+alias pacList='pacman --query'                                # -Q
+alias pacListVerbose='pacman --query --list'                  # -Ql
+alias pacInstall='sudo pacman --sync --refresh --noconfirm'   # -S
+alias pacRemove='sudo pacman --remove'                        # -R
+alias pacRemoveForce='sudo pacman --remove --nodeps --nodeps' # -Rdd
 alias pacWhyFile='pacman -Qo'
 alias paci='pacInfo'
 alias pacii='pacInfoVerbose'
