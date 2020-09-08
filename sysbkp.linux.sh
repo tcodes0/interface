@@ -13,7 +13,9 @@ fi
 
 echo "Rsync /"
 sleep 5
-sudo rsync \
+# rsync commonly exits with non 0 status because of files vanishing
+set +e
+if ! sudo rsync \
   -a \
   --progress \
   --one-file-system \
@@ -25,17 +27,32 @@ sudo rsync \
   --exclude="/dev/*" \
   --exclude="/boot/*" \
   --exclude="/tmp/*" \
+  --exclude="/var/*" \
   --exclude=node_modules \
   --exclude=.cache/spotify \
-  / '/mnt'
+  / '/mnt'; then
+  echo "Rsync errored, continue anyway? (y/n)"
+  if ! read -r; then exit 1; fi
+  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
+    echo "Aborted"
+    exit 1
+  fi
+fi
 
 echo "Rsync /boot"
 sleep 5
-sudo rsync \
+if ! sudo rsync \
   -a \
   --progress \
   --delete-during \
   --exclude=.DS_Store \
   --exclude="._*" \
   --exclude="._.*" \
-  /boot/ '/mnt/boot'
+  /boot/ '/mnt/boot'; then
+  echo "Rsync errored, but script is over"
+  # if ! read -r; then exit 1; fi
+  # if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
+  #   echo "Aborted"
+  #   exit 1
+  # fi
+fi
