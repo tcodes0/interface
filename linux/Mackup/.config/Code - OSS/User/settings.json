@@ -222,5 +222,10 @@
   "explorer.confirmDelete": false,
   "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
-  "php.validate.executablePath": "/usr/bin/php"
+  "php.validate.executablePath": "/usr/bin/php",
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  }
 }
