@@ -17,6 +17,11 @@
     "body": "console.log({ ${1:a: 11} })$0",
     "description": "Good 'ol console.log"
   },
+  "logger.log": {
+    "prefix": "loo",
+    "body": "logger.log({ ${1:a: 11} })$0",
+    "description": "logger.log"
+  },
   "console.warn": {
     "prefix": "wa",
     "body": "console.log({ ${1:a:} })$0",

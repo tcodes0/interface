@@ -96,7 +96,6 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "prettier-eslint.eslintIntegration": false,
   "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.alwaysShowStatus": true,
@@ -119,13 +118,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "eslint.validate": ["javascript", "typescript", "javascriptreact"],
-  //
-  // - - - - - - - - Python - - - - - - - - -
-  //
-  "python.formatting.autopep8Args": ["-a", "-a", "-a"],
-  "python.pythonPath": "python3",
-  "python.linting.enabled": true,
-  "python.formatting.provider": "autopep8",
   //
   // - - - - - - - - GIT - - - - - - - - -
   //
@@ -162,20 +154,6 @@
   //
   // - - - - - - - - GENERAL - - - - - - - - -
   //
-  "colorize.include": [".js", ".jsx"],
-  "colorize.languages": [
-    "css",
-    "sass",
-    "scss",
-    "less",
-    "postcss",
-    "sss",
-    "stylus",
-    "xml",
-    "svg",
-    "javascript",
-    "html"
-  ],
   "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
@@ -194,7 +172,7 @@
   "editor.cursorSmoothCaretAnimation": true,
   "editor.cursorSurroundingLines": 5,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1500,
+  "files.autoSaveDelay": 800,
   "files.trimTrailingWhitespace": true,
   "files.hotExit": "onExitAndWindowClose",
   "breadcrumbs.enabled": true,
@@ -204,12 +182,8 @@
   "debug.allowBreakpointsEverywhere": true,
   "atomKeymap.promptV3Features": true,
   "emmet.showAbbreviationSuggestions": false,
-  "colorHelper.pickerForm": "compact",
   "explorer.confirmDragAndDrop": false,
   "materialTheme.accent": "Pink",
-  "java.configuration.checkProjectSettingsExclusions": false,
-  "java.errors.incompleteClasspath.severity": "ignore",
-  "java.configuration.updateBuildConfiguration": "automatic",
   "editor.suggestSelection": "first",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "githubPullRequests.showInSCM": true,
@@ -227,5 +201,8 @@
     "**/.bloop": true,
     "**/.metals": true,
     "**/.ammonite": true
-  }
+  },
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal"
 }

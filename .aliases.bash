@@ -318,3 +318,4 @@ alias ism="iex -S mix"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
 alias kill="kill -HUP "
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
+alias dcu='sudo docker-compose up'
