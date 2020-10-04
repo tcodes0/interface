@@ -298,6 +298,7 @@ alias npmI="npm install"
 alias y="yarn"
 alias yarnl="yarn list --depth=0"
 alias yf="yarn --force"
+alias ys="yarn start"
 # alias adbI="adb install"
 alias yarngl="yarn global list --depth=0"
 alias adbl="adb devices"
@@ -319,3 +320,5 @@ alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d")
 alias kill="kill -HUP "
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias dcu='sudo docker-compose up'
+alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
+alias d-c='sudo docker-compose'

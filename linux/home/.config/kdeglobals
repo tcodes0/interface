@@ -153,7 +153,7 @@ emoticonsTheme=EmojiOne
 parseMode=2
 
 [General]
-BrowserApplication[$e]=firefox-developer-edition.desktop
+BrowserApplication=firefox-developer-edition.desktop
 ColorScheme=BreezeDark
 Name=Breeze Dark
 TerminalApplication[$e]=alacritty

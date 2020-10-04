@@ -167,7 +167,6 @@ pacu() {
   asdf update
   asdf plugin update --all
   # misc
-  gem update
   command cd "$HOME/Desktop"
 }
 
