@@ -1165,3 +1165,7 @@ notify() {
     display notification \"$text\" with title \"$title\"
   "
 }
+
+shine() {
+  open "https://eleanorhealth.atlassian.net/browse/SHINE-$1"
+}

@@ -27,6 +27,7 @@ unalias emulator
 alias rns="react-native start"
 alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
+alias open="xdg-open"
 
 #========== Generic
 ############
