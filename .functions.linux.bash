@@ -153,8 +153,8 @@ root() {
 
 pacu() {
   # pacman
-  sudo pacman --sync --sysupgrade --refresh --noconfirm
-  sudo pacman --sync --noconfirm --clean
+  # sudo pacman --sync --sysupgrade --refresh --noconfirm
+  # sudo pacman --sync --noconfirm --clean
   yay --sync --sysupgrade --refresh --noconfirm
   yay --sync --noconfirm --clean
   # misc

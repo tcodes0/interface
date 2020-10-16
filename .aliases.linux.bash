@@ -19,7 +19,6 @@ alias pbcopy='xclip -selection c'
 alias pbpaste='xclip -selection c -o'
 alias gls='/usr/bin/ls'
 alias google="s -p duckduckgo"
-alias .i="cd \$DOTFILE_PATH"
 alias grep='grep --color=auto'
 unalias find
 unalias stat
@@ -55,7 +54,6 @@ alias soff='systemctl poweroff'
 # alias drive='rclone'
 alias ssh='ssh-ident'
 alias sudo='root'
-alias .s='root'
 alias dol='dolphin'
 ########
 # pacman
@@ -103,3 +101,11 @@ alias yayRdd='yayRemoveForce'
 alias tw='twitter'
 alias twt='twitter tweet'
 alias tx='tmux'
+######
+# dot
+######
+alias .s='root'
+alias .z="cd \$HOME/Desktop/zet"
+alias .h="cd \$HOME/Desktop/client"
+alias .hs="cd \$HOME/Desktop/server"
+alias .i="cd \$DOTFILE_PATH"
