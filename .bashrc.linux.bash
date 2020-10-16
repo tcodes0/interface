@@ -22,6 +22,7 @@ $HOME/.gem/ruby/2.7.0/bin:\
 $HOME/bin/monero-gui:\
 $HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
+$HOME/go/bin:\
 $ANDROID_HOME/tools:\
 $ANDROID_HOME/platform-tools:\
 $ANDROID_HOME/tools/bin:\
