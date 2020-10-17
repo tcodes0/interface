@@ -146,7 +146,7 @@ drive-list() {
 #- - - - - - - - - - -
 
 root() {
-  \sudo bash -ic "$*"
+   command sudo bash -ic "$*"
 }
 
 #- - - - - - - - - - -

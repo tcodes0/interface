@@ -252,7 +252,7 @@ alias less="\$PAGER"
 alias dircolors="gdircolors"
 alias python="python3"
 alias ncdu="ncdu -x --si"
-alias visudo="EDITOR=code && sudo visudo"
+alias visudo="EDITOR='code -w' && command sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'

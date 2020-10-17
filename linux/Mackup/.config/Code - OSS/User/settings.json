@@ -138,6 +138,16 @@
   "javascript.updateImportsOnFileMove.enabled": "always",
   // "javascript.referencesCodeLens.enabled": true,
   //
+  // - - - - - - - - GO - - - - - - - - -
+  //
+  "go.useLanguageServer": true,
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  //
   // - - - - - - - - TS - - - - - - - - -
   //
   "typescript.implementationsCodeLens.enabled": true,
