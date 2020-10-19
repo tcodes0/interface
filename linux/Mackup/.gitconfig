@@ -20,3 +20,6 @@
 	defaultRemote = origin
 [push]
 	default = upstream
+[remote]
+	[origin]
+		prune = true
