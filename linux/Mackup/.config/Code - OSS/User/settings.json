@@ -196,7 +196,6 @@
   "materialTheme.accent": "Pink",
   "editor.suggestSelection": "first",
   "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "githubPullRequests.showInSCM": true,
   "workbench.list.automaticKeyboardNavigation": false,
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
