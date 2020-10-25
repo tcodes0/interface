@@ -15,6 +15,16 @@ echo "Rsync /"
 sleep 5
 # rsync commonly exits with non 0 status because of files vanishing
 set +e
+# -a means -rlptgoD
+# --recursive, -r          recursive
+# --links, -l              copy symlinks as symlinks
+# --perms, -p              preserve permissions
+# --times, -t              preserve modification times
+# --group, -g              preserve group
+# --owner, -o              preserve owner (super-user only)
+# -D                       same as --devices --specials
+# --devices                preserve device files (super-user only)
+# --specials               preserve special files
 if ! sudo rsync \
   -a \
   --progress \
