@@ -146,15 +146,14 @@ drive-list() {
 #- - - - - - - - - - -
 
 root() {
-   command sudo bash -ic "$*"
+  command sudo bash -ic "$*"
 }
 
 #- - - - - - - - - - -
 
 pacu() {
+  set -e
   # pacman
-  # sudo pacman --sync --sysupgrade --refresh --noconfirm
-  # sudo pacman --sync --noconfirm --clean
   yay --sync --sysupgrade --refresh --noconfirm
   yay --sync --noconfirm --clean
   # misc
@@ -168,6 +167,7 @@ pacu() {
   asdf plugin update --all
   # misc
   command cd "$HOME/Desktop"
+  set +e
 }
 
 #- - - - - - - - - - -
