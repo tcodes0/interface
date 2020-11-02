@@ -101,6 +101,7 @@ alias yayRdd='yayRemoveForce'
 alias tw='twitter'
 alias twt='twitter tweet'
 alias tx='tmux'
+alias hsup="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
 ######
 # dot
 ######
