@@ -137,9 +137,9 @@
     "body": "const ${1} = useSelector(s => s.${0})",
     "description": "dispatch hook"
   },
-  "eslint-disable-next-line no-console": {
-    "prefix": "noc",
-    "body": "// eslint-disable-next-line no-console",
-    "description": "no console line"
+  "eslint-disable-next-line": {
+    "prefix": "ednl",
+    "body": "// eslint-disable-next-line",
+    "description": "disable eslint on the next line"
   }
 }

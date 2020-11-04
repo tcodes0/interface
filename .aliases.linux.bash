@@ -55,6 +55,7 @@ alias soff='systemctl poweroff'
 alias ssh='ssh-ident'
 alias sudo='root'
 alias dol='dolphin'
+alias vi=nano
 ########
 # pacman
 ########
