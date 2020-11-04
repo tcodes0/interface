@@ -2,13 +2,14 @@
 
 set -e
 command sudo true
-echo "Mounting Maglinux at /mnt and EFI-MAG at /mnt/boot"
+echo "Mounting Archlinux at /mnt and EFI-BLUE at /mnt/boot"
 sleep 5
 if ! grep --quiet "[/]mnt" /proc/mounts; then
-  command sudo mount /dev/disk/by-label/Maglinux /mnt
+  command sudo mount /dev/disk/by-label/Archlinux /mnt
 fi
 if ! grep --quiet "[/]mnt[/]boot" /proc/mounts; then
-  command sudo mount /dev/disk/by-label/EFI-MAG /mnt/boot
+  command sudo mkdir -p /mnt/boot
+  command sudo mount /dev/disk/by-label/EFI-BLUE /mnt/boot
 fi
 
 echo "Rsync /"
