@@ -2,14 +2,14 @@
 
 set -e
 command sudo true
-echo "Mounting Archlinux at /mnt and EFI-BLUE at /mnt/boot"
+echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
 sleep 5
 if ! grep --quiet "[/]mnt" /proc/mounts; then
-  command sudo mount /dev/disk/by-label/Archlinux /mnt
+  command sudo mount /dev/disk/by-label/Archbak /mnt
 fi
 if ! grep --quiet "[/]mnt[/]boot" /proc/mounts; then
   command sudo mkdir -p /mnt/boot
-  command sudo mount /dev/disk/by-label/EFI-BLUE /mnt/boot
+  command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
 fi
 
 echo "Rsync /"
