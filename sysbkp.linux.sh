@@ -4,10 +4,17 @@ set -e
 command sudo true
 echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
 sleep 5
-if ! grep --quiet "[/]mnt" /proc/mounts; then
+if grep --quiet "[/]mnt" /proc/mounts; then
+  echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
+  exit 1
+else
   command sudo mount /dev/disk/by-label/Archbak /mnt
 fi
-if ! grep --quiet "[/]mnt[/]boot" /proc/mounts; then
+
+if grep --quiet "[/]mnt[/]boot" /proc/mounts; then
+  echo "Something mounted at /mnt/boot, please run \`sudo umount /mnt/boot\` to continue"
+  exit 1
+else
   command sudo mkdir -p /mnt/boot
   command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
 fi
