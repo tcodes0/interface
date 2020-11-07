@@ -56,6 +56,7 @@ alias ssh='ssh-ident'
 alias sudo='root'
 alias dol='dolphin'
 alias vi=nano
+alias unmount="umount"
 ########
 # pacman
 ########
