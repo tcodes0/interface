@@ -57,6 +57,22 @@ if ! sudo rsync \
   fi
 fi
 
+echo "Rsync /var/lib/pacman"
+sleep 2
+if ! sudo rsync \
+  -a \
+  --progress \
+  --one-file-system \
+  --delete-during \
+  /var/lib/pacman/ '/mnt/var/lib/pacman'; then
+  echo "Rsync errored, continue anyway? (y/n)"
+  if ! read -r; then exit 1; fi
+  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
+    echo "Aborted"
+    exit 1
+  fi
+fi
+
 echo "Rsync /boot"
 sleep 5
 if ! sudo rsync \
