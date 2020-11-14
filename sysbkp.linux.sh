@@ -59,6 +59,7 @@ fi
 
 echo "Rsync /var/lib/pacman"
 sleep 2
+command sudo mkdir -p  /mnt/var/lib/pacman
 if ! sudo rsync \
   -a \
   --progress \
