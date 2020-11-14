@@ -152,7 +152,6 @@ root() {
 #- - - - - - - - - - -
 
 pacu() {
-  set -e
   # pacman
   yay --sync --sysupgrade --refresh --noconfirm
   yay --sync --noconfirm --clean
@@ -167,7 +166,6 @@ pacu() {
   asdf plugin update --all
   # misc
   command cd "$HOME/Desktop"
-  set +e
 }
 
 #- - - - - - - - - - -
