@@ -46,9 +46,24 @@ if ! sudo rsync \
   --exclude="/boot/*" \
   --exclude="/tmp/*" \
   --exclude="/var/*" \
-  --exclude=node_modules \
+  --exclude="$HOME/Desktop/*" \
   --exclude=.cache/spotify \
   / '/mnt'; then
+  echo "Rsync errored, continue anyway? (y/n)"
+  if ! read -r; then exit 1; fi
+  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
+    echo "Aborted"
+    exit 1
+  fi
+fi
+
+if ! echo sudo rsync \
+  -a \
+  --progress \
+  --one-file-system \
+  --delete-during \
+  --exclude="node_modules" \
+  "$HOME/Desktop/" "/mnt$HOME/Desktop"; then
   echo "Rsync errored, continue anyway? (y/n)"
   if ! read -r; then exit 1; fi
   if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
