@@ -141,5 +141,10 @@
     "prefix": "ednl",
     "body": "// eslint-disable-next-line",
     "description": "disable eslint on the next line"
+  },
+  "expect-to-match-inline-snapshot": {
+    "prefix": "ein",
+    "body": "expect(${1}).toMatchInlineSnapshot()",
+    "description": "disable eslint on the next line"
   }
 }
