@@ -1,17 +1,21 @@
 #! /usr/bin/env  bash
 
+separator() {
+  printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+}
+
 set -e
 command sudo true
 echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
 sleep 5
-if grep --quiet "[/]mnt" /proc/mounts; then
+if grep --quiet "[/]mnt[ ]" /proc/mounts; then
   echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
   exit 1
 else
   command sudo mount /dev/disk/by-label/Archbak /mnt
 fi
 
-if grep --quiet "[/]mnt[/]boot" /proc/mounts; then
+if grep --quiet "[/]mnt[/]boot[ ]" /proc/mounts; then
   echo "Something mounted at /mnt/boot, please run \`sudo umount /mnt/boot\` to continue"
   exit 1
 else
@@ -20,6 +24,7 @@ else
 fi
 
 echo "Rsync /"
+separator
 sleep 5
 # rsync commonly exits with non 0 status because of files vanishing
 set +e
@@ -57,7 +62,10 @@ if ! sudo rsync \
   fi
 fi
 
-if ! echo sudo rsync \
+echo "Rsync $HOME/Desktop"
+separator
+sleep 5
+if ! sudo rsync \
   -a \
   --progress \
   --one-file-system \
@@ -73,8 +81,9 @@ if ! echo sudo rsync \
 fi
 
 echo "Rsync /var/lib/pacman"
-sleep 2
-command sudo mkdir -p  /mnt/var/lib/pacman
+separator
+sleep 5
+command sudo mkdir -p /mnt/var/lib/pacman
 if ! sudo rsync \
   -a \
   --progress \
@@ -90,6 +99,7 @@ if ! sudo rsync \
 fi
 
 echo "Rsync /boot"
+separator
 sleep 5
 if ! sudo rsync \
   -a \
@@ -100,9 +110,4 @@ if ! sudo rsync \
   --exclude="._.*" \
   /boot/ '/mnt/boot'; then
   echo "Rsync errored, but script is over"
-  # if ! read -r; then exit 1; fi
-  # if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
-  #   echo "Aborted"
-  #   exit 1
-  # fi
 fi
