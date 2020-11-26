@@ -151,25 +151,6 @@ root() {
 
 #- - - - - - - - - - -
 
-pacu() {
-  # pacman
-  yay --sync --sysupgrade --refresh --noconfirm
-  yay --sync --noconfirm --clean
-  # misc
-  mackup backup
-  yarn global upgrade --latest
-  yarn cache clean
-  command cd "$NVM_DIR" && git pull
-  nvm install node
-  # aur
-  asdf update
-  asdf plugin update --all
-  # misc
-  command cd "$HOME/Desktop"
-}
-
-#- - - - - - - - - - -
-
 # base64 decode
 bd() {
   base64 -d <<<"$@"
