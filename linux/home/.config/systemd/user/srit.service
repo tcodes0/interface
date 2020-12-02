@@ -1,0 +1,9 @@
+[Unit]
+Description=Apply keystroke speed tweak
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/xset r rate 140 70
+
+[Install]
+WantedBy=graphical.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Run srit shell command to set keystroke speed
+
+[Timer]
+OnUnitActiveSec=15
+AccuracySec=1h
+Persistent=false
+
+[Install]
+WantedBy=timers.target
