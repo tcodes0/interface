@@ -1,0 +1,8 @@
+evdev:input*
+ KEYBOARD_KEY_3a=leftalt     # capslock
+ KEYBOARD_KEY_1d=leftmeta    # left control
+ KEYBOARD_KEY_db=leftalt     # left windows
+ KEYBOARD_KEY_38=leftctrl    # left alt
+ KEYBOARD_KEY_b8=rightctrl   # right alt
+ KEYBOARD_KEY_73=rightmeta   # ? br key, called "RO" key by evtest (rightctrl)
+ KEYBOARD_KEY_dd=rightalt    # MS conntext key, called "Compose" by evtest
