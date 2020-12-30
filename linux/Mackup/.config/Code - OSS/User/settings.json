@@ -43,7 +43,7 @@
   //     "accent": "Orange",
   //     "accentPrevious": "Breaking Bad"
   // },
-  "workbench.iconTheme": "eq-material-theme-icons-ocean",
+  // "workbench.iconTheme": "eq-material-theme-icons-ocean",
   "editor.tokenColorCustomizations": {
     "[Material Theme Darker High Contrast]": {
       "comments": "#676767",

@@ -113,7 +113,7 @@ alias ggpush="git push origin \$GIT_BRANCH"
 # alias ggpush="git push origin \$__git_ps1_branch_name"
 alias ggsup="git branch --set-upstream-to=origin/\$GIT_BRANCH"
 # alias ggsup="git branch --set-upstream-to=origin/\$__git_ps1_branch_name"
-alias gpf='git push --set-upstream foton HEAD'
+alias gpf='git push -f'
 alias ghh='git help'
 alias gignore='git update-index --assume-unchanged'
 alias gignored='git ls-files -v | grep "^[[:lower:]]"'
@@ -323,3 +323,4 @@ alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias dcu='sudo docker-compose up'
 alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
 alias d-c='sudo docker-compose'
+alias uuidcp="uuidgen | tr -d '\n' | pbc"
