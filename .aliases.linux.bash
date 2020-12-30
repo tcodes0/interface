@@ -39,11 +39,11 @@ alias sysstart='systemctl start'
 alias sysstop='systemctl stop'
 alias sysenab='systemctl enable'
 alias sysu='systemctl --user'
-alias sysustat='systemctl --use status'
-alias sysurestart='systemctl --use restart'
-alias sysustart='systemctl --use start'
-alias sysustop='systemctl --use stop'
-alias sysuenab='systemctl --use enable'
+alias sysustat='systemctl --user status'
+alias sysurestart='systemctl --user restart'
+alias sysustart='systemctl --user start'
+alias sysustop='systemctl --user stop'
+alias sysuenab='systemctl --user enable'
 ######
 # misc
 ######

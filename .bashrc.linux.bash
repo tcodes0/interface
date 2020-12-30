@@ -79,13 +79,7 @@ if [ -d "./Desktop" ]; then
   command cd ./Desktop
 fi
 
-# fast keyboard key response rate
-# using a systemd user service with timer instead
-# if [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
-#   # don't run when on a real tty, only graphic X11 ttys
-#   # rate <delay> <repeat>
-#   xset r rate 140 70
-# fi
+systemctl --user start srit.service
 
 # add ssh key to ssh agent, bypass prompt
 if [ ! "$SSH_AUTH_SOCK" ] && [ -f "$DOTFILE_PATH/.private-ssh-add.expect" ]; then
