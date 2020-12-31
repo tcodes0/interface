@@ -1172,8 +1172,8 @@ shine() {
 
 grbonto() {
   if [ ! "$1" ] || [ "$1" == -h ] || [ "$1" == --help ]; then
-    echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin master. \$2 is extra args to rebase"
+    echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin master"
     return
   fi
-  git rebase "HEAD~$1" "$2" --onto=origin/master
+  git rebase "HEAD~$1" --onto=origin/master
 }
