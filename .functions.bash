@@ -1169,3 +1169,11 @@ notify() {
 shine() {
   open "https://eleanorhealth.atlassian.net/browse/SHINE-$1"
 }
+
+grbonto() {
+  if [ ! "$1" ] || [ "$1" == -h ] || [ "$1" == --help ]; then
+    echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin master. \$2 is extra args to rebase"
+    return
+  fi
+  git rebase "HEAD~$1" "$2" --onto=origin/master
+}
