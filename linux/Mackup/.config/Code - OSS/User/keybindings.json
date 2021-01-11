@@ -653,4 +653,9 @@
     "command": "-editor.unfoldAll",
     "when": "editorTextFocus && foldingEnabled"
   },
+  {
+    "key": "ctrl+k k",
+    "command": "deleteAllRight",
+    "when": "editorTextFocus"
+  },
 ]

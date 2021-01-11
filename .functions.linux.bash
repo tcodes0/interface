@@ -158,14 +158,14 @@ bd() {
 
 #- - - - - - - - - - -
 
-vpnUp() {
+vpnup() {
   sudo wg-quick up wg0
   sudo wg
 }
 
 #- - - - - - - - - - -
 
-vpnDown() {
+vpndown() {
   sudo wg-quick down wg0
   sudo wg
 }
