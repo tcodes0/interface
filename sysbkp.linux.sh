@@ -4,6 +4,8 @@ separator() {
   printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 }
 
+LHOME=/home/vacation
+
 set -e
 command sudo true
 echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
@@ -51,7 +53,7 @@ if ! sudo rsync \
   --exclude="/boot/*" \
   --exclude="/tmp/*" \
   --exclude="/var/*" \
-  --exclude="$HOME/Desktop/*" \
+  --exclude="$LHOME/Desktop/*" \
   --exclude=.cache/spotify \
   / '/mnt'; then
   echo "Rsync errored, continue anyway? (y/n)"
@@ -62,7 +64,7 @@ if ! sudo rsync \
   fi
 fi
 
-echo "Rsync $HOME/Desktop"
+echo "Rsync $LHOME/Desktop"
 separator
 sleep 5
 if ! sudo rsync \
@@ -71,7 +73,7 @@ if ! sudo rsync \
   --one-file-system \
   --delete-during \
   --exclude="node_modules" \
-  "$HOME/Desktop/" "/mnt$HOME/Desktop"; then
+  "$LHOME/Desktop/" "/mnt$LHOME/Desktop"; then
   echo "Rsync errored, continue anyway? (y/n)"
   if ! read -r; then exit 1; fi
   if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
