@@ -1,7 +1,11 @@
 #! /usr/bin/env  bash
 
 separator() {
-  printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+  printf "\n\n\n\n\n\n\n"
+}
+
+sleeper() {
+  sleep 3
 }
 
 LHOME=/home/vacation
@@ -9,7 +13,7 @@ LHOME=/home/vacation
 set -e
 command sudo true
 echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
-sleep 5
+sleeper
 if grep --quiet "[/]mnt[ ]" /proc/mounts; then
   echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
   exit 1
@@ -27,7 +31,7 @@ fi
 
 echo "Rsync /"
 separator
-sleep 5
+sleeper
 # rsync commonly exits with non 0 status because of files vanishing
 set +e
 # -a means -rlptgoD
@@ -66,7 +70,7 @@ fi
 
 echo "Rsync $LHOME/Desktop"
 separator
-sleep 5
+sleeper
 if ! sudo rsync \
   -a \
   --progress \
@@ -84,7 +88,7 @@ fi
 
 echo "Rsync /var/lib/pacman"
 separator
-sleep 5
+sleeper
 command sudo mkdir -p /mnt/var/lib/pacman
 if ! sudo rsync \
   -a \
@@ -102,7 +106,7 @@ fi
 
 echo "Rsync /boot"
 separator
-sleep 5
+sleeper
 if ! sudo rsync \
   -a \
   --progress \
