@@ -53,7 +53,6 @@ alias sddm='sddm.service'
 alias soff='systemctl poweroff'
 # alias drive='rclone'
 alias ssh='ssh-ident'
-alias sudo='root'
 alias dol='dolphin'
 alias vi=nano
 alias unmount="umount"
