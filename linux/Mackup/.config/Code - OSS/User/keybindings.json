@@ -174,8 +174,8 @@
   },
   {
     "key": "alt+d",
-    "command": "workbench.action.terminal.deleteWordRight",
-    "when": "terminalFocus"
+    "command": "deleteWordRight",
+    "when": "textInputFocus && !editorReadonly"
   },
   {
     "key": "alt+delete",
@@ -193,8 +193,13 @@
     "when": "textInputFocus && !editorReadonly"
   },
   {
-    "key": "alt+d",
-    "command": "deleteWordRight",
+    "key": "alt+s",
+    "command": "deleteWordLeft",
+    "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "alt+backspace",
+    "command": "deleteWordLeft",
     "when": "textInputFocus && !editorReadonly"
   },
   {
