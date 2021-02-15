@@ -188,7 +188,6 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
-  "window.zoomLevel": -1,
   "debug.allowBreakpointsEverywhere": true,
   "atomKeymap.promptV3Features": true,
   "emmet.showAbbreviationSuggestions": false,
@@ -214,4 +213,8 @@
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "window.zoomLevel": 2,
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
 }
