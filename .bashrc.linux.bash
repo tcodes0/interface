@@ -15,6 +15,7 @@ $HOME/.asdf/installs/elixir/1.10.0/bin:\
 $HOME/.gem/ruby/2.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
+/usr/local/go/bin:\
 /usr/bin:\
 /usr/bin/site_perl:\
 /usr/bin/vendor_perl:\
@@ -22,12 +23,10 @@ $HOME/.gem/ruby/2.7.0/bin:\
 $HOME/bin/monero-gui:\
 $HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
-$HOME/go/bin:\
 $ANDROID_HOME/tools:\
 $ANDROID_HOME/platform-tools:\
 $ANDROID_HOME/tools/bin:\
-$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VER:\
-/usr/local/go/bin"
+$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VER"
 
 # NVM
 unset PREFIX            # NVM hates this
@@ -37,7 +36,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "$NVM_DIR/bash_completion" ] && safe_source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 export EDITOR='code -w'
-# export GOPATH="$HOME/.go"
+export GOPATH=/usr/local/go
 
 # elixir/erlang with asdf
 export ERL_AFLAGS="-kernel shell_history enabled"
