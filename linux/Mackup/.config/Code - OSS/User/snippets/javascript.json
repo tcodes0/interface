@@ -17,6 +17,11 @@
     "body": "console.log({ ${1:a: 11} })$0",
     "description": "Good 'ol console.log"
   },
+  "dump.roles": {
+    "prefix": "lor",
+    "body": "logRoles(document.querySelector(\"body\")!);$0",
+    "description": "Debug tests to find elements"
+  },
   "logger.log": {
     "prefix": "loo",
     "body": "logger.log({ ${1:a: 11} })$0",
