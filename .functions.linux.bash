@@ -29,6 +29,9 @@ chpwd() {
   $HOME/Desktop/interface/priv)
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-enter-dir"
     ;;
+  $HOME/Desktop/member-client)
+    source "$HOME/Desktop/interface/chpwd-to-source/masterToMain/on-enter-dir"
+    ;;
   *) ;;
   esac
 
@@ -47,6 +50,9 @@ chpwd() {
     ;;
   $HOME/Desktop/interface/priv)
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-leave-dir"
+    ;;
+  $HOME/Desktop/member-client)
+    source "$HOME/Desktop/interface/chpwd-to-source/masterToMain/on-leave-dir"
     ;;
   *) ;;
   esac

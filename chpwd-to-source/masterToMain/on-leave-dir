@@ -1,0 +1,9 @@
+unalias gcom git-svn-dcommit-push glum gmom gmum gppr grbm
+
+alias gcom='git fetch --all --prune && git checkout master'
+alias git-svn-dcommit-push='git svn dcommit && git push github master:svntrunk'
+alias glum='git pull upstream master'
+alias gmom='git fetch --all --prune && git merge -q origin/master'
+alias gmum='git merge -q upstream/master'
+alias gppr='gpsup && hub pull-request -b master --browse --assign thomazella'
+alias grbm='git rebase master'
