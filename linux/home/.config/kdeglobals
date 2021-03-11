@@ -173,6 +173,7 @@ Theme=breeze-dark
 ColorScheme=Breeze
 DoubleClickInterval=400
 LookAndFeelPackage=org.kde.breezedark.desktop
+ShowDeleteCommand=false
 ShowIconsInMenuItems=true
 ShowIconsOnPushButtons=true
 SingleClick=false
@@ -245,6 +246,7 @@ Size=48
 
 [PreviewSettings]
 MaximumRemoteSize=0
+MaximumSize=1048576
 
 [Shortcuts]
 Back=Ctrl+Left
