@@ -22,6 +22,11 @@
     "body": "logRoles(document.querySelector(\"body\")!);$0",
     "description": "Debug tests to find elements"
   },
+  "dump test markup": {
+    "prefix": "dom",
+    "body": "console.log(prettyDOM(document.querySelector(\"body\")!));$0",
+    "description": "Debug tests to find elements"
+  },
   "logger.log": {
     "prefix": "loo",
     "body": "logger.log({ ${1:a: 11} })$0",

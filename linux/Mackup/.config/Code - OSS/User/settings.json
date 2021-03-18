@@ -220,4 +220,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "window.zoomLevel": -1,
+  "go.toolsManagement.autoUpdate": true,
 }
