@@ -198,9 +198,9 @@
   "workbench.list.automaticKeyboardNavigation": false,
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
+  // "editor.codeActionsOnSave": {
+  //   "source.fixAll.eslint": true
+  // },
   "explorer.confirmDelete": false,
   "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
@@ -219,6 +219,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "window.zoomLevel": -1,
   "go.toolsManagement.autoUpdate": true,
+  "window.zoomLevel": -1,
 }

@@ -324,5 +324,5 @@ alias dcu='sudo docker-compose up'
 alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
 alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
-alias rates="node -e 'var rates = new Array(130).fill(0).map((x, i) => (i+4) * 5000).map( year => ({ year, hour: (year/1920.1755589082431).toFixed(0), month: (year/12).toFixed(0) })); console.log(rates)'"
+alias rates="node -e 'var rates = new Array(130).fill(0).map((x, i) => (i+4) * 5000).reverse().map( year => ({ hour: (year/1920.1755589082431).toFixed(0), year: \`\${year/1000}k\`, month: \`\${parseFloat((year/12000).toFixed(1))}k\` })); console.table(rates)'"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
