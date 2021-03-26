@@ -651,7 +651,7 @@
   },
   {
     "key": "ctrl+k ctrl+9",
-    "command": "editor.unfoldAll",
+    "command": "editor.unfoldAll"
   },
   {
     "key": "ctrl+k ctrl+j",
@@ -663,4 +663,8 @@
     "command": "deleteAllRight",
     "when": "editorTextFocus"
   },
+  {
+    "key": "f11",
+    "command": "-workbench.action.toggleFullScreen"
+  }
 ]

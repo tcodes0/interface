@@ -318,7 +318,7 @@ alias ytw="yarn test --watch"
 alias yt="yarn test"
 alias ism="iex -S mix"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
-alias kill="kill -HUP "
+alias kill="kill -HUP"
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias dcu='sudo docker-compose up'
 alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
