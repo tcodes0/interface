@@ -721,7 +721,7 @@ lg() {
   if [ "$GIT_UPSTREAM" ] && [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
-  if [ "$GIT_UPSTREAM" ] && [[ origin/master =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
+  if [ "$GIT_UPSTREAM" ] && [[ origin/main =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
   if [[ -1 =~ $GIT_BRANCH ]]; then
@@ -827,7 +827,7 @@ checkoutVersionFiles() {
   for file in android/app/build.gradle \
     ios/OneSignalNotificationServiceExtension/Info.plist \
     ios/SenseChat/Info.plist; do
-    gco master -- $file
+    gco main -- $file
   done
 }
 
@@ -1172,8 +1172,8 @@ shine() {
 
 grbonto() {
   if [ ! "$1" ] || [ "$1" == -h ] || [ "$1" == --help ]; then
-    echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin master"
+    echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin main"
     return
   fi
-  git rebase "HEAD~$1" --onto=origin/master
+  git rebase "HEAD~$1" --onto=origin/main
 }
