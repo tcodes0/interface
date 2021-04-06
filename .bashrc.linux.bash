@@ -63,6 +63,7 @@ safe_source $DOTFILE_PATH/.functions.linux.bash
 safe_source $DOTFILE_PATH/.private.bash
 safe_source $DOTFILE_PATH/.prompt.linux.bash
 safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
+safe_source $DOTFILE_PATH/priv/env
 # AUR  lscolors-git package
 safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
