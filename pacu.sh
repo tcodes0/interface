@@ -10,9 +10,9 @@ asdf_() {
   /home/vacation/.asdf/bin/asdf "$@"
 }
 
-if ! yay --sync --sysupgrade --refresh --noconfirm; then errExit yay --sync failed; fi
-if ! yay --sync --noconfirm --clean; then errExit yay --clean; fi
-# if ! mackup backup; then errExit mackup failed; fi
+if ! yay --sync --sysupgrade --refresh; then errExit yay --sync failed; fi
+if ! yay --sync --clean; then errExit yay --clean; fi
+if ! mackup backup; then errExit mackup failed; fi
 if ! yarn global upgrade --latest; then errExit yarn global update failed; fi
 if ! yarn cache clean; then errExit yarn cache clean failed; fi
 if ! command cd "$NVM_DIR" && hub pull; then errExit nvm pull failed; fi
