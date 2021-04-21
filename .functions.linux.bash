@@ -33,7 +33,10 @@ chpwd() {
     source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
     ;;
   $HOME/Desktop/server)
-    source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
+    ;;
+  $HOME/Desktop/member-server)
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     ;;
   *) ;;
   esac
@@ -58,7 +61,10 @@ chpwd() {
     source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-leave-dir"
     ;;
   $HOME/Desktop/server)
-    source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-leave-dir"
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
+    ;;
+  $HOME/Desktop/member-server)
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     ;;
   *) ;;
   esac
