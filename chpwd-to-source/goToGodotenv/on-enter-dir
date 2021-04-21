@@ -1,0 +1,2 @@
+unalias go 2>/dev/null 1>&2
+alias go="godotenv -f .env go"
