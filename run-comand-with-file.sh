@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 do-help() {
-  precho "\
+  echo "\
   Usage
     run-command-with-file.sh <command string> <file string>
       read lines from file and pass them as args to command
@@ -18,7 +18,8 @@ file=$2
 
 if [ ! -f "$file" ]; then
   do-help
-  bailout "File $file not found on $PWD or invalid.\\n"
+  echo "File $file not found on $PWD or invalid.\\n"
+  exit 1
 fi
 
 #select the command basename, up to the first space
@@ -30,7 +31,8 @@ fi
 
 if ! command -v "$baseCommand" 1>/dev/null 2>&1; then
   do-help
-  bailout "Command '$baseCommand' not found.\\n"
+  echo "Command '$baseCommand' not found.\\n"
+  exit 1
 fi
 
 while read -r line; do
