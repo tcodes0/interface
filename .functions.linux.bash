@@ -34,6 +34,8 @@ chpwd() {
     ;;
   $HOME/Desktop/server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
+    unalias ys
+    alias ys="rm -fr node_modules/.cache && yarn start"
     ;;
   $HOME/Desktop/member-server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
@@ -62,6 +64,8 @@ chpwd() {
     ;;
   $HOME/Desktop/server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
+    unalias ys
+    alias ys="yarn start"
     ;;
   $HOME/Desktop/member-server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
