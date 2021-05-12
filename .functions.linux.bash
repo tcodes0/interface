@@ -31,14 +31,18 @@ chpwd() {
     ;;
   $HOME/Desktop/client)
     source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
+    unalias ys
+    alias ys="rm -fr node_modules/.cache && yarn start"
     ;;
   $HOME/Desktop/server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
-    alias ys="rm -fr node_modules/.cache && yarn start"
+    alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
     ;;
   $HOME/Desktop/member-server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
+    unalias ys
+    alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
     ;;
   *) ;;
   esac
@@ -69,6 +73,8 @@ chpwd() {
     ;;
   $HOME/Desktop/member-server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
+    unalias ys
+    alias ys="yarn start"
     ;;
   *) ;;
   esac
