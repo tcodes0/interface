@@ -110,10 +110,10 @@ alias makebrl="echo var makeBrlToUsd = rate => brl => Math.round(brl*rate)"
 ######
 alias .s='root'
 alias .z="cd \$HOME/Desktop/zet"
-alias .h="cd \$HOME/Desktop/client"
+alias .hc="cd \$HOME/Desktop/client"
 alias .hs="cd \$HOME/Desktop/server"
 alias .ms="cd \$HOME/Desktop/member-server"
-alias .m="cd \$HOME/Desktop/member-client"
+alias .mc="cd \$HOME/Desktop/member-client"
 alias .f="cd \$HOME/Desktop/forms"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
