@@ -16,6 +16,11 @@
     "prefix": "lo",
     "body": ["fmt.Printf(\"\\n ${1:var} %#v\\n\", $0)"],
     "description": "Log output to console"
+  },
+  "test.new": {
+    "prefix": "test",
+    "body": ["func Test_${1:it}(t *testing.T) {", "\t\tassert := assert.New(t)", "}"],
+    "description": "Log output to console"
   }
   // "console.log": {
   //   "prefix": "lozzz",
