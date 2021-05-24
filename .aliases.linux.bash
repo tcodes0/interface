@@ -44,18 +44,6 @@ alias sysurestart='systemctl --user restart'
 alias sysustart='systemctl --user start'
 alias sysustop='systemctl --user stop'
 alias sysuenab='systemctl --user enable'
-######
-# misc
-######
-alias lsblk='lsblk -f'
-alias desktop='sudo systemctl start sddm.service'
-alias sddm='sddm.service'
-alias soff='systemctl poweroff'
-# alias drive='rclone'
-alias ssh='ssh-ident'
-alias dol='dolphin'
-alias vi=nano
-alias unmount="umount"
 ########
 # pacman
 ########
@@ -117,3 +105,16 @@ alias .mc="cd \$HOME/Desktop/member-client"
 alias .f="cd \$HOME/Desktop/forms"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
+######
+# misc
+######
+alias lsblk='lsblk -f'
+alias desktop='sudo systemctl start sddm.service'
+alias sddm='sddm.service'
+alias soff='systemctl poweroff'
+# alias drive='rclone'
+alias ssh='ssh-ident'
+alias dol='dolphin'
+alias vi=nano
+alias unmount="umount"
+alias uux="chmod u+x"
