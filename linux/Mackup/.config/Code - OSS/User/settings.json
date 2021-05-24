@@ -221,4 +221,5 @@
   },
   "go.toolsManagement.autoUpdate": true,
   "window.zoomLevel": -1,
+  "redhat.telemetry.enabled": true,
 }
