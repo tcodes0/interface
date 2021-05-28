@@ -17,7 +17,7 @@ if [ "$REPLY" == "n" ]; then
 fi
 
 if ! yay --sync --sysupgrade --refresh --refresh; then errExit yay --sync failed; fi
-if ! yay --sync --clean; then errExit yay --clean; fi
+if ! yay --sync --clean --noconfirm; then errExit yay --clean --noconfirm; fi
 if ! mackup backup; then errExit mackup failed; fi
 if ! yarn global upgrade --latest; then errExit yarn global update failed; fi
 if ! yarn cache clean; then errExit yarn cache clean failed; fi
