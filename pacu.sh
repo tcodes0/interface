@@ -10,6 +10,12 @@ asdf_() {
   /home/vacation/.asdf/bin/asdf "$@"
 }
 
+echo "Did you backup? Press n to abort"
+read -rt 6
+if [ "$REPLY" == "n" ]; then
+  exit 1
+fi
+
 if ! yay --sync --sysupgrade --refresh --refresh; then errExit yay --sync failed; fi
 if ! yay --sync --clean; then errExit yay --clean; fi
 if ! mackup backup; then errExit mackup failed; fi
