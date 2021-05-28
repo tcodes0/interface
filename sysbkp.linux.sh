@@ -35,15 +35,15 @@ sleeper
 # rsync commonly exits with non 0 status because of files vanishing
 set +e
 # -a means -rlptgoD
-# --recursive, -r          recursive
-# --links, -l              copy symlinks as symlinks
-# --perms, -p              preserve permissions
-# --times, -t              preserve modification times
-# --group, -g              preserve group
-# --owner, -o              preserve owner (super-user only)
-# -D                       same as --devices --specials
-# --devices                preserve device files (super-user only)
-# --specials               preserve special files
+# --recursive, -r   recursive
+# --links, -l       copy symlinks as symlinks
+# --perms, -p       preserve permissions
+# --times, -t       preserve modification times
+# --group, -g       preserve group
+# --owner, -o       preserve owner (super-user only)
+# -D                same as --devices --specials
+# --devices         preserve device files (super-user only)
+# --specials        preserve special files
 if ! sudo rsync \
   -a \
   --progress \
@@ -58,7 +58,16 @@ if ! sudo rsync \
   --exclude="/tmp/*" \
   --exclude="/var/*" \
   --exclude="$LHOME/Desktop/*" \
-  --exclude=.cache/spotify \
+  --exclude="$LHOME/.cache/spotify/*" \
+  --exclude="$LHOME/.cache/mozilla/firefox/mpakm5ej.dev-edition-default/cache2/entries/*" \
+  --exclude="$LHOME/.cache/yarn/*" \
+  --exclude="$LHOME/.cache/typescript/*" \
+  --exclude="$LHOME/.cache/go-build/*" \
+  --exclude="$LHOME/.cache/staticcheck/*" \
+  --exclude="$LHOME/.cache/electron/*" \
+  --exclude="$LHOME/.cache/coursier/*" \
+  --exclude="$LHOME/.cache/yay/*" \
+  --exclude="$LHOME/.cache/google-chrome/*" \
   / '/mnt'; then
   echo "Rsync errored, continue anyway? (y/n)"
   if ! read -r; then exit 1; fi
