@@ -1178,3 +1178,10 @@ grbonto() {
   fi
   git rebase "HEAD~$1" --onto=origin/main
 }
+
+unalias gcn 2>/dev/null 1>&2
+gcn() {
+  if git add --all; then
+    git commit -nm "$*"
+  fi
+}
