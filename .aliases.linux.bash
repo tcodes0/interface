@@ -59,14 +59,14 @@ alias pacInstall='yay --sync --refresh --noconfirm'        # -S
 alias pacRemove='yay --remove'                             # -R
 alias pacRemoveDeps='yay --remove --recursive --recursive' # -Rss
 alias pacRemoveForce='yay --remove --nodeps --nodeps'      # -Rdd
-alias paci='yayInfo'
-alias pacii='yayInfoVerbose'
-alias pacl='yayList'
-alias pacql='yayListVerbose'
-alias pacI='yayInstall'
-alias pacR='yayRemove'
-alias pacRss='yayRemoveDeps'
-alias pacRdd='yayRemoveForce'
+alias paci='pacInfo'
+alias pacii='pacInfoVerbose'
+alias pacl='pacList'
+alias pacql='pacListVerbose'
+alias pacI='pacInstall'
+alias pacR='pacRemove'
+alias pacRss='pacRemoveDeps'
+alias pacRdd='pacRemoveForce'
 ########
 # others
 ########
