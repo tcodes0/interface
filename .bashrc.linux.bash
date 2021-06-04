@@ -9,6 +9,10 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 # custom var
 export ANDROID_BUILD_TOOLS_VER="29.0.2"
 
+# add over /usr/bin to run irpf java program
+# add jre11-openjdk and jdk11-openjdk packages (or maybe just jdk?)
+# maybe also the always-up-to-date jdk-openjdk
+# /usr/lib/jvm/java-11-openjdk/bin:\
 export PATH="\
 $HOME/bin:\
 $HOME/.asdf/installs/elixir/1.10.0/bin:\
