@@ -1179,9 +1179,35 @@ grbonto() {
   git rebase "HEAD~$1" --onto=origin/main
 }
 
-unalias gcn 2>/dev/null 1>&2
 gcn() {
+  local shouldPush='true'
   if git add --all; then
     git commit -nm "$*"
+  fi
+
+  if [[ $DONTPUSH ]]; then
+    shouldPush='false'
+  fi
+
+  if [ $shouldPush == 'true' ]; then
+    # push branch, save output to detect errors
+    pushResult=$(gp 2>&1)
+    if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
+      # handle no upstream branch error
+      localEcho "Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
+      git push --set-upstream origin "$GIT_BRANCH"
+    fi
+  fi
+}
+
+unalias gcom 2>/dev/null 1>&2
+gcom() {
+  if ! git fetch --all --prune; then
+    return
+  fi
+  checkout=$(git checkout main 2>&1)
+  if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
+    localEcho "Branch behind remote counterpart, pulling..."
+    gl
   fi
 }
