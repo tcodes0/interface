@@ -629,14 +629,11 @@ lg() {
   local shouldPush='true'
   local manually_staged_files=""
   manually_staged_files=$(git diff --name-only --cached)
-  localEcho() {
-    echo "lg > $*"
-  }
   checkGitLock() {
     # check for another git process running at this time (rare edge-case)
     # i.e. vscode and wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
-      localEcho ".git/index.lock exits, waiting other process..."
+      echo "lg > .git/index.lock exits, waiting other process..."
       sleep 1
     done
   }
@@ -647,14 +644,14 @@ lg() {
 
   # feedback that manually added files will be commited
   if [ "$manually_staged_files" ]; then
-    localEcho "Comitting files already staged..."
+    echo "lg > Comitting files already staged..."
   fi
 
   # confirm automatic add in advance, to avoid mistakes
   # if already staged files manually, skip
   if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
     if [ ! "$SKIPADD" ]; then
-      localEcho "Running 'git add --all', ok? (y/n)"
+      echo "lg > Running 'git add --all', ok? (y/n)"
       read -r response
     fi
   fi
@@ -662,13 +659,13 @@ lg() {
   checkGitLock
   # git add --all, if fail exit. Check for prompt response, check for files already added                         *adding files here*
   if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
-    localEcho "Auto add off or opted-out of or 'git add --all' failed"
+    echo "lg > Auto add off or opted-out of or 'git add --all' failed"
     return 1
   else
     # pick up newly added files in block above
     manually_staged_files=$(git diff --name-only --cached)
     if [ ! "$manually_staged_files" ]; then
-      localEcho "No staged files, and auto add opted-out of"
+      echo "lg > No staged files, and auto add opted-out of"
       return 1
     fi
   fi
@@ -707,7 +704,7 @@ lg() {
       msg="${msg} [skip ci]"
       unset WIPCOMMIT
     fi
-    localEcho commit msg: "$msg"
+    echo "lg > commit msg: $msg"
     checkGitLock
     git commit -q -m "$msg"
   else
@@ -735,14 +732,8 @@ lg() {
     pushResult=$(gp 2>&1)
     if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
       # handle no upstream branch error
-      localEcho "Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
+      echo "lg > Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
       git push --set-upstream origin "$GIT_BRANCH"
-      # read -r response
-      # if [ "$response" == Y ] || [ "$response" == y ]; then
-      #   git push --set-upstream origin "$GIT_BRANCH"
-      # else
-      #   localEcho "Not pushed"
-      # fi
     fi
   fi
   gss
@@ -1194,20 +1185,19 @@ gcn() {
     pushResult=$(gp 2>&1)
     if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
       # handle no upstream branch error
-      localEcho "Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
+      echo "gcn > Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
       git push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 }
 
-unalias gcom 2>/dev/null 1>&2
 gcom() {
   if ! git fetch --all --prune; then
     return
   fi
   checkout=$(git checkout main 2>&1)
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
-    localEcho "Branch behind remote counterpart, pulling..."
+    echo "gcom > Branch behind remote counterpart, pulling..."
     gl
   fi
 }
