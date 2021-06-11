@@ -1,6 +1,5 @@
-unalias gcom git-svn-dcommit-push glum gmom gmum gppr grbm
+unalias git-svn-dcommit-push glum gmom gmum gppr grbm
 
-alias gcom='git fetch --all --prune && git checkout main'
 alias git-svn-dcommit-push='git svn dcommit && git push github main:svntrunk'
 alias glum='git pull upstream main'
 alias gmom='git fetch --all --prune && git merge -q origin/main'
