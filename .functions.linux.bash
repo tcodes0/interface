@@ -29,11 +29,9 @@ chpwd() {
   $HOME/Desktop/interface/priv)
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-enter-dir"
     ;;
-  $HOME/Desktop/client)
-    source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
-    unalias ys
-    alias ys="rm -fr node_modules/.cache && yarn start"
-    ;;
+  # $HOME/Desktop/client)
+  #   source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
+  #   ;;
   $HOME/Desktop/server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
@@ -63,9 +61,9 @@ chpwd() {
   $HOME/Desktop/interface/priv)
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-leave-dir"
     ;;
-  $HOME/Desktop/client)
-    source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-leave-dir"
-    ;;
+  # $HOME/Desktop/client)
+  #   source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-leave-dir"
+  #   ;;
   $HOME/Desktop/server)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     unalias ys

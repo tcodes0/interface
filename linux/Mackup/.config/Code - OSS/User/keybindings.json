@@ -666,5 +666,9 @@
   {
     "key": "f11",
     "command": "-workbench.action.toggleFullScreen"
+  },
+  {
+    "key": "shift+meta+0",
+    "command": "pr:github.focus"
   }
 ]

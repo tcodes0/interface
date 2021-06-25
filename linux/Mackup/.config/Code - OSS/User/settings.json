@@ -220,6 +220,25 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "go.toolsManagement.autoUpdate": true,
-  "window.zoomLevel": -1,
   "redhat.telemetry.enabled": true,
+  "githubPullRequests.queries": [
+    {
+      "label": "Waiting",
+      "query": "is:open review-requested:${user}"
+    },
+    {
+      "label": "Open",
+      "query": "is:open"
+    },
+    {
+      "label": "Assigned",
+      "query": "is:open assignee:${user}"
+    },
+    {
+      "label": "Created",
+      "query": "is:open author:${user}"
+    }
+  ],
+  "githubPullRequests.fileListLayout": "flat",
+  "window.zoomLevel": -1,
 }
