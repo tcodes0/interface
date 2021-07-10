@@ -63,9 +63,6 @@ today-date -h
     fi
     today=$(date +%D)
 
-    # echo "__${pdate}___"
-    # echo "__${today}___"
-    # echo "__${rawdate}___"
     if [ "$pdate" != "$today" ] && [ "$pdate" ] && [ "$today" ]; then
       echo -e "Date from file\t\t$pdate"
       echo -e "Today\t\t\t$today"
