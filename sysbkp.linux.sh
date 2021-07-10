@@ -126,3 +126,8 @@ if ! sudo rsync \
   /boot/ '/mnt/boot'; then
   echo "Rsync errored, but script is over"
 fi
+
+if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
+  today-date write "$SYSBKP_DATE_FILE"
+  echo "run date saved to $SYSBKP_DATE_FILE"
+fi

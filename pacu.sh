@@ -10,9 +10,14 @@ asdf_() {
   /home/vacation/.asdf/bin/asdf "$@"
 }
 
-echo "Did you backup? Press n to abort"
-read -rt 6
-if [ "$REPLY" == "n" ]; then
+if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
+  echo "Did you backup?"
+  if ! today-date read "$SYSBKP_DATE_FILE"; then
+    echo "Backup run date check failed"
+    exit 1
+  fi
+else
+  echo "Backup run date check failed"
   exit 1
 fi
 

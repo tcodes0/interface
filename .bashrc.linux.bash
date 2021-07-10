@@ -51,23 +51,26 @@ export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-
 # gpg agent
 export GPGKEY=D600E88A0C5FE062
 
+safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
+
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
 [[ $- != *i* ]] && return
 
-export DOTFILE_PATH="/home/vacation/Desktop/interface"
+export DOTFILE_PATH="$HOME/Desktop/interface"
+export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
 
 # order matters here
-safe_source $DOTFILE_PATH/.bashrc.bash
-safe_source $DOTFILE_PATH/.aliases.bash
-safe_source $DOTFILE_PATH/.aliases.linux.bash
-safe_source $DOTFILE_PATH/.functions.bash
-safe_source $DOTFILE_PATH/.functions.linux.bash
-safe_source $DOTFILE_PATH/.private.bash
-safe_source $DOTFILE_PATH/.prompt.linux.bash
-safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
-safe_source $DOTFILE_PATH/priv/env
+safe_source "$DOTFILE_PATH/.bashrc.bash"
+safe_source "$DOTFILE_PATH/.aliases.bash"
+safe_source "$DOTFILE_PATH/.aliases.linux.bash"
+safe_source "$DOTFILE_PATH/.functions.bash"
+safe_source "$DOTFILE_PATH/.functions.linux.bash"
+safe_source "$DOTFILE_PATH/.private.bash"
+safe_source "$DOTFILE_PATH/.prompt.linux.bash"
+safe_source "$DOTFILE_PATH/linux/home/.config/git-prompt.sh"
+safe_source "$DOTFILE_PATH/priv/env"
 # AUR  lscolors-git package
 safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
@@ -82,7 +85,7 @@ export CDPATH=$HOME/Desktop:/media:/
 
 # start on desktop
 if [ -d "./Desktop" ]; then
-  command cd ./Desktop
+  command cd ./Desktop || echo 'cd desktop failed'
 fi
 
 systemctl --user start srit.service
