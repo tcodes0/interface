@@ -84,7 +84,7 @@ alias .i="cd \$DOTFILE_PATH"
 ######
 alias pdfret="echo return \&bytes.Buffer\{\}, nil"
 alias sqllocal="psql -U postgres -d hub"
-alias sqlqa="psql -U hub-server -W -d hub -h /home/vacation/eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias sqlqa="qapass && psql -U hub-server -W -d hub -h /home/vacation/eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 ######
 # misc
 ######
