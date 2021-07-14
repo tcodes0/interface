@@ -67,15 +67,6 @@ alias pacI='pacInstall'
 alias pacR='pacRemove'
 alias pacRss='pacRemoveDeps'
 alias pacRdd='pacRemoveForce'
-########
-# others
-########
-alias tw='twitter'
-alias twt='twitter tweet'
-alias tx='tmux'
-alias mkvtomp4='ffmpeg -i example.mkv -c copy example.mp4'
-alias wasabi="\cd \$HOME/Desktop/WalletWasabi/WalletWasabi.Gui && dotnet run"
-alias makebrl="echo var makeBrlToUsd = rate => brl => Math.round(brl*rate)"
 ######
 # dot
 ######
@@ -89,8 +80,20 @@ alias .f="cd \$HOME/Desktop/forms"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
 ######
+# work
+######
+alias pdfret="echo return \&bytes.Buffer\{\}, nil"
+alias sqllocal="psql -U postgres -d hub"
+alias sqlqa="psql -U hub-server -W -d hub -h /home/vacation/eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+######
 # misc
 ######
+alias tw='twitter'
+alias twt='twitter tweet'
+alias tx='tmux'
+alias mkvtomp4='ffmpeg -i example.mkv -c copy example.mp4'
+alias wasabi="\cd \$HOME/Desktop/WalletWasabi/WalletWasabi.Gui && dotnet run"
+alias makebrl="echo var makeBrlToUsd = rate => brl => Math.round(brl*rate)"
 alias lsblk='lsblk -f'
 alias desktop='sudo systemctl start sddm.service'
 alias sddm='sddm.service'
