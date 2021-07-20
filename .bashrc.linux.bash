@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 # Linux ~/.bashrc
+# root user runs these files as well!
+# so some whoami or UID checks are needed
 
 #========== Environment
 # android SDK
@@ -51,6 +53,14 @@ export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-
 # gpg agent
 export GPGKEY=D600E88A0C5FE062
 
+# dotfiles
+export DOTFILE_PATH=""
+if [ "$(whoami)" == "root" ]; then
+  DOTFILE_PATH="/home/vacation/Desktop/interface"
+elif [ "$(whoami)" == "vacation" ]; then
+  DOTFILE_PATH="$HOME/Desktop/interface"
+fi
+
 safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 
 #####################################################
@@ -58,7 +68,6 @@ safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 #####################################################
 [[ $- != *i* ]] && return
 
-export DOTFILE_PATH="$HOME/Desktop/interface"
 export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
 
 # order matters here
@@ -88,7 +97,10 @@ if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
 fi
 
-systemctl --user start srit.service
+# avoid bugs running systemctl --user as root
+if [ "$(whoami)" == "vacation" ]; then
+  systemctl --user start srit.service
+fi
 
 # add ssh key to ssh agent, bypass prompt
 if [ ! "$SSH_AUTH_SOCK" ] && [ -f "$DOTFILE_PATH/.private-ssh-add.expect" ]; then
