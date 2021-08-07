@@ -70,13 +70,12 @@ alias pacRdd='pacRemoveForce'
 ######
 # dot
 ######
-alias .s='root'
 alias .z="cd \$HOME/Desktop/zet"
 alias .hc="cd \$HOME/Desktop/client"
 alias .hs="cd \$HOME/Desktop/server"
 alias .ms="cd \$HOME/Desktop/member-server"
 alias .mc="cd \$HOME/Desktop/member-client"
-alias .f="cd \$HOME/Desktop/forms"
+alias .s="cd \$HOME/Desktop/shared"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
 ######

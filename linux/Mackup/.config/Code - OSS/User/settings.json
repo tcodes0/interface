@@ -169,7 +169,6 @@
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
-  "editor.tabSize": 2,
   "editor.wordBasedSuggestions": true,
   "editor.formatOnSave": true,
   "editor.renderControlCharacters": true,
