@@ -24,3 +24,6 @@ LABEL=Archlinux                           /media/arch          btrfs      noauto
 LABEL=Archbak                             /mnt                 btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo     0          1
 LABEL=Games                               /media/game          exfat      noauto,defaults,user                                 0          0
 LABEL=External                            /media/external      exfat      noauto,defaults,user                                 0          0
+#
+# hugepages
+hugetlbfs                                 /dev/hugepages       hugetlbfs  mode=01770,gid=kvm                                   0         0
