@@ -78,6 +78,7 @@ alias .mc="cd \$HOME/Desktop/member-client"
 alias .s="cd \$HOME/Desktop/shared"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
+alias .dj="cd \$HOME/Desktop/data-jobs"
 ######
 # work
 ######

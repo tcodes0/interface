@@ -1,4 +1,4 @@
- {
+{
   //
   // - - - - - - - - THEME - - - - - - - - -
   //
@@ -147,6 +147,15 @@
       "source.organizeImports": true
     }
   },
+  "go.liveErrors": {
+    "enabled": true,
+    "delay": 1000
+  },
+  "go.testOnSave": true,
+  "go.delveConfig": {
+    "debugAdapter": "dlv-dap"
+  },
+
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -181,7 +190,7 @@
   "editor.cursorSmoothCaretAnimation": true,
   "editor.cursorSurroundingLines": 5,
   "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 800,
+  "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
   "files.hotExit": "onExitAndWindowClose",
   "breadcrumbs.enabled": true,
@@ -239,5 +248,5 @@
     }
   ],
   "githubPullRequests.fileListLayout": "flat",
-  "window.zoomLevel": -1,
+  "window.zoomLevel": -1
 }
