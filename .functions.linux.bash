@@ -42,6 +42,11 @@ chpwd() {
     unalias ys
     alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
     ;;
+  $HOME/Desktop/data-jobs)
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
+    unalias ys
+    alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
+    ;;
   *) ;;
   esac
 
@@ -70,6 +75,11 @@ chpwd() {
     alias ys="yarn start"
     ;;
   $HOME/Desktop/member-server)
+    source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
+    unalias ys
+    alias ys="yarn start"
+    ;;
+  $HOME/Desktop/data-jobs)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     unalias ys
     alias ys="yarn start"
