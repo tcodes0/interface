@@ -85,6 +85,7 @@ safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
 safe_source "$HOME/.asdf/asdf.sh"
 safe_source "$HOME/.asdf/completions/asdf.bash"
+safe_source /opt/google-cloud-sdk/completion.bash.inc
 
 # generic stuff
 # export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
