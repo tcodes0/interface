@@ -20,7 +20,12 @@
   "test.new": {
     "prefix": "test",
     "body": ["func Test_${1:it}(t *testing.T) {", "\tassert := assert.New(t)", "}"],
-    "description": "Log output to console"
+    "description": "Log output to console",
+  },
+  "comma-nil": {
+    "prefix": "ni",
+    "body": [", nil$0"],
+    "description": "comman space nil"
   }
   // "console.log": {
   //   "prefix": "lozzz",
