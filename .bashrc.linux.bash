@@ -98,10 +98,10 @@ if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
 fi
 
-# avoid bugs running systemctl --user as root
-if [ "$(whoami)" == "vacation" ]; then
-  systemctl --user start srit.service
-fi
+# # avoid bugs running systemctl --user as root
+# if [ "$(whoami)" == "vacation" ]; then
+#   systemctl --user start srit.service
+# fi
 
 # add ssh key to ssh agent, bypass prompt
 if [ ! "$SSH_AUTH_SOCK" ] && [ -f "$DOTFILE_PATH/.private-ssh-add.expect" ]; then
