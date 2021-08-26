@@ -1376,6 +1376,10 @@ xkb_symbols "pc+us(intl-unicode)+inet(evdev)" {
         type= "FOUR_LEVEL",
         symbols[Group1]= [           slash,        question,    questiondown,           U0309 ]
     };
+        key <AB11> {
+        type= "FOUR_LEVEL",
+        symbols[Group1]= [           slash,        question,    questiondown,           U0309 ]
+    };
     key <RTSH> {         [         Shift_R ] };
     key <KPMU> {
         type= "CTRL+ALT",
