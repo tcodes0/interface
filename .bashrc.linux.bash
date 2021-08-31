@@ -99,8 +99,14 @@ if [ -d "./Desktop" ]; then
 fi
 
 # avoid bugs running systemctl --user as root
-if [ "$(whoami)" == "vacation" ]; then
+# investigate why systemd user services not working here
+if [ "$(whoami)" == "vacation" ] && [ ! "$SRIT_SET" ]; then
   systemctl --user start srit.service
+  export SRIT_SET=1
+fi
+if [ "$(whoami)" == "vacation" ] && [ ! "$KBD_SET" ]; then
+  systemctl --user start x11-keyboard.service
+  export KBD_SET=1
 fi
 
 # add ssh key to ssh agent, bypass prompt
