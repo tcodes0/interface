@@ -45,7 +45,7 @@ chpwd() {
   $HOME/Desktop/data-jobs)
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
-    alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
+    alias ys="godotenv -f .env go run cmd/server/main.go"
     ;;
   *) ;;
   esac

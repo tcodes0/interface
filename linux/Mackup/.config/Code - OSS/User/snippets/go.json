@@ -12,10 +12,10 @@
   // 	],
   // 	"description": "Log output to console"
   // }
-  "fmt.Printf": {
+  "log.Printf": {
     "prefix": "lo",
-    "body": ["fmt.Printf(\"\\n ${1:var} %#v\\n\", $0)"],
-    "description": "Log output to console"
+    "body": ["log.Printf(\"\\n ${1:var} %#v\\n\", $0)"],
+    "description": "Log output"
   },
   "test.new": {
     "prefix": "test",
