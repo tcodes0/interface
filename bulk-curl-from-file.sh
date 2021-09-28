@@ -27,7 +27,7 @@ setName=${file/.txt/}
 i=1
 
 while read -r line; do
-  eval "echo curl '$line' -L -o '${setName}-${i}.jpg'"
+  eval "curl '$line' -L -o '${setName}-${i}.jpg'"
   i=$((i+1))
 done <"$filePath"
 
