@@ -100,9 +100,13 @@ fi
 
 # avoid bugs running systemctl --user as root
 # investigate why systemd user services not working here
+# investigate why systemd use
 if [ "$(whoami)" == "vacation" ] && [ ! "$SRIT_SET" ]; then
   systemctl --user start srit.service
-  export SRIT_SET=1
+  # bluetooth connections on laptop reset keyboard key speed, so don't set the var to allow easily re-runing this code
+  if [ ! "$ARCH_ACER" ]; then
+    export SRIT_SET=1
+  fi
 fi
 if [ "$(whoami)" == "vacation" ] && [ ! "$KBD_SET" ]; then
   systemctl --user start x11-keyboard.service
