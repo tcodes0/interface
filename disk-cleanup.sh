@@ -74,7 +74,7 @@ clean_chrome_cache() {
 #########################################
 
 trap 'log_err $LINENO' ERR
-(())
+
 clean_yarn
 clean_pacman
 clean_golang
