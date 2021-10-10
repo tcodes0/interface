@@ -8,23 +8,17 @@ sleeper() {
   sleep 3
 }
 
-if [ "$ARCH_ACER" ]; then
-  echo "Warning: running acer script for you"
-  sysbkp.linux.acer.sh
-  exit $?
-fi
-
 LHOME=/home/vacation
 
 set -e
 command sudo true
-echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
+echo "Mounting Archacer-bak at /mnt and EFI-BAK at /mnt/boot"
 sleeper
 if grep --quiet "[/]mnt[ ]" /proc/mounts; then
   echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
   exit 1
 else
-  command sudo mount /dev/disk/by-label/Archbak /mnt
+  command sudo mount /dev/disk/by-label/Archacer-bak /mnt
 fi
 
 if grep --quiet "[/]mnt[/]boot[ ]" /proc/mounts; then
@@ -32,7 +26,7 @@ if grep --quiet "[/]mnt[/]boot[ ]" /proc/mounts; then
   exit 1
 else
   command sudo mkdir -p /mnt/boot
-  command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
+  command sudo mount /dev/disk/by-label/EFI-BAK /mnt/boot
 fi
 
 echo "Rsync /"
