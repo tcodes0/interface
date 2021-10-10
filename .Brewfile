@@ -44,7 +44,6 @@ brew "gnupg", link: false
 brew "gradle"
 brew "grep"
 brew "hexedit"
-brew "hub"
 brew "imagemagick"
 brew "kerl"
 brew "krb5"

@@ -55,7 +55,6 @@ alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
 alias ......="cl ../../../../../"
-alias git="hub"
 # alias g=git
 alias ga='git add'
 alias gaa='git add --all && gss'
@@ -256,14 +255,14 @@ alias visudo="EDITOR='code -w' && command sudo visudo"
 alias shfmt="shfmt -i 2 -ln bash"
 alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'
-alias gppr='gpsup && hub pull-request -b main --browse --assign thomazella'
-alias gpprd='gpsup && hub pull-request -b develop --browse --assign thomazella'
-alias hpr='hub pull-request'
-alias hprl='hub pr list'
-alias hprc='hub pr checkout'
-alias hprs='hub pr show'
-alias hisa='hub issue -l '
-alias his='hub issue'
+alias gppr='gpsup && git pull-request -b main --browse --assign thomazella'
+alias gpprd='gpsup && git pull-request -b develop --browse --assign thomazella'
+alias hpr='git pull-request'
+alias hprl='git pr list'
+alias hprc='git pr checkout'
+alias hprs='git pr show'
+alias hisa='git issue -l '
+alias his='git issue'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
 alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
 alias find="gfind"
@@ -323,6 +322,5 @@ alias dcu='sudo docker-compose up'
 alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
 alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
-alias rates="node -e 'var rates = new Array(130).fill(0).map((x, i) => (i+4) * 5000).reverse().map( year => ({ hour: (year/1920.1755589082431).toFixed(0), year: \`\${year/1000}k\`, month: \`\${parseFloat((year/12000).toFixed(1))}k\` })); console.table(rates)'"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias gt="godotenv -f .env go test ./..."
