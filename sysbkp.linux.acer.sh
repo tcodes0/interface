@@ -1,19 +1,30 @@
 #! /usr/bin/env  bash
 
-separator() {
-  printf "\n\n\n\n\n\n\n"
+SLEEP_DURATION=3
+SPACE="\n\n\n\n"
+
+message() {
+  echo "$*"...
+  echo -ne $SPACE
+  sleep $SLEEP_DURATION
 }
 
-sleeper() {
-  sleep 3
+ask_error() {
+  echo "$1 (y/n)"
+  if ! read -r; then exit 1; fi
+  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
+    echo "Aborted"
+    exit 1
+  fi
 }
 
 LHOME=/home/vacation
 
 set -e
+
 command sudo true
-echo "Mounting Archacer-bak at /mnt and EFI-BAK at /mnt/boot"
-sleeper
+
+message "Mounting Archacer-bak at /mnt and EFI-BAK at /mnt/boot"
 if grep --quiet "[/]mnt[ ]" /proc/mounts; then
   echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
   exit 1
@@ -31,11 +42,11 @@ fi
 
 disk-cleanup.sh
 
-echo "Rsync /"
-separator
-sleeper
+message "rsync /"
+
 # rsync commonly exits with non 0 status because of files vanishing
 set +e
+
 # -a means -rlptgoD
 # --recursive, -r   recursive
 # --links, -l       copy symlinks as symlinks
@@ -71,17 +82,11 @@ if ! sudo rsync \
   --exclude="$LHOME/.cache/yay/*" \
   --exclude="$LHOME/.cache/google-chrome/*" \
   / '/mnt'; then
-  echo "Rsync errored, continue anyway? (y/n)"
-  if ! read -r; then exit 1; fi
-  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
-    echo "Aborted"
-    exit 1
-  fi
+  ask_error "rsync error, continue anyway?"
 fi
 
-echo "Rsync $LHOME/Desktop"
-separator
-sleeper
+message "rsync $LHOME/Desktop"
+
 if ! sudo rsync \
   -a \
   --progress \
@@ -89,35 +94,23 @@ if ! sudo rsync \
   --delete-during \
   --exclude="node_modules" \
   "$LHOME/Desktop/" "/mnt$LHOME/Desktop"; then
-  echo "Rsync errored, continue anyway? (y/n)"
-  if ! read -r; then exit 1; fi
-  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
-    echo "Aborted"
-    exit 1
-  fi
+  ask_error "rsync error, continue anyway?"
 fi
 
-echo "Rsync /var/lib/pacman"
-separator
-sleeper
+message "rsync /var/lib/pacman"
 command sudo mkdir -p /mnt/var/lib/pacman
+
 if ! sudo rsync \
   -a \
   --progress \
   --one-file-system \
   --delete-during \
   /var/lib/pacman/ '/mnt/var/lib/pacman'; then
-  echo "Rsync errored, continue anyway? (y/n)"
-  if ! read -r; then exit 1; fi
-  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
-    echo "Aborted"
-    exit 1
-  fi
+  ask_error "rsync error, continue anyway?"
 fi
 
-echo "Rsync /boot"
-separator
-sleeper
+message "rsync /boot"
+
 if ! sudo rsync \
   -a \
   --progress \
@@ -126,7 +119,7 @@ if ! sudo rsync \
   --exclude="._*" \
   --exclude="._.*" \
   /boot/ '/mnt/boot'; then
-  echo "Rsync errored, but script is over"
+  echo "rsync error, but script is over, save run date?"
 fi
 
 if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
