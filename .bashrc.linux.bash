@@ -69,6 +69,8 @@ safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 [[ $- != *i* ]] && return
 
 export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
 
 # order matters here
 safe_source "$DOTFILE_PATH/.bashrc.bash"
