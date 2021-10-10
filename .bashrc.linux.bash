@@ -4,12 +4,6 @@
 # so some whoami or UID checks are needed
 
 #========== Environment
-# android SDK
-# gradle needs this to find SDK. Opening android studio once fixes.
-export ANDROID_SDK_ROOT="$HOME/Android/Sdk"
-export ANDROID_HOME="$HOME/Android/Sdk"
-# custom var
-export ANDROID_BUILD_TOOLS_VER="29.0.2"
 
 # add over /usr/bin to run irpf java program
 # add jre11-openjdk and jdk11-openjdk packages (or maybe just jdk?)
@@ -30,10 +24,6 @@ $HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
 $HOME/Desktop/scripts:\
-$ANDROID_HOME/tools:\
-$ANDROID_HOME/platform-tools:\
-$ANDROID_HOME/tools/bin:\
-$ANDROID_HOME/build-tools/$ANDROID_BUILD_TOOLS_VER:\
 /usr/local/go/bin"
 
 # NVM
@@ -44,11 +34,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "$NVM_DIR/bash_completion" ] && safe_source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 export EDITOR='code -w'
-# export GOPATH="$HOME/.go"
-
-# elixir/erlang with asdf
-export ERL_AFLAGS="-kernel shell_history enabled"
-export KERL_CONFIGURE_OPTIONS="--disable-debug --disable-silent-rules --without-javac --enable-shared-zlib --enable-dynamic-ssl-lib --enable-hipe --enable-sctp --enable-smp-support --enable-threads --enable-kernel-poll --enable-wx"
 
 # gpg agent
 export GPGKEY=D600E88A0C5FE062
@@ -89,12 +74,6 @@ safe_source "$HOME/.asdf/asdf.sh"
 safe_source "$HOME/.asdf/completions/asdf.bash"
 safe_source /opt/google-cloud-sdk/completion.bash.inc
 
-# generic stuff
-# export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-# export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
-# export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
-export CDPATH=$HOME/Desktop:/media:/
-
 # start on desktop
 if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
@@ -131,7 +110,7 @@ if [ ! "$TMUX" ] && [ $UID == 1000 ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
 fi
 
 # Check we're booting Maglinux by kernel arg with root UUID
-if grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
+if [ ! "$ARCH_ACER" ] && grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
   blkDevice="$(lsblk --raw --noheadings | sed -ne '/EFI-MAG/p' | sed -E 's/^([a-z0-9]+)\ .*/\1/g')"
   # mount EFI-MAG to /boot if not mounted already
   if ! grep --quiet "[/]dev[/]$blkDevice\ [/]boot" /proc/mounts; then
