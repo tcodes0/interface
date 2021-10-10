@@ -29,6 +29,8 @@ else
   command sudo mount /dev/disk/by-label/EFI-BAK /mnt/boot
 fi
 
+disk-cleanup.sh
+
 echo "Rsync /"
 separator
 sleeper

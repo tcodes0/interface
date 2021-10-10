@@ -11,7 +11,7 @@ message() {
 
 # $1 line number
 log_err() {
-  echo disk-cleanup.sh error: "$1": "${FUNCNAME[0]}"
+  echo disk-cleanup.sh error: "$1": "${FUNCNAME[1]}"
 }
 
 #########################################
@@ -20,6 +20,7 @@ log_err() {
 
 clean_journal() {
   message "vaccuing journals"
+  echo "journal operations are root only, sudoing..."
   command sudo journalctl --rotate
   command sudo journalctl --vacuum-time=1w
 }
@@ -36,24 +37,36 @@ clean_pacman() {
 
 clean_golang() {
   message "cleaning golang caches"
-  go cl1ean -cache
+  go clean -cache
   go clean -modcache
 }
 
 clean_nvm() {
-  message "cleaning old node versions from nvm"
-}
-
-clean_config() {
-  message "cleaning .config/**/caches"
+  local node_ver
+  node_ver=$(node --version)
+  message "cleaning other node versions from nvm, current $node_ver"
+  if [[ ! $node_ver =~ v[[:digit:]]{1,2}[.][[:digit:]]{1,2}[.][[:digit:]]{1,2} ]]; then
+    log_err "invalld node version"
+    return 1
+  fi
+  find "$HOME"/.nvm/versions/node -maxdepth 1 -type d -name "v*" -not -name "$node_ver" -exec rm -fr {} \;
+  find "$HOME"/.nvm/.cache/bin -maxdepth 1 -type d -name "node-*" -not -name "*${node_ver}*" -exec rm -fr {} \;
 }
 
 clean_typescript_cache() {
   message "cleaning .cache/typescript"
+  find "$HOME/.cache/typescript" -maxdepth 2 -type d -name node_modules -exec rm -fr {} \;
 }
 
 clean_electron_cache() {
   message "cleaning .cache/electron"
+  rm -fr "$HOME"/.cache/electron/*
+}
+
+clean_chrome_cache() {
+  message "cleaning .cache/chrome"
+  rm -fr "$HOME"/.cache/google-chrome/Default/Cache/*
+  rm -fr "$HOME"/.cache/google-chrome/Default/Code\ Cache/*
 }
 
 #########################################
@@ -61,12 +74,12 @@ clean_electron_cache() {
 #########################################
 
 trap 'log_err $LINENO' ERR
-
-clean_journal
+(())
 clean_yarn
 clean_pacman
 clean_golang
 clean_nvm
-clean_config
 clean_typescript_cache
 clean_electron_cache
+clean_chrome_cache
+clean_journal
