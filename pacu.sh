@@ -1,13 +1,13 @@
 #! /usr/bin/env  bash
 
-errExit() {
-  echo "$*" failed
-  printf "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
-  exit 1
-}
+SPACE="\n\n"
+LTS_NAME="erbium" # v12
 
-asdf_() {
-  /home/vacation/.asdf/bin/asdf "$@"
+# $* message
+log_fatal() {
+  echo pacu.sh error: "$*": "${FUNCNAME[1]}"
+  echo -ne "$SPACE"
+  exit 1
 }
 
 if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
@@ -21,15 +21,33 @@ else
   exit 1
 fi
 
-if ! nvm alias default v14.16.0 1>/dev/null; then errExit nvm alias node to old; fi
-if ! yay --sync --sysupgrade --refresh --refresh; then errExit yay sysupgrade; fi
-if ! yay --sync --clean --noconfirm; then errExit yay clean; fi
-if ! mackup backup; then errExit mackup; fi
-if ! yarn global upgrade --latest; then errExit yarn global update; fi
-if ! yarn cache clean; then errExit yarn cache clean; fi
-if ! command cd "$NVM_DIR" && hub pull; then errExit nvm pull; fi
-if ! nvm install node; then errExit nvm install node; fi
-if ! asdf_ update; then errExit asdf_ update; fi
-if ! asdf_ plugin update --all; then errExit asdf_ plugin update; fi
-if ! nvm alias default node 1>/dev/null; then errExit nvm unalias old node; fi
-command cd "$HOME/Desktop" || exit 1
+# Some software only builds from AUR in old node versions
+# we start by updating NVM itself
+if ! command cd "$NVM_DIR" && git pull; then log_fatal nvm pull; fi
+
+# temporarily downgrade the default node in nvm
+set -e
+echo "Using node LTS $LTS_NAME for upgrade..."
+nvm install --lts="$LTS_NAME" 1>/dev/null
+# after install NVM sets the installed node as the one in use
+LTS_VER="$(node -v)"
+nvm alias default "$LTS_VER" 1>/dev/null
+
+# handle errors manually from now on
+set +e
+
+# updaters
+if ! yay --sync archlinux-keyring linux linux-api-headers linux-firmware linux-headers --noconfirm; then log_fatal updating keyring and linux; fi
+if ! yay --sync --sysupgrade --refresh --refresh; then log_fatal yay sysupgrade; fi
+if ! mackup backup; then log_fatal mackup; fi
+if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
+if ! nvm install node; then log_fatal nvm install node; fi
+if ! /home/vacation/.asdf/bin/asdf update; then log_fatal asdf update; fi
+if ! /home/vacation/.asdf/bin/asdf plugin update --all; then log_fatal asdf plugin update; fi
+
+set -e
+
+# restore node to latest
+nvm alias default node 1>/dev/null
+
+command cd "$HOME/Desktop"
