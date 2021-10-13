@@ -324,3 +324,7 @@ alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias gt="godotenv -f .env go test ./..."
+
+if [ "$ARCH_ACER" ]; then
+  alias yt="node --expose-gc ./node_modules/.bin/jest --logHeapUsage"
+fi
