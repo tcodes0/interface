@@ -1,7 +1,7 @@
 #! /usr/bin/env  bash
 
 SPACE="\n\n"
-LTS_NAME="erbium" # v12
+LTS_NAME="fermium" # v12
 
 # $* message
 log_fatal() {
@@ -33,17 +33,21 @@ nvm install --lts="$LTS_NAME" 1>/dev/null
 LTS_VER="$(node -v)"
 nvm alias default "$LTS_VER" 1>/dev/null
 
+# fix some install errors
+chmod -R u+w "$HOME/.cache/yay"
+
 # handle errors manually from now on
 set +e
 
 # updaters
-if ! yay --sync archlinux-keyring linux linux-api-headers linux-firmware linux-headers --noconfirm; then log_fatal updating keyring and linux; fi
-if ! yay --sync --sysupgrade --refresh --refresh; then log_fatal yay sysupgrade; fi
+if ! yay --sync --refresh archlinux-keyring --needed --noconfirm; then log_fatal yay refresh; fi
+if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
 if ! mackup backup; then log_fatal mackup; fi
 if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
 if ! nvm install node; then log_fatal nvm install node; fi
 if ! /home/vacation/.asdf/bin/asdf update; then log_fatal asdf update; fi
 if ! /home/vacation/.asdf/bin/asdf plugin update --all; then log_fatal asdf plugin update; fi
+if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal updating keyring and linux; fi
 
 set -e
 
