@@ -14,8 +14,8 @@
   // }
   "log.Printf": {
     "prefix": "lo",
-    "body": ["log.Printf(\"\\n ${1:var} %#v\\n\", $0)"],
-    "description": "Log output"
+    "body": ["fmt.Printf(\"\\n ${1:var} %#v\\n\", $0)"],
+    "description": "fmt output"
   },
   "test.new": {
     "prefix": "test",
