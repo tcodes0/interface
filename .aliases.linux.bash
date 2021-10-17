@@ -29,9 +29,9 @@ alias acceptAllLicenses="yes | sdkmanager --licenses"
 alias open="xdg-open"
 
 #========== Generic
-############
-# systemctl
-###########
+###############
+# Linux system
+###############
 alias sys='systemctl'
 alias sysstat='systemctl status'
 alias sysrestart='systemctl restart'
@@ -44,6 +44,9 @@ alias sysurestart='systemctl --user restart'
 alias sysustart='systemctl --user start'
 alias sysustop='systemctl --user stop'
 alias sysuenab='systemctl --user enable'
+
+alias sunano='sudo nano'
+alias jrn='journalctl -r'
 #################
 # pacman and yay
 #################
