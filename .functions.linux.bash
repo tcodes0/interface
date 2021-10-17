@@ -207,3 +207,13 @@ vpndown() {
 }
 
 #----------------
+
+mkinitcpio() {
+  if [ "$UID" != 0 ]; then
+    echo "must run mkinitcpio as root"
+    return 0
+  fi
+  mkinitcpio "$@"
+}
+
+#----------------
