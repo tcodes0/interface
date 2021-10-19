@@ -58,7 +58,7 @@ alias pacInfo='yay --sync --info'                          # -Si
 alias pacInfoVerbose='yay --sync --info --info'            # -Sii
 alias pacList='yay --query'                                # -Q
 alias pacListVerbose='yay --query --list'                  # -Ql
-alias pacInstall='yay --sync --refresh --noconfirm'        # -S
+alias pacInstall='yay --sync --noconfirm'                  # -S
 alias pacRemove='yay --remove'                             # -R
 alias pacRemoveDeps='yay --remove --recursive --recursive' # -Rss
 alias pacRemoveForce='yay --remove --nodeps --nodeps'      # -Rdd
@@ -87,7 +87,7 @@ alias .dj="cd \$HOME/Desktop/data-jobs"
 ######
 alias pdfret="echo return \&bytes.Buffer\{\}, nil"
 alias sqllocal="psql -U postgres -d hub"
-alias sqlqa="qapass && psql -U hub-server -W -d hub -h /home/vacation/eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias kb="kubectl"
 ######
 # misc
