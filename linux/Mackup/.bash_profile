@@ -1,5 +1,6 @@
-#
-# ~/.bash_profile
-#
+#! /bin/bash
+# shellcheck disable=SC1090
 
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
+fi
