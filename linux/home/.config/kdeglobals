@@ -157,6 +157,8 @@ BrowserApplication=firefox-developer-edition.desktop
 ColorScheme=BreezeDark
 Name=Breeze Dark
 TerminalApplication[$e]=alacritty
+XftHintStyle=hintslight
+XftSubPixel=rgb
 dbfile=/home/vacation/.mozilla/firefox/3okjfg7j.default-1572915977469/places.sqlite
 fixed=Fira Mono Medium,10,-1,5,57,0,0,0,0,0,Regular
 font=DejaVu Sans,10,-1,5,50,0,0,0,0,0,Book
@@ -204,8 +206,8 @@ View Style=Simple
 listViewIconSize=0
 
 [KScreen]
-ScaleFactor=1
-ScreenScaleFactors=DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;HDMI-A-0=1;DVI-D-0=1;
+ScaleFactor=1.5
+ScreenScaleFactors=DisplayPort-0=1.5;DisplayPort-1=1.5;DisplayPort-2=1.5;HDMI-A-0=1.5;DVI-D-0=1.5;
 
 [KShortcutsDialog Settings]
 Dialog Size=758,826
