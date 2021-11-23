@@ -40,8 +40,9 @@ chmod -R u+w "$HOME/.cache/yay"
 set +e
 
 # updaters
-if ! yay --sync --refresh archlinux-keyring --needed --noconfirm; then log_fatal yay refresh; fi
-if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
+# shellcheck disable=SC2046
+if ! yay --sync --refresh --needed --noconfirm $(tr \\n ' ' < "$PWD/update.txt"); then log_fatal yay refresh; fi
+# if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
 if ! mackup backup; then log_fatal mackup; fi
 if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
 if ! nvm install node; then log_fatal nvm install node; fi
