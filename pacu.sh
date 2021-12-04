@@ -40,8 +40,9 @@ chmod -R u+w "$HOME/.cache/yay"
 set +e
 
 # updaters
+# how to handle errors on a subshell used in substitution?
 # shellcheck disable=SC2046
-if ! yay --sync --refresh --needed --noconfirm $(tr \\n ' ' < "$PWD/update.txt"); then log_fatal yay refresh; fi
+if ! yay --sync --refresh --needed --noconfirm $(tr \\n ' ' < "$DOTFILE_PATH/update.txt"); then log_fatal yay refresh; fi
 # if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
 if ! mackup backup; then log_fatal mackup; fi
 if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
