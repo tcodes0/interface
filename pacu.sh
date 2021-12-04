@@ -41,6 +41,7 @@ set +e
 
 # updaters
 # how to handle errors on a subshell used in substitution?
+# yay is failing, maybe need to call pacman < pacman pkgs; yay < yay pkgs?
 # shellcheck disable=SC2046
 if ! yay --sync --refresh --needed --noconfirm $(tr \\n ' ' < "$DOTFILE_PATH/update.txt"); then log_fatal yay refresh; fi
 # if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
