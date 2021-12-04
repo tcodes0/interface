@@ -30,9 +30,21 @@ clean_yarn() {
   yarn cache clean
 }
 
+# FIX THIS
 clean_pacman() {
-  message "cleaning pacman cache"
-  yay --sync --clean --noconfirm
+  local log="$DOTFILE_PATH/pacman-cache-clear.log"
+  if ! [ -f "$log" ]; then
+    message "log file not found"
+    return 1
+  fi
+
+  #  { date; echo -e '\n\n'; find /var/cache/pacman/pkg -name '*.tar.zst' } >> log
+  date >>log
+  echo -e '\n\n' >>log
+  find /var/cache/pacman/pkg -name '*.tar.zst' >>log
+
+  message "cleaning pacman cache, packages appended to $log"
+  echo yay --sync --clean --noconfirm
 }
 
 clean_golang() {
@@ -76,7 +88,7 @@ clean_chrome_cache() {
 trap 'log_err $LINENO' ERR
 
 clean_yarn
-clean_pacman
+# clean_pacman
 clean_golang
 clean_nvm
 clean_typescript_cache

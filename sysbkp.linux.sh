@@ -35,6 +35,8 @@ else
   command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
 fi
 
+disk-cleanup.sh
+
 echo "Rsync /"
 separator
 sleeper

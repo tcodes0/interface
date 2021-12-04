@@ -5,7 +5,6 @@ archlinux-keyring
 aws-cli-v2
 buttercup-desktop
 clonezilla
-code
 curl
 discord
 elinks

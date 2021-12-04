@@ -26,3 +26,4 @@ rclone
 .boto
 phoenixMiner
 .kube
+*.log
