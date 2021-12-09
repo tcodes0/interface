@@ -89,9 +89,9 @@ if [ "$(whoami)" == "vacation" ] && [ ! "$SRIT_SET" ]; then
     export SRIT_SET=1
   fi
 fi
-if [ "$(whoami)" == "vacation" ] && [ ! "$KBD_SET" ]; then
+
+if [ "$(whoami)" == "vacation" ]; then
   systemctl --user start x11-keyboard.service
-  export KBD_SET=1
 fi
 
 # add ssh key to ssh agent, bypass prompt
