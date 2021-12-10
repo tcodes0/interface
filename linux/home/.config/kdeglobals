@@ -148,6 +148,10 @@ DisabledSemiTransparent[$d]
 DisabledValue[$d]
 Size=32
 
+[DirSelect Dialog]
+DirSelectDialog Size=871,605
+History Items[$e]=file:///media/data/izi-stuff
+
 [Emoticons]
 emoticonsTheme=EmojiOne
 parseMode=2
@@ -206,8 +210,8 @@ View Style=Simple
 listViewIconSize=0
 
 [KScreen]
-ScaleFactor=1.5
-ScreenScaleFactors=DisplayPort-0=1.5;DisplayPort-1=1.5;DisplayPort-2=1.5;HDMI-A-0=1.5;DVI-D-0=1.5;
+ScaleFactor=1.375
+ScreenScaleFactors=DisplayPort-0=1.375;DisplayPort-1=1.375;DisplayPort-2=1.375;HDMI-A-0=1.375;DVI-D-0=1.375;
 
 [KShortcutsDialog Settings]
 Dialog Size=758,826

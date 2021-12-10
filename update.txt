@@ -23,8 +23,6 @@ minecraft
 mozilla-common
 pacman-contrib
 pacman-mirrorlist
-postgresql
-postgresql-libs
 qbittorrent
 rclone
 steam

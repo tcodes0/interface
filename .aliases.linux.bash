@@ -109,3 +109,4 @@ alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
 alias desktopRsync="echo rsync --recursive --links --progress --exclude=\"interface/\*\" /home/vacation/Desktop/ vacation@192.168.0.214:/home/vacation/Desktop"
+alias m2p="echo m2p = \(cost, m2\) \=\> cost*1_000_000\/m2"
