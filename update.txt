@@ -5,7 +5,6 @@ archlinux-keyring
 aws-cli-v2
 buttercup-desktop
 clonezilla
-curl
 discord
 elinks
 font-bh-ttf
@@ -15,8 +14,6 @@ git
 git-hub
 google-chrome
 hexedit
-jre-openjdk
-jre-openjdk-headless
 latte-dock
 leafpad
 minecraft
