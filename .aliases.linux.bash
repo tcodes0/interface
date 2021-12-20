@@ -86,7 +86,7 @@ alias .dj="cd \$HOME/Desktop/data-jobs"
 # work
 ######
 alias pdfret="echo return \&bytes.Buffer\{\}, nil"
-alias sqllocal="psql -U postgres -d hub"
+alias qhub="psql -U postgres -d hub -c"
 alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias kb="kubectl"
 ######
