@@ -48,6 +48,7 @@ alias emasc='emcas'
 alias me='emacs'
 alias ndoe='node'
 alias yy='yarn'
+alias gnc='gcn'
 ###################
 #---------Zsh & Git
 ###################

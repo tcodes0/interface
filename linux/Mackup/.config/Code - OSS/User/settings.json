@@ -99,6 +99,9 @@
   "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.alwaysShowStatus": true,
+  "eslint.options": {
+    "resolvePluginsRelativeTo": "."
+  },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
@@ -117,7 +120,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "eslint.validate": ["javascript", "typescript", "javascriptreact"],
   //
   // - - - - - - - - GIT - - - - - - - - -
   //
