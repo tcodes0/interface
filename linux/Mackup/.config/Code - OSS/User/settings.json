@@ -153,11 +153,11 @@
     "enabled": true,
     "delay": 1000
   },
-  "go.testOnSave": true,
+  "go.testOnSave": false,
   "go.delveConfig": {
     "debugAdapter": "dlv-dap"
   },
-
+  "go.testEnvFile": "${workspaceFolder}/.env",
   //
   // - - - - - - - - TS - - - - - - - - -
   //
