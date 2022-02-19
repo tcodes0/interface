@@ -24,6 +24,7 @@ $HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
 $HOME/Desktop/scripts:\
+/opt/android-sdk/platform-tools:\
 /usr/local/go/bin"
 
 # NVM
