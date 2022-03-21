@@ -46,10 +46,16 @@ makePS1() {
   fi
 
   horizontalLine="\n"
-  workdir="$mainColor\\w $end"
+  workdir="$mainColor\\w$end"
+  hostname=""
+
+  if [ "$(hostname)" != "$KNOWN_HOST" ]; then
+    hostname="$auxiliarColor@$KNOWN_HOST$end"
+    decorations=$auxiliarColor"*>"$spacer$end
+  fi
 
   case "$1" in
-  "preGit") printf %s "${horizontalLine}${workdir}" ;;
+  "preGit") printf %s "${horizontalLine}${workdir}${hostname} " ;;
   "postGit") printf %s "\\n${decorations}" ;;
   *) printf %s "${horizontalLine}${workdir}\\n${decorations}" ;;
   esac
