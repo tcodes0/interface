@@ -324,7 +324,7 @@ alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
 alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
-alias gt="godotenv -f .env go test ./..."
+alias gen="godotenv -f .env go generate ./..."
 
 if [ "$ARCH_ACER" ]; then
   alias yt="node --expose-gc ./node_modules/.bin/jest --logHeapUsage"

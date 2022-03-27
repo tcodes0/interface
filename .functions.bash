@@ -522,45 +522,30 @@ aliasg() {
 #- - - - - - - - - - -
 
 # LAZY GIT
-# with commitlint automation. Does git add --all and builds commit message:
-# lg foo bar -> chore(misc): foo bar
-# lg chore bar -> chore(misc): bar
-# lg chore app: fix stuff -> chore(app): fix stuff
+# with commitlint automation. Does git add --all:
 lg() {
-  ##########
-  ## vars ##
-  ##########
+  ######################
+  ## index management ##
+  ######################
 
-  local args="$*"
-  local commitTypes=(build ci chore docs feat fix perf refactor revert style test)
-  local defaultType="chore"
-  local defaultScope="misc"
-  local msg=""
-  local scope=""
-  local type=""
-  local pushResult=""
-  local response="y"
-  local shouldPush='true'
   local manually_staged_files=""
   manually_staged_files=$(git diff --name-only --cached)
+
   checkGitLock() {
     # check for another git process running at this time (rare edge-case)
     # i.e. vscode and wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
-      echo "lg > .git/index.lock exits, waiting other process..."
+      echo "lg > .git/index.lock exits, waiting..."
       sleep 1
     done
   }
-
-  ######################
-  ## index management ##
-  ######################
 
   # feedback that manually added files will be commited
   if [ "$manually_staged_files" ]; then
     echo "lg > Comitting files already staged..."
   fi
 
+  local response="y"
   # confirm automatic add in advance, to avoid mistakes
   # if already staged files manually, skip
   if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
@@ -575,52 +560,32 @@ lg() {
   if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
     echo "lg > Auto add off or opted-out of or 'git add --all' failed"
     return 1
+
   else
     # pick up newly added files in block above
     manually_staged_files=$(git diff --name-only --cached)
+
     if [ ! "$manually_staged_files" ]; then
       echo "lg > No staged files, and auto add opted-out of"
       return 1
     fi
   fi
+
   unset SKIPADD
 
-  ################
-  ## commit msg ##
-  ################
+  if [ "$*" ]; then
+    local message=""
+    message="$*"
 
-  if [ "$args" ]; then
-    # check if first arg is a commit type
-    if [[ "${commitTypes[*]}" =~ $1 ]]; then
-      # add : to it (replace)
-      type="$1"
-      args=${args/"$1" /}
-    else
-      # use default type
-      type="$defaultType"
-    fi
-    #check if arg 1 or 2 is a scope (has :)
-    for arg in "$1" "$2"; do
-      # regex, does arg match ":" ?
-      # if yes, asign scope with no : (replace with nothing)
-      if [[ "$arg" =~ : ]]; then
-        scope="${arg/:/}"
-        args=${args/"$arg" /}
-      fi
-    done
-    # use default scope
-    if [ ! "$scope" ]; then
-      scope="$defaultScope"
-    fi
-    #build msg string
-    msg="${type}(${scope}): $args"
     if [ "$WIPCOMMIT" ]; then
-      msg="${msg} [skip ci]"
+      message="${message} [skip ci]"
       unset WIPCOMMIT
     fi
-    echo "lg > commit msg: $msg"
+
+    echo "lg > commit message: $message"
     checkGitLock
-    git commit -q -m "$msg"
+    git commit -q -m "$message"
+
   else
     checkGitLock
     git commit -q -v
@@ -629,27 +594,37 @@ lg() {
   ##########
   ## push ##
   ##########
+
+  local shouldPush='true'
+
   if [ "$GIT_UPSTREAM" ] && [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
+
   if [ "$GIT_UPSTREAM" ] && [[ origin/main =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
     shouldPush='false'
   fi
+
   if [[ -1 =~ $GIT_BRANCH ]]; then
     shouldPush='false'
   fi
+
   if [[ $DONTPUSH ]]; then
     shouldPush='false'
   fi
+
   if [ $shouldPush == 'true' ]; then
+    local pushResult=""
     # push branch, save output to detect errors
     pushResult=$(gp 2>&1)
+
     if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
       # handle no upstream branch error
       echo "lg > Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
       git push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
+
   gss
 }
 
@@ -662,10 +637,8 @@ _lg() {
 
 #lazy commit
 gcmsg() {
-  local args="$*"
-
-  if [ "$args" ]; then
-    git commit -q -m "$args"
+  if [ "$*" ]; then
+    git commit -q -m "$*"
   else
     git commit -q -v
   fi
