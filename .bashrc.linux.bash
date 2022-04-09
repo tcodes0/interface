@@ -49,6 +49,12 @@ fi
 
 safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 
+# https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
+if [ -n "$DESKTOP_SESSION" ]; then
+  eval "$(gnome-keyring-daemon --start)"
+  export SSH_AUTH_SOCK
+fi
+
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
