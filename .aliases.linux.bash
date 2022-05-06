@@ -18,7 +18,7 @@ alias ggrep='grep'
 alias pbcopy='xclip -selection c'
 alias pbpaste='xclip -selection c -o'
 alias gls='/usr/bin/ls'
-alias google="s -p duckduckgo"
+alias google="s -p google"
 alias grep='grep --color=auto'
 unalias find
 unalias stat
