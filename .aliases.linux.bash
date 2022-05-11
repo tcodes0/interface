@@ -90,6 +90,7 @@ alias qhub="psql -U postgres -d hub -c"
 alias qmember="psql -U postgres -d member -c"
 alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias kb="kubectl"
+alias deploy="make release ENV=prod"
 ######
 # misc
 ######
