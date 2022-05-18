@@ -92,7 +92,7 @@
   "editor.fontFamily": "PragmataPro",
   "editor.fontWeight": "normal",
   "editor.lineHeight": 25,
-  "editor.fontSize": 14.5,
+  "editor.fontSize": 15.5,
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
@@ -257,5 +257,5 @@
     "markdown": true
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -2
 }
