@@ -210,8 +210,8 @@ View Style=Simple
 listViewIconSize=0
 
 [KScreen]
-ScaleFactor=1.375
-ScreenScaleFactors=DisplayPort-0=1.375;DisplayPort-1=1.375;DisplayPort-2=1.375;HDMI-A-0=1.375;DVI-D-0=1.375;
+ScaleFactor=1
+ScreenScaleFactors=DisplayPort-0=1;DisplayPort-1=1;DisplayPort-2=1;HDMI-A-0=1;DVI-D-0=1;
 
 [KShortcutsDialog Settings]
 Dialog Size=758,826
