@@ -1,4 +1,4 @@
- {
+{
   //
   // - - - - - - - - THEME - - - - - - - - -
   //
@@ -91,8 +91,8 @@
   // = = = = = = = = PragmataPro = = = = = = = =
   "editor.fontFamily": "PragmataPro",
   "editor.fontWeight": "normal",
-  "editor.lineHeight": 25,
-  "editor.fontSize": 15.5,
+  "editor.lineHeight": 18.5,
+  "editor.fontSize": 14.5,
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
@@ -201,6 +201,7 @@
   "debug.allowBreakpointsEverywhere": true,
   "atomKeymap.promptV3Features": true,
   "emmet.showAbbreviationSuggestions": false,
+  "emmet.showExpandedAbbreviation": "never",
   "explorer.confirmDragAndDrop": false,
   "materialTheme.accent": "Pink",
   "editor.suggestSelection": "first",
@@ -257,5 +258,5 @@
     "markdown": true
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": -2
+  "window.zoomLevel": -1
 }
