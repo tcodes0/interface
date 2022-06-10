@@ -26,6 +26,11 @@
     "prefix": "ni",
     "body": [", nil$0"],
     "description": "comman space nil"
+  },
+  "err-not-eq-nil": {
+    "prefix": "ee",
+    "body": ["if err != nil {", "\t$0", "}"],
+    "description": "comman space nil"
   }
   // "console.log": {
   //   "prefix": "lozzz",

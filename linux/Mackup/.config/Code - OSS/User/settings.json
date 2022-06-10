@@ -89,10 +89,10 @@
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.splitCwd": "inherited",
   // = = = = = = = = PragmataPro = = = = = = = =
-  "editor.fontFamily": "PragmataPro",
+  "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
-  "editor.lineHeight": 18.5,
-  "editor.fontSize": 14.5,
+  "editor.lineHeight": 21,
+  "editor.fontSize": 14,
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
