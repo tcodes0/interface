@@ -1,16 +1,14 @@
-evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Acer built in kkb
-#evdev:name:"AT Translated Set 2 keyboard"*                                 # Acer built in kkb
- KEYBOARD_KEY_3a=leftalt                                                    # capslock
- KEYBOARD_KEY_1d=leftmeta                                                   # left control
- KEYBOARD_KEY_db=leftalt                                                    # left windows
- KEYBOARD_KEY_38=leftctrl                                                   # left alt
- KEYBOARD_KEY_b8=rightctrl                                                  # right alt
- KEYBOARD_KEY_73=rightmeta                                                  # ? br key, called "RO" key by evtest (rightctrl)
- KEYBOARD_KEY_dd=rightalt                                                   # MS conntext key, called "Compose" by evtest
+evdev:input:b0003:v04F2*     # USB Perrix smaller kbd, aka Chicony Electronics Co., Ltd Ergonomic USB Keyboard
+ KEYBOARD_KEY_58=leftalt     # map capslock to...
+ KEYBOARD_KEY_29=leftmeta    # map left control to...
+ KEYBOARD_KEY_125=leftalt    # map left windows, called leftmeta by evtest to...
+ KEYBOARD_KEY_56=leftctrl    # map left alt to...
+ KEYBOARD_KEY_100=rightctrl  # map right alt to...
+ KEYBOARD_KEY_127=rightalt   # map MS conntext key, called "Compose" by evtest to...
 
-###########################
-## sudo evemu-describe > 5
-###########################
+############################
+## sudo evemu-describe > 15
+############################
 # Supported events:
 #   Event type 0 (EV_SYN)
 #     Event code 0 (SYN_REPORT)
@@ -87,6 +85,7 @@ evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Ac
 #     Event code 55 (KEY_KPASTERISK)
 #     Event code 56 (KEY_LEFTALT)
 #     Event code 57 (KEY_SPACE)
+#     Event code 58 (KEY_CAPSLOCK)
 #     Event code 59 (KEY_F1)
 #     Event code 60 (KEY_F2)
 #     Event code 61 (KEY_F3)
@@ -116,6 +115,7 @@ evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Ac
 #     Event code 86 (KEY_102ND)
 #     Event code 87 (KEY_F11)
 #     Event code 88 (KEY_F12)
+#     Event code 89 (KEY_RO)
 #     Event code 90 (KEY_KATAKANA)
 #     Event code 91 (KEY_HIRAGANA)
 #     Event code 92 (KEY_HENKAN)
@@ -137,13 +137,11 @@ evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Ac
 #     Event code 109 (KEY_PAGEDOWN)
 #     Event code 110 (KEY_INSERT)
 #     Event code 111 (KEY_DELETE)
-#     Event code 112 (KEY_MACRO)
 #     Event code 113 (KEY_MUTE)
 #     Event code 114 (KEY_VOLUMEDOWN)
 #     Event code 115 (KEY_VOLUMEUP)
 #     Event code 116 (KEY_POWER)
 #     Event code 117 (KEY_KPEQUAL)
-#     Event code 118 (KEY_KPPLUSMINUS)
 #     Event code 119 (KEY_PAUSE)
 #     Event code 121 (KEY_KPCOMMA)
 #     Event code 122 (KEY_HANGEUL)
@@ -151,31 +149,53 @@ evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Ac
 #     Event code 124 (KEY_YEN)
 #     Event code 125 (KEY_LEFTMETA)
 #     Event code 126 (KEY_RIGHTMETA)
+#     Event code 127 (KEY_COMPOSE)
 #     Event code 128 (KEY_STOP)
+#     Event code 129 (KEY_AGAIN)
+#     Event code 130 (KEY_PROPS)
+#     Event code 131 (KEY_UNDO)
+#     Event code 132 (KEY_FRONT)
+#     Event code 133 (KEY_COPY)
+#     Event code 134 (KEY_OPEN)
+#     Event code 135 (KEY_PASTE)
+#     Event code 136 (KEY_FIND)
+#     Event code 137 (KEY_CUT)
+#     Event code 138 (KEY_HELP)
 #     Event code 140 (KEY_CALC)
 #     Event code 142 (KEY_SLEEP)
-#     Event code 143 (KEY_WAKEUP)
-#     Event code 155 (KEY_MAIL)
-#     Event code 156 (KEY_BOOKMARKS)
-#     Event code 157 (KEY_COMPUTER)
+#     Event code 150 (KEY_WWW)
+#     Event code 152 (KEY_COFFEE)
 #     Event code 158 (KEY_BACK)
 #     Event code 159 (KEY_FORWARD)
+#     Event code 161 (KEY_EJECTCD)
 #     Event code 163 (KEY_NEXTSONG)
 #     Event code 164 (KEY_PLAYPAUSE)
 #     Event code 165 (KEY_PREVIOUSSONG)
 #     Event code 166 (KEY_STOPCD)
-#     Event code 172 (KEY_HOMEPAGE)
 #     Event code 173 (KEY_REFRESH)
+#     Event code 176 (KEY_EDIT)
+#     Event code 177 (KEY_SCROLLUP)
+#     Event code 178 (KEY_SCROLLDOWN)
+#     Event code 179 (KEY_KPLEFTPAREN)
+#     Event code 180 (KEY_KPRIGHTPAREN)
 #     Event code 183 (KEY_F13)
 #     Event code 184 (KEY_F14)
 #     Event code 185 (KEY_F15)
-#     Event code 217 (KEY_SEARCH)
-#     Event code 226 (KEY_MEDIA)
+#     Event code 186 (KEY_F16)
+#     Event code 187 (KEY_F17)
+#     Event code 188 (KEY_F18)
+#     Event code 189 (KEY_F19)
+#     Event code 190 (KEY_F20)
+#     Event code 191 (KEY_F21)
+#     Event code 192 (KEY_F22)
+#     Event code 193 (KEY_F23)
+#     Event code 194 (KEY_F24)
+#     Event code 240 (KEY_UNKNOWN)
 #   Event type 4 (EV_MSC)
 #     Event code 4 (MSC_SCAN)
 #   Event type 17 (EV_LED)
 #     Event code 0 (LED_NUML)
-#        State 0
+#        State 1
 #     Event code 1 (LED_CAPSL)
 #        State 0
 #     Event code 2 (LED_SCROLLL)
@@ -183,4 +203,3 @@ evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Ac
 #   Event type 20 (EV_REP)
 #     Event code 0 (REP_DELAY)
 #     Event code 1 (REP_PERIOD)
-
