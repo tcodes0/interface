@@ -1,12 +1,11 @@
-evdev:atkbd:dmi:bvnInsydeCorp.:bvrV1.10:bd07/13/2020:br1.10:efr1.2:svnAcer* # Acer built in kkb
-#evdev:name:"AT Translated Set 2 keyboard"*                                 # Acer built in kkb
- KEYBOARD_KEY_3a=leftalt                                                    # capslock
- KEYBOARD_KEY_1d=leftmeta                                                   # left control
- KEYBOARD_KEY_db=leftalt                                                    # left windows
- KEYBOARD_KEY_38=leftctrl                                                   # left alt
- KEYBOARD_KEY_b8=rightctrl                                                  # right alt
- KEYBOARD_KEY_73=rightmeta                                                  # ? br key, called "RO" key by evtest (rightctrl)
- KEYBOARD_KEY_dd=rightalt                                                   # MS conntext key, called "Compose" by evtest
+evdev:input:b0003v0001p0001*           # Acer built in kkb
+ KEYBOARD_KEY_3a=leftalt               # capslock
+ KEYBOARD_KEY_1d=leftmeta              # left control
+ KEYBOARD_KEY_db=leftalt               # left windows
+ KEYBOARD_KEY_38=leftctrl              # left alt
+ KEYBOARD_KEY_b8=rightctrl             # right alt
+ KEYBOARD_KEY_73=rightmeta             # ? br key, called "RO" key by evtest (rightctrl)
+ KEYBOARD_KEY_dd=rightalt              # MS conntext key, called "Compose" by evtest
 
 ###########################
 ## sudo evemu-describe > 5
