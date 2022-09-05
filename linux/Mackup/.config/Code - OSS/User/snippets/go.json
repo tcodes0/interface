@@ -27,9 +27,19 @@
     "body": [", nil$0"],
     "description": "comman space nil"
   },
-  "err-not-eq-nil": {
+  "return nil": {
+    "prefix": "ret",
+    "body": ["return nil$0"],
+    "description": "return nil"
+  },
+  "err-not-eq-nil-wrap": {
     "prefix": "ee",
-    "body": ["if err != nil {", "\t$0", "}"],
+    "body": ["if err != nil {", "\treturn errs.Wrap(err, \"${1:message}\")$0", "}"],
+    "description": "comman space nil"
+  },
+  "err-not-eq-nil-wrapf": {
+    "prefix": "eee",
+    "body": ["if err != nil {", "\treturn errs.Wrapf(err, \"${1:message} %s\", ${2:var})$0", "}"],
     "description": "comman space nil"
   }
   // "console.log": {
