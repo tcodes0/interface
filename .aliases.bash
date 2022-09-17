@@ -3,35 +3,43 @@
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
+
 [[ $- != *i* ]] && return
 
 ##################
 #-------dot stuff
 ##################
+
 alias .d="cd \$HOME/Desktop"
 alias .c="cd \$HOME/Code"
 alias o.="open ."
 alias o="open"
 alias .i="cd \$HOME/Documents/GoogleDrive/Mackup"
+
 ####################
 #--------ls aliases
 ####################
+
 alias ls='gls -ph --color=always'
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
+
 ###########
 #-----brew
 ###########
+
 alias brewi='brew info'
 alias brewl='brew list'
 alias brews='brew search'
 alias brewh='brew home'
 alias brewI='brew install'
 alias brewR='brew uninstall'
+
 ###########
 #-----cask
 ###########
+
 alias cask='brew cask'
 alias caski='brew cask info'
 alias caskl='brew cask list'
@@ -39,9 +47,11 @@ alias casks='brew search'
 alias caskh='brew cask home'
 alias caskI='brew cask install'
 alias caskR='brew cask uninstall'
-###################
+
+#####################
 # ----------mistakes
-###################
+#####################
+
 alias loca='local'
 alias emcas='emacs'
 alias emasc='emcas'
@@ -49,9 +59,11 @@ alias me='emacs'
 alias ndoe='node'
 alias yy='yarn'
 alias gnc='gcn'
-###################
+
+####################
 #---------Zsh & Git
-###################
+####################
+
 alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
@@ -219,9 +231,11 @@ alias caf="caffeinate"
 alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
-###############
+
+################
 #-------general
-###############
+################
+
 alias cd='cd -P'
 alias cd='cl'
 alias rm='rm -ri'
@@ -325,6 +339,7 @@ alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias gen="godotenv -f .env go generate ./..."
+alias d="deploy"
 
 if [ "$ARCH_ACER" ]; then
   alias yt="node --expose-gc ./node_modules/.bin/jest --logHeapUsage"
