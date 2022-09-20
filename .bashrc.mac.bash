@@ -49,11 +49,11 @@ export GOPATH="$HOME/.go"
 # export CPPFLAGS="-I/usr/local/opt/ruby/include -I/usr/local/opt/libxslt/include -I/usr/local/opt/openssl/include -I/usr/local/opt/krb5/include"
 
 # NVM
-# unset PREFIX            # NVM hates this
-# unset npm_config_prefix # NVM hates this
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"                   # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+unset PREFIX            # NVM hates this
+unset npm_config_prefix # NVM hates this
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"                   # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 # elixir/erlang with asdf
 # export ERL_AFLAGS="-kernel shell_history enabled"
