@@ -20,7 +20,7 @@ export ARCH_ACER=""
 export KNOWN_HOST="other"
 
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  CONFIG_FILE="/Users/vamac/Documents/GoogleDrive/Mackup/.bashrc.mac.bash"
+  CONFIG_FILE="/Users/vacation/Desktop/interface/.bashrc.mac.bash"
 fi
 
 if [[ "$(uname -s)" =~ Linux ]]; then
