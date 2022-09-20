@@ -679,5 +679,13 @@
   {
     "key": "shift+cmd+d",
     "command": "editor.action.duplicateSelection"
+  },
+  {
+    "key": "shift+cmd+l",
+    "command": "editor.action.selectAll"
+  },
+  {
+    "key": "cmd+a",
+    "command": "-editor.action.selectAll"
   }
 ]
