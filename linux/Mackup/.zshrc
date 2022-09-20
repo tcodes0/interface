@@ -57,7 +57,31 @@ if [[ "$(uname -s)" =~ Darwin ]]; then
   export ANDROID_HOME="$HOME/Library/Android/sdk"
 
   # generic stuff
-  export PATH="$ANDROID_SDK_ROOT/build-tools/28.0.0/:$HOME/.asdf/installs/elixir/1.9.2/bin:/usr/local/opt/libxslt/bin:/usr/local/opt/openssl/bin:/usr/local/bin:/bin:/usr/bin:/sbin:/usr/local/sbin:/usr/sbin:/opt/X11/bin:$HOME/Documents/GoogleDrive/Mackup:/usr/local/opt/go/libexec/bin:$HOME/.config/yarn/global/node_modules/.bin:/usr/local/opt/util-linux/bin:/usr/local/opt/ruby/bin:$HOME/.rvm/bin:$HOME/.cargo/bin:$HOME/Library/Android/sdk/tools:$HOME/Library/Android/sdk/tools/bin:/Applications/Postgres.app/Contents/Versions/latest/bin"
+  export PATH="\
+$ANDROID_SDK_ROOT/build-tools/28.0.0/:\
+$HOME/.asdf/installs/elixir/1.9.2/bin:\
+$HOME/.go/bin:\
+/opt/homebrew/bin:\
+/usr/local/opt/libxslt/bin:\
+/usr/local/opt/openssl/bin:\
+/usr/local/bin:\
+/bin:\
+/usr/bin:\
+/sbin:\
+/usr/local/sbin:\
+/usr/sbin:\
+/opt/X11/bin:\
+$HOME/Documents/GoogleDrive/Mackup:\
+/usr/local/opt/go/libexec/bin:\
+$HOME/.config/yarn/global/node_modules/.bin:\
+/usr/local/opt/util-linux/bin:\
+/usr/local/opt/ruby/bin:\
+$HOME/.rvm/bin:\
+$HOME/.cargo/bin:\
+$HOME/Library/Android/sdk/tools:\
+$HOME/Library/Android/sdk/tools/bin:\
+/Applications/Postgres.app/Contents/Versions/latest/bin"
+  
   export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
   export CDPATH=$HOME:/Volumes:$HOME/Desktop
   export EDITOR='code -w'
