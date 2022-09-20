@@ -11,11 +11,6 @@
     "when": "editorTextFocus && !editorReadonly"
   },
   {
-    "key": "alt+q",
-    "command": "editor.action.clipboardCutAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+w",
     "command": "editor.action.clipboardCopyAction",
     "when": "editorTextFocus && !editorReadonly"
@@ -28,11 +23,6 @@
   {
     "key": "meta+y",
     "command": "editor.action.clipboardPasteAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "meta+w",
-    "command": "editor.action.clipboardCutAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
