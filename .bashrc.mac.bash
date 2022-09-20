@@ -21,6 +21,10 @@ safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
 
 #========== Environment
 
+# Go
+export GOPATH=$HOME/go
+export GOROOT="$(brew --prefix golang)/libexec"
+
 # generic stuff
 export PATH="\
 /opt/homebrew/bin:\
@@ -29,7 +33,9 @@ export PATH="\
 /usr/bin:\
 /sbin:\
 /usr/local/sbin:\
-/usr/sbin"
+/usr/sbin:\
+${GOPATH}/bin:\
+${GOROOT}/bin"
 
 # export MANPATH="/usr/local/opt/erlang/lib/erlang/man:$MANPATH"
 # export CDPATH=$HOME:/Volumes:$HOME/Desktop
