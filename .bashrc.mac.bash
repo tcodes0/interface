@@ -22,10 +22,10 @@ safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
 #========== Environment
 
 # Go
-export GOPATH=$HOME/go
-export GOROOT="$(brew --prefix golang)/libexec"
+export GOPATH=$HOME/.go
+# upgrade will break
+export GOROOT="/opt/homebrew/Cellar/go/1.19.1/libexec"
 
-# generic stuff
 export PATH="\
 /opt/homebrew/bin:\
 /usr/local/bin:\
