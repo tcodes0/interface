@@ -18,6 +18,12 @@ relative-dropbox-pull() {
   true
 }
 
+
+chpwd() {
+  true
+}
+
+
 # sysbkp() {
 #   echo sudo rsync -a --exclude /Volumes --progress / /Volumes/TARGET
 # }

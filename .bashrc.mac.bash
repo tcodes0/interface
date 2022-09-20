@@ -16,9 +16,7 @@ safe_source $DOTFILE_PATH/.aliases.bash
 # safe_source $DOTFILE_PATH/.aliases.mac.bash
 safe_source $DOTFILE_PATH/.functions.bash
 safe_source $DOTFILE_PATH/.functions.mac.bash
-safe_source $DOTFILE_PATH/.private.bash
 safe_source $DOTFILE_PATH/.prompt.linux.bash
-safe_source "$HOME/.yarn-completion.bash"
 safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
 
 #========== Environment
