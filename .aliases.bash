@@ -14,7 +14,26 @@ alias .d="cd \$HOME/Desktop"
 alias .c="cd \$HOME/Code"
 alias o.="open ."
 alias o="open"
-alias .i="cd \$HOME/Documents/GoogleDrive/Mackup"
+alias .z="cd \$HOME/Desktop/zet"
+alias .hc="cd \$HOME/Desktop/client"
+alias .hs="cd \$HOME/Desktop/server"
+alias .ms="cd \$HOME/Desktop/member-server"
+alias .mc="cd \$HOME/Desktop/member-client"
+alias .s="cd \$HOME/Desktop/shared"
+alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
+alias .i="cd \$DOTFILE_PATH"
+alias .dj="cd \$HOME/Desktop/data-jobs"
+
+######
+# work
+######
+
+alias pdfret="echo return \&bytes.Buffer\{\}, nil"
+alias qhub="psql -U postgres -d hub -c"
+alias qmember="psql -U postgres -d member -c"
+alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias kb="kubectl"
+alias deploy="make release ENV=prod"
 
 ####################
 #--------ls aliases

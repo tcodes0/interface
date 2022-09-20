@@ -29,6 +29,7 @@ export GOROOT="/opt/homebrew/Cellar/go/1.19.1/libexec"
 
 export PATH="\
 /opt/homebrew/bin:\
+/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:\
 /usr/local/bin:\
 /bin:\
 /usr/bin:\
@@ -37,7 +38,6 @@ export PATH="\
 /usr/sbin:\
 ${GOPATH}/bin:\
 ${GOROOT}/bin"
-
 export EDITOR='code -w'
 export GOPATH="$HOME/.go"
 

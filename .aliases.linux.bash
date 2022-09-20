@@ -32,6 +32,7 @@ alias open="xdg-open"
 ###############
 # Linux system
 ###############
+
 alias sys='systemctl'
 alias sysstat='systemctl status'
 alias sysrestart='systemctl restart'
@@ -47,9 +48,11 @@ alias sysuenab='systemctl --user enable'
 
 alias sunano='sudo nano'
 alias jrn='journalctl -r'
+
 #################
 # pacman and yay
 #################
+
 alias pac='pacman'
 alias pacSearch='yay --sync --search' # -Ss
 alias pacWhyFile='pacman -Qo'
@@ -70,30 +73,11 @@ alias pacI='pacInstall'
 alias pacR='pacRemove'
 alias pacRss='pacRemoveDeps'
 alias pacRdd='pacRemoveForce'
-######
-# dot
-######
-alias .z="cd \$HOME/Desktop/zet"
-alias .hc="cd \$HOME/Desktop/client"
-alias .hs="cd \$HOME/Desktop/server"
-alias .ms="cd \$HOME/Desktop/member-server"
-alias .mc="cd \$HOME/Desktop/member-client"
-alias .s="cd \$HOME/Desktop/shared"
-alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
-alias .i="cd \$DOTFILE_PATH"
-alias .dj="cd \$HOME/Desktop/data-jobs"
-######
-# work
-######
-alias pdfret="echo return \&bytes.Buffer\{\}, nil"
-alias qhub="psql -U postgres -d hub -c"
-alias qmember="psql -U postgres -d member -c"
-alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
-alias kb="kubectl"
-alias deploy="make release ENV=prod"
+
 ######
 # misc
 ######
+
 alias tw='twitter'
 alias twt='twitter tweet'
 alias tx='tmux'
