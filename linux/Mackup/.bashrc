@@ -21,6 +21,7 @@ export KNOWN_HOST="other"
 
 if [[ "$(uname -s)" =~ Darwin ]]; then
   CONFIG_FILE="/Users/vacation/Desktop/interface/.bashrc.mac.bash"
+  KNOWN_HOST="$(hostname)"
 fi
 
 if [[ "$(uname -s)" =~ Linux ]]; then
