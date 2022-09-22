@@ -13,7 +13,7 @@ fi
 # order matters here
 safe_source $DOTFILE_PATH/.bashrc.bash
 safe_source $DOTFILE_PATH/.aliases.bash
-# safe_source $DOTFILE_PATH/.aliases.mac.bash
+safe_source $DOTFILE_PATH/.aliases.mac.bash
 safe_source $DOTFILE_PATH/.functions.bash
 safe_source $DOTFILE_PATH/.functions.mac.bash
 safe_source $DOTFILE_PATH/.prompt.linux.bash

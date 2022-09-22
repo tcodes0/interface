@@ -28,6 +28,12 @@ alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
 alias open="xdg-open"
 
+##################
+#-------dot stuff
+##################
+
+alias .i="cd \$DOTFILE_PATH"
+
 #========== Generic
 ###############
 # Linux system
