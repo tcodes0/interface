@@ -1083,6 +1083,7 @@ gcom() {
 gen() {
   if ! find . -type f -iregex '.*mock_.*go$' -execdir rm -f {} \;; then
     echo "error running find regex exec rm on all mock* files"
+    return 1
   fi
 
   echo "generating mocks..."
