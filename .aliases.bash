@@ -338,7 +338,7 @@ alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
 alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
-alias gen="godotenv -f .env go generate ./..."
+unalias gen
 alias d="deploy"
 
 if [ "$ARCH_ACER" ]; then

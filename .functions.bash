@@ -1079,3 +1079,12 @@ gcom() {
     gl
   fi
 }
+
+gen() {
+  if ! find . -type f -iregex '.*mock_.*go$' -execdir rm -f {} \;; then
+    echo "error running find regex exec rm on all mock* files"
+  fi
+
+  echo "generating mocks..."
+  godotenv -f .env go generate ./...
+}
