@@ -91,8 +91,8 @@
   // = = = = = = = = PragmataPro = = = = = = = =
   "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
-  "editor.lineHeight": 21,
-  "editor.fontSize": 14,
+  "editor.lineHeight": 20.3,
+  "editor.fontSize": 12.5,
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
@@ -120,6 +120,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "sql-formatter.uppercase": true,
   //
   // - - - - - - - - GIT - - - - - - - - -
   //
@@ -130,7 +131,7 @@
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
-  "shellformat.path": "/usr/local/bin/shfmt",
+  "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
   "shellcheck.customArgs": ["-x"],
   //
@@ -199,21 +200,17 @@
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
   "debug.allowBreakpointsEverywhere": true,
-  "atomKeymap.promptV3Features": true,
   "emmet.showAbbreviationSuggestions": false,
   "emmet.showExpandedAbbreviation": "never",
   "explorer.confirmDragAndDrop": false,
   "materialTheme.accent": "Pink",
   "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "workbench.list.automaticKeyboardNavigation": false,
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   // "editor.codeActionsOnSave": {
   //   "source.fixAll.eslint": true
   // },
   "explorer.confirmDelete": false,
-  "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
   "php.validate.executablePath": "/usr/bin/php",
   "files.watcherExclude": {
@@ -231,7 +228,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "go.toolsManagement.autoUpdate": true,
-  "redhat.telemetry.enabled": true,
   "githubPullRequests.queries": [
     {
       "label": "Waiting",
