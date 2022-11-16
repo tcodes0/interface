@@ -41,6 +41,11 @@
     "prefix": "eee",
     "body": ["if err != nil {", "\treturn errs.Wrapf(err, \"${1:message} %s\", ${2:var})$0", "}"],
     "description": "comman space nil"
+  },
+  "respond-err-wrapf": {
+    "prefix": "ree",
+    "body": ["if err != nil {", "\trespondError(ctx, w, http.StatusInternalServerError, errs.Wrap(err, \"${1:message}\"))$0", "\treturn", "}"],
+    "description": "comman space nil"
   }
   // "console.log": {
   //   "prefix": "lozzz",
