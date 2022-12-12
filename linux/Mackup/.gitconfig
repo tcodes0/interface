@@ -25,3 +25,5 @@
 		prune = true
 [init]
 	defaultBranch = main
+[diff]
+	tool = tkdiff

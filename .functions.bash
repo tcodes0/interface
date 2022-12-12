@@ -613,6 +613,10 @@ lg() {
     shouldPush='false'
   fi
 
+  if [[ "$PWD" =~ member-server$|server$|member-client$|client$ ]]; then
+    shouldPush='false'
+  fi
+
   if [ $shouldPush == 'true' ]; then
     local pushResult=""
     # push branch, save output to detect errors
