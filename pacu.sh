@@ -52,8 +52,10 @@ if ! nvm install node; then log_fatal nvm install node; fi
 if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring; then log_fatal upgrading arch pkgs; fi
 # update linux
 if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal upgrading linux; fi
-# update everything but linux
-if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers; then log_fatal upgrading system; fi
+# update everything but linux from repositories
+if ! yay --sync --sysupgrade --ignore --needed --noconfirm; then log_fatal upgrading system; fi
+# update everything but linux from AUR
+if ! yay --aur --sync --sysupgrade --needed --noconfirm; then log_fatal upgrading system; fi
 
 set -e
 
