@@ -138,7 +138,6 @@
   //
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  // "javascript.referencesCodeLens.enabled": true,
   //
   // - - - - - - - - GO - - - - - - - - -
   //
@@ -205,8 +204,6 @@
   "explorer.confirmDragAndDrop": false,
   "materialTheme.accent": "Pink",
   "editor.suggestSelection": "first",
-  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-  "workbench.list.automaticKeyboardNavigation": false,
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   // "editor.codeActionsOnSave": {
@@ -231,7 +228,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "go.toolsManagement.autoUpdate": true,
-  "redhat.telemetry.enabled": true,
   "githubPullRequests.queries": [
     {
       "label": "Waiting",
@@ -258,5 +254,7 @@
     "markdown": true
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -1,
+  "githubPullRequests.pullBranch": "never",
+  "editor.inlineSuggest.enabled": true
 }

@@ -1,5 +1,9 @@
 #! /usr/bin/env  bash
 
+#####################
+### Pacman update ###
+#####################
+
 SPACE="\n\n"
 LTS_NAME="fermium" # v12
 
@@ -40,17 +44,16 @@ chmod -R u+w "$HOME/.cache/yay"
 set +e
 
 # updaters
-# how to handle errors on a subshell used in substitution?
-# yay is failing, maybe need to call pacman < pacman pkgs; yay < yay pkgs?
-# shellcheck disable=SC2046
-if ! yay --sync --refresh --needed --noconfirm $(tr \\n ' ' < "$DOTFILE_PATH/update.txt"); then log_fatal yay refresh; fi
-# if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers ; then log_fatal yay sysupgrade; fi
 if ! mackup backup; then log_fatal mackup; fi
 if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
 if ! nvm install node; then log_fatal nvm install node; fi
-if ! /home/vacation/.asdf/bin/asdf update; then log_fatal asdf update; fi
-if ! /home/vacation/.asdf/bin/asdf plugin update --all; then log_fatal asdf plugin update; fi
-if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal updating keyring and linux; fi
+
+# update arch pkgs first to avoid errors
+if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring; then log_fatal upgrading arch pkgs; fi
+# update linux
+if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal upgrading linux; fi
+# update everything but linux
+if ! yay --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers; then log_fatal upgrading system; fi
 
 set -e
 

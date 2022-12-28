@@ -30,7 +30,7 @@ clean_yarn() {
   yarn cache clean
 }
 
-# FIX THIS
+# DO NOT USE THIS
 clean_pacman() {
   local log="$DOTFILE_PATH/pacman-cache-clear.log"
   if ! [ -f "$log" ]; then

@@ -670,5 +670,14 @@
   {
     "key": "shift+meta+0",
     "command": "pr:github.focus"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "-workbench.view.debug",
+    "when": "viewContainer.workbench.view.debug.enabled"
+  },
+  {
+    "key": "ctrl+shift+d",
+    "command": "editor.action.duplicateSelection"
   }
 ]
