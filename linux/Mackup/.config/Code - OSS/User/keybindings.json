@@ -679,5 +679,9 @@
   {
     "key": "ctrl+shift+d",
     "command": "editor.action.duplicateSelection"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "editor.action.joinLines"
   }
 ]
