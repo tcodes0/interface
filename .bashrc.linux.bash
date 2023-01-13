@@ -86,17 +86,6 @@ if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
 fi
 
-# avoid bugs running systemctl --user as root
-# investigate why systemd user services not working here
-# investigate why systemd use
-if [ "$(whoami)" == "vacation" ] && [ ! "$SRIT_SET" ]; then
-  systemctl --user start srit.service
-  # bluetooth connections on laptop reset keyboard key speed, so don't set the var to allow easily re-runing this code
-  if [ ! "$ARCH_ACER" ]; then
-    export SRIT_SET=1
-  fi
-fi
-
 if [ "$(whoami)" == "vacation" ]; then
   systemctl --user start x11-keyboard.service
 fi
@@ -114,18 +103,4 @@ fi
 if [ ! "$TMUX" ] && [ $UID == 1000 ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
-fi
-
-# Check we're booting Maglinux by kernel arg with root UUID
-if [ ! "$ARCH_ACER" ] && grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
-  blkDevice="$(lsblk --raw --noheadings | sed -ne '/EFI-MAG/p' | sed -E 's/^([a-z0-9]+)\ .*/\1/g')"
-  # mount EFI-MAG to /boot if not mounted already
-  if ! grep --quiet "[/]dev[/]$blkDevice\ [/]boot" /proc/mounts; then
-    echo "Please authenticate as root to mount Maglinux /boot correctly. Aborting in 5s..."
-    command sudo -T 5 true
-    if grep --quiet '[/]boot' /proc/mounts; then
-      command sudo umount /boot
-    fi
-    command sudo mount /dev/disk/by-label/EFI-MAG /boot
-  fi
 fi

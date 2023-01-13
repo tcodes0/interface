@@ -14,8 +14,6 @@ safe_source() {
 }
 
 CONFIG_FILE=""
-# set if this is the arch laptop
-export ARCH_ACER=""
 # set to known hostname we usually ssh into
 export KNOWN_HOST="other"
 
@@ -26,10 +24,7 @@ fi
 if [[ "$(uname -s)" =~ Linux ]]; then
   CONFIG_FILE="/home/vacation/Desktop/interface/.bashrc.linux.bash"
 
-  if [[ "$(uname --nodename)" =~ Arch7Acer ]]; then
-    ARCH_ACER="true"
-    KNOWN_HOST="Arch7Acer"
-  elif [[ "$(uname --nodename)" =~ Arch7 ]]; then
+  if [[ "$(uname --nodename)" =~ Arch7 ]]; then
     KNOWN_HOST="Arch7"
   fi
 fi

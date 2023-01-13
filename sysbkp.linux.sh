@@ -8,12 +8,6 @@ sleeper() {
   sleep 3
 }
 
-if [ "$ARCH_ACER" ]; then
-  echo "Warning: running acer script for you"
-  sysbkp.linux.acer.sh
-  exit $?
-fi
-
 LHOME=/home/vacation
 
 set -e
