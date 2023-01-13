@@ -93,6 +93,7 @@ alias qahub="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@
 alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d member -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias kb="kubectl"
 alias deploy="make release ENV=prod"
+alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 ######
 # misc
 ######
