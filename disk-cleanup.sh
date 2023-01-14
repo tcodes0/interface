@@ -111,7 +111,6 @@ cleaners_available=(
 selected_cleaners=("$@")
 dry_run_cmd=""
 
-# improve check
 if [ "$#" == "0" ]; then
   basename "$0"
   echo "No cleaners passed, pass cleaners separated by spaces (Ex: foo bar baz)"
