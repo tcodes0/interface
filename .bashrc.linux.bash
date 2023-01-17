@@ -88,6 +88,7 @@ fi
 
 if [ "$(whoami)" == "vacation" ]; then
   systemctl --user start x11-keyboard.service
+  systemctl --user start srit.service
 fi
 
 # add ssh key to ssh agent, bypass prompt
