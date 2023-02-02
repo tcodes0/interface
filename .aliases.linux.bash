@@ -97,21 +97,11 @@ alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 ######
 # misc
 ######
-alias tw='twitter'
-alias twt='twitter tweet'
-alias tx='tmux'
 alias mkvtomp4='ffmpeg -i example.mkv -c copy example.mp4'
-alias wasabi="\cd \$HOME/Desktop/WalletWasabi/WalletWasabi.Gui && dotnet run"
 alias makebrl="echo var makeBrlToUsd = rate => brl => Math.round(brl*rate)"
 alias lsblk='lsblk -f'
-alias desktop='sudo systemctl start sddm.service'
-alias sddm='sddm.service'
-alias soff='systemctl poweroff'
-# alias drive='rclone'
 alias ssh='ssh-ident'
-alias dol='dolphin'
 alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
 alias desktopRsync="echo rsync --recursive --links --progress --exclude=\"interface/\*\" /home/vacation/Desktop/ vacation@192.168.0.214:/home/vacation/Desktop"
-alias m2p="echo m2p = \(cost, m2\) \=\> cost*1_000_000\/m2"
