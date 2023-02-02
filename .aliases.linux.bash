@@ -9,7 +9,7 @@
 
 alias ls='ls -ph --color=always'
 
-#========== Override macos
+#========== Overrides macos
 alias gmv='mv'
 alias gsed='sed'
 alias gfind='find'
@@ -28,7 +28,6 @@ alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
 alias open="xdg-open"
 
-#========== Generic
 ###############
 # Linux system
 ###############
@@ -44,9 +43,9 @@ alias sysurestart='systemctl --user restart'
 alias sysustart='systemctl --user start'
 alias sysustop='systemctl --user stop'
 alias sysuenab='systemctl --user enable'
-
 alias sunano='sudo nano'
 alias jrn='journalctl -r'
+
 #################
 # pacman and yay
 #################
@@ -70,6 +69,7 @@ alias pacI='pacInstall'
 alias pacR='pacRemove'
 alias pacRss='pacRemoveDeps'
 alias pacRdd='pacRemoveForce'
+
 ######
 # dot
 ######
@@ -82,6 +82,7 @@ alias .s="cd \$HOME/Desktop/shared"
 alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
 alias .dj="cd \$HOME/Desktop/data-jobs"
+
 ######
 # work
 ######
@@ -94,6 +95,8 @@ alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribei
 alias kb="kubectl"
 alias deploy="make release ENV=prod"
 alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
+alias golint="golangci-lint run --timeout 20s --tests=false"
+
 ######
 # misc
 ######
