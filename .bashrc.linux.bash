@@ -55,6 +55,15 @@ if [ -n "$DESKTOP_SESSION" ]; then
   export SSH_AUTH_SOCK
 fi
 
+#                                                                     ensure it runs on GUI terminal not before
+if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
+  echo "setting user services"
+  # systemctl call is slow, so only run once, also errors if already running
+  export USER_SERVICES_SET="true"
+  systemctl --user start x11-keyboard.service
+  systemctl --user start srit.service
+fi
+
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
@@ -84,11 +93,6 @@ safe_source /opt/google-cloud-sdk/completion.bash.inc
 # start on desktop
 if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
-fi
-
-if [ "$(whoami)" == "vacation" ]; then
-  systemctl --user start x11-keyboard.service
-  systemctl --user start srit.service
 fi
 
 # add ssh key to ssh agent, bypass prompt
