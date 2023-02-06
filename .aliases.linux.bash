@@ -22,7 +22,6 @@ alias google="s -p duckduckgo"
 alias grep='grep --color=auto'
 unalias find
 unalias stat
-unalias emulator
 alias rns="react-native start"
 alias o.="dolphin ."
 alias acceptAllLicenses="yes | sdkmanager --licenses"
@@ -88,7 +87,9 @@ alias .dj="cd \$HOME/Desktop/data-jobs"
 ######
 alias pdfret="echo return \&bytes.Buffer\{\}, nil"
 alias qhub="psql -U postgres -d hub -c"
+alias qhubtest="psql -U postgres -d hub_test -c"
 alias qmember="psql -U postgres -d member -c"
+alias qmembertest="psql -U postgres -d member_test -c"
 alias sqlqa="echo renamed to qahub and qamember"
 alias qahub="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d member -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
