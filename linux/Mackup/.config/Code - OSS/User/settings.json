@@ -190,7 +190,7 @@
   "editor.suggest.localityBonus": true,
   "editor.tabCompletion": "on",
   "editor.acceptSuggestionOnCommitCharacter": false,
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
