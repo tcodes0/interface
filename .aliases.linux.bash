@@ -97,6 +97,7 @@ alias kb="kubectl"
 alias deploy="make release ENV=prod"
 alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 alias golint="golangci-lint run --timeout 20s --tests=false"
+alias gen="godotenv -f .env go generate ./..."
 
 ######
 # misc
