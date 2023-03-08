@@ -72,6 +72,7 @@ fi
 export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
+export GOPRIVATE="github.com/eleanorhealth/*"
 
 # order matters here
 safe_source "$DOTFILE_PATH/.bashrc.bash"

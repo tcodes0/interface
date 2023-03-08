@@ -27,3 +27,5 @@
 	defaultBranch = main
 [diff]
 	tool = tkdiff
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
