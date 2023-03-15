@@ -99,6 +99,7 @@ alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 alias golint="golangci-lint run --timeout 20s --tests=false"
 alias gen="godotenv -f .env go generate ./..."
 alias golint="golangci-lint run --timeout 20s --tests=false"
+alias ehvpn="gcloud alpha cloud-shell ssh --project=ele-qa-436057 --authorize-session -- -D 31337 -CNq; echo configure firefox to use SOCKS proxy v5 on port 31337"
 
 ######
 # misc

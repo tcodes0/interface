@@ -254,8 +254,8 @@
     "markdown": true
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": -1,
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
-  "update.mode": "manual"
+  "update.mode": "manual",
+  "window.zoomLevel": -1
 }
