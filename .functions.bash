@@ -1093,3 +1093,30 @@ __gen() {
   echo "generating mocks..."
   godotenv -f .env go generate ./...
 }
+
+# add to shell init file
+# invoke with `chatgpt`
+# $1: relative path to prompt file. defaults to prompt.txt
+
+chatgpt() {
+  if ! [ -f ./cmd/playground/prompt.txt ]; then
+    echo "\"prompt.txt\" file not found on $PWD"
+    return 1
+  fi
+
+  if [ -z "$OPENAI_API_KEY" ]; then
+    echo "\$OPENAI_API_KEY not found in env"
+    return 1
+  fi
+
+  PROMPT=$(<"$PWD/cmd/playground/prompt.txt")
+
+  curl https://api.openai.com/v1/chat/completions \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d "{
+    \"model\": \"gpt-3.5-turbo\",
+    \"messages\": [{\"role\": \"user\", \"content\": \"$PROMPT\"}]
+  }" |
+    jq '.choices[0].message.content'
+}
