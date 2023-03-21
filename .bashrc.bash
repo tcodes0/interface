@@ -18,6 +18,9 @@ export BASH_ENV="$HOME/.bashrc"
 GPG_TTY=$(tty)
 export GPG_TTY
 
+# Go
+export GOPRIVATE="github.com/eleanorhealth/*"
+
 #####################################################
 # If not running interactively, skip remaining code #
 #####################################################
