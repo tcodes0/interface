@@ -53,9 +53,9 @@ if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinu
 # update linux
 if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal upgrading linux; fi
 # update everything but linux from repositories
-if ! yay --sync --sysupgrade --ignore --needed --noconfirm; then log_fatal upgrading system; fi
+if ! yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system; fi
 # update everything but linux from AUR
-if ! yay --aur --sync --sysupgrade --needed --noconfirm; then log_fatal upgrading system; fi
+if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system; fi
 
 set -e
 
