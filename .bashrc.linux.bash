@@ -5,22 +5,20 @@
 
 #========== Environment
 
-# add over /usr/bin to run irpf java program
-# add jre11-openjdk and jdk11-openjdk packages (or maybe just jdk?)
-# maybe also the always-up-to-date jdk-openjdk
-# /usr/lib/jvm/java-11-openjdk/bin:\
+# Old path stuff
+# $HOME/.asdf/installs/elixir/1.10.0/bin:\
+# $HOME/.gem/ruby/2.7.0/bin:\
+# $HOME/bin/monero-gui:\
+
+# Some old comments on file history about java and irpf if you have issues with that
 export PATH="\
 $HOME/bin:\
-$HOME/.asdf/installs/elixir/1.10.0/bin:\
-$HOME/.gem/ruby/2.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
 /usr/bin/site_perl:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
-$HOME/bin/monero-gui:\
-$HOME/rn-debugger:\
 $HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
 $HOME/Desktop/scripts:\
@@ -47,6 +45,11 @@ elif [ "$(whoami)" == "vacation" ]; then
   DOTFILE_PATH="$HOME/Desktop/interface"
 fi
 
+# Go
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
+export GOPRIVATE="github.com/eleanorhealth/*"
+
 safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 
 # https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
@@ -70,9 +73,6 @@ fi
 [[ $- != *i* ]] && return
 
 export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
-export GOPATH=$HOME/go
-export GOBIN=$HOME/go/bin
-export GOPRIVATE="github.com/eleanorhealth/*"
 
 # order matters here
 safe_source "$DOTFILE_PATH/.bashrc.bash"
