@@ -17,7 +17,7 @@ LABEL=EFI-BLUE        /boot                vfat       auto,user,rw,umask=111,dma
 LABEL=Dator           /media/data          exfat      auto,defaults,user                                   0          0
 LABEL=Games           /media/game          exfat      auto,defaults,user                                   0          0
 LABEL=Windows         /media/win           ntfs       auto,defaults,user,ro                                0          0
-LABEL=Extra           /media/extra         btrfs      auto,defaults,user,exec,discard,noatime,compress=lzo 0          1
+LABEL=Extra           /media/extra         btrfs      auto,defaults,user,discard,noatime,compress=lzo 0          1
 #
 # noauto
 LABEL=EFI-HARD        /mnt/boot            vfat       noauto,user,rw,umask=111,dmask=000                   0          1

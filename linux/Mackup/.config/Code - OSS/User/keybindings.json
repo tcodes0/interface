@@ -49,11 +49,6 @@
     "command": "-workbench.action.switchWindow"
   },
   {
-    "key": "ctrl+f",
-    "command": "macros.findAndReplace",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+ctrl+f",
     "command": "-editor.action.startFindReplaceAction"
   },
@@ -215,11 +210,6 @@
   {
     "key": "ctrl+k ctrl+c",
     "command": "-editor.action.addCommentLine",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+k ctrl+c",
-    "command": "macros.commentDown",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -678,10 +668,20 @@
   },
   {
     "key": "ctrl+shift+d",
-    "command": "editor.action.duplicateSelection"
+    "command": "macros.duplicateLinesFromStart"
   },
   {
     "key": "ctrl+j",
     "command": "editor.action.joinLines"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "-editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen"
   }
 ]

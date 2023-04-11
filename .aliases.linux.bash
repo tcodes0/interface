@@ -114,3 +114,7 @@ alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
 alias desktopRsync="echo rsync --recursive --links --progress --exclude=\"interface/\*\" /home/vacation/Desktop/ vacation@192.168.0.214:/home/vacation/Desktop"
+# shellcheck disable=SC2154
+alias run-command-with-file="echo 'while read -r line; do foo=\$line; done <file.txt'"
+alias command-with-file=run-command-with-file
+alias apg="apg -M SNCL"

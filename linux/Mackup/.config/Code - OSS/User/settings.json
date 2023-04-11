@@ -39,44 +39,20 @@
     "menu.selectionForeground": "#FF4081",
     "menubar.selectionForeground": "#FF4081"
   },
-  // "materialTheme.cache.workbench.settings": {
-  //     "accent": "Orange",
-  //     "accentPrevious": "Breaking Bad"
-  // },
-  // "workbench.iconTheme": "eq-material-theme-icons-ocean",
   "editor.tokenColorCustomizations": {
     "[Material Theme Darker High Contrast]": {
       "comments": "#676767",
       "functions": "#7e7fdd",
-      // "functions": "#c8ca6e",
       "strings": "#8b907f",
-      // "strings": "#7c8169",
-      // "types": "#8c8d50",
-      // "variables": "#b3b3b3",
       "keywords": "#c5ad97",
-      // "keywords": "#cc7474",
-      // "comments": "#444444",
-      // "functions": "#6472b1",
-      // "strings": "#868064",
       "types": "#6abe7f"
-      // "variables": "#dabfe7",
-      // "keywords": "#9774cc",
     }
   },
   //
   // - - - - - - - - MACROS  - - - - - - - - -
   //
-  "macros": {
-    "commentDown": [
-      "editor.action.copyLinesDownAction",
-      "editor.action.commentLine"
-    ],
-    "trueCtrlK": ["cursorEndSelect", "editor.action.clipboardCutAction"],
-    "findAndReplace": [
-      "actions.find",
-      "editor.action.startFindReplaceAction",
-      "actions.find"
-    ]
+  "macros.list": {
+    "duplicateLinesFromStart": ["expandLineSelection", "editor.action.duplicateSelection"]
   },
   //
   // - - - - - - - - FONT - - - - - - - - -
@@ -98,7 +74,6 @@
   //
   "eslint.packageManager": "yarn",
   "eslint.run": "onType",
-  "eslint.alwaysShowStatus": true,
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
   },
@@ -198,7 +173,6 @@
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
   "debug.allowBreakpointsEverywhere": true,
-  "atomKeymap.promptV3Features": true,
   "emmet.showAbbreviationSuggestions": false,
   "emmet.showExpandedAbbreviation": "never",
   "explorer.confirmDragAndDrop": false,
@@ -206,9 +180,6 @@
   "editor.suggestSelection": "first",
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
-  // "editor.codeActionsOnSave": {
-  //   "source.fixAll.eslint": true
-  // },
   "explorer.confirmDelete": false,
   "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
