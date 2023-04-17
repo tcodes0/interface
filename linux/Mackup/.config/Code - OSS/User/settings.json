@@ -254,5 +254,6 @@
     "markdown": true
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -1,
+  "editor.inlineSuggest.enabled": true
 }

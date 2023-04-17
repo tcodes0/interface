@@ -25,7 +25,7 @@ safe_source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path
 # Go
 export GOPATH=$HOME/.go
 # upgrade will break
-export GOROOT="/opt/homebrew/Cellar/go/1.19.5/libexec"
+export GOROOT="/opt/homebrew/Cellar/go/1.20.3/libexec"
 
 export PATH="\
 /opt/homebrew/bin:\
