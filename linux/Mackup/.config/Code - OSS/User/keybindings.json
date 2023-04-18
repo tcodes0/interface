@@ -667,10 +667,6 @@
     "when": "viewContainer.workbench.view.debug.enabled"
   },
   {
-    "key": "shift+cmd+d",
-    "command": "editor.action.duplicateSelection"
-  },
-  {
     "key": "shift+cmd+l",
     "command": "editor.action.selectAll"
   },
@@ -707,5 +703,9 @@
     "key": "enter",
     "command": "-renameFile",
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "shift+cmd+d",
+    "command": "macros.duplicateLinesFromStart"
   }
 ]

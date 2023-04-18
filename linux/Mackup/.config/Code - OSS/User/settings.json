@@ -66,17 +66,8 @@
   //
   // - - - - - - - - MACROS  - - - - - - - - -
   //
-  "macros": {
-    "commentDown": [
-      "editor.action.copyLinesDownAction",
-      "editor.action.commentLine"
-    ],
-    "trueCtrlK": ["cursorEndSelect", "editor.action.clipboardCutAction"],
-    "findAndReplace": [
-      "actions.find",
-      "editor.action.startFindReplaceAction",
-      "actions.find"
-    ]
+  "macros.list": {
+    "duplicateLinesFromStart": ["expandLineSelection", "editor.action.duplicateSelection"]
   },
   //
   // - - - - - - - - FONT - - - - - - - - -
