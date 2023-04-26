@@ -67,7 +67,12 @@
   // - - - - - - - - MACROS  - - - - - - - - -
   //
   "macros.list": {
-    "duplicateLinesFromStart": ["expandLineSelection", "editor.action.duplicateSelection"]
+    "duplicateLinesFromStart": [
+      "expandLineSelection",
+      "editor.action.duplicateSelection",
+      "cancelSelection",
+      "cursorUp"
+    ]
   },
   //
   // - - - - - - - - FONT - - - - - - - - -
@@ -246,5 +251,6 @@
   },
   "workbench.startupEditor": "none",
   "window.zoomLevel": -1,
-  "editor.inlineSuggest.enabled": true
+  "editor.inlineSuggest.enabled": true,
+  "git.openRepositoryInParentFolders": "never"
 }
