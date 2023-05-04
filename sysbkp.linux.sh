@@ -29,7 +29,7 @@ else
   command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
 fi
 
-disk-cleanup.sh
+disk-cleanup.sh clean_golang clean_nvm typescript_cache electron_cache chrome_cache
 
 echo "Rsync /"
 separator

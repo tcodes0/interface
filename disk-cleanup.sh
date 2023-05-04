@@ -56,15 +56,15 @@ clean_golang() {
 clean_nvm() {
   echo "bugged, fix me"
   return
-  local node_ver
-  node_ver=$(node --version)
-  message "cleaning other node versions from nvm, current $node_ver"
-  if [[ ! $node_ver =~ v[[:digit:]]{1,2}[.][[:digit:]]{1,2}[.][[:digit:]]{1,2} ]]; then
-    log_err "invalid node version"
-    return 1
-  fi
-  find "$HOME"/.nvm/versions/node -maxdepth 1 -type d -name "v*" -not -name "$node_ver" -exec rm -fr {} \;
-  find "$HOME"/.nvm/.cache/bin -maxdepth 1 -type d -name "node-*" -not -name "*${node_ver}*" -exec rm -fr {} \;
+  # local node_ver
+  # node_ver=$(node --version)
+  # message "cleaning other node versions from nvm, current $node_ver"
+  # if [[ ! $node_ver =~ v[[:digit:]]{1,2}[.][[:digit:]]{1,2}[.][[:digit:]]{1,2} ]]; then
+  #   log_err "invalid node version"
+  #   return 1
+  # fi
+  # find "$HOME"/.nvm/versions/node -maxdepth 1 -type d -name "v*" -not -name "$node_ver" -exec rm -fr {} \;
+  # find "$HOME"/.nvm/.cache/bin -maxdepth 1 -type d -name "node-*" -not -name "*${node_ver}*" -exec rm -fr {} \;
 }
 
 typescript_cache() {

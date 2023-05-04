@@ -5,7 +5,8 @@
 #####################
 
 SPACE="\n\n"
-LTS_NAME="fermium" # v12
+LTS_NAME="gallium" # v16
+response=""
 
 # $* message
 log_fatal() {
@@ -23,6 +24,12 @@ if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
 else
   echo "Backup run date check failed"
   exit 1
+fi
+
+echo "For safety: logout, switch to a console, and disable sddm. All done? (timeout 10s) [y/N]"
+read -t 10 -r response
+if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+  exit 0
 fi
 
 # Some software only builds from AUR in old node versions
@@ -45,7 +52,8 @@ set +e
 
 # updaters
 if ! mackup backup; then log_fatal mackup; fi
-if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
+# not using any global packages atm
+#if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
 if ! nvm install node; then log_fatal nvm install node; fi
 
 # update arch pkgs first to avoid errors
