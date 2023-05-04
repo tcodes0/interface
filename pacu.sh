@@ -26,7 +26,7 @@ else
   exit 1
 fi
 
-echo "For safety: logout, switch to a console, and disable sddm. All done? (timeout 10s) [y/N]"
+echo "For safety: logout, switch to a console, disable sddm, disable postgresql. All done? (timeout 10s) [y/N]"
 read -t 10 -r response
 if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
   exit 0

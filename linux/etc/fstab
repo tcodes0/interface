@@ -1,36 +1,38 @@
 # Static information about the filesystems.
 # See fstab(5) for details.
+
 ##############################################################################################################################################
-# <file system>       <dir>                <type>     <options>                                            <dump>     <pass>
+# <file system>       <dir>                <type>     <options>                                                 <dump>     <pass>
 #
 # templates
-# LABEL=btrfs         /media/btrfs         btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo     0          1
-# LABEL=vfat          /boot                vfat       noauto,user,rw,umask=111,dmask=000                   0          1
-# LABEL=exfat         /media/exfat         exfat      noauto,defaults,user                                 0          0
-# LABEL=hfs+          /media/hfs           hfsplus    noauto,ro,user,exec,async                            0          0
-# LABEL=ntfs          /media/ntfs          ntfs       noauto,defaults,user                                 0          0
-# LABEL=exfat         /media/exfat         exfat      noauto,defaults,user                                 0          0
-# LABEL=ext4          /media/ext4          ext4       noauto,rw,relatime,data=ordered                      0          1
+# LABEL=btrfs         /media/btrfs         btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo          0          1
+# LABEL=vfat          /boot                vfat       noauto,user,rw,umask=111,dmask=000                        0          1
+# LABEL=exfat         /media/exfat         exfat      noauto,defaults,user                                      0          0
+# LABEL=hfs+          /media/hfs           hfsplus    noauto,ro,user,exec,async                                 0          0
+# LABEL=ntfs          /media/ntfs          ntfs       noauto,defaults,user                                      0          0
+# LABEL=exfat         /media/exfat         exfat      noauto,defaults,user                                      0          0
+# LABEL=ext4          /media/ext4          ext4       noauto,rw,relatime,data=ordered                           0          1
 #
 # auto
-LABEL=EFI-BLUE        /boot                vfat       auto,user,rw,umask=111,dmask=000                     0          1
-LABEL=Dator           /media/data          exfat      auto,defaults,user                                   0          0
-LABEL=Games           /media/game          exfat      auto,defaults,user                                   0          0
-LABEL=Windows         /media/win           ntfs       auto,defaults,user,ro                                0          0
-LABEL=Extra           /media/extra         btrfs      auto,defaults,user,discard,noatime,compress=lzo 0          1
+LABEL=EFI-BLUE        /boot                vfat       auto,user,rw,umask=111,dmask=000                          0          1
+LABEL=Dator           /media/data          exfat      auto,defaults,user                                        0          0
+LABEL=Games           /media/game          exfat      auto,defaults,user                                        0          0
+LABEL=Windows         /media/win           ntfs       auto,defaults,user,ro                                     0          0
+LABEL=Extra           /media/extra         btrfs      auto,defaults,user,noatime,compress=lzo,exec              0          1
 #
 # noauto
-LABEL=EFI-HARD        /mnt/boot            vfat       noauto,user,rw,umask=111,dmask=000                   0          1
-LABEL=Archlinux       /media/arch          btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo     0          1
-LABEL=Archbak         /mnt                 btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo     0          1
-LABEL=Games           /media/game          exfat      noauto,defaults,user                                 0          0
-LABEL=External        /media/external      exfat      noauto,defaults,user                                 0          0
+LABEL=EFI-HARD        /mnt/boot            vfat       noauto,user,rw,umask=111,dmask=000                        0          1
+# normally mounted on /, useful if not root (bkp, liveusb)
+# LABEL=Archlinux       /media/arch          btrfs      noauto,defaults,discard,noatime,ssd,compress=lzo          0          1
+LABEL=Archbak         /mnt                 btrfs      noauto,defaults,user,discard,noatime,ssd,compress=lzo     0          1
+LABEL=External        /media/external      exfat      noauto,defaults,user                                      0          0
 #
 # hugepages
-hugetlbfs             /dev/hugepages       hugetlbfs  mode=01770,gid=kvm                                   0          0
+hugetlbfs             /dev/hugepages       hugetlbfs  mode=01770,gid=kvm                                        0          0
+
 ##############################################################################################################################################
 # bind mounts
 #
-# <source>                                    <destination>              <type>     <options>          <dump>      <pass>
+# <source>                                    <destination>              <type>     <options>                    <dump>      <pass>
 #
-/media/extra/archlinux/home/vacation/.cache   /home/vacation/.cache      none       defaults,bind      0           0
+/media/extra/archlinux/home/vacation/.cache   /home/vacation/.cache      none       auto,bind,user,exec          0           0
