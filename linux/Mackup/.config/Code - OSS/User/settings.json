@@ -52,7 +52,10 @@
   // - - - - - - - - MACROS  - - - - - - - - -
   //
   "macros.list": {
-    "duplicateLinesFromStart": ["expandLineSelection", "editor.action.duplicateSelection"]
+    "duplicateLinesFromStart": [
+      "expandLineSelection",
+      "editor.action.duplicateSelection"
+    ]
   },
   //
   // - - - - - - - - FONT - - - - - - - - -
@@ -155,10 +158,10 @@
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
   "editor.wordBasedSuggestions": true,
-  "editor.formatOnSave": true,
   "editor.renderControlCharacters": true,
   "editor.minimap.enabled": false,
   "editor.formatOnType": false,
+  "editor.formatOnSave": true,
   "editor.snippetSuggestions": "top",
   "editor.suggest.localityBonus": true,
   "editor.tabCompletion": "on",
