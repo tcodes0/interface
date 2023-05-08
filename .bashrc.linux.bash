@@ -22,6 +22,7 @@ $HOME/bin:\
 $HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
 $HOME/Desktop/scripts:\
+$HOME/google-cloud-sdk/bin:\
 /opt/android-sdk/platform-tools:\
 /usr/local/go/bin"
 
@@ -49,6 +50,9 @@ fi
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
 export GOPRIVATE="github.com/eleanorhealth/*"
+
+# gcloud
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 
@@ -89,7 +93,7 @@ safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
 safe_source "$HOME/.asdf/asdf.sh"
 safe_source "$HOME/.asdf/completions/asdf.bash"
-safe_source /opt/google-cloud-sdk/completion.bash.inc
+safe_source "$HOME/google-cloud-sdk/completion.bash.inc"
 
 # start on desktop
 if [ -d "./Desktop" ]; then

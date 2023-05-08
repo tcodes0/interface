@@ -118,3 +118,4 @@ alias desktopRsync="echo rsync --recursive --links --progress --exclude=\"interf
 alias run-command-with-file="echo 'while read -r line; do foo=\$line; done <file.txt'"
 alias command-with-file=run-command-with-file
 alias apg="apg -M SNCL"
+alias pwgen="apg"
