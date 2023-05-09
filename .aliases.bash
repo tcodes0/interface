@@ -48,9 +48,9 @@ alias caskh='brew cask home'
 alias caskI='brew cask install'
 alias caskR='brew cask uninstall'
 
-#####################
-# ----------mistakes
-#####################
+##########################
+# ----------mistakes typos
+##########################
 
 alias loca='local'
 alias emcas='emacs'
@@ -59,6 +59,8 @@ alias me='emacs'
 alias ndoe='node'
 alias yy='yarn'
 alias gnc='gcn'
+alias lslbk='lsblk'
+alias lsbkl='lsblk'
 
 ####################
 #---------Zsh & Git
