@@ -25,7 +25,7 @@ LABEL=Extra           /media/extra         btrfs      auto,defaults,user,noatime
 LABEL=EFI-HARD        /mnt/boot            vfat       noauto,user,rw,umask=111,dmask=000                        0          2
 LABEL=Archbak         /mnt                 btrfs      noauto,defaults,user,noatime,compress=lzo                 0          0
 LABEL=External        /media/external      exfat      noauto,defaults,user                                      0          2
-LABEL=Games           /media/game          exfat      noauto,defaults,user                                      0          2
+LABEL=Wingames        /media/game          exfat      noauto,defaults,user                                      0          2
 #
 ####################################### system  ##############################################################################################
 #
