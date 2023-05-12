@@ -11,27 +11,30 @@ sleeper() {
 LHOME=/home/vacation
 
 set -e
-command sudo true
-echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
-sleeper
-if grep --quiet "[/]mnt[ ]" /proc/mounts; then
-  echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
-  exit 1
-else
-  command sudo mount /dev/disk/by-label/Archbak /mnt
-fi
+# command sudo true
+# echo "Mounting Archbak at /mnt and EFI-HARD at /mnt/boot"
+# sleeper
+# if grep --quiet "[/]mnt[ ]" /proc/mounts; then
+#   echo "Something mounted at /mnt, please run \`sudo umount /mnt\` to continue"
+#   exit 1
+# else
+#   command sudo mount /dev/disk/by-label/Archbak /mnt
+# fi
 
-if grep --quiet "[/]mnt[/]boot[ ]" /proc/mounts; then
-  echo "Something mounted at /mnt/boot, please run \`sudo umount /mnt/boot\` to continue"
-  exit 1
-else
-  command sudo mkdir -p /mnt/boot
-  command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
-fi
+# if grep --quiet "[/]mnt[/]boot[ ]" /proc/mounts; then
+#   echo "Something mounted at /mnt/boot, please run \`sudo umount /mnt/boot\` to continue"
+#   exit 1
+# else
+#   command sudo mkdir -p /mnt/boot
+#   command sudo mount /dev/disk/by-label/EFI-HARD /mnt/boot
+# fi
 
-disk-cleanup.sh clean_golang clean_nvm typescript_cache electron_cache chrome_cache
+# disk-cleanup.sh clean_golang clean_nvm typescript_cache electron_cache chrome_cache
 
-echo "Rsync /"
+echo "you may want to mount the bkp partition on /mnt, and run disk-cleanup.sh"
+exit 1
+
+echo "Rsync /, minus /home/vacation (includes /boot and /var)"
 separator
 sleeper
 # rsync commonly exits with non 0 status because of files vanishing
@@ -49,17 +52,15 @@ set +e
 if ! sudo rsync \
   -a \
   --progress \
-  --one-file-system \
-  --delete-during \
   --exclude="/media/*" \
   --exclude="/mnt/*" \
   --exclude="/proc/*" \
   --exclude="/sys/*" \
   --exclude="/dev/*" \
-  --exclude="/boot/*" \
   --exclude="/tmp/*" \
-  --exclude="/var/*" \
-  --exclude="$LHOME/Desktop/*" \
+  --exclude="/@swap/*" \
+  --exclude="/toplevel/*" \
+  --exclude="$LHOME/*" \
   --exclude="$LHOME/.cache/spotify/*" \
   --exclude="$LHOME/.cache/mozilla/firefox/mpakm5ej.dev-edition-default/cache2/entries/*" \
   --exclude="$LHOME/.cache/yarn/*" \
@@ -79,54 +80,21 @@ if ! sudo rsync \
   fi
 fi
 
-echo "Rsync $LHOME/Desktop"
+echo "Rsync $LHOME"
 separator
 sleeper
 if ! sudo rsync \
   -a \
   --progress \
   --one-file-system \
-  --delete-during \
   --exclude="node_modules" \
-  "$LHOME/Desktop/" "/mnt$LHOME/Desktop"; then
+  "$LHOME/" "/mnt$LHOME/"; then
   echo "Rsync errored, continue anyway? (y/n)"
   if ! read -r; then exit 1; fi
   if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
     echo "Aborted"
     exit 1
   fi
-fi
-
-echo "Rsync /var/lib/pacman"
-separator
-sleeper
-command sudo mkdir -p /mnt/var/lib/pacman
-if ! sudo rsync \
-  -a \
-  --progress \
-  --one-file-system \
-  --delete-during \
-  /var/lib/pacman/ '/mnt/var/lib/pacman'; then
-  echo "Rsync errored, continue anyway? (y/n)"
-  if ! read -r; then exit 1; fi
-  if [ "$REPLY" == "n" ] || [ "$REPLY" == "no" ] || [ "$REPLY" == "N" ] || [ "$REPLY" == "NO" ]; then
-    echo "Aborted"
-    exit 1
-  fi
-fi
-
-echo "Rsync /boot"
-separator
-sleeper
-if ! sudo rsync \
-  -a \
-  --progress \
-  --delete-during \
-  --exclude=.DS_Store \
-  --exclude="._*" \
-  --exclude="._.*" \
-  /boot/ '/mnt/boot'; then
-  echo "Rsync errored, but script is over"
 fi
 
 if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then

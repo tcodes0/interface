@@ -44,6 +44,8 @@ alias sysustop='systemctl --user stop'
 alias sysuenab='systemctl --user enable'
 alias sunano='sudo nano'
 alias jrn='journalctl -r'
+alias fs="btrfs"
+alias fsv="btrfs subvolume"
 
 #################
 # pacman and yay
