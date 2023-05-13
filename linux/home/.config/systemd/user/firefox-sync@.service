@@ -1,0 +1,11 @@
+[Unit]
+Description=Firefox profile memory cache
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=%h/bin/firefox-sync.sh %i
+ExecStop=%h/bin/firefox-sync.sh %i
