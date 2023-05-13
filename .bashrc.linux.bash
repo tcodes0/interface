@@ -69,6 +69,7 @@ if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) 
   export USER_SERVICES_SET="true"
   systemctl --user start x11-keyboard.service
   systemctl --user start srit.service
+  systemctl --user start firefox-sync.service
 fi
 
 #####################################################
