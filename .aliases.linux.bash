@@ -67,11 +67,11 @@ alias pacRemoveForce='yay --remove --nodeps --nodeps'      # -Rdd
 alias paci='pacInfo'
 alias pacii='pacInfoVerbose'
 alias pacl='pacList'
-alias pacql='pacListVerbose'
+alias pacll='pacListVerbose'
 alias pacI='pacInstall'
-alias pacR='pacRemove'
-alias pacRss='pacRemoveDeps'
-alias pacRdd='pacRemoveForce'
+alias pacR='pacRemoveDeps'
+# shellcheck disable=SC2142
+alias pacBigPackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort -rh | head -100 | less"
 
 ######
 # dot
