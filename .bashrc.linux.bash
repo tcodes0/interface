@@ -19,6 +19,7 @@ $HOME/bin:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
 $HOME/go/bin:\
+$HOME/.cargo/bin:\
 /usr/local/go/bin:\
 $HOME/Desktop/scripts-eleanor:\
 $HOME/Desktop/dir-rename/build:\
