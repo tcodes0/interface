@@ -21,6 +21,7 @@ $HOME/bin:\
 $HOME/go/bin:\
 /usr/local/go/bin:\
 $HOME/Desktop/scripts-eleanor:\
+$HOME/Desktop/dir-rename/build:\
 $HOME/google-cloud-sdk/bin:\
 /opt/android-sdk/platform-tools"
 
