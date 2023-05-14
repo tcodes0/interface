@@ -16,13 +16,18 @@ command="$HOME/bin/bkp.sh"
 
 #======================================== FUNCTIONS
 
+err() {
+  echo "error: $1"
+  exit 1
+}
+
 scheduler-lock() {
   if [ "$1" == "-v" ]; then
     verbose="true"
     shift
   fi
   if ! [ -f "$lock_file" ]; then
-    touch "$lock_file" || bailout
+    touch "$lock_file" || err scheduler lock
     if [ "$verbose" == "true" ]; then
       echo "lock file created"
     fi
@@ -36,7 +41,7 @@ scheduler-reset() {
     shift
   fi
   if [ -f "$record_file" ]; then
-    trash "$record_file" || bailout
+    trash "$record_file" || err scheduler reset
     if [ "$verbose" == "true" ]; then
       echo "record file removed"
     fi
@@ -50,7 +55,7 @@ scheduler-unlock() {
     shift
   fi
   if [ -f "$lock_file" ]; then
-    trash "$lock_file" || bailout
+    trash "$lock_file" || err scheduler unlock
     if [ "$verbose" == "true" ]; then
       echo "lock file removed"
     fi
@@ -129,7 +134,7 @@ scheduler-check() {
 
 case $1 in
 --record)
-  echo "$todays_weekday" >$record_file || bailout
+  echo "$todays_weekday" >$record_file || err scheduler record
   exit 0
   ;;
 --lock)

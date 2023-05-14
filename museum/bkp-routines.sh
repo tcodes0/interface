@@ -51,8 +51,13 @@ declare -A ZIPPING=(
 
 ##--------------------  Functions --------------------##
 
+err() {
+  echo "error: $1"
+  exit 1
+}
+
 do-help() {
-  precho "bkp.sh ➡ personal backup script
+  echo "bkp.sh ➡ personal backup script
   -p, --print     prints all files and folders with their bkp location
   -h, --help      see this message
   -v              verbose
@@ -120,7 +125,7 @@ copyRedundant() {
 listApps() {
   echo "-> $(date +"%b %d %T ")Applist started" >>"$LOGPATH"
   progress start "Saving a list of apps on /Applications"
-  ls /Applications >"$GDRIVE/plain-text/listApps.txt" || bailout
+  ls /Applications >"$GDRIVE/plain-text/listApps.txt" || err "listApps"
   progress finish "$?"
   echo -e "_________________________________________________________\\n" >>"$LOGPATH"
 }
@@ -130,8 +135,8 @@ listVscodeExtensions() {
 
   echo "-> $(date +"%b %d %T ")vscode extension list started" >>"$LOGPATH"
   progress start "Saving a list of vscode extensions"
-  code --list-extensions >"$file" 2>/dev/null || bailout
-  echo >>"$file" || bailout
+  code --list-extensions >"$file" 2>/dev/null || err "listVscodeExtensions"
+  echo >>"$file" || err "listVscodeExtensions"
   progress finish "$?"
   echo -e "_________________________________________________________\\n" >>"$LOGPATH"
 }
@@ -148,7 +153,7 @@ copyZipping() {
     printf "\\n" >>"$LOGPATH"
     echo "-> $(date +"%b %d %T ")Rsyncing $file to $bkp" >>"$LOGPATH"
     $RSYNC --log-file "$LOGPATH" "${file}.tar.7z" "$bkp"
-    trash "${file}.tar.7z" || bailout
+    trash "${file}.tar.7z" || err "copyZipping"
   done
   progress finish "$?"
   echo -e "_________________________________________________________\\n" >>"$LOGPATH"
@@ -162,7 +167,7 @@ updateSoftware() { #new apps not on system will dl as lastest so its good.
 
 runMackup() { #need to test how google drive handles these files, but if but on path list should be safe.
   progress start "Running Mackup"
-  mackup backup -f 1>/dev/null || bailout
+  mackup backup -f 1>/dev/null || err "runMackup"
   progress finish "$?"
 }
 
@@ -173,7 +178,7 @@ updateBrewfile() {
     if [ -f "$bf" ]; then
       trash "$bf"
     fi
-    brew bundle dump --file="$bf" || bailout
+    brew bundle dump --file="$bf" || err "updateBrewfile"
   )
   progress finish "$?"
 }

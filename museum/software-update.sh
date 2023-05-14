@@ -71,7 +71,7 @@ case "$1" in
 esac
 
 #confirm upgrade
-precho "Upgrade all cli-software now? (y/n)
+echo "Upgrade all cli-software now? (y/n)
    ...defaulting to no in 5s"
 if ! read -rt 5; then exit $?; fi
 
