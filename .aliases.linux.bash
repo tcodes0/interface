@@ -2,9 +2,9 @@
 
 # Linux aliases
 
-#####################################################
-# If not running interactively, skip remaining code #
-#####################################################
+###############################################
+# If running from script, skip remaining code #
+###############################################
 [[ $- != *i* ]] && return
 
 alias ls='ls -ph --color=always'

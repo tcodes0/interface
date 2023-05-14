@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034 disable=SC1090
 
-#it's recommended by a man page to set this here for better compatibility I guess
-# tput init
-
 #========== Environment
 export HISTSIZE=3000
 export HISTFILESIZE=$HISTSIZE
@@ -18,12 +15,12 @@ export BASH_ENV="$HOME/.bashrc"
 GPG_TTY=$(tty)
 export GPG_TTY
 
-#####################################################
-# If not running interactively, skip remaining code #
-#####################################################
+###############################################
+# If running from script, skip remaining code #
+###############################################
 [[ $- != *i* ]] && return
 
-shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend #nullglob
+shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 
 #========== Completions, external scripts, git prompt
 GIT_PS1_SHOWDIRTYSTATE="true"

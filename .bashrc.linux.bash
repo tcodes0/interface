@@ -16,15 +16,13 @@ $HOME/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
-/usr/bin/site_perl:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
-$HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
-$HOME/Desktop/scripts:\
+/usr/local/go/bin:\
+$HOME/Desktop/scripts-eleanor:\
 $HOME/google-cloud-sdk/bin:\
-/opt/android-sdk/platform-tools:\
-/usr/local/go/bin"
+/opt/android-sdk/platform-tools"
 
 # NVM
 unset PREFIX            # NVM hates this
@@ -69,12 +67,12 @@ if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) 
   export USER_SERVICES_SET="true"
   systemctl --user start x11-keyboard.service
   systemctl --user start srit.service
-  systemctl --user start firefox-sync.service
+  systemctl --user start firefox-sync@mpakm5ej.dev-edition-default.service
 fi
 
-#####################################################
-# If not running interactively, skip remaining code #
-#####################################################
+###############################################
+# If running from script, skip remaining code #
+###############################################
 [[ $- != *i* ]] && return
 
 export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
@@ -88,7 +86,7 @@ safe_source "$DOTFILE_PATH/.functions.linux.bash"
 safe_source "$DOTFILE_PATH/.private.bash"
 safe_source "$DOTFILE_PATH/.prompt.linux.bash"
 safe_source "$DOTFILE_PATH/linux/home/.config/git-prompt.sh"
-safe_source "$DOTFILE_PATH/priv/env"
+safe_source "$DOTFILE_PATH/priv/.bashrc.bash"
 # AUR  lscolors-git package
 safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
