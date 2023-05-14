@@ -427,8 +427,8 @@ __gen() {
 # $1: relative path to prompt file. defaults to prompt.txt
 
 chatgpt() {
-  if ! [ -f ./cmd/playground/prompt.txt ]; then
-    echo "\"prompt.txt\" file not found on $PWD"
+  if [ $# == "0" ]; then
+    echo "usage: chatgpt <prompt>"
     return 1
   fi
 
@@ -437,14 +437,12 @@ chatgpt() {
     return 1
   fi
 
-  PROMPT=$(<"$PWD/cmd/playground/prompt.txt")
-
-  curl https://api.openai.com/v1/chat/completions \
+  curl -s https://api.openai.com/v1/chat/completions \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -d "{
     \"model\": \"gpt-3.5-turbo\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"$PROMPT\"}]
+    \"messages\": [{\"role\": \"user\", \"content\": \"$*\"}]
   }" |
     jq '.choices[0].message.content'
 }
