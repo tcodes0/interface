@@ -1,0 +1,11 @@
+[Unit]
+Description=syncs firefox profile and cache between memory and disk
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=%h/bin/firefox-sync.sh mpakm5ej.dev-edition-default
+ExecStop=%h/bin/firefox-sync.sh mpakm5ej.dev-edition-default

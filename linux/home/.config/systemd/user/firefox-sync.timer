@@ -1,5 +1,5 @@
 [Unit]
-Description=Firefox sync timer
+Description=firefox sync timer
 
 [Timer]
 OnUnitActiveSec=5min
