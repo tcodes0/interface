@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034 disable=SC1090
 
 #========== Environment
-export HISTSIZE=3000
+export HISTSIZE=5000
 export HISTFILESIZE=$HISTSIZE
 export HISTTIMEFORMAT="%b %d "
 export HISTCONTROL="ignoredups:erasedups"
