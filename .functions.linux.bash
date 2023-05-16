@@ -8,6 +8,7 @@
 
 goo() {
   google "$@"
+  qai "$@"
 }
 
 #========== Generic
