@@ -1,4 +1,5 @@
 #!/bin/sh
+# https://wiki.archlinux.org/title/Firefox/Profile_on_RAM
 
 static=static-$1
 link=$1
