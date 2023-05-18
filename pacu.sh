@@ -15,18 +15,7 @@ log_fatal() {
   exit 1
 }
 
-if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
-  echo "Did you backup?"
-  if ! today-date read "$SYSBKP_DATE_FILE"; then
-    echo "Backup run date check failed"
-    exit 1
-  fi
-else
-  echo "Backup run date check failed"
-  exit 1
-fi
-
-echo "For safety: logout, switch to a console, disable sddm, disable postgresql. All done? (timeout 10s) [y/N]"
+echo "For safety: snapshot @root, logout, switch to a console, stop and disable: sddm, postgresql. All done? (timeout 10s) [y/N]"
 read -t 10 -r response
 if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
   exit 0
@@ -45,7 +34,7 @@ LTS_VER="$(node -v)"
 nvm alias default "$LTS_VER" 1>/dev/null
 
 # fix some install errors
-chmod -R u+w "$HOME/.cache/yay"
+chmod -R u+w,u+r "$HOME/.cache/yay"
 
 # handle errors manually from now on
 set +e

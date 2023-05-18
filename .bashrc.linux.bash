@@ -77,8 +77,6 @@ fi
 ###############################################
 [[ $- != *i* ]] && return
 
-export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
-
 # order matters here
 safe_source "$DOTFILE_PATH/.bashrc.bash"
 safe_source "$DOTFILE_PATH/.aliases.bash"

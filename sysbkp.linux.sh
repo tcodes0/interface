@@ -96,8 +96,3 @@ if ! sudo rsync \
     exit 1
   fi
 fi
-
-if command -v today-date >/dev/null && [ "$SYSBKP_DATE_FILE" ]; then
-  today-date write "$SYSBKP_DATE_FILE"
-  echo "run date saved to $SYSBKP_DATE_FILE"
-fi
