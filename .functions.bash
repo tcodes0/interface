@@ -401,10 +401,21 @@ gcom() {
   if ! git fetch --all --prune; then
     return
   fi
-  checkout=$(git checkout main 2>&1)
+
+  branch=main
+  checkout=$(git checkout $branch 2>&1)
+
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
     echo "gcom > Branch behind remote counterpart, pulling..."
-    gl
+
+    if ! git diff --quiet; then
+      echo "gcom > You have unstaged changes"
+      return
+    fi
+
+    git pull
+  elif [[ "$checkout" =~ 'did not match any file' ]]; then
+    echo "gcom > Branch $branch does not exist, checkout manually"
   fi
 }
 
