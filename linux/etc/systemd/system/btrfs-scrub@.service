@@ -1,0 +1,7 @@
+[Unit]
+Description=Scrub btrfs filesystems
+
+[Service]
+Type=oneshot
+ExecStart=/home/vacation/bin/btrfs-scrub.sh %i
+NotifyAccess=main

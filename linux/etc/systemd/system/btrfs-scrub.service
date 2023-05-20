@@ -1,9 +1,0 @@
-[Unit]
-Description=Scrub btrfs / device to tidy fs. Prints a reports on exit
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/btrfs scrub start /
-ExecStop=/usr/bin/btrfs scrub status -d --si --gbytes /
-Restart=on-failure
-RestartSec=5min
