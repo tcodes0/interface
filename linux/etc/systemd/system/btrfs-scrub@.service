@@ -5,3 +5,5 @@ Description=Scrub btrfs filesystems
 Type=oneshot
 ExecStart=/home/vacation/bin/btrfs-scrub.sh %i
 NotifyAccess=main
+User=root
+Group=root
