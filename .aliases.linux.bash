@@ -43,7 +43,8 @@ alias sysustart='systemctl --user start'
 alias sysustop='systemctl --user stop'
 alias sysuenab='systemctl --user enable'
 alias sunano='sudo nano'
-alias jrn='journalctl -r'
+alias jrn='journalctl --reverse'
+alias jrnu='journalctl --user --reverse --catalog'
 alias fs="btrfs"
 alias fsv="btrfs subvolume"
 
