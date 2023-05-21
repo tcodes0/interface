@@ -3,7 +3,7 @@ Description=Scrub btrfs filesystems
 
 [Service]
 Type=oneshot
-ExecStart=/home/vacation/bin/btrfs-scrub.sh %i
+ExecStart=/home/vacation/bin/btrfs-scrub.sh %i &
 NotifyAccess=main
 User=root
 Group=root
@@ -11,5 +11,7 @@ Nice=19
 CPUSchedulingPolicy=idle
 IOSchedulingClass=idle
 IOSchedulingPriority=7
-StandardOutput=null
+StandardOutput=journal
 StandardError=journal
+# 30 minutes
+TimeoutSec=1800

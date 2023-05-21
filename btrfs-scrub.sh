@@ -14,8 +14,8 @@ Dator) target="/media/data" ;;
 esac
 
 #  if target is not dator or archlinux
-if [ "$target" != "/" ] && [ "$target" != "/media/data" ]; then
-  echo "$target is unkown volume, edit script to add it"
+if [ -z "$target" ]; then
+  echo "Unkown volume: $1, edit script to add it"
   exit 1
 fi
 
@@ -29,5 +29,5 @@ fi
 if [ "$cancel" = "true" ]; then
   btrfs scrub cancel $target
 else
-  btrfs scrub $target
+  btrfs scrub start $target
 fi
