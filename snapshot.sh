@@ -2,6 +2,30 @@
 
 set -e
 
+# if first argument is -h or --help, echo help and exit
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  echo "usage: snapshot.sh [-n|--dry-run]"
+  echo "this is an interactive script, use -n or --dry-run to experiment"
+  echo "run without dry-run flags to make snapshots"
+  echo "- choose subvolume to snapshot from /toplevel"
+  echo "- choose snapshot name, default is subvolume name and date"
+  echo "- choose read-only or read-write, default is read-write"
+  exit 0
+fi
+
+dryrun=""
+
+# if first argument is -n or --dry-run, set dryrun to true
+if [ "$1" = "-n" ] || [ "$1" = "--dry-run" ]; then
+  dryrun="true"
+fi
+
+# if dryrun is not empty, echo dry run
+if [ -n "$dryrun" ]; then
+  echo "dry run..."
+  echo
+fi
+
 echo "subvolumes in /toplevel owned by you:"
 echo
 
@@ -52,6 +76,11 @@ if [ -z "$response" ]; then
   destination="$default_name"
 else
   destination="$response"
+fi
+
+if [ -n "$dryrun" ]; then
+  echo would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
+  exit 0
 fi
 
 btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
