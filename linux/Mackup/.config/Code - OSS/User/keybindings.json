@@ -255,11 +255,6 @@
     "command": "-actions.findWithSelection"
   },
   {
-    "key": "ctrl+e",
-    "command": "editor.action.smartSelect.grow",
-    "when": "editorTextFocus"
-  },
-  {
     "key": "meta+shift+ctrl+right",
     "command": "-editor.action.smartSelect.grow",
     "when": "editorTextFocus"
@@ -441,7 +436,7 @@
     "when": "editorFocus"
   },
   {
-    "key": "ctrl+k ctrl+d",
+    "key": "cmd+k cmd+d",
     "command": "git.openChange"
   },
   {
@@ -575,14 +570,6 @@
     "when": "textInputFocus"
   },
   {
-    "key": "meta+e",
-    "command": "cursorLineEnd"
-  },
-  {
-    "key": "meta+a",
-    "command": "cursorLineStart"
-  },
-  {
     "key": "alt+right",
     "command": "-workbench.action.terminal.focusNextPane",
     "when": "terminalFocus"
@@ -662,8 +649,9 @@
     "when": "viewContainer.workbench.view.debug.enabled"
   },
   {
-    "key": "shift+cmd+l",
-    "command": "editor.action.selectAll"
+    "key": "cmd+a",
+    "command": "editor.action.selectAll",
+    "when": "editorFocus"
   },
   {
     "key": "cmd+a",
