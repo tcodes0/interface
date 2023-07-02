@@ -7,8 +7,8 @@ if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
   echo "usage: snapshot.sh [-n|--dry-run]"
   echo "this is an interactive script, use -n or --dry-run to experiment"
   echo "run without dry-run flags to make snapshots"
-  echo "- choose subvolume to snapshot from /toplevel"
-  echo "- choose snapshot name, default is subvolume name and date"
+  echo "- choose subvolume to snapshot from /toplevel, we'll list the options"
+  echo "- choose snapshot name, default to \$name-\${todays_date}"
   echo "- choose read-only or read-write, default is read-write"
   exit 0
 fi
@@ -48,10 +48,10 @@ source_no_trailing="${response%%-*}"
 
 echo
 echo "read-only? (y/N) Default read-write:"
+
 read -r response
 
 readonly=""
-
 # if response is empty or n or N, set readonly to false
 if [ -n "$response" ] && [ "$response" != "n" ] && [ "$response" != "N" ]; then
   readonly="-r"
@@ -67,10 +67,10 @@ fi
 
 echo
 echo "snapshot name, default $default_name:"
+
 read -r response
 
 destination=""
-
 # if no response or response is not a string, echo error and exit
 if [ -z "$response" ]; then
   destination="$default_name"

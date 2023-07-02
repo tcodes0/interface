@@ -75,7 +75,6 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -125,10 +124,6 @@
     "editor.codeActionsOnSave": {
       "source.organizeImports": true
     }
-  },
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 1000
   },
   "go.testOnSave": false,
   "go.delveConfig": {
@@ -221,15 +216,30 @@
     }
   ],
   "githubPullRequests.fileListLayout": "flat",
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": false,
-    "plaintext": true,
-    "markdown": true
-  },
   "workbench.startupEditor": "none",
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -1,
+  "cSpell.userWords": [
+    "AIAPI",
+    "aiplugin",
+    "athenahealth",
+    "baristai",
+    "cliflag",
+    "configkey",
+    "eleanorhealth",
+    "entityid",
+    "envtag",
+    "Storer",
+    "styleguide",
+    "unfollow",
+    "vamac",
+    "Wrapf",
+    "zerolog"
+  ],
+  "cSpell.maxDuplicateProblems": 2,
+  "cSpell.showAutocompleteSuggestions": false,
+  "cSpell.spellCheckDelayMs": 2000,
+  "cSpell.maxNumberOfProblems": 5
 }
