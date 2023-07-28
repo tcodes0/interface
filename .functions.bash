@@ -434,5 +434,5 @@ __gen() {
 #- - - - - - - - - - -
 
 qai() {
-  baristai --use chatgpt --prompt "$*"
+  baristai --use openai:gpt --prompt "$*"
 }

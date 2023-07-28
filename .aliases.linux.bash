@@ -105,7 +105,7 @@ alias golint="golangci-lint run --timeout 20s --tests=false"
 alias gen="godotenv -f .env go generate ./..."
 alias golint="golangci-lint run --timeout 20s --tests=false"
 alias ehvpn="gcloud alpha cloud-shell ssh --project=ele-qa-436057 --authorize-session -- -D 31337 -CNq; echo configure firefox to use SOCKS proxy v5 on port 31337"
-alias gorun="godotenv -f .env go run"
+alias gorun="godotenv -f .env go run -race"
 
 ######
 # misc
