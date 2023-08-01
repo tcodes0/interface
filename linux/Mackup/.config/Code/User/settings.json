@@ -75,9 +75,12 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.run": "onType",
+  "eslint.run": "onSave",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -130,6 +133,7 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testFlags": ["-race"],
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -228,11 +232,13 @@
     "athenahealth",
     "baristai",
     "btrfs",
+    "chakra",
     "cliflag",
     "clioptions",
     "commonclock",
     "configkey",
     "davinci",
+    "devs",
     "eleanorhealth",
     "entityid",
     "envtag",
@@ -253,7 +259,9 @@
     "Storer",
     "struct",
     "styleguide",
+    "tanstack",
     "tcodes",
+    "typecheck",
     "unfollow",
     "unmarshalled",
     "unmarshalling",
