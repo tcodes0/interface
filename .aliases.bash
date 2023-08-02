@@ -133,8 +133,8 @@ alias gdw='git diff --word-diff'
 alias gf='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
-alias gga='git commit --amend --no-edit'
-alias ggae='git commit --amend'
+alias gca='git commit --amend --no-edit'
+alias gcae='git commit --amend'
 alias ggpull="git pull origin \$GIT_BRANCH"
 # alias ggpull="git pull origin \$__git_ps1_branch_name"
 alias ggpur=ggu
@@ -357,7 +357,4 @@ alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias d="deploy"
-
-if [ "$ARCH_ACER" ]; then
-  alias yt="node --expose-gc ./node_modules/.bin/jest --logHeapUsage"
-fi
+alias gorun="godotenv -f .env go run"

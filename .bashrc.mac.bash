@@ -28,6 +28,7 @@ export GOPATH=$HOME/.go
 # export GOROOT="/opt/homebrew"
 
 export PATH="\
+$HOME/bin:\
 /opt/homebrew/bin:\
 /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:\
 /usr/local/bin:\
@@ -45,5 +46,5 @@ export GOPATH="$HOME/.go"
 unset PREFIX            # NVM hates this
 unset npm_config_prefix # NVM hates this
 export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"                   # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"                                       # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion

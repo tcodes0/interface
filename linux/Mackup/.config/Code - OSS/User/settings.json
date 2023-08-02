@@ -92,9 +92,7 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.packageManager": "yarn",
   "eslint.run": "onType",
-  "eslint.alwaysShowStatus": true,
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
   },
@@ -146,21 +144,21 @@
       "source.organizeImports": true
     }
   },
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 1000
-  },
   "go.testOnSave": false,
   "go.delveConfig": {
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.goroot": "/opt/homebrew/Cellar/go/1.20.3/libexec",
+  "go.goroot": "/opt/homebrew/Cellar/go/1.20.4/libexec",
   //
   // - - - - - - - - TS - - - - - - - - -
   //
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  //
+  // - - - - - - - - SHADERS - - - - - - - - -
+  //
+  "glsllint.fallBackStage": "frag",
   //
   // - - - - - - - - TERMINAL - - - - - - - - -
   //
@@ -246,12 +244,17 @@
   "githubPullRequests.fileListLayout": "flat",
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
     "plaintext": true,
-    "markdown": true
+    "markdown": true,
+    "scminput": false,
+    "yaml": true,
+    "glsl": false
   },
   "workbench.startupEditor": "none",
-  "window.zoomLevel": 0,
   "editor.inlineSuggest.enabled": true,
-  "git.openRepositoryInParentFolders": "never"
+  "git.openRepositoryInParentFolders": "never",
+  "window.zoomLevel": -1.5,
+  "[glsl]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  }
 }
