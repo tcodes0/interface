@@ -1079,3 +1079,7 @@ gcom() {
     gl
   fi
 }
+
+qai() {
+  baristai --use openai:gpt --prompt "$*"
+}

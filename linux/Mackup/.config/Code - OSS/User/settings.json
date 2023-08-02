@@ -92,9 +92,12 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.run": "onType",
+  "eslint.run": "onSave",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -149,6 +152,7 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testFlags": ["-race"],
   "go.goroot": "/opt/homebrew/Cellar/go/1.20.4/libexec",
   //
   // - - - - - - - - TS - - - - - - - - -
@@ -252,9 +256,9 @@
   },
   "workbench.startupEditor": "none",
   "editor.inlineSuggest.enabled": true,
-  "git.openRepositoryInParentFolders": "never",
-  "window.zoomLevel": -1.5,
+  "git.openRepositoryInParentFolders": "always",
   "[glsl]": {
     "editor.defaultFormatter": "xaver.clang-format"
-  }
+  },
+  "window.zoomLevel": -1
 }

@@ -357,4 +357,4 @@ alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias d="deploy"
-alias gorun="godotenv -f .env go run"
+alias gorun="godotenv -f .env go run -race"
