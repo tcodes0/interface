@@ -19,6 +19,7 @@ safe_source $DOTFILE_PATH/.functions.mac.bash
 safe_source $DOTFILE_PATH/.prompt.linux.bash
 safe_source $DOTFILE_PATH/linux/home/.config/git-prompt.sh
 safe_source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
+safe_source $DOTFILE_PATH/priv/env
 
 #========== Environment
 
