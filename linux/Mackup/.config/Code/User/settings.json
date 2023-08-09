@@ -224,7 +224,6 @@
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",
-  "window.zoomLevel": -1,
   "cSpell.userWords": [
     "AIAPI",
     "aiplugin",
@@ -274,5 +273,6 @@
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "extensions.ignoreRecommendations": true,
-  "git.openRepositoryInParentFolders": "always"
+  "git.openRepositoryInParentFolders": "always",
+  "window.zoomLevel": -1,
 }

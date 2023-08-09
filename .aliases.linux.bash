@@ -77,15 +77,13 @@ alias pacBigPackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed S
 ######
 # dot
 ######
-alias .z="cd \$HOME/Desktop/zet"
 alias .hc="cd \$HOME/Desktop/client"
 alias .hs="cd \$HOME/Desktop/server"
 alias .ms="cd \$HOME/Desktop/member-server"
 alias .mc="cd \$HOME/Desktop/member-client"
-alias .s="cd \$HOME/Desktop/shared"
-alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
 alias .i="cd \$DOTFILE_PATH"
-alias .dj="cd \$HOME/Desktop/data-jobs"
+alias .b="cd \$HOME/Desktop/baristai"
+alias .bw="cd \$HOME/Desktop/baristai/client/web"
 
 ######
 # work
