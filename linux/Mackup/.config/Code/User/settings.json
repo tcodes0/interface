@@ -247,6 +247,7 @@
     "httprecoverer",
     "idgen",
     "idgenerator",
+    "imagecat",
     "Laper",
     "libopenai",
     "lostcancel",
@@ -274,5 +275,5 @@
   "cSpell.maxNumberOfProblems": 5,
   "extensions.ignoreRecommendations": true,
   "git.openRepositoryInParentFolders": "always",
-  "window.zoomLevel": -1,
+  "window.zoomLevel": -1
 }
