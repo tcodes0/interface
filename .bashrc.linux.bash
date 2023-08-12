@@ -49,7 +49,7 @@ fi
 # Go
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-export GOPRIVATE="github.com/eleanorhealth/*"
+export GOPRIVATE="github.com/eleanorhealth/* github.com/tcodes0/*"
 
 # gcloud
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True

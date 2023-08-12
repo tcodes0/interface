@@ -132,7 +132,7 @@
   "go.delveConfig": {
     "debugAdapter": "dlv-dap"
   },
-  "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testEnvFile": "${workspaceFolder}/svc/server/.env",
   "go.testFlags": ["-race"],
   //
   // - - - - - - - - TS - - - - - - - - -
@@ -227,20 +227,25 @@
   "cSpell.userWords": [
     "AIAPI",
     "aiplugin",
+    "apperr",
+    "apperrs",
     "Appt",
     "athenahealth",
     "baristai",
     "btrfs",
     "chakra",
+    "Clientf",
     "cliflag",
     "clioptions",
     "commonclock",
     "configkey",
     "davinci",
     "devs",
+    "doesnt",
     "eleanorhealth",
     "entityid",
     "envtag",
+    "Errf",
     "frontends",
     "hlog",
     "httphandler",
@@ -256,6 +261,8 @@
     "nolint",
     "nower",
     "OPENAI",
+    "pgstore",
+    "redisstore",
     "Storer",
     "struct",
     "styleguide",
