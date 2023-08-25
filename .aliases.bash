@@ -306,3 +306,4 @@ alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d")
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias d="deploy"
+alias m="make"
