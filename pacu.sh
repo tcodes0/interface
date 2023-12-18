@@ -22,17 +22,17 @@ extract_version() {
     return 1
   fi
 
-  echo -n "$*" | grep -o -E '[0-9]+\.[0-9]+'
+  echo -n "$*" | grep -o -E '[0-9]+\.'
 }
 
-pg_major_cleanup() {
+migrate_db() {
   set -e
 
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data)
   local old_version
 
   echo
-  echo "manually migrating pg cluster..."
+  echo "manually migrating pg db across major versions..."
   echo "sudo required"
   sudo true
 
@@ -77,32 +77,24 @@ done
 ### Postgres update ###
 #######################
 
-echo "posgresql major updates require a cleanup script"
-echo
-echo "current PG version"
-if ! extract_version psql --version; then log_fatal checking current pg version; fi
+current_pg_major=$(extract_version psql --version)
+# delete all lines but the X line
+new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
+new_pg_major=$(extract_version "$new_pg_major")
 
-echo
-echo "new PG version"
-new_ver=$(yay --sync --refresh --info postgresql | grep Version)
-if ! extract_version "$new_ver"; then log_fatal checking new pg version; fi
+# .0 is necessary because regex is capturing the dot
+bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
 
-echo
-echo "is this a major pg update? (timeout 10s) [y/n]"
-read -t 10 -r response
-if [ -z "$response" ]; then
-  echo "timeout"
-  exit 1
-fi
-if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+# if bc_result is 1 or greater, there is a new major version
+if [ "$bc_result" -ge 1 ]; then
   pg_major_update="yes"
 fi
 
 # update pg
-if ! yay --sync postgresql --needed --noconfirm; then log_fatal upgrading pg; fi
+if ! yay --sync postgresql postgresql-old-upgrade --needed --noconfirm; then log_fatal upgrading pg; fi
 
 if [ "$pg_major_update" == "yes" ]; then
-  if ! pg_major_cleanup; then log_fatal pg_major_cleanup; fi
+  if ! migrate_db; then log_fatal migrate_db; fi
 fi
 
 ######################
@@ -155,8 +147,9 @@ for service in "${services_to_restart[@]}"; do
 done
 
 if [ "$pg_major_update" == "yes" ]; then
+  # make sure postgresql is restarted successfully before attempting removal
   sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
-  vacuumdb --all --analyze-in-stages
+  sudo -u postgres vacuumdb --all --analyze-in-stages
 fi
 
 echo "success"
