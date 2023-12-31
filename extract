@@ -17,7 +17,7 @@ else
         ;;
       *.lzma) unlzma ./"$n" ;;
       *.bz2) bunzip2 ./"$n" ;;
-      *.rar) unrar x -ad ./"$n" ;;
+      *.rar) unrar-free x -ad ./"$n" ;; # normally just unrar
       *.gz) gunzip ./"$n" ;;
       *.zip) unzip ./"$n" ;;
       *.z) uncompress ./"$n" ;;

@@ -80,7 +80,7 @@
     "resolvePluginsRelativeTo": "."
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -135,7 +135,7 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
   },
   "go.testOnSave": false,
@@ -299,6 +299,7 @@
     "Iface",
     "imagecat",
     "immer",
+    "insta",
     "jsonutil",
     "Laper",
     "libopenai",
