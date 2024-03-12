@@ -6,9 +6,8 @@
 
 lts_name="gallium" # v16
 response=""
-pg_major_update="no"
-services_to_stop=("sddm postgresql")
-services_to_restart=("postgresql")
+services_to_stop=(sddm postgresql)
+services_to_restart=(postgresql)
 
 log_fatal() {
   echo pacu.sh error: "$*": "${FUNCNAME[1]}"
@@ -77,6 +76,7 @@ done
 ### Postgres update ###
 #######################
 
+pg_major_update="no"
 current_pg_major=$(extract_version psql --version)
 # delete all lines but the X line
 new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
@@ -130,9 +130,9 @@ if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinu
 # update linux
 if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal upgrading linux; fi
 # update everything but linux from repositories
-if ! yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system; fi
+if ! yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system from repos; fi
 # update everything but linux from AUR
-if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system; fi
+if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system from aur; fi
 
 set -e
 

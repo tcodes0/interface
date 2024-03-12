@@ -186,7 +186,7 @@ parseMode=2
 
 [General]
 BrowserApplication=firefoxdeveloperedition.desktop
-ColorSchemeHash=01662607e36cd33eacc7d7d7189f69c26b9a2cc8
+ColorSchemeHash=cb4c6ee5cc9a59dbe09fb467a529af1bf5c55c97
 Name=Breeze Dark
 TerminalApplication[$e]=alacritty
 TerminalService=Alacritty.desktop
@@ -242,7 +242,8 @@ listViewIconSize=0
 
 [KScreen]
 ScaleFactor=1.375
-ScreenScaleFactors=DisplayPort-0=1.375;DisplayPort-1=1.375;DisplayPort-2=1.375;HDMI-A-0=1.375;DVI-D-0=1.375;
+ScreenScaleFactors=DP-3=1.375;
+XwaylandClientsScale=false
 
 [KShortcutsDialog Settings]
 Dialog Size=758,826
