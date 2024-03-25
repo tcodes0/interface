@@ -97,7 +97,7 @@
     "resolvePluginsRelativeTo": "."
   },
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -144,7 +144,7 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
   },
   "go.testOnSave": false,
@@ -153,7 +153,7 @@
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
   "go.testFlags": ["-race"],
-  "go.goroot": "/opt/homebrew/Cellar/go/1.20.4/libexec",
+  // "go.goroot": "/opt/homebrew/Cellar/go/1.21.3/libexec",
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -172,15 +172,11 @@
   "terminal.integrated.env.osx": {
     "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
   },
-  //
-  // - - - - - - - - GENERAL - - - - - - - - -
-  //
-  "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
-  "editor.wordBasedSuggestions": true,
+  "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.formatOnSave": true,
   "editor.renderControlCharacters": true,
   "editor.minimap.enabled": false,
@@ -191,7 +187,7 @@
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
-  "window.zoomLevel": -0.7,
+  "window.zoomLevel": -1,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
@@ -258,12 +254,11 @@
   "workbench.startupEditor": "none",
   "editor.inlineSuggest.enabled": true,
   "git.openRepositoryInParentFolders": "always",
-  "[glsl]": {
-    "editor.defaultFormatter": "xaver.clang-format"
-  },
   "cSpell.userWords": [
     "AIAPI",
     "aiplugin",
+    "aiplugins",
+    "apperrs",
     "Appt",
     "appts",
     "athenahealth",
@@ -273,6 +268,7 @@
     "cliflag",
     "clioptions",
     "commonclock",
+    "comms",
     "configkey",
     "davinci",
     "devs",
@@ -289,6 +285,8 @@
     "httprecoverer",
     "idgen",
     "idgenerator",
+    "jmap",
+    "jsonutil",
     "Laper",
     "libopenai",
     "lostcancel",
@@ -297,8 +295,13 @@
     "Msgf",
     "nolint",
     "nower",
+    "nullzero",
     "OPENAI",
+    "pgstore",
     "productevents",
+    "reflectutil",
+    "resthandler",
+    "resttool",
     "samber",
     "Schedulable",
     "Storer",
@@ -310,6 +313,7 @@
     "unfollow",
     "unmarshalled",
     "unmarshalling",
+    "Unnotified",
     "vamac",
     "Wrapf",
     "zerolog"
@@ -317,5 +321,7 @@
   "cSpell.maxDuplicateProblems": 2,
   "cSpell.showAutocompleteSuggestions": false,
   "cSpell.spellCheckDelayMs": 2000,
-  "cSpell.maxNumberOfProblems": 5
+  "cSpell.maxNumberOfProblems": 5,
+  "window.commandCenter": false,
+  "workbench.activityBar.location": "hidden"
 }

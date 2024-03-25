@@ -690,5 +690,14 @@
   {
     "key": "shift+cmd+d",
     "command": "macros.duplicateLinesFromStart"
+  },
+  {
+    "key": "shift+cmd+e",
+    "command": "-workbench.view.explorer",
+    "when": "viewContainer.workbench.view.explorer.enabled"
+  },
+  {
+    "key": "shift+cmd+e",
+    "command": "workbench.files.action.focusFilesExplorer"
   }
 ]
