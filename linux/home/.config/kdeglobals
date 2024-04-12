@@ -190,6 +190,7 @@ ColorSchemeHash=cb4c6ee5cc9a59dbe09fb467a529af1bf5c55c97
 Name=Breeze Dark
 TerminalApplication[$e]=alacritty
 TerminalService=Alacritty.desktop
+XftAntialias=true
 XftHintStyle=hintslight
 XftSubPixel=rgb
 dbfile=/home/vacation/.mozilla/firefox/3okjfg7j.default-1572915977469/places.sqlite

@@ -693,5 +693,9 @@
     "key": "ctrl+shift+r",
     "command": "workbench.view.debug",
     "when": "textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "-editor.action.selectAll"
   }
 ]
