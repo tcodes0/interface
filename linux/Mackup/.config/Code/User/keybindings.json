@@ -697,5 +697,19 @@
   {
     "key": "ctrl+a",
     "command": "-editor.action.selectAll"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "-notebook.cell.output.selectAll",
+    "when": "notebookEditorFocused && notebookOutputFocused"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "-list.selectAll",
+    "when": "listFocus && listSupportsMultiselect && !inputFocus && !treestickyScrollFocused"
+  },
+  {
+    "key": "ctrl+a",
+    "command": "editor.action.selectAll"
   }
 ]
