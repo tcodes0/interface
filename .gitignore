@@ -29,3 +29,5 @@ phoenixMiner
 .kube
 *.log
 typo
+cloud-sql-proxy
+qbittorrent
