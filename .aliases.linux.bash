@@ -107,7 +107,7 @@ alias gorun="godotenv -f .env go run -race"
 alias gotest="godotenv -f .env go test ./... -race -json 2>&1 | gotestfmt"
 alias chromevpn='google-chrome-stable --proxy-server="socks5://localhost:31337"'
 alias ehtoken="gcloud auth print-access-token"
-alias kubecheck="kubeconform --strict --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
+alias kubecheck="kubeconform --strict --ignore-missing-schemas --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
 
 ######
 # misc
