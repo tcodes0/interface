@@ -29,3 +29,4 @@ alias golint="golangci-lint run --timeout 20s --tests=false"
 alias gen='find . -name "mock_*" -exec rm -f {} \; && godotenv -f .env go generate ./...'
 alias golint="golangci-lint run --timeout 20s --tests=false"
 alias ehvpn="gcloud alpha cloud-shell ssh --project=ele-qa-436057 --authorize-session -- -D 31337 -CNq; echo configure firefox to use SOCKS proxy v5 on port 31337"
+alias chromevpn='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --proxy-server="socks5://localhost:31337"'

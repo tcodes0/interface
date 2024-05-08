@@ -160,10 +160,6 @@
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
   //
-  // - - - - - - - - SHADERS - - - - - - - - -
-  //
-  "glsllint.fallBackStage": "frag",
-  //
   // - - - - - - - - TERMINAL - - - - - - - - -
   //
   "terminal.integrated.macOptionIsMeta": true,
@@ -172,6 +168,8 @@
   "terminal.integrated.env.osx": {
     "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
   },
+  "terminal.integrated.defaultProfile.osx": "bash",
+  // OTHERS
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
@@ -203,9 +201,6 @@
   "editor.suggestSelection": "first",
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
-  // "editor.codeActionsOnSave": {
-  //   "source.fixAll.eslint": true
-  // },
   "explorer.confirmDelete": false,
   "editor.mouseWheelScrollSensitivity": 3,
   "php.validate.executablePath": "/usr/bin/php",
@@ -277,6 +272,8 @@
     "entityid",
     "envtag",
     "errgroup",
+    "featureflag",
+    "Frameset",
     "frontends",
     "hlog",
     "httpflush",
@@ -309,6 +306,7 @@
     "styleguide",
     "tanstack",
     "tcodes",
+    "Telehealth",
     "typecheck",
     "unfollow",
     "unmarshalled",
