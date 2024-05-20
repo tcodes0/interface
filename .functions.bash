@@ -605,6 +605,8 @@ lg() {
     shouldPush='false'
   fi
 
+  GIT_BRANCH=$(git branch --show-current)
+
   if [[ -1 =~ $GIT_BRANCH ]]; then
     shouldPush='false'
   fi

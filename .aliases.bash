@@ -58,13 +58,12 @@ alias brewR='brew uninstall'
 #-----cask
 ###########
 
-alias cask='brew cask'
-alias caski='brew cask info'
-alias caskl='brew cask list'
-alias casks='brew search'
-alias caskh='brew cask home'
-alias caskI='brew cask install'
-alias caskR='brew cask uninstall'
+alias caski='brew info --cask'
+alias caskl='brew list --cask'
+alias casks='brew search --cask'
+alias caskh='brew home --cask'
+alias caskI='brew install --cask'
+alias caskR='brew uninstall --cask'
 
 #####################
 # ----------mistakes
@@ -175,7 +174,7 @@ alias gmsq='git merge -q --squash'
 alias gp='git push -q'
 alias gpo='git push origin'
 alias gpd='git push --dry-run'
-alias gpoat='git push origin --all && git push origin --tags'
+alias gpot='git push origin --tags'
 alias gpristine='git reset --hard && git clean -dfx'
 alias gpsup="git push -q --set-upstream origin \$GIT_BRANCH"
 alias gpsupc="git push -q --set-upstream client \$GIT_BRANCH"
