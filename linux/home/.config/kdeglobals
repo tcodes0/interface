@@ -247,7 +247,7 @@ ScreenScaleFactors=DP-3=1.375;
 XwaylandClientsScale=false
 
 [KShortcutsDialog Settings]
-Dialog Size=758,826
+Dialog Size=1505,1115
 
 [MainToolbarIcons]
 ActiveColor[$d]
@@ -300,6 +300,7 @@ DeleteWordForward=Alt+Del
 DocumentBack=
 Forward=Ctrl+Right
 ForwardWord=Alt+Right
+GotoLine=
 Help=
 
 [SmallIcons]

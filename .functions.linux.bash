@@ -227,3 +227,14 @@ tableinfo() {
     echo "copied to clipboard as $1"
   fi
 }
+
+#----------------
+
+gotest() {
+  if [ "$#" -eq 0 ]; then
+    echo "Usage: gotest path/to/test"
+    return
+  fi
+
+  godotenv -f .env go test "./$1" -race -json 2>&1 | gotestfmt
+}
