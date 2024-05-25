@@ -1,10 +1,11 @@
 #! /usr/bin/env bash
 
-set -e
+set -euo pipefail
+shopt -s globstar
 
 vid_id=$1
 format=$2
-destination=$3
+destination=${3:-}
 
 audio_only_format=251
 video_audio_720p=22
@@ -44,8 +45,9 @@ msg using temp "$temp_dir"
 cd "$temp_dir"
 
 # download from youtube
-if ! yt-dlp -f "$video_audio_720p" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
-  err "yt-dlp error"
+if ! yt-dlp -f "$format" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
+  yt-dlp "$vid_id" --list-formats
+  err "yt-dlp error, formats supported above"
 fi
 
 # sanitize filename
