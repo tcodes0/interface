@@ -3,8 +3,8 @@
 set -euo pipefail
 shopt -s globstar
 
-vid_id=$1
-format=$2
+vid_id=${1:-}
+format=${2:-}
 destination=${3:-}
 
 audio_only_format=251

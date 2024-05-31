@@ -380,5 +380,6 @@
     "Wrapf",
     "zerolog"
   ],
-  "workbench.activityBar.location": "hidden"
+  "workbench.activityBar.location": "hidden",
+  "github.copilot.editor.enableAutoCompletions": true
 }
