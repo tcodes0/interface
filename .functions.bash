@@ -170,12 +170,22 @@ lg() {
     # check for another git process running at this time (rare edge-case)
     # i.e. vscode; wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
-      echo "lg > .git/index.lock exits, waiting..."
+      printf %s "lg > .git/index.lock exits, waiting..."
       sleep 1
     done
 
     command git "$@"
   }
+
+  if ! command -v commitlint >/dev/null; then
+    printf %s "lg > commitlint not found; please run 'npm install -g @commitlint/cli'"
+    return 1
+  fi
+
+  if [ ! -f ~/.commitlintrc.yml ]; then
+    printf %s "lg > ~/.commitlintrc.yml not found"
+    return 1
+  fi
 
   # commit
 
@@ -183,29 +193,38 @@ lg() {
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
-    echo "lg > comitting files already staged..."
+    printf %b "lg > comitting files already staged...\n"
   fi
 
   if [ ! "$manuallyStagedFiles" ] && ! _git add --all; then
-    echo "lg > git add --all failed"
+    printf %s "lg > git add --all failed"
     return 1
   else
     manuallyStagedFiles=$(_git diff --name-only --cached)
 
     if [ ! "$manuallyStagedFiles" ]; then
-      echo "lg > no staged files"
+      printf %s "lg > no staged files"
       return 1
     fi
   fi
 
-  local message="$*"
+  local type="$1"
+  local scope="$2"
+  local subject="${*:3}"
 
-  if [ "$message" ]; then
-    echo "lg > commit message: $message"
-    _git commit -q -m "$message"
+  if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
+    printf %s "lg > usage: lg <type> <scope> <commit subject>"
+    return 1
+  fi
 
-  else
-    _git commit -q -v
+  local commitMsg="$type($scope): $subject"
+
+  if ! commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"; then
+    return 1
+  fi
+
+  if _git commit -q -m "$subject"; then
+    printf "lg > %s(%s): %s\n" "$type" "$scope" "$subject"
   fi
 
   # push
@@ -227,7 +246,7 @@ lg() {
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      echo "lg > push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
+      printf "lg > push error: No upstream. Running 'git push --set-upstream origin %s\n" "$GIT_BRANCH"
       _git push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
