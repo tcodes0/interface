@@ -223,8 +223,8 @@ lg() {
     return 1
   fi
 
-  if _git commit -q -m "$subject"; then
-    printf "lg > %s(%s): %s\n" "$type" "$scope" "$subject"
+  if _git commit -q -m "$commitMsg"; then
+    printf "lg > %s" "$commitMsg"
   fi
 
   # push
