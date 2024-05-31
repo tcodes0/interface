@@ -208,8 +208,8 @@ lg() {
     fi
   fi
 
-  local type="$1"
-  local scope="$2"
+  local type="${1/:/}"
+  local scope="${2/:/}"
   local subject="${*:3}"
 
   if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
