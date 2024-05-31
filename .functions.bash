@@ -164,91 +164,56 @@ aliasg() {
 
 #- - - - - - - - - - -
 
-# LAZY GIT
-# with commitlint automation. Does git add --all:
+# Lazy git
 lg() {
-  ######################
-  ## index management ##
-  ######################
-
-  local manually_staged_files=""
-  manually_staged_files=$(git diff --name-only --cached)
-
-  checkGitLock() {
+  _git() {
     # check for another git process running at this time (rare edge-case)
-    # i.e. vscode and wait for it to finish
+    # i.e. vscode; wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
       echo "lg > .git/index.lock exits, waiting..."
       sleep 1
     done
+
+    command git "$@"
   }
 
-  # feedback that manually added files will be commited
-  if [ "$manually_staged_files" ]; then
+  # commit
+
+  local manuallyStagedFiles=""
+  manuallyStagedFiles=$(git diff --name-only --cached)
+
+  if [ "$manuallyStagedFiles" ]; then
     echo "lg > comitting files already staged..."
   fi
 
-  local response="y"
-  # confirm automatic add in advance, to avoid mistakes
-  # if already staged files manually, skip
-  if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
-    if [ ! "$SKIPADD" ]; then
-      echo "lg > running 'git add --all', ok? (y/n)"
-      read -r response
-    fi
-  fi
-
-  checkGitLock
-  # git add --all, if fail exit. Check for prompt response, check for files already added                         *adding files here*
-  if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
-    echo "lg > auto add off or opted-out of or 'git add --all' failed"
+  if [ ! "$manuallyStagedFiles" ] && ! _git add --all; then
+    echo "lg > git add --all failed"
     return 1
-
   else
-    # pick up newly added files in block above
-    manually_staged_files=$(git diff --name-only --cached)
+    manuallyStagedFiles=$(_git diff --name-only --cached)
 
-    if [ ! "$manually_staged_files" ]; then
-      echo "lg > no staged files, and auto add opted-out of"
+    if [ ! "$manuallyStagedFiles" ]; then
+      echo "lg > no staged files"
       return 1
     fi
   fi
 
-  unset SKIPADD
+  local message="$*"
 
-  if [ "$*" ]; then
-    local message=""
-    message="$*"
-
-    if [ "$WIPCOMMIT" ]; then
-      message="${message} [skip ci]"
-      unset WIPCOMMIT
-    fi
-
+  if [ "$message" ]; then
     echo "lg > commit message: $message"
-    checkGitLock
-    git commit -q -m "$message"
+    _git commit -q -m "$message"
 
   else
-    checkGitLock
-    git commit -q -v
+    _git commit -q -v
   fi
 
-  ##########
-  ## push ##
-  ##########
+  # push
 
   local shouldPush='true'
+  local localOnlyBranchRegexp=".*-1$"
 
-  if [ "$GIT_UPSTREAM" ] && [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
-    shouldPush='false'
-  fi
-
-  if [ "$GIT_UPSTREAM" ] && [[ origin/main =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
-    shouldPush='false'
-  fi
-
-  if [[ -1 =~ $GIT_BRANCH ]]; then
+  if [[ $localOnlyBranchRegexp =~ $GIT_BRANCH ]]; then
     shouldPush='false'
   fi
 
@@ -256,33 +221,23 @@ lg() {
     shouldPush='false'
   fi
 
-  if [[ "$PWD" =~ member-server$|server$|member-client$|client$ ]]; then
-    shouldPush='false'
-  fi
-
   if [ $shouldPush == 'true' ]; then
+    local noUpstreamRegExp="has no upstream branch"
     local pushResult=""
-    # push branch, save output to detect errors
     pushResult=$(gp 2>&1)
 
-    if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
-      # handle no upstream branch error
+    if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
       echo "lg > push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
-      git push --set-upstream origin "$GIT_BRANCH"
+      _git push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 
-  gss
-}
-
-# to alias lg do something else alias _lg instead
-_lg() {
-  lg "$@"
+  _git status -s
 }
 
 #- - - - - - - - - - -
 
-#lazy commit
+# lazy commit
 gcmsg() {
   if [ "$*" ]; then
     git commit -q -m "$*"
@@ -294,9 +249,9 @@ gcmsg() {
 
 #- - - - - - - - - - -
 
-#git tag push
+# git tag push
 gtp() {
-  if git tag "$1"; then
+  if [ "$1" ] && git tag "$1"; then
     git push -q origin "$1"
   fi
 }
