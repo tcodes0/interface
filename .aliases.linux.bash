@@ -108,6 +108,7 @@ alias gotests="gotests -exported -parallel -template testify -w"
 alias chromevpn='google-chrome-stable --proxy-server="socks5://localhost:31337"'
 alias ehtoken="gcloud auth print-access-token"
 alias kubecheck="kubeconform --strict --ignore-missing-schemas --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
+alias commitlint="commitlint --config ~/.commitlintrc.yml"
 
 ######
 # misc

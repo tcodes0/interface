@@ -224,7 +224,7 @@ lg() {
   fi
 
   if _git commit -q -m "$commitMsg"; then
-    printf "lg > %s" "$commitMsg"
+    printf "lg > %s\n" "$commitMsg"
   fi
 
   # push

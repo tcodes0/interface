@@ -144,6 +144,7 @@
   },
   "go.testFlags": ["-race"],
   "go.lintTool": "golangci-lint",
+  "go.formatTool": "gofumpt",
   "go.lintFlags": ["--print-issued-lines=false"],
   //
   // - - - - - - - - TERMINAL - - - - - - - - -
