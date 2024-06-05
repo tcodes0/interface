@@ -153,6 +153,8 @@
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
   "go.testFlags": ["-race"],
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": ["--print-issued-lines=false"],
   "go.formatTool": "gofumpt",
   //
   // - - - - - - - - TS - - - - - - - - -

@@ -521,118 +521,89 @@ aliasg() {
 
 #- - - - - - - - - - -
 
-# LAZY GIT
-# with commitlint automation. Does git add --all:
+# Lazy git
 lg() {
-  ######################
-  ## index management ##
-  ######################
-
-  local manually_staged_files=""
-  manually_staged_files=$(git diff --name-only --cached)
-
-  checkGitLock() {
+  _git() {
     # check for another git process running at this time (rare edge-case)
-    # i.e. vscode and wait for it to finish
+    # i.e. vscode; wait for it to finish
     while [ -f "$PWD/.git/index.lock" ]; do
-      echo "lg > .git/index.lock exits, waiting..."
+      printf %s "lg > .git/index.lock exits, waiting..."
       sleep 1
     done
+
+    command git "$@"
   }
 
-  # feedback that manually added files will be commited
-  if [ "$manually_staged_files" ]; then
-    echo "lg > Comitting files already staged..."
-  fi
-
-  local response="y"
-  # confirm automatic add in advance, to avoid mistakes
-  # if already staged files manually, skip
-  if [ "$CONFIRMADD" ] && [ ! "$manually_staged_files" ]; then
-    if [ ! "$SKIPADD" ]; then
-      echo "lg > Running 'git add --all', ok? (y/n)"
-      read -r response
-    fi
-  fi
-
-  checkGitLock
-  # git add --all, if fail exit. Check for prompt response, check for files already added                         *adding files here*
-  if [ ! "$SKIPADD" ] && [ ! "$manually_staged_files" ] && { [ "$response" == Y ] || [ "$response" == y ]; } && ! git add --all; then
-    echo "lg > Auto add off or opted-out of or 'git add --all' failed"
+  if ! command -v commitlint >/dev/null; then
+    printf %s "lg > commitlint not found; please run 'npm install -g @commitlint/cli'"
     return 1
+  fi
 
+  if [ ! -f ~/.commitlintrc.yml ]; then
+    printf %s "lg > ~/.commitlintrc.yml not found"
+    return 1
+  fi
+
+  # commit
+
+  local manuallyStagedFiles=""
+  manuallyStagedFiles=$(git diff --name-only --cached)
+
+  if [ "$manuallyStagedFiles" ]; then
+    printf %b "lg > comitting files already staged...\n"
+  fi
+
+  if [ ! "$manuallyStagedFiles" ] && ! _git add --all; then
+    printf %s "lg > git add --all failed"
+    return 1
   else
-    # pick up newly added files in block above
-    manually_staged_files=$(git diff --name-only --cached)
+    manuallyStagedFiles=$(_git diff --name-only --cached)
 
-    if [ ! "$manually_staged_files" ]; then
-      echo "lg > No staged files, and auto add opted-out of"
+    if [ ! "$manuallyStagedFiles" ]; then
+      printf %s "lg > no staged files"
       return 1
     fi
   fi
 
-  unset SKIPADD
+  local type="${1/:/}"
+  local scope="${2/:/}"
+  local subject="${*:3}"
 
-  if [ "$*" ]; then
-    local message=""
-    message="$*"
-
-    if [ "$WIPCOMMIT" ]; then
-      message="${message} [skip ci]"
-      unset WIPCOMMIT
-    fi
-
-    echo "lg > commit message: $message"
-    checkGitLock
-    git commit -q -m "$message"
-
-  else
-    checkGitLock
-    git commit -q -v
+  if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
+    printf %s "lg > usage: lg <type> <scope> <commit subject>"
+    return 1
   fi
 
-  ##########
-  ## push ##
-  ##########
+  local commitMsg="$type($scope): $subject"
 
-  local shouldPush='true'
-
-  if [ "$GIT_UPSTREAM" ] && [[ origin/develop =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
-    shouldPush='false'
+  if ! \commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"; then
+    return 1
   fi
 
-  if [ "$GIT_UPSTREAM" ] && [[ origin/main =~ $GIT_UPSTREAM ]] && [ ! "$PUSHTOMAIN" ]; then
-    shouldPush='false'
+  if _git commit -q -m "$commitMsg"; then
+    printf "lg > %s\n" "$commitMsg"
   fi
 
-  GIT_BRANCH=$(git branch --show-current)
+  # push
 
-  if [[ -1 =~ $GIT_BRANCH ]]; then
-    shouldPush='false'
+  local shouldPush=""
+
+  if [[ $PUSH ]]; then
+    shouldPush='true'
   fi
 
-  if [[ $DONTPUSH ]]; then
-    shouldPush='false'
-  fi
-
-  if [ $shouldPush == 'true' ]; then
+  if [ $shouldPush ]; then
+    local noUpstreamRegExp="has no upstream branch"
     local pushResult=""
-    # push branch, save output to detect errors
     pushResult=$(gp 2>&1)
 
-    if [[ "$pushResult" =~ 'has no upstream branch' ]]; then
-      # handle no upstream branch error
-      echo "lg > Push error: No upstream. Running 'git push --set-upstream origin $GIT_BRANCH'"
-      git push --set-upstream origin "$GIT_BRANCH"
+    if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
+      printf "lg > push error: No upstream. Running 'git push --set-upstream origin %s\n" "$GIT_BRANCH"
+      _git push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 
-  gss
-}
-
-# to alias lg do something else alias _lg instead
-_lg() {
-  lg "$@"
+  _git status -s
 }
 
 #- - - - - - - - - - -
