@@ -219,7 +219,7 @@ lg() {
 
   local commitMsg="$type($scope): $subject"
 
-  if ! commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"; then
+  if ! \commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"; then
     return 1
   fi
 
@@ -229,18 +229,13 @@ lg() {
 
   # push
 
-  local shouldPush='true'
-  local localOnlyBranchRegexp=".*-1$"
+  local shouldPush=""
 
-  if [[ $localOnlyBranchRegexp =~ $GIT_BRANCH ]]; then
-    shouldPush='false'
+  if [[ $PUSH ]]; then
+    shouldPush='true'
   fi
 
-  if [[ $DONTPUSH ]]; then
-    shouldPush='false'
-  fi
-
-  if [ $shouldPush == 'true' ]; then
+  if [ $shouldPush ]; then
     local noUpstreamRegExp="has no upstream branch"
     local pushResult=""
     pushResult=$(gp 2>&1)
