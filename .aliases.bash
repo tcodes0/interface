@@ -118,6 +118,7 @@ alias gf='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
 alias gga='git commit --amend --no-edit'
+alias gae='git add --all && git commit --amend --no-edit'
 alias ggae='git commit --amend'
 alias ggpull="git pull origin \$GIT_BRANCH"
 # alias ggpull="git pull origin \$__git_ps1_branch_name"

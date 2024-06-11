@@ -189,7 +189,6 @@ lg() {
 
   # commit
 
-  local manuallyStagedFiles=""
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
@@ -208,16 +207,19 @@ lg() {
     fi
   fi
 
-  local type="${1/:/}"
-  local scope="${2/:/}"
-  local subject="${*:3}"
+  type="${1/:/}"
+  scope="${2/:/}"
+  subject="${*:3}"
 
   if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
     printf %s "lg > usage: lg <type> <scope> <commit subject>"
     return 1
   fi
 
-  local commitMsg="$type($scope): $subject"
+  commitMsg="$type($scope): $subject"
+  if [ "$scope" == _ ]; then
+    commitMsg="$type: $subject"
+  fi
 
   if ! \commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"; then
     return 1
@@ -229,15 +231,14 @@ lg() {
 
   # push
 
-  local shouldPush=""
+  shouldPush=""
 
   if [[ $PUSH ]]; then
     shouldPush='true'
   fi
 
   if [ $shouldPush ]; then
-    local noUpstreamRegExp="has no upstream branch"
-    local pushResult=""
+    noUpstreamRegExp="has no upstream branch"
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
