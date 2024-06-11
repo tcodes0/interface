@@ -1,5 +1,5 @@
 [user]
-	name = Raphael "Thom" Thomazella
+	name = Raphael \"Thom\" Thomazella
 	email = thomazella9@gmail.com
 	signingkey = D600E88A0C5FE062
 [core]
@@ -29,3 +29,5 @@
 	tool = tkdiff
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+[http]
+	cookiefile = /home/vacation/.gitcookies
