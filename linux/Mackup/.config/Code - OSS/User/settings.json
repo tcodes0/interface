@@ -152,10 +152,14 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.testFlags": ["-race"],
+  // "go.testFlags": ["-race"],
   "go.lintTool": "golangci-lint",
   "go.lintFlags": ["--print-issued-lines=false"],
+  "go.vetOnSave": "off",
   "go.formatTool": "gofumpt",
+  "gopls": {
+    "ui.semanticTokens": true,
+  },
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -324,5 +328,7 @@
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "window.commandCenter": false,
-  "workbench.activityBar.location": "hidden"
+  "workbench.activityBar.location": "hidden",
+  "editor.foldingImportsByDefault": true,
+  "outline.collapseItems": "alwaysCollapse"
 }
