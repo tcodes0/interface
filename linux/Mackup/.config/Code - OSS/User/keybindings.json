@@ -218,11 +218,6 @@
     "when": "textInputFocus && !editorReadonly"
   },
   {
-    "key": "meta+k",
-    "command": "macros.truemetaK",
-    "when": "textInputFocus && !editorReadonly"
-  },
-  {
     "key": "ctrl+i",
     "command": "-expandLineSelection",
     "when": "textInputFocus"
@@ -668,7 +663,7 @@
   },
   {
     "key": "ctrl+shift+d",
-    "command": "macros.duplicateLinesFromStart"
+    "command": "editor.action.duplicateSelection"
   },
   {
     "key": "ctrl+j",

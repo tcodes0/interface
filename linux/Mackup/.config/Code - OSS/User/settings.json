@@ -5,19 +5,19 @@
   "workbench.colorTheme": "Material Theme Darker High Contrast",
   "workbench.colorCustomizations": {
     "[Material Theme Darker High Contrast]": {
-      "editor.background": "#141318",
-      "activityBar.background": "#141318",
-      "statusBar.background": "#141318",
-      "panel.background": "#141318",
-      "sideBar.background": "#141318",
-      "activityBarBadge.background": "#141318",
-      "badge.background": "#141318",
-      "editorPane.background": "#141318",
-      "editorWidget.background": "#141318",
-      "tab.inactiveBackground": "#141318",
-      "tab.activeBackground": "#141318",
-      "titleBar.activeBackground": "#141318",
-      "editorGutter.background": "#141318"
+      "editor.background": "#050505",
+      "activityBar.background": "#050505",
+      "statusBar.background": "#050505",
+      "panel.background": "#050505",
+      "sideBar.background": "#050505",
+      "activityBarBadge.background": "#050505",
+      "badge.background": "#050505",
+      "editorPane.background": "#050505",
+      "editorWidget.background": "#050505",
+      "tab.inactiveBackground": "#050505",
+      "tab.activeBackground": "#050505",
+      "titleBar.activeBackground": "#050505",
+      "editorGutter.background": "#050505"
     },
     "activityBarBadge.background": "#FF4081",
     "list.activeSelectionForeground": "#FF4081",
@@ -51,12 +51,7 @@
   //
   // - - - - - - - - MACROS  - - - - - - - - -
   //
-  "macros.list": {
-    "duplicateLinesFromStart": [
-      "expandLineSelection",
-      "editor.action.duplicateSelection"
-    ]
-  },
+  "macros": {},
   //
   // - - - - - - - - FONT - - - - - - - - -
   //
@@ -229,7 +224,9 @@
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",
-  "window.zoomLevel": -1,
   "workbench.activityBar.location": "hidden",
-  "window.commandCenter": false
+  "window.commandCenter": false,
+  "redhat.telemetry.enabled": true,
+  "window.menuBarVisibility": "hidden",
+  "window.enableMenuBarMnemonics": false
 }

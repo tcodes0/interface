@@ -177,8 +177,8 @@ DisabledValue[$d]
 Size=32
 
 [DirSelect Dialog]
-DirSelectDialog Size=871,605
-History Items[$e]=file:///media/data/izi-stuff
+DirSelectDialog Size=825,582
+History Items[$e]=file:$HOME/Desktop//interface/,file:$HOME/Desktop//inter,file:$HOME/Desktop/tcodes0-go,file:///media/data/izi-stuff
 
 [Emoticons]
 emoticonsTheme=EmojiOne
@@ -302,6 +302,7 @@ Forward=Ctrl+Right
 ForwardWord=Alt+Right
 GotoLine=
 Help=
+SelectAll=
 
 [SmallIcons]
 ActiveColor[$d]
