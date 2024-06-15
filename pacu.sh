@@ -9,7 +9,7 @@ response=""
 services_to_stop=(sddm postgresql)
 services_to_restart=(postgresql)
 
-log_fatal() {
+fatal() {
   echo pacu.sh error: "$*": "${FUNCNAME[1]}"
   echo -ne "\n\n"
   exit 1
@@ -50,7 +50,7 @@ migrate_db() {
   set +e
 }
 
-# set -e not used to handle errors manually attaching debug messages with log_fatal
+# set -e not used to handle errors manually attaching debug messages with fatal
 
 echo "please logout and switch to a console. All done? (timeout 10s) [y/N]"
 read -t 10 -r response
@@ -61,7 +61,7 @@ fi
 echo "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
 read -t 10 -r response
 if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-  if ! sudo snapshot.sh; then log_fatal creating snapshot; fi
+  if ! sudo snapshot.sh; then fatal creating snapshot; fi
 fi
 
 echo "stopping services..."
@@ -69,7 +69,7 @@ echo "${services_to_stop[*]}"
 
 # stop services
 for service in "${services_to_stop[@]}"; do
-  if ! sudo systemctl stop "$service".service; then log_fatal stopping "$service"; fi
+  if ! sudo systemctl stop "$service".service; then fatal stopping "$service"; fi
 done
 
 #######################
@@ -91,10 +91,10 @@ if [ "$bc_result" -ge 1 ]; then
 fi
 
 # update pg
-if ! yay --sync postgresql postgresql-old-upgrade --needed --noconfirm; then log_fatal upgrading pg; fi
+if ! yay --sync postgresql postgresql-old-upgrade --needed --noconfirm; then fatal upgrading pg; fi
 
 if [ "$pg_major_update" == "yes" ]; then
-  if ! migrate_db; then log_fatal migrate_db; fi
+  if ! migrate_db; then fatal migrate_db; fi
 fi
 
 ######################
@@ -103,7 +103,7 @@ fi
 
 # Some software only builds from AUR in old node versions
 # we start by updating NVM itself
-if ! command cd "$NVM_DIR" && git pull; then log_fatal nvm pull; fi
+if ! command cd "$NVM_DIR" && git pull; then fatal nvm pull; fi
 
 # temporarily downgrade the default node in nvm
 set -e
@@ -120,19 +120,19 @@ chmod -R u+w,u+r "$HOME/.cache/yay"
 set +e
 
 # updaters
-if ! mackup backup; then log_fatal mackup; fi
+if ! mackup backup; then fatal mackup; fi
 # not using any global packages atm
-#if ! yarn global upgrade --latest; then log_fatal yarn global update; fi
-if ! nvm install node; then log_fatal nvm install node; fi
+#if ! yarn global upgrade --latest; then fatal yarn global update; fi
+if ! nvm install node; then fatal nvm install node; fi
 
 # update arch pkgs first to avoid errors
-if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring; then log_fatal upgrading arch pkgs; fi
+if ! yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring; then fatal upgrading arch pkgs; fi
 # update linux
-if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then log_fatal upgrading linux; fi
+if ! yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm; then fatal upgrading linux; fi
 # update everything but linux from repositories
-if ! yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system from repos; fi
+if ! yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then fatal upgrading system from repos; fi
 # update everything but linux from AUR
-if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then log_fatal upgrading system from aur; fi
+if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then fatal upgrading system from aur; fi
 
 set -e
 
@@ -143,7 +143,7 @@ nvm alias default node 1>/dev/null
 command cd "$HOME/Desktop"
 
 for service in "${services_to_restart[@]}"; do
-  if ! sudo systemctl start "$service".service; then log_fatal restarting "$service"; fi
+  if ! sudo systemctl start "$service".service; then fatal restarting "$service"; fi
 done
 
 if [ "$pg_major_update" == "yes" ]; then

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-do-help() {
+usage() {
   echo "\
   Usage
     bulk-curl-from-file.sh <file-path>
@@ -10,7 +10,7 @@ do-help() {
 }
 
 if [ "$#" -lt 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-  do-help
+  usage
   exit 1
 fi
 
@@ -18,7 +18,7 @@ file=$1
 filePath=${PWD}/$file
 
 if [ ! -f "$filePath" ]; then
-  do-help
+  usage
   echo "File $filePath not found\\n"
   exit 1
 fi

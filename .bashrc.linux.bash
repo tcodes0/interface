@@ -55,8 +55,6 @@ export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 # gcloud
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
-
 # https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
 if [ -n "$DESKTOP_SESSION" ] && [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(gnome-keyring-daemon --start)"
