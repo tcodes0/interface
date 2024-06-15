@@ -130,6 +130,14 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testFlags": ["-race"],
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": ["--print-issued-lines=false"],
+  "go.vetOnSave": "off",
+  "go.formatTool": "gofumpt",
+  "gopls": {
+    "ui.semanticTokens": true
+  },
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -222,5 +230,6 @@
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",
   "window.zoomLevel": -1,
-  "workbench.activityBar.location": "hidden"
+  "workbench.activityBar.location": "hidden",
+  "window.commandCenter": false
 }
