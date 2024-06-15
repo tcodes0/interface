@@ -1,8 +1,8 @@
 #! /usr/bin/env bash
 
-#####################################################
-# If not running interactively, skip remaining code #
-#####################################################
+###############################################
+# If running from script, skip remaining code #
+###############################################
 
 [[ $- != *i* ]] && return
 
@@ -65,9 +65,9 @@ alias caskh='brew home --cask'
 alias caskI='brew install --cask'
 alias caskR='brew uninstall --cask'
 
-#####################
-# ----------mistakes
-#####################
+##########################
+# ----------mistakes typos
+##########################
 
 alias loca='local'
 alias emcas='emacs'
@@ -76,6 +76,8 @@ alias me='emacs'
 alias ndoe='node'
 alias yy='yarn'
 alias gnc='gcn'
+alias lslbk='lsblk'
+alias lsbkl='lsblk'
 
 ####################
 #---------Zsh & Git
@@ -132,8 +134,9 @@ alias gdw='git diff --word-diff'
 alias gf='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
-alias gca='git commit --amend --no-edit'
-alias gcae='git commit --amend'
+alias gga='git commit --amend --no-edit'
+alias gae='git add --all && git commit --amend --no-edit'
+alias ggae='git commit --amend'
 alias ggpull="git pull origin \$GIT_BRANCH"
 # alias ggpull="git pull origin \$__git_ps1_branch_name"
 alias ggpur=ggu
@@ -194,9 +197,13 @@ alias grhh='git reset HEAD --hard && gss'
 alias grh1="git reset HEAD~1"
 alias grh2="git reset HEAD~2"
 alias grh3="git reset HEAD~3"
+alias grh5="git reset HEAD~5"
+alias grh10="git reset HEAD~10"
 alias gco1="git checkout HEAD~1"
 alias gco2="git checkout HEAD~2"
 alias gco3="git checkout HEAD~3"
+alias gco5="git checkout HEAD~5"
+alias gco10="git checkout HEAD~10"
 alias grmv='git remote rename'
 alias grrm='git remote remove'
 alias grset='git remote set-url'
@@ -276,7 +283,6 @@ alias j='jobs'
 alias f='fg'
 alias g='grep -Eie'
 alias ping='ping -c 1'
-alias em='emacs'
 alias sed='gsed'
 alias e='echo -e'
 alias less="\$PAGER"
@@ -289,32 +295,13 @@ alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'
 alias gppr='gpsup && git pull-request -b main --browse --assign thomazella'
 alias gpprd='gpsup && git pull-request -b develop --browse --assign thomazella'
-alias hpr='git pull-request'
-alias hprl='git pr list'
-alias hprc='git pr checkout'
-alias hprs='git pr show'
-alias hisa='git issue -l '
-alias his='git issue'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
-alias emulator="\$HOME/Library/Android/sdk/emulator/emulator"
 alias find="gfind"
 alias t="cat"
 alias l="less"
-alias rn='react-native'
-alias rns='nvm use lts/\* && react-native start'
-alias rnsr='nvm use lts/\* && react-native start --reset-cache'
 alias wget='wget -c'
 alias histg="history | grep"
 alias myip='curl http://ipecho.net/plain; echo'
-alias caniuse='caniuse --mobile'
-alias cani='caniuse'
-alias watchsass="sass --watch css/index.sass:css/index.css 2>/dev/null 1>&2 &"
-alias twoSpacesOnly="gsed -n -e '/^  [^ ]/p'"
-alias webb="webbot.sh"
-alias publi="publish.sh"
-alias sshhost="ssh -p 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
-alias sshh="sshhost"
-alias sftphost="sftp -P 21098 -i ~/.ssh/id_rsa tazemuad@server179.web-hosting.com"
 alias gpglist="gpg --list-secret-keys --keyid-format LONG"
 alias gpgexport="gpg --armor --export"
 alias gpgkeygen="gpg --full-generate-key"
@@ -331,30 +318,15 @@ alias yarnl="yarn list --depth=0"
 alias yf="yarn --force"
 alias ys="yarn start"
 alias yc="yarn test && yarn typeCheck && yarn lint:fix"
-# alias adbI="adb install"
 alias yarngl="yarn global list --depth=0"
 alias adbl="adb devices"
 alias adbd="adb shell input keyevent 82"
-alias rnra="react-native run-android"
-alias acceptAllLicenses="yes | \$HOME/Library/Android/sdk/tools/bin/sdkmanager --licenses"
-alias snoop='echo sudo opensnoop -ve 2>&1 PIPE g idea.properties'
-alias clearIapCache="adb shell pm clear com.android.vending"
 alias c.="code ."
 alias c="code"
-# alias c.="webstorm ."
-# alias c="webstorm"
-alias lgl="echo build ci chore docs feat fix perf refactor revert style test"
-alias macinstall="echo sudo /Applications/Install\ macOS\ Catalina\ Beta.app/Contents/Resources/createinstallmedia --volume /Volumes/USB /Applications/Install\ macOS\ Catalina\ Beta.app --nointeraction"
-alias ytw="yarn test --watch"
 alias yt="yarn test"
-alias ism="iex -S mix"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
-alias dcu='sudo docker-compose up'
-alias dcpg-hub='sudo docker-compose exec postgres psql -U postgres -d hub'
-alias d-c='sudo docker-compose'
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
-alias brltousd="echo 'var makeBrlToUsd = rate => brl => Math.round(brl*rate)'"
 alias d="deploy"
-alias gorun="godotenv -f .env go run -race"
 alias m="make"
+alias n="nano"

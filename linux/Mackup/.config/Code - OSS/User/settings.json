@@ -39,28 +39,13 @@
     "menu.selectionForeground": "#FF4081",
     "menubar.selectionForeground": "#FF4081"
   },
-  // "materialTheme.cache.workbench.settings": {
-  //     "accent": "Orange",
-  //     "accentPrevious": "Breaking Bad"
-  // },
-  // "workbench.iconTheme": "eq-material-theme-icons-ocean",
   "editor.tokenColorCustomizations": {
     "[Material Theme Darker High Contrast]": {
       "comments": "#676767",
       "functions": "#7e7fdd",
-      // "functions": "#c8ca6e",
       "strings": "#8b907f",
-      // "strings": "#7c8169",
-      // "types": "#8c8d50",
-      // "variables": "#b3b3b3",
       "keywords": "#c5ad97",
-      // "keywords": "#cc7474",
-      // "comments": "#444444",
-      // "functions": "#6472b1",
-      // "strings": "#868064",
       "types": "#6abe7f"
-      // "variables": "#dabfe7",
-      // "keywords": "#9774cc",
     }
   },
   //
@@ -69,9 +54,7 @@
   "macros.list": {
     "duplicateLinesFromStart": [
       "expandLineSelection",
-      "editor.action.duplicateSelection",
-      "cancelSelection",
-      "cursorUp"
+      "editor.action.duplicateSelection"
     ]
   },
   //
@@ -92,7 +75,8 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.run": "onSave",
+  "eslint.packageManager": "yarn",
+  "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
   },
@@ -136,7 +120,6 @@
   //
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
-  // "javascript.referencesCodeLens.enabled": true,
   //
   // - - - - - - - - GO - - - - - - - - -
   //
@@ -180,18 +163,17 @@
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
-  "editor.wordBasedSuggestions": "matchingDocuments",
-  "editor.formatOnSave": true,
+  "editor.wordBasedSuggestions": true,
   "editor.renderControlCharacters": true,
   "editor.minimap.enabled": false,
   "editor.formatOnType": false,
+  "editor.formatOnSave": true,
   "editor.snippetSuggestions": "top",
   "editor.suggest.localityBonus": true,
   "editor.tabCompletion": "on",
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
-  "window.zoomLevel": -1,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
@@ -253,7 +235,6 @@
     "glsl": false
   },
   "workbench.startupEditor": "none",
-  "editor.inlineSuggest.enabled": true,
   "git.openRepositoryInParentFolders": "always",
   "cSpell.userWords": [
     "AIAPI",
@@ -330,5 +311,9 @@
   "window.commandCenter": false,
   "workbench.activityBar.location": "hidden",
   "editor.foldingImportsByDefault": true,
-  "outline.collapseItems": "alwaysCollapse"
+  "outline.collapseItems": "alwaysCollapse",
+  "githubPullRequests.pullBranch": "never",
+  "editor.inlineSuggest.enabled": true,
+  "update.mode": "manual",
+  "window.zoomLevel": -1
 }

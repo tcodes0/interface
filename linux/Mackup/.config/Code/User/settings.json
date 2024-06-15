@@ -1,0 +1,386 @@
+{
+  //
+  // - - - - - - - - THEME - - - - - - - - -
+  //
+  "workbench.colorTheme": "Material Theme Darker High Contrast",
+  "workbench.colorCustomizations": {
+    "[Material Theme Darker High Contrast]": {
+      "editor.background": "#141318",
+      "activityBar.background": "#141318",
+      "statusBar.background": "#141318",
+      "panel.background": "#141318",
+      "sideBar.background": "#141318",
+      "activityBarBadge.background": "#141318",
+      "badge.background": "#141318",
+      "editorPane.background": "#141318",
+      "editorWidget.background": "#141318",
+      "tab.inactiveBackground": "#141318",
+      "tab.activeBackground": "#141318",
+      "titleBar.activeBackground": "#141318",
+      "editorGutter.background": "#141318"
+    },
+    "activityBarBadge.background": "#FF4081",
+    "list.activeSelectionForeground": "#FF4081",
+    "list.inactiveSelectionForeground": "#FF4081",
+    "list.highlightForeground": "#FF4081",
+    "scrollbarSlider.activeBackground": "#FF408150",
+    "editorSuggestWidget.highlightForeground": "#FF4081",
+    "textLink.foreground": "#FF4081",
+    "progressBar.background": "#FF4081",
+    "pickerGroup.foreground": "#FF4081",
+    "tab.activeBorder": "#FF4081",
+    "notificationLink.foreground": "#FF4081",
+    "editorWidget.resizeBorder": "#FF4081",
+    "editorWidget.border": "#FF4081",
+    "settings.modifiedItemIndicator": "#FF4081",
+    "settings.headerForeground": "#FF4081",
+    "panelTitle.activeBorder": "#FF4081",
+    "breadcrumb.activeSelectionForeground": "#FF4081",
+    "menu.selectionForeground": "#FF4081",
+    "menubar.selectionForeground": "#FF4081"
+  },
+  "editor.tokenColorCustomizations": {
+    "[Material Theme Darker High Contrast]": {
+      "comments": "#676767",
+      "functions": "#7e7fdd",
+      "strings": "#8b907f",
+      "keywords": "#c5ad97",
+      "types": "#6abe7f"
+    }
+  },
+  //
+  // - - - - - - - - MACROS  - - - - - - - - -
+  //
+  "macros.list": {
+    "duplicateLinesFromStart": [
+      "expandLineSelection",
+      "editor.action.duplicateSelection"
+    ]
+  },
+  //
+  // - - - - - - - - FONT - - - - - - - - -
+  //
+  "markdown.preview.fontSize": 12,
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontWeightBold": "300",
+  "terminal.integrated.fontFamily": "Furacode nerd font",
+  "terminal.integrated.lineHeight": 1.35,
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.splitCwd": "inherited",
+  // = = = = = = = = PragmataPro = = = = = = = =
+  "editor.fontFamily": "PragmataPro Liga",
+  "editor.fontWeight": "normal",
+  "editor.lineHeight": 21,
+  "editor.fontSize": 14,
+  //
+  // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
+  //
+  "eslint.run": "onSave",
+  "eslint.options": {
+    "resolvePluginsRelativeTo": "."
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[shellscript]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  //
+  // - - - - - - - - GIT - - - - - - - - -
+  //
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.untrackedChanges": "separate",
+  //
+  // - - - - - - - - BASH - - - - - - - - -
+  //
+  "shellformat.path": "/usr/local/bin/shfmt",
+  "shellformat.flag": "-i 2 -ln bash",
+  "shellcheck.customArgs": ["-x"],
+  //
+  // - - - - - - - - JS - - - - - - - - -
+  //
+  "javascript.validate.enable": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  //
+  // - - - - - - - - TS - - - - - - - - -
+  //
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  //
+  // - - - - - - - - GO - - - - - - - - -
+  //
+  "go.useLanguageServer": true,
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "go.testOnSave": false,
+  "go.delveConfig": {
+    "debugAdapter": "dlv-dap"
+  },
+  "go.testFlags": ["-race"],
+  "go.lintTool": "golangci-lint",
+  "go.formatTool": "gofumpt",
+  "go.lintFlags": ["--print-issued-lines=false"],
+  //
+  // - - - - - - - - TERMINAL - - - - - - - - -
+  //
+  "terminal.integrated.macOptionIsMeta": true,
+  "terminal.external.osxExec": "iTerm2.app",
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.env.osx": {
+    "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
+  },
+  "workbench.settings.editor": "json",
+  "workbench.statusBar.visible": true,
+  "editor.multiCursorModifier": "alt",
+  "editor.renderWhitespace": "all",
+  "editor.wordBasedSuggestions": "matchingDocuments",
+  "editor.renderControlCharacters": true,
+  "editor.minimap.enabled": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": true,
+  "editor.snippetSuggestions": "top",
+  "editor.suggest.localityBonus": true,
+  "editor.tabCompletion": "on",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.cursorSurroundingLines": 5,
+  "editor.suggestSelection": "first",
+  "editor.mouseWheelScrollSensitivity": 3,
+  "editor.inlineSuggest.enabled": true,
+  "editor.foldingImportsByDefault": true,
+  "editor.inlayHints.enabled": "on",
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.trimTrailingWhitespace": true,
+  "files.hotExit": "onExitAndWindowClose",
+  "files.watcherExclude": {
+    "**/.bloop": true,
+    "**/.metals": true,
+    "**/.ammonite": true
+  },
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "on",
+  "breadcrumbs.symbolPath": "on",
+  "emmet.showAbbreviationSuggestions": false,
+  "emmet.showExpandedAbbreviation": "never",
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.experimental.showMoves": true,
+  "diffEditor.hideUnchangedRegions.enabled": false,
+  "debug.allowBreakpointsEverywhere": true,
+  "materialTheme.accent": "Pink",
+  "merge-conflict.diffViewPosition": "Below",
+  "window.menuBarVisibility": "hidden",
+  "php.validate.executablePath": "/usr/bin/php",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "go.toolsManagement.autoUpdate": true,
+  "githubPullRequests.queries": [
+    {
+      "label": "Waiting",
+      "query": "is:open review-requested:${user}"
+    },
+    {
+      "label": "Open",
+      "query": "is:open"
+    },
+    {
+      "label": "Assigned",
+      "query": "is:open assignee:${user}"
+    },
+    {
+      "label": "Created",
+      "query": "is:open author:${user}"
+    }
+  ],
+  "githubPullRequests.fileListLayout": "flat",
+  "githubPullRequests.pullBranch": "never",
+  "workbench.startupEditor": "none",
+  "update.mode": "manual",
+  "extensions.ignoreRecommendations": true,
+  "git.openRepositoryInParentFolders": "always",
+  "redhat.telemetry.enabled": false,
+  "window.zoomLevel": -0.2,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "accessibility.dimUnfocused.enabled": true,
+  "accessibility.dimUnfocused.opacity": 0.85,
+  "cSpell.maxDuplicateProblems": 2,
+  "cSpell.showAutocompleteSuggestions": false,
+  "cSpell.spellCheckDelayMs": 2000,
+  "cSpell.maxNumberOfProblems": 5,
+  "cSpell.userWords": [
+    "AIAPI",
+    "aiplugin",
+    "aiplugins",
+    "antd",
+    "apihttp",
+    "apimiddleware",
+    "apirest",
+    "apitool",
+    "apperr",
+    "apperrs",
+    "appevents",
+    "Appt",
+    "appts",
+    "asam",
+    "athenahealth",
+    "athenatelehealth",
+    "baristai",
+    "brokeyourbike",
+    "btrfs",
+    "bundebug",
+    "bunutil",
+    "chakra",
+    "Clientf",
+    "cliflag",
+    "clioptions",
+    "Cmdable",
+    "commonclock",
+    "commoninfra",
+    "comms",
+    "configkey",
+    "convo",
+    "datadoghq",
+    "davinci",
+    "Deeplink",
+    "Deleter",
+    "devs",
+    "doesnt",
+    "eleanorhealth",
+    "emailtemplate",
+    "entityid",
+    "envtag",
+    "Errf",
+    "errgroup",
+    "eventhandler",
+    "falsey",
+    "formspdf",
+    "frontends",
+    "golangci",
+    "gotestfmt",
+    "gotesttools",
+    "guyarb",
+    "hintable",
+    "hlog",
+    "hnsmith",
+    "httpapi",
+    "httpapp",
+    "httpcontext",
+    "httpflush",
+    "httphandler",
+    "httphandlertest",
+    "httpmiddleware",
+    "httprecoverer",
+    "httptool",
+    "idgen",
+    "idgenerator",
+    "Iface",
+    "imagecat",
+    "immer",
+    "insta",
+    "jsonutil",
+    "Laper",
+    "libopenai",
+    "logit",
+    "lostcancel",
+    "mainpushpr",
+    "memberserver",
+    "Moderations",
+    "morty",
+    "Msgf",
+    "nolint",
+    "nosniff",
+    "nower",
+    "nullzero",
+    "onetimejob",
+    "OPENAI",
+    "openaitest",
+    "packagepr",
+    "paginatable",
+    "Parens",
+    "pgdialect",
+    "pgmigrate",
+    "pgstore",
+    "pgxmock",
+    "pipefail",
+    "Printfer",
+    "productevents",
+    "randomcode",
+    "Randomer",
+    "redisstore",
+    "refetched",
+    "Refinalized",
+    "reflectutil",
+    "relatedmodel",
+    "reseted",
+    "resthandler",
+    "restmiddleware",
+    "resttool",
+    "schedulable",
+    "Sendgrid",
+    "sqldb",
+    "Sqlmock",
+    "sslmode",
+    "stdlib",
+    "Storer",
+    "stretchr",
+    "struct",
+    "structtag",
+    "styleguide",
+    "tanstack",
+    "tcodes",
+    "Telehealth",
+    "Thom",
+    "Transactioner",
+    "typecheck",
+    "unassigning",
+    "unfollow",
+    "unmarshal",
+    "unmarshaled",
+    "unmarshaling",
+    "Unnotified",
+    "upsert",
+    "uptrace",
+    "vamac",
+    "Wrapf",
+    "zerolog"
+  ],
+  "workbench.activityBar.location": "hidden",
+  "github.copilot.editor.enableAutoCompletions": true
+}

@@ -39,11 +39,6 @@
     "command": "-workbench.action.switchWindow"
   },
   {
-    "key": "ctrl+f",
-    "command": "macros.findAndReplace",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+ctrl+f",
     "command": "-editor.action.startFindReplaceAction"
   },
@@ -205,11 +200,6 @@
   {
     "key": "ctrl+k ctrl+c",
     "command": "-editor.action.addCommentLine",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+k ctrl+c",
-    "command": "macros.commentDown",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -644,60 +634,26 @@
     "command": "pr:github.focus"
   },
   {
-    "key": "shift+cmd+d",
+    "key": "ctrl+shift+d",
     "command": "-workbench.view.debug",
     "when": "viewContainer.workbench.view.debug.enabled"
   },
   {
-    "key": "cmd+a",
-    "command": "editor.action.selectAll",
-    "when": "editorFocus"
-  },
-  {
-    "key": "cmd+a",
-    "command": "-editor.action.selectAll"
-  },
-  {
-    "key": "cmd+f",
-    "command": "-list.find",
-    "when": "listFocus && listSupportsFind"
-  },
-  {
-    "key": "f3",
-    "command": "-list.find",
-    "when": "listFocus && listSupportsFind"
-  },
-  {
-    "key": "a",
-    "command": "explorer.newFile",
-    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
-  },
-  {
-    "key": "shift+a",
-    "command": "explorer.newFolder",
-    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
-  },
-  {
-    "key": "f2",
-    "command": "renameFile",
-    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
-  },
-  {
-    "key": "enter",
-    "command": "-renameFile",
-    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
-  },
-  {
-    "key": "shift+cmd+d",
+    "key": "ctrl+shift+d",
     "command": "macros.duplicateLinesFromStart"
   },
   {
-    "key": "shift+cmd+e",
-    "command": "-workbench.view.explorer",
-    "when": "viewContainer.workbench.view.explorer.enabled"
+    "key": "ctrl+j",
+    "command": "editor.action.joinLines"
   },
   {
-    "key": "shift+cmd+e",
-    "command": "workbench.files.action.focusFilesExplorer"
+    "key": "ctrl+f",
+    "command": "editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+h",
+    "command": "-editor.action.startFindReplaceAction",
+    "when": "editorFocus || editorIsOpen"
   }
 ]

@@ -1,0 +1,10 @@
+[Unit]
+Description=Btrfs check / reminder timer, runs monthly on first sunday
+
+[Timer]
+OnCalendar=Sun *-*-1,2,3,4,5,6,7 13:00:00
+AccuracySec=1us
+Persistent=false
+
+[Install]
+WantedBy=timers.target

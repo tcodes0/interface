@@ -1,0 +1,8 @@
+[Unit]
+Description=Reminder to btrfs check / and /media/data
+
+[Service]
+Type=simple
+ExecStart=notify-send --urgency=normal --expire-time=10000 --app-name="systemd" "scheduled btrfs check on / and /media/data" "unmount fs. run '/usr/bin/btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
+Restart=on-failure
+RestartSec=10s

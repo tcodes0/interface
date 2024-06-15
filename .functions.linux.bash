@@ -14,35 +14,35 @@ goo() {
 # need to run on-enter and on-leave back 2 back to avoid submodules conflicts
 chpwd() {
   case $PWD in
-  $HOME/Desktop/trivia)
+  "$HOME/Desktop/trivia")
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-enter-dir"
     ;;
     # $HOME/Desktop/interface)
     #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-enter-dir"
     #   ;;
-  $HOME/Desktop/helpers-console)
+  "$HOME/Desktop/helpers-console")
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-enter-dir"
     ;;
-  $HOME/Desktop/efis)
+  "$HOME/Desktop/efis")
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-enter-dir"
     ;;
-  $HOME/Desktop/interface/priv)
+  "$HOME/Desktop/interface/priv")
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-enter-dir"
     ;;
     # $HOME/Desktop/client)
     #   source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-enter-dir"
     #   ;;
-  $HOME/Desktop/server)
+  "$HOME/Desktop/server")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
     alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
     ;;
-  $HOME/Desktop/member-server)
+  "$HOME/Desktop/member-server")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
     alias ys="godotenv -f .env go run cmd/migration/main.go && godotenv -f .env go run cmd/server/main.go"
     ;;
-  $HOME/Desktop/data-jobs)
+  "$HOME/Desktop/data-jobs")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-enter-dir"
     unalias ys
     alias ys="godotenv -f .env go run cmd/server/main.go"
@@ -51,35 +51,35 @@ chpwd() {
   esac
 
   case $OLDPWD in
-  $HOME/Desktop/trivia)
+  "$HOME/Desktop/trivia")
     source "$HOME/Desktop/interface/chpwd-to-source/trivia/on-leave-dir"
     ;;
     # $HOME/Desktop/interface)
     #   source "$HOME/Desktop/interface/chpwd-to-source/interface/on-leave-dir"
     #   ;;
-  $HOME/Desktop/helpers-console)
+  "$HOME/Desktop/helpers-console")
     source "$HOME/Desktop/interface/chpwd-to-source/helpers-console/on-leave-dir"
     ;;
-  $HOME/Desktop/efis)
+  "$HOME/Desktop/efis")
     source "$HOME/Desktop/interface/chpwd-to-source/efis/on-leave-dir"
     ;;
-  $HOME/Desktop/interface/priv)
+  "$HOME/Desktop/interface/priv")
     source "$HOME/Desktop/interface/chpwd-to-source/priv/on-leave-dir"
     ;;
     # $HOME/Desktop/client)
     #   source "$HOME/Desktop/interface/chpwd-to-source/mainToMaster/on-leave-dir"
     #   ;;
-  $HOME/Desktop/server)
+  "$HOME/Desktop/server")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     unalias ys
     alias ys="yarn start"
     ;;
-  $HOME/Desktop/member-server)
+  "$HOME/Desktop/member-server")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     unalias ys
     alias ys="yarn start"
     ;;
-  $HOME/Desktop/data-jobs)
+  "$HOME/Desktop/data-jobs")
     source "$HOME/Desktop/interface/chpwd-to-source/goToGodotenv/on-leave-dir"
     unalias ys
     alias ys="yarn start"
@@ -226,4 +226,15 @@ tableinfo() {
     echo -n "\"SELECT column_name, is_nullable, data_type, column_default FROM information_schema.columns WHERE table_name = '$1' ORDER BY column_name;\"" | xclip -selection c
     echo "copied to clipboard as $1"
   fi
+}
+
+#----------------
+
+gotest() {
+  if [ "$#" -eq 0 ]; then
+    echo "Usage: gotest path/to/test"
+    return
+  fi
+
+  godotenv -f .env go test "./$1" -race -json 2>&1 | gotestfmt
 }

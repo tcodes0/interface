@@ -1,0 +1,10 @@
+[Unit]
+Description=firefox sync timer
+
+[Timer]
+OnUnitActiveSec=5min
+AccuracySec=1us
+Persistent=false
+
+[Install]
+WantedBy=timers.target

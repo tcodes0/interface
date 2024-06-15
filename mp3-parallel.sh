@@ -1,9 +1,9 @@
 #! /bin/bash
 if [ $# != 1 ]; then
-  precho --usage
-  precho "mp3-parallel.sh [format]"
-  precho "format is: mp3, flac, m4a, alac, ..."
-  precho "...defaulting to '.aif' in 3s..."
+  echo --usage
+  echo "mp3-parallel.sh [format]"
+  echo "format is: mp3, flac, m4a, alac, ..."
+  echo "...defaulting to '.aif' in 3s..."
   read -rt 3
   if [ "$REPLY" == "n" ]; then
     exit 1

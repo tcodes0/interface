@@ -10,6 +10,7 @@ hub
 Backup-codes*
 password.bak
 linux/Mackup/.aws/credentials
+linux/Mackup/.netrc
 .ngrok2/**
 Library/Processing/
 Library/Preferences/org.vim.MacVim.plist
@@ -27,3 +28,6 @@ rclone
 phoenixMiner
 .kube
 *.log
+typo
+cloud-sql-proxy
+qbittorrent

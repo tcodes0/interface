@@ -5,27 +5,26 @@
 
 #========== Environment
 
-# add over /usr/bin to run irpf java program
-# add jre11-openjdk and jdk11-openjdk packages (or maybe just jdk?)
-# maybe also the always-up-to-date jdk-openjdk
-# /usr/lib/jvm/java-11-openjdk/bin:\
+# Old path stuff
+# $HOME/.asdf/installs/elixir/1.10.0/bin:\
+# $HOME/.gem/ruby/2.7.0/bin:\
+# $HOME/bin/monero-gui:\
+
+# Some old comments on file history about java and irpf if you have issues with that
 export PATH="\
 $HOME/bin:\
-$HOME/.asdf/installs/elixir/1.10.0/bin:\
-$HOME/.gem/ruby/2.7.0/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
-/usr/bin/site_perl:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
-$HOME/bin/monero-gui:\
-$HOME/rn-debugger:\
-$HOME/.config/yarn/global/node_modules/.bin:\
 $HOME/go/bin:\
-$HOME/Desktop/scripts:\
-/opt/android-sdk/platform-tools:\
-/usr/local/go/bin"
+$HOME/.cargo/bin:\
+/usr/local/go/bin:\
+$HOME/Desktop/scripts-eleanor:\
+$HOME/Desktop/dir-rename/build:\
+$HOME/google-cloud-sdk/bin:\
+/opt/android-sdk/platform-tools"
 
 # NVM
 unset PREFIX            # NVM hates this
@@ -47,22 +46,36 @@ elif [ "$(whoami)" == "vacation" ]; then
   DOTFILE_PATH="$HOME/Desktop/interface"
 fi
 
+# Go
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
+export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
+
+# gcloud
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
 safe_source "$DOTFILE_PATH/.script-functions.linux.bash"
 
 # https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
-if [ -n "$DESKTOP_SESSION" ]; then
+if [ -n "$DESKTOP_SESSION" ] && [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(gnome-keyring-daemon --start)"
   export SSH_AUTH_SOCK
 fi
 
-#####################################################
-# If not running interactively, skip remaining code #
-#####################################################
-[[ $- != *i* ]] && return
+#                                                                     ensure it runs on GUI terminal not before
+if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
+  echo "setting user services"
+  # systemctl call is slow, so only run once, also errors if already running
+  export USER_SERVICES_SET="true"
+  systemctl --user start x11-keyboard.service
+  systemctl --user start srit.service
+  systemctl --user start firefox-sync@mpakm5ej.dev-edition-default.service
+fi
 
-export SYSBKP_DATE_FILE="$HOME/.sysbkp-last-run.date"
-export GOPATH=$HOME/go
-export GOBIN=$HOME/go/bin
+###############################################
+# If running from script, skip remaining code #
+###############################################
+[[ $- != *i* ]] && return
 
 # order matters here
 safe_source "$DOTFILE_PATH/.bashrc.bash"
@@ -73,32 +86,17 @@ safe_source "$DOTFILE_PATH/.functions.linux.bash"
 safe_source "$DOTFILE_PATH/.private.bash"
 safe_source "$DOTFILE_PATH/.prompt.linux.bash"
 safe_source "$DOTFILE_PATH/linux/home/.config/git-prompt.sh"
-safe_source "$DOTFILE_PATH/priv/env"
+safe_source "$DOTFILE_PATH/priv/.bashrc.bash"
 # AUR  lscolors-git package
 safe_source /usr/share/LS_COLORS/dircolors.sh
 safe_source /usr/share/bash-completion/bash_completion
 safe_source "$HOME/.asdf/asdf.sh"
 safe_source "$HOME/.asdf/completions/asdf.bash"
-safe_source /opt/google-cloud-sdk/completion.bash.inc
+safe_source "$HOME/google-cloud-sdk/completion.bash.inc"
 
 # start on desktop
 if [ -d "./Desktop" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
-fi
-
-# avoid bugs running systemctl --user as root
-# investigate why systemd user services not working here
-# investigate why systemd use
-if [ "$(whoami)" == "vacation" ] && [ ! "$SRIT_SET" ]; then
-  systemctl --user start srit.service
-  # bluetooth connections on laptop reset keyboard key speed, so don't set the var to allow easily re-runing this code
-  if [ ! "$ARCH_ACER" ]; then
-    export SRIT_SET=1
-  fi
-fi
-
-if [ "$(whoami)" == "vacation" ]; then
-  systemctl --user start x11-keyboard.service
 fi
 
 # add ssh key to ssh agent, bypass prompt
@@ -114,18 +112,4 @@ fi
 if [ ! "$TMUX" ] && [ $UID == 1000 ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
-fi
-
-# Check we're booting Maglinux by kernel arg with root UUID
-if [ ! "$ARCH_ACER" ] && grep --quiet '1016010e-7023-4886-a6b4-34733052fdd5' /proc/cmdline; then
-  blkDevice="$(lsblk --raw --noheadings | sed -ne '/EFI-MAG/p' | sed -E 's/^([a-z0-9]+)\ .*/\1/g')"
-  # mount EFI-MAG to /boot if not mounted already
-  if ! grep --quiet "[/]dev[/]$blkDevice\ [/]boot" /proc/mounts; then
-    echo "Please authenticate as root to mount Maglinux /boot correctly. Aborting in 5s..."
-    command sudo -T 5 true
-    if grep --quiet '[/]boot' /proc/mounts; then
-      command sudo umount /boot
-    fi
-    command sudo mount /dev/disk/by-label/EFI-MAG /boot
-  fi
 fi
