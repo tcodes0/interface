@@ -11,26 +11,24 @@ shopt -s globstar
 
 ### vars and functions ###
 
-targetSettingsPath=linux/Mackup/.config/Code/User/settings.json
-sourceSettingsPath="linux/Mackup/.config/Code - OSS/User/settings.json"
+targetPath=linux/Mackup/.config/Code/User/settings.json
+sourcePath="linux/Mackup/.config/Code - OSS/User/settings.json"
 
 ### validation, input handling ###
 
 ### script ###
 
-\rm -f "$targetSettingsPath"
+\rm -f "$targetPath"
 
 while read -r line; do
   # strip comments, not valid json
   if [[ ! $line =~ // ]]; then
-    echo -n "$line" >> "$targetSettingsPath"
+    echo -n "$line" >>"$targetPath"
   fi
-done <<<"$sourceSettingsPath"
+done <"$sourcePath"
 
-# \cp "$sourceSettingsPath" $targetSettingsPath
-
-yq --inplace eval '.shellformat.path = "/opt/homebrew/bin/shfmt"' $targetSettingsPath
-yq --inplace eval '.editor.lineHeight = 20.3' $targetSettingsPath
-yq --inplace eval '.editor.fontSize = 12.5' $targetSettingsPath
-yq --inplace eval '.terminal.integrated.defaultProfile.osx = "bash"' $targetSettingsPath
-yq --inplace eval '.window.zoomLevel = -1' $targetSettingsPath
+yq --inplace eval '."shellformat.path" = "/opt/homebrew/bin/shfmt"' $targetPath
+yq --inplace eval '."editor.lineHeight" = 20.3' $targetPath
+yq --inplace eval '."editor.fontSize" = 12.5' $targetPath
+yq --inplace eval '."terminal.integrated.defaultProfile.osx" = "bash"' $targetPath
+yq --inplace eval '."window.zoomLevel" = -1' $targetPath

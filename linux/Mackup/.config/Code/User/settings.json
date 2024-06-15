@@ -1,7 +1,4 @@
 {
-  //
-  // - - - - - - - - THEME - - - - - - - - -
-  //
   "workbench.colorTheme": "Material Theme Darker High Contrast",
   "workbench.colorCustomizations": {
     "[Material Theme Darker High Contrast]": {
@@ -49,9 +46,6 @@
     }
   },
   "materialTheme.accent": "Pink",
-  //
-  // - - - - - - - - FONT - - - - - - - - -
-  //
   "markdown.preview.fontSize": 12,
   "editor.fontLigatures": true,
   "terminal.integrated.fontWeightBold": "300",
@@ -63,9 +57,6 @@
   "editor.fontWeight": "normal",
   "editor.lineHeight": 20.3,
   "editor.fontSize": 12.5,
-  //
-  // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
-  //
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -89,23 +80,16 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "sql-formatter.uppercase": true,
-  //
-  // - - - - - - - - GIT - - - - - - - - -
-  //
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.untrackedChanges": "separate",
   "git.openRepositoryInParentFolders": "always",
-  //
-  // - - - - - - - - BASH - - - - - - - - -
-  //
   "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
-  "shellcheck.customArgs": ["-x"],
-  //
-  // - - - - - - - - JS/TS - - - - - - - - -
-  //
+  "shellcheck.customArgs": [
+    "-x"
+  ],
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.preferences.importModuleSpecifier": "non-relative",
@@ -119,9 +103,6 @@
   },
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
-  //
-  // - - - - - - - - GO - - - - - - - - -
-  //
   "go.useLanguageServer": true,
   "[go]": {
     "editor.formatOnSave": true,
@@ -134,23 +115,23 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.testFlags": ["-race"],
+  "go.testFlags": [
+    "-race"
+  ],
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": ["--print-issued-lines=false"],
+  "go.lintFlags": [
+    "--print-issued-lines=false"
+  ],
   "go.vetOnSave": "off",
   "go.formatTool": "gofumpt",
   "gopls": {
     "ui.semanticTokens": true
   },
   "go.toolsManagement.autoUpdate": true,
-  //
-  // - - - - - - - - MISC - - - - - - - - -
-  //
   "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.defaultProfile.osx": "bash",
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "workbench.startupEditor": "none",
@@ -184,10 +165,22 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "githubPullRequests.queries": [
-    { "label": "Waiting", "query": "is:open review-requested:${user}" },
-    { "label": "Open", "query": "is:open" },
-    { "label": "Assigned", "query": "is:open assignee:${user}" },
-    { "label": "Created", "query": "is:open author:${user}" }
+    {
+      "label": "Waiting",
+      "query": "is:open review-requested:${user}"
+    },
+    {
+      "label": "Open",
+      "query": "is:open"
+    },
+    {
+      "label": "Assigned",
+      "query": "is:open assignee:${user}"
+    },
+    {
+      "label": "Created",
+      "query": "is:open author:${user}"
+    }
   ],
   "githubPullRequests.fileListLayout": "flat",
   "githubPullRequests.pullBranch": "never",
@@ -269,14 +262,14 @@
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "window.commandCenter": false,
-  "window.zoomLevel": -1,
-  // OTHERS
+  "window.menuBarVisibility": "hidden",
+  "window.enableMenuBarMnemonics": false,
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   "debug.allowBreakpointsEverywhere": true,
   "outline.collapseItems": "alwaysCollapse",
   "update.mode": "manual",
-  "redhat.telemetry.enabled": true
-  // "window.menuBarVisibility": "hidden", // linux only
-  // "window.enableMenuBarMnemonics": false, // linux only
+  "redhat.telemetry.enabled": true,
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "window.zoomLevel": -1
 }
