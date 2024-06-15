@@ -70,8 +70,8 @@
   // = = = = = = = = PragmataPro = = = = = = = =
   "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
-  "editor.lineHeight": 21,
-  "editor.fontSize": 14,
+  "editor.lineHeight": 20.3,
+  "editor.fontSize": 12.5,
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
@@ -79,6 +79,9 @@
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
@@ -98,6 +101,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "sql-formatter.uppercase": true,
   //
   // - - - - - - - - GIT - - - - - - - - -
   //
@@ -108,7 +112,7 @@
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
-  "shellformat.path": "/usr/local/bin/shfmt",
+  "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
   "shellcheck.customArgs": ["-x"],
   //
@@ -123,18 +127,22 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
-  },
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 1000
   },
   "go.testOnSave": false,
   "go.delveConfig": {
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
+  // "go.testFlags": ["-race"],
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": ["--print-issued-lines=false"],
+  "go.vetOnSave": "off",
+  "go.formatTool": "gofumpt",
+  "gopls": {
+    "ui.semanticTokens": true,
+  },
   //
   // - - - - - - - - TS - - - - - - - - -
   //
@@ -149,10 +157,8 @@
   "terminal.integrated.env.osx": {
     "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
   },
-  //
-  // - - - - - - - - GENERAL - - - - - - - - -
-  //
-  "workbench.activityBar.visible": false,
+  "terminal.integrated.defaultProfile.osx": "bash",
+  // OTHERS
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
@@ -184,7 +190,6 @@
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   "explorer.confirmDelete": false,
-  "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
   "php.validate.executablePath": "/usr/bin/php",
   "files.watcherExclude": {
@@ -223,11 +228,90 @@
   "githubPullRequests.fileListLayout": "flat",
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
     "plaintext": true,
-    "markdown": true
+    "markdown": true,
+    "scminput": false,
+    "yaml": true,
+    "glsl": false
   },
   "workbench.startupEditor": "none",
+  "git.openRepositoryInParentFolders": "always",
+  "cSpell.userWords": [
+    "AIAPI",
+    "aiplugin",
+    "aiplugins",
+    "apperrs",
+    "Appt",
+    "appts",
+    "athenahealth",
+    "baristai",
+    "btrfs",
+    "chakra",
+    "cliflag",
+    "clioptions",
+    "commonclock",
+    "comms",
+    "configkey",
+    "davinci",
+    "devs",
+    "doesnt",
+    "eleanorhealth",
+    "entityid",
+    "envtag",
+    "errgroup",
+    "featureflag",
+    "Frameset",
+    "frontends",
+    "hlog",
+    "httpflush",
+    "httphandler",
+    "httphandlertest",
+    "httprecoverer",
+    "idgen",
+    "idgenerator",
+    "iname",
+    "jmap",
+    "jsonutil",
+    "Laper",
+    "libopenai",
+    "lostcancel",
+    "macbook",
+    "Moderations",
+    "Msgf",
+    "nolint",
+    "nower",
+    "nullzero",
+    "OPENAI",
+    "pgstore",
+    "productevents",
+    "reflectutil",
+    "resthandler",
+    "resttool",
+    "samber",
+    "Schedulable",
+    "Storer",
+    "struct",
+    "styleguide",
+    "tanstack",
+    "tcodes",
+    "Telehealth",
+    "typecheck",
+    "unfollow",
+    "unmarshalled",
+    "unmarshalling",
+    "Unnotified",
+    "vamac",
+    "Wrapf",
+    "zerolog"
+  ],
+  "cSpell.maxDuplicateProblems": 2,
+  "cSpell.showAutocompleteSuggestions": false,
+  "cSpell.spellCheckDelayMs": 2000,
+  "cSpell.maxNumberOfProblems": 5,
+  "window.commandCenter": false,
+  "workbench.activityBar.location": "hidden",
+  "editor.foldingImportsByDefault": true,
+  "outline.collapseItems": "alwaysCollapse",
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",

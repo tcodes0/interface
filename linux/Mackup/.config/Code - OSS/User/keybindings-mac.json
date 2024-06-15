@@ -1,5 +1,4 @@
 [
-  // Place your key bindings in this file to overwrite the defaults
   {
     "key": "alt+tab",
     "command": "editor.action.reindentlines",
@@ -8,11 +7,6 @@
   {
     "key": "alt+;",
     "command": "editor.action.commentLine",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "alt+q",
-    "command": "editor.action.clipboardCutAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -28,11 +22,6 @@
   {
     "key": "meta+y",
     "command": "editor.action.clipboardPasteAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "meta+w",
-    "command": "editor.action.clipboardCutAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -218,11 +207,6 @@
     "when": "textInputFocus && !editorReadonly"
   },
   {
-    "key": "meta+k",
-    "command": "macros.truemetaK",
-    "when": "textInputFocus && !editorReadonly"
-  },
-  {
     "key": "ctrl+i",
     "command": "-expandLineSelection",
     "when": "textInputFocus"
@@ -258,11 +242,6 @@
   {
     "key": "ctrl+e",
     "command": "-actions.findWithSelection"
-  },
-  {
-    "key": "ctrl+e",
-    "command": "editor.action.smartSelect.grow",
-    "when": "editorTextFocus"
   },
   {
     "key": "meta+shift+ctrl+right",
@@ -446,7 +425,7 @@
     "when": "editorFocus"
   },
   {
-    "key": "ctrl+k ctrl+d",
+    "key": "cmd+k cmd+d",
     "command": "git.openChange"
   },
   {
@@ -578,14 +557,6 @@
     "key": "ctrl+a",
     "command": "-editor.action.selectAll",
     "when": "textInputFocus"
-  },
-  {
-    "key": "meta+e",
-    "command": "cursorLineEnd"
-  },
-  {
-    "key": "meta+a",
-    "command": "cursorLineStart"
   },
   {
     "key": "alt+right",

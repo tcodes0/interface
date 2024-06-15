@@ -27,12 +27,12 @@ alias .dj="cd \$HOME/Desktop/data-jobs"
 # work
 ######
 
-alias pdfret="echo return \&bytes.Buffer\{\}, nil"
 alias qhub="psql -U postgres -d hub -c"
 alias qmember="psql -U postgres -d member -c"
 alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias kb="kubectl"
 alias deploy="make release ENV=prod"
+alias d="deploy"
 
 ####################
 #--------ls aliases
@@ -327,6 +327,5 @@ alias yt="yarn test"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
-alias d="deploy"
 alias m="make"
 alias n="nano"

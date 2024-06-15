@@ -23,10 +23,7 @@ safe_source $DOTFILE_PATH/priv/env
 
 #========== Environment
 
-# Go
 export GOPATH=$HOME/.go
-# upgrade will break. see line history for previous values, it's set in vscode settings now
-# export GOROOT="/opt/homebrew"
 
 export PATH="\
 $HOME/bin:\
