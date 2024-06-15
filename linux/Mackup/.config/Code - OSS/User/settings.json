@@ -48,10 +48,7 @@
       "types": "#6abe7f"
     }
   },
-  //
-  // - - - - - - - - MACROS  - - - - - - - - -
-  //
-  "macros": {},
+  "materialTheme.accent": "Pink",
   //
   // - - - - - - - - FONT - - - - - - - - -
   //
@@ -62,7 +59,6 @@
   "terminal.integrated.lineHeight": 1.35,
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.splitCwd": "inherited",
-  // = = = = = = = = PragmataPro = = = = = = = =
   "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
   "editor.lineHeight": 21,
@@ -100,6 +96,7 @@
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.untrackedChanges": "separate",
+  "git.openRepositoryInParentFolders": "always",
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
@@ -107,10 +104,21 @@
   "shellformat.flag": "-i 2 -ln bash",
   "shellcheck.customArgs": ["-x"],
   //
-  // - - - - - - - - JS - - - - - - - - -
+  // - - - - - - - - JS/TS - - - - - - - - -
   //
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   //
   // - - - - - - - - GO - - - - - - - - -
   //
@@ -134,22 +142,18 @@
   "gopls": {
     "ui.semanticTokens": true
   },
+  "go.toolsManagement.autoUpdate": true,
   //
-  // - - - - - - - - TS - - - - - - - - -
+  // - - - - - - - - MISC - - - - - - - - -
   //
-  "typescript.implementationsCodeLens.enabled": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  //
-  // - - - - - - - - TERMINAL - - - - - - - - -
-  //
+  "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.env.osx": {
-    "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
-  },
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
+  "workbench.startupEditor": "none",
+  "workbench.activityBar.location": "hidden",
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
   "editor.wordBasedSuggestions": "matchingDocuments",
@@ -163,6 +167,10 @@
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
+  "editor.mouseWheelScrollSensitivity": 3,
+  "editor.suggestSelection": "first",
+  "editor.foldingImportsByDefault": true,
+  "editor.inlineSuggest.enabled": true,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
@@ -170,56 +178,23 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
-  "debug.allowBreakpointsEverywhere": true,
   "emmet.showAbbreviationSuggestions": false,
   "emmet.showExpandedAbbreviation": "never",
   "explorer.confirmDragAndDrop": false,
-  "materialTheme.accent": "Pink",
-  "editor.suggestSelection": "first",
-  "merge-conflict.diffViewPosition": "Below",
-  "diffEditor.ignoreTrimWhitespace": false,
   "explorer.confirmDelete": false,
-  "editor.mouseWheelScrollSensitivity": 3,
-  "files.watcherExclude": {
-    "**/.bloop": true,
-    "**/.metals": true,
-    "**/.ammonite": true
-  },
-  "javascript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "minimal",
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "go.toolsManagement.autoUpdate": true,
   "githubPullRequests.queries": [
-    {
-      "label": "Waiting",
-      "query": "is:open review-requested:${user}"
-    },
-    {
-      "label": "Open",
-      "query": "is:open"
-    },
-    {
-      "label": "Assigned",
-      "query": "is:open assignee:${user}"
-    },
-    {
-      "label": "Created",
-      "query": "is:open author:${user}"
-    }
+    { "label": "Waiting", "query": "is:open review-requested:${user}" },
+    { "label": "Open", "query": "is:open" },
+    { "label": "Assigned", "query": "is:open assignee:${user}" },
+    { "label": "Created", "query": "is:open author:${user}" }
   ],
   "githubPullRequests.fileListLayout": "flat",
+  "githubPullRequests.pullBranch": "never",
   "github.copilot.enable": {
     "*": true,
     "plaintext": false,
     "markdown": false
   },
-  "workbench.startupEditor": "none",
   "cSpell.userWords": [
     "AIAPI",
     "aiplugin",
@@ -293,13 +268,13 @@
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "window.commandCenter": false,
-  "workbench.activityBar.location": "hidden",
-  "editor.foldingImportsByDefault": true,
-  "outline.collapseItems": "alwaysCollapse",
-  "githubPullRequests.pullBranch": "never",
-  "editor.inlineSuggest.enabled": true,
-  "update.mode": "manual",
-  "redhat.telemetry.enabled": true,
   "window.menuBarVisibility": "hidden",
-  "window.enableMenuBarMnemonics": false
+  "window.enableMenuBarMnemonics": false,
+  // OTHERS
+  "merge-conflict.diffViewPosition": "Below",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "debug.allowBreakpointsEverywhere": true,
+  "outline.collapseItems": "alwaysCollapse",
+  "update.mode": "manual",
+  "redhat.telemetry.enabled": true
 }
