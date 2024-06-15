@@ -19,13 +19,9 @@ sourcePath="linux/Mackup/.config/Code - OSS/User/settings.json"
 ### script ###
 
 \rm -f "$targetPath"
-
-while read -r line; do
-  # strip comments, not valid json
-  if [[ ! $line =~ // ]]; then
-    echo -n "$line" >>"$targetPath"
-  fi
-done <"$sourcePath"
+\cp "$sourcePath" "$targetPath"
+# yq needs properly formatted json without comments
+sed --in-place '/\/\//d' "$targetPath"
 
 yq --inplace eval '."shellformat.path" = "/opt/homebrew/bin/shfmt"' $targetPath
 yq --inplace eval '."editor.lineHeight" = 20.3' $targetPath
