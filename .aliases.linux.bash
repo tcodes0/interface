@@ -30,6 +30,7 @@ alias open="xdg-open"
 ###############
 # Linux system
 ###############
+
 alias sys='systemctl'
 alias sysstat='systemctl status'
 alias sysrestart='systemctl restart'
@@ -51,6 +52,7 @@ alias fsv="btrfs subvolume"
 #################
 # pacman and yay
 #################
+
 alias pac='pacman'
 alias pacSearch='yay --sync --search' # -Ss
 alias pacWhyFile='pacman -Qo'

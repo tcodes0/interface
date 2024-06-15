@@ -5,19 +5,19 @@
   "workbench.colorTheme": "Material Theme Darker High Contrast",
   "workbench.colorCustomizations": {
     "[Material Theme Darker High Contrast]": {
-      "editor.background": "#141318",
-      "activityBar.background": "#141318",
-      "statusBar.background": "#141318",
-      "panel.background": "#141318",
-      "sideBar.background": "#141318",
-      "activityBarBadge.background": "#141318",
-      "badge.background": "#141318",
-      "editorPane.background": "#141318",
-      "editorWidget.background": "#141318",
-      "tab.inactiveBackground": "#141318",
-      "tab.activeBackground": "#141318",
-      "titleBar.activeBackground": "#141318",
-      "editorGutter.background": "#141318"
+      "editor.background": "#050505",
+      "activityBar.background": "#050505",
+      "statusBar.background": "#050505",
+      "panel.background": "#050505",
+      "sideBar.background": "#050505",
+      "activityBarBadge.background": "#050505",
+      "badge.background": "#050505",
+      "editorPane.background": "#050505",
+      "editorWidget.background": "#050505",
+      "tab.inactiveBackground": "#050505",
+      "tab.activeBackground": "#050505",
+      "titleBar.activeBackground": "#050505",
+      "editorGutter.background": "#050505"
     },
     "activityBarBadge.background": "#FF4081",
     "list.activeSelectionForeground": "#FF4081",
@@ -48,15 +48,7 @@
       "types": "#6abe7f"
     }
   },
-  //
-  // - - - - - - - - MACROS  - - - - - - - - -
-  //
-  "macros.list": {
-    "duplicateLinesFromStart": [
-      "expandLineSelection",
-      "editor.action.duplicateSelection"
-    ]
-  },
+  "materialTheme.accent": "Pink",
   //
   // - - - - - - - - FONT - - - - - - - - -
   //
@@ -67,7 +59,6 @@
   "terminal.integrated.lineHeight": 1.35,
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.splitCwd": "inherited",
-  // = = = = = = = = PragmataPro = = = = = = = =
   "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
   "editor.lineHeight": 21,
@@ -75,7 +66,6 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -98,6 +88,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "sql-formatter.uppercase": true,
   //
   // - - - - - - - - GIT - - - - - - - - -
   //
@@ -105,6 +96,7 @@
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.untrackedChanges": "separate",
+  "git.openRepositoryInParentFolders": "always",
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
@@ -112,10 +104,21 @@
   "shellformat.flag": "-i 2 -ln bash",
   "shellcheck.customArgs": ["-x"],
   //
-  // - - - - - - - - JS - - - - - - - - -
+  // - - - - - - - - JS/TS - - - - - - - - -
   //
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
+  "javascript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   //
   // - - - - - - - - GO - - - - - - - - -
   //
@@ -123,41 +126,37 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
-  },
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 1000
   },
   "go.testOnSave": false,
   "go.delveConfig": {
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
+  "go.testFlags": ["-race"],
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": ["--print-issued-lines=false"],
+  "go.vetOnSave": "off",
+  "go.formatTool": "gofumpt",
+  "gopls": {
+    "ui.semanticTokens": true
+  },
+  "go.toolsManagement.autoUpdate": true,
   //
-  // - - - - - - - - TS - - - - - - - - -
+  // - - - - - - - - MISC - - - - - - - - -
   //
-  "typescript.implementationsCodeLens.enabled": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  //
-  // - - - - - - - - TERMINAL - - - - - - - - -
-  //
+  "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
-  "terminal.integrated.env.osx": {
-    "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
-  },
-  //
-  // - - - - - - - - GENERAL - - - - - - - - -
-  //
-  "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
+  "workbench.startupEditor": "none",
+  "workbench.activityBar.location": "hidden",
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
-  "editor.wordBasedSuggestions": true,
+  "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.renderControlCharacters": true,
   "editor.minimap.enabled": false,
   "editor.formatOnType": false,
@@ -168,6 +167,10 @@
   "editor.acceptSuggestionOnCommitCharacter": false,
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorSurroundingLines": 5,
+  "editor.mouseWheelScrollSensitivity": 3,
+  "editor.suggestSelection": "first",
+  "editor.foldingImportsByDefault": true,
+  "editor.inlineSuggest.enabled": true,
   "files.autoSave": "afterDelay",
   "files.autoSaveDelay": 1000,
   "files.trimTrailingWhitespace": true,
@@ -175,61 +178,103 @@
   "breadcrumbs.enabled": true,
   "breadcrumbs.filePath": "on",
   "breadcrumbs.symbolPath": "on",
-  "debug.allowBreakpointsEverywhere": true,
   "emmet.showAbbreviationSuggestions": false,
   "emmet.showExpandedAbbreviation": "never",
   "explorer.confirmDragAndDrop": false,
-  "materialTheme.accent": "Pink",
-  "editor.suggestSelection": "first",
-  "merge-conflict.diffViewPosition": "Below",
-  "diffEditor.ignoreTrimWhitespace": false,
   "explorer.confirmDelete": false,
-  "window.menuBarVisibility": "hidden",
-  "editor.mouseWheelScrollSensitivity": 3,
-  "php.validate.executablePath": "/usr/bin/php",
-  "files.watcherExclude": {
-    "**/.bloop": true,
-    "**/.metals": true,
-    "**/.ammonite": true
-  },
-  "javascript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.importModuleSpecifierEnding": "minimal",
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "go.toolsManagement.autoUpdate": true,
   "githubPullRequests.queries": [
-    {
-      "label": "Waiting",
-      "query": "is:open review-requested:${user}"
-    },
-    {
-      "label": "Open",
-      "query": "is:open"
-    },
-    {
-      "label": "Assigned",
-      "query": "is:open assignee:${user}"
-    },
-    {
-      "label": "Created",
-      "query": "is:open author:${user}"
-    }
+    { "label": "Waiting", "query": "is:open review-requested:${user}" },
+    { "label": "Open", "query": "is:open" },
+    { "label": "Assigned", "query": "is:open assignee:${user}" },
+    { "label": "Created", "query": "is:open author:${user}" }
   ],
   "githubPullRequests.fileListLayout": "flat",
+  "githubPullRequests.pullBranch": "never",
   "github.copilot.enable": {
     "*": true,
-    "yaml": false,
-    "plaintext": true,
-    "markdown": true
+    "plaintext": false,
+    "markdown": false
   },
-  "workbench.startupEditor": "none",
-  "githubPullRequests.pullBranch": "never",
-  "editor.inlineSuggest.enabled": true,
+  "cSpell.userWords": [
+    "AIAPI",
+    "aiplugin",
+    "aiplugins",
+    "apperrs",
+    "Appt",
+    "appts",
+    "athenahealth",
+    "baristai",
+    "btrfs",
+    "chakra",
+    "cliflag",
+    "clioptions",
+    "commonclock",
+    "comms",
+    "configkey",
+    "davinci",
+    "devs",
+    "doesnt",
+    "eleanorhealth",
+    "entityid",
+    "envtag",
+    "errgroup",
+    "featureflag",
+    "Frameset",
+    "frontends",
+    "hlog",
+    "httpflush",
+    "httphandler",
+    "httphandlertest",
+    "httprecoverer",
+    "idgen",
+    "idgenerator",
+    "iname",
+    "jmap",
+    "jsonutil",
+    "Laper",
+    "libopenai",
+    "lostcancel",
+    "macbook",
+    "Moderations",
+    "Msgf",
+    "nolint",
+    "nower",
+    "nullzero",
+    "OPENAI",
+    "pgstore",
+    "productevents",
+    "reflectutil",
+    "resthandler",
+    "resttool",
+    "samber",
+    "Schedulable",
+    "Storer",
+    "struct",
+    "styleguide",
+    "tanstack",
+    "tcodes",
+    "Telehealth",
+    "typecheck",
+    "unfollow",
+    "unmarshalled",
+    "unmarshalling",
+    "Unnotified",
+    "vamac",
+    "Wrapf",
+    "zerolog"
+  ],
+  "cSpell.maxDuplicateProblems": 2,
+  "cSpell.showAutocompleteSuggestions": false,
+  "cSpell.spellCheckDelayMs": 2000,
+  "cSpell.maxNumberOfProblems": 5,
+  "window.commandCenter": false,
+  "window.menuBarVisibility": "hidden",
+  "window.enableMenuBarMnemonics": false,
+  // OTHERS
+  "merge-conflict.diffViewPosition": "Below",
+  "diffEditor.ignoreTrimWhitespace": false,
+  "debug.allowBreakpointsEverywhere": true,
+  "outline.collapseItems": "alwaysCollapse",
   "update.mode": "manual",
-  "window.zoomLevel": -1
+  "redhat.telemetry.enabled": true
 }

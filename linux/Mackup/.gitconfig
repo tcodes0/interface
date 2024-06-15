@@ -7,7 +7,6 @@
 	excludesfile = /Users/vamac/.gitignore_global
 [commit]
 	gpgSign = true
-#	template = /Users/vamac/.stCommitMsg
 [fetch]
 	prune = true
 [rebase]

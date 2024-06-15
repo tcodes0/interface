@@ -11,11 +11,6 @@
     "when": "editorTextFocus && !editorReadonly"
   },
   {
-    "key": "alt+q",
-    "command": "editor.action.clipboardCutAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+w",
     "command": "editor.action.clipboardCopyAction",
     "when": "editorTextFocus && !editorReadonly"
@@ -31,11 +26,6 @@
     "when": "editorTextFocus && !editorReadonly"
   },
   {
-    "key": "meta+w",
-    "command": "editor.action.clipboardCutAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "meta+alt+t",
     "command": "-workbench.action.terminal.toggleTerminal"
   },
@@ -47,6 +37,11 @@
   {
     "key": "meta+w",
     "command": "-workbench.action.switchWindow"
+  },
+  {
+    "key": "ctrl+f",
+    "command": "macros.findAndReplace",
+    "when": "editorTextFocus && !editorReadonly"
   },
   {
     "key": "alt+ctrl+f",
@@ -213,13 +208,13 @@
     "when": "editorTextFocus && !editorReadonly"
   },
   {
-    "key": "meta+k",
-    "command": "-deleteAllRight",
-    "when": "textInputFocus && !editorReadonly"
+    "key": "ctrl+k ctrl+c",
+    "command": "macros.commentDown",
+    "when": "editorTextFocus && !editorReadonly"
   },
   {
     "key": "meta+k",
-    "command": "macros.truemetaK",
+    "command": "-deleteAllRight",
     "when": "textInputFocus && !editorReadonly"
   },
   {
@@ -258,11 +253,6 @@
   {
     "key": "ctrl+e",
     "command": "-actions.findWithSelection"
-  },
-  {
-    "key": "ctrl+e",
-    "command": "editor.action.smartSelect.grow",
-    "when": "editorTextFocus"
   },
   {
     "key": "meta+shift+ctrl+right",
@@ -446,7 +436,7 @@
     "when": "editorFocus"
   },
   {
-    "key": "ctrl+k ctrl+d",
+    "key": "cmd+k cmd+d",
     "command": "git.openChange"
   },
   {
@@ -580,14 +570,6 @@
     "when": "textInputFocus"
   },
   {
-    "key": "meta+e",
-    "command": "cursorLineEnd"
-  },
-  {
-    "key": "meta+a",
-    "command": "cursorLineStart"
-  },
-  {
     "key": "alt+right",
     "command": "-workbench.action.terminal.focusNextPane",
     "when": "terminalFocus"
@@ -662,54 +644,60 @@
     "command": "pr:github.focus"
   },
   {
-    "key": "ctrl+shift+d",
+    "key": "shift+cmd+d",
     "command": "-workbench.view.debug",
     "when": "viewContainer.workbench.view.debug.enabled"
   },
   {
-    "key": "ctrl+shift+d",
-    "command": "macros.duplicateLinesFromStart"
+    "key": "cmd+a",
+    "command": "editor.action.selectAll",
+    "when": "editorFocus"
   },
   {
-    "key": "ctrl+j",
-    "command": "editor.action.joinLines"
-  },
-  {
-    "key": "ctrl+f",
-    "command": "editor.action.startFindReplaceAction",
-    "when": "editorFocus || editorIsOpen"
-  },
-  {
-    "key": "ctrl+h",
-    "command": "-editor.action.startFindReplaceAction",
-    "when": "editorFocus || editorIsOpen"
-  },
-  {
-    "key": "ctrl+shift+r",
-    "command": "-editor.action.refactor",
-    "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+shift+r",
-    "command": "workbench.view.debug",
-    "when": "textInputFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+a",
+    "key": "cmd+a",
     "command": "-editor.action.selectAll"
   },
   {
-    "key": "ctrl+a",
-    "command": "-notebook.cell.output.selectAll",
-    "when": "notebookEditorFocused && notebookOutputFocused"
+    "key": "cmd+f",
+    "command": "-list.find",
+    "when": "listFocus && listSupportsFind"
   },
   {
-    "key": "ctrl+a",
-    "command": "-list.selectAll",
-    "when": "listFocus && listSupportsMultiselect && !inputFocus && !treestickyScrollFocused"
+    "key": "f3",
+    "command": "-list.find",
+    "when": "listFocus && listSupportsFind"
   },
   {
-    "key": "ctrl+a",
-    "command": "editor.action.selectAll"
+    "key": "a",
+    "command": "explorer.newFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "shift+a",
+    "command": "explorer.newFolder",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "f2",
+    "command": "renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "enter",
+    "command": "-renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "shift+cmd+d",
+    "command": "macros.duplicateLinesFromStart"
+  },
+  {
+    "key": "shift+cmd+e",
+    "command": "-workbench.view.explorer",
+    "when": "viewContainer.workbench.view.explorer.enabled"
+  },
+  {
+    "key": "shift+cmd+e",
+    "command": "workbench.files.action.focusFilesExplorer"
   }
 ]
