@@ -75,7 +75,6 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
-  "eslint.packageManager": "yarn",
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -123,12 +122,8 @@
   "[go]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     }
-  },
-  "go.liveErrors": {
-    "enabled": true,
-    "delay": 1000
   },
   "go.testOnSave": false,
   "go.delveConfig": {
@@ -149,15 +144,11 @@
   "terminal.integrated.env.osx": {
     "VSCODE_OVERRIDES": "/Users/vamac/.vscode_overrides"
   },
-  //
-  // - - - - - - - - GENERAL - - - - - - - - -
-  //
-  "workbench.activityBar.visible": false,
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
-  "editor.wordBasedSuggestions": true,
+  "editor.wordBasedSuggestions": "matchingDocuments",
   "editor.renderControlCharacters": true,
   "editor.minimap.enabled": false,
   "editor.formatOnType": false,
@@ -184,7 +175,6 @@
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   "explorer.confirmDelete": false,
-  "window.menuBarVisibility": "hidden",
   "editor.mouseWheelScrollSensitivity": 3,
   "php.validate.executablePath": "/usr/bin/php",
   "files.watcherExclude": {
@@ -231,5 +221,6 @@
   "githubPullRequests.pullBranch": "never",
   "editor.inlineSuggest.enabled": true,
   "update.mode": "manual",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -1,
+  "workbench.activityBar.location": "hidden"
 }
