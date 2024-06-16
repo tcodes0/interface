@@ -14,20 +14,14 @@ safe_source() {
 }
 
 CONFIG_FILE=""
-# set to known hostname we usually ssh into
-export KNOWN_HOST="other"
 
 if [[ "$(uname -s)" =~ Darwin ]]; then
-  CONFIG_FILE="/Users/vacation/Desktop/interface/.bashrc.mac.bash"
-  KNOWN_HOST="$(hostname)"
+  # todo: update these references, files got renamed
+  CONFIG_FILE="/Users/vamac/Documents/GoogleDrive/Mackup/.bashrc.mac.bash"
 fi
 
 if [[ "$(uname -s)" =~ Linux ]]; then
   CONFIG_FILE="/home/vacation/Desktop/interface/.bashrc.linux.bash"
-
-  if [[ "$(uname --nodename)" =~ Arch7 ]]; then
-    KNOWN_HOST="Arch7"
-  fi
 fi
 
 if [ $CONFIG_FILE ]; then

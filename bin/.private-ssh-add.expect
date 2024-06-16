@@ -1,0 +1,7 @@
+#! /usr/bin/expect -f
+
+spawn ssh-add
+expect "Enter passphrase for /home/vacation/.ssh/id_rsa: "
+send "7DCnGDRx2L3frJ27td7NTn28p9hedTcyZs5yryo6LWGwPGR5jGXm\n";
+expect "Identity added: /home/vacation/.ssh/id_rsa (/home/vacation/.ssh/id_rsa)"
+interact
