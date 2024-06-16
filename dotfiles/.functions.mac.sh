@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 hidedesktop() {
+  local state
   state=$(defaults read com.apple.finder CreateDesktop)
 
   if [ "$state" == "true" ]; then
@@ -33,8 +34,7 @@ notify() {
     return 1
   fi
 
-  title="Hello World"
-  text="Example notification. Use -h for help"
+  local title="Hello World", text="Example notification. Use -h for help"
 
   if [ "$1" ]; then
     title="$1"

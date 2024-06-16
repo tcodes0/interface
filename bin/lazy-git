@@ -34,6 +34,7 @@ validateDeps() {
 }
 
 commit() {
+  local manuallyStagedFiles
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
@@ -50,15 +51,13 @@ commit() {
     fi
   fi
 
-  type="${1/:/}"
-  scope="${2/:/}"
-  subject="${*:3}"
+  local type="${1/:/}", scope="${2/:/}", subject="${*:3}"
 
   if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
     fatal $LINENO "usage: lg <type> <scope> <commit subject>"
   fi
 
-  commitMsg="$type($scope): $subject"
+  local commitMsg="$type($scope): $subject"
   if [ "$scope" == _ ]; then
     commitMsg="$type: $subject"
   fi
@@ -72,7 +71,7 @@ commit() {
 
 push() {
   if [[ $PUSH ]]; then
-    noUpstreamRegExp="has no upstream branch"
+    local pushResult, noUpstreamRegExp="has no upstream branch"
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then

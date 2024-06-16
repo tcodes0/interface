@@ -9,8 +9,7 @@
 
 # usage: err $LINENO "message" (default message: error)
 err() {
-  linenum=$1
-  msg=error
+  local linenum=$1, msg=error
 
   if [ "${*:2}" ]; then
     msg=${*:2}

@@ -110,7 +110,7 @@ tar7z() {
     return 1
   fi
 
-  safeArg=$1
+  local safeArg=$1
   if [[ "$safeArg" =~ [/]$ ]]; then
     safeArg=${safeArg:0:-1}
   fi

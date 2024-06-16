@@ -106,6 +106,7 @@ gtp() {
 #- - - - - - - - - - -
 
 goo() {
+  local escapedQuery
   escapedQuery=$(echo -n "$@" | tr ' ' '+')
   open "https://duckduckgo.com/?q=${escapedQuery}&t=ffab&ia=web"
 }
@@ -159,7 +160,7 @@ gcom() {
     return
   fi
 
-  branch=main
+  local branch=main, checkout
   checkout=$(git checkout $branch 2>&1)
 
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
