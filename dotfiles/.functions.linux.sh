@@ -1,17 +1,6 @@
 #! /usr/bin/env bash
-# shellcheck disable=SC1090
-# shellcheck disable=SC1091
 
-#========== Override macos
-
-#- - - - - - - - - - -
-
-goo() {
-  google "$@"
-}
-
-#- - - - - - - - - - -
-
+# TODO: inline this in priv repo, rotate creds
 relative-drive-push() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
     echo "Usage: relative-drive-push targets/to/push"
@@ -26,6 +15,8 @@ relative-drive-push() {
     rclone copyto "$DOTFILE_PATH/$1" "google-drive:$2"
   fi
 }
+
+#- - - - - - - - - - -
 
 relative-dropbox-push() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
@@ -59,6 +50,8 @@ relative-drive-pull() {
   fi
 }
 
+#- - - - - - - - - - -
+
 relative-dropbox-pull() {
   if [ "$#" -gt 2 ] || [ "$1" == -h ] || [ "$#" == 0 ]; then
     echo "Usage: relative-dropbox-pull target"
@@ -86,36 +79,6 @@ drive-list() {
 
 #- - - - - - - - - - -
 
-# routine-pull() {
-#   drive-pull Mackup/.docker/
-#   # drive-pull Mackup/.emacs.d/
-#   drive-pull Mackup/.gnupg/
-#   drive-pull Mackup/.ssh/
-#   drive-pull Mackup/.subversion/
-#   drive-pull Mackup/.vscode/
-#   # drive-pull Mackup/Library/
-#   drive-pull Mackup/.directory
-#   drive-pull Mackup/.emacs
-#   drive-pull Mackup/.gitconfig
-#   drive-pull Mackup/.hyper.js
-#   drive-pull Mackup/.inputrc
-# }
-
-#- - - - - - - - - - -
-
-root() {
-  command sudo bash -ic "$*"
-}
-
-#- - - - - - - - - - -
-
-# base64 decode
-bd() {
-  base64 -d <<<"$@"
-}
-
-#- - - - - - - - - - -
-
 vpnup() {
   sudo wg-quick up wg0
   sudo wg
@@ -135,28 +98,28 @@ mkinitcpio() {
     echo "must run mkinitcpio as root"
     return 0
   fi
+
   mkinitcpio "$@"
 }
 
-#----------------
+#- - - - - - - - - - -
 
-tableinfo() {
-  if [ "$1" == "" ]; then
-    echo -n "\"SELECT column_name, is_nullable, data_type, column_default FROM information_schema.columns WHERE table_name = 'foo' ORDER BY column_name;\"" | xclip -selection c
-    echo "copied to clipboard as foo"
-  else
-    echo -n "\"SELECT column_name, is_nullable, data_type, column_default FROM information_schema.columns WHERE table_name = '$1' ORDER BY column_name;\"" | xclip -selection c
-    echo "copied to clipboard as $1"
+tar7z() {
+  if [ "$#" == 0 ] || [ "$1" == "-h" ]; then
+    echo "tar7z foo produces foo.tar.7z"
+    return 1
   fi
+
+  safeArg=$1
+  if [[ "$safeArg" =~ [/]$ ]]; then
+    safeArg=${safeArg:0:-1}
+  fi
+
+  tar cf - "$safeArg" 2>/dev/null | 7za a -si -mx=7 "${safeArg}.tar.7z" 1>/dev/null
 }
 
-#----------------
+#- - - - - - - - - - -
 
-gotest() {
-  if [ "$#" -eq 0 ]; then
-    echo "Usage: gotest path/to/test"
-    return
-  fi
-
-  godotenv -f .env go test "./$1" -race -json 2>&1 | gotestfmt
+goo() {
+  google "$@"
 }

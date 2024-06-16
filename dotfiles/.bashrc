@@ -22,12 +22,20 @@ export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
 export BASH_ENV="$HOME/.bashrc"
+export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
+export DOTFILE_PATH=""
 
 GPG_TTY=$(tty)
 export GPG_TTY
 
-# go
-export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
+if [ "$(whoami)" == "root" ]; then
+  # use vacation files on root to have the same envs and aliases
+  DOTFILE_PATH="/home/vacation/Desktop/interface/dotfiles"
+elif [ "$(whoami)" == "vacation" ]; then
+  DOTFILE_PATH="$HOME/Desktop/interface/dotfiles"
+fi
+
+safe_source "$DOTFILE_PATH/lib.sh"
 
 # If running from script, skip remaining code
 [[ $- != *i* ]] && return
@@ -37,14 +45,6 @@ shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 export EDITOR='code -w'
 # gpg agent
 export GPGKEY=D600E88A0C5FE062
-export DOTFILE_PATH=""
-
-if [ "$(whoami)" == "root" ]; then
-  # use vacation files on root to have the same envs and aliases
-  DOTFILE_PATH="/home/vacation/Desktop/interface/dotfiles"
-elif [ "$(whoami)" == "vacation" ]; then
-  DOTFILE_PATH="$HOME/Desktop/interface/dotfiles"
-fi
 
 # gcloud
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
@@ -76,9 +76,9 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
 # order matters
 
-safe_source "$HOME/Desktop/interface/priv/.bashrc.sh"
-safe_source "$DOTFILE_PATH/git-prompt.sh"
-safe_source "$DOTFILE_PATH/.prompt.sh"
+safe_source "$HOME/Desktop/interface/priv/.bashrc"
+safe_source "$DOTFILE_PATH/lib-git-prompt.sh"
+safe_source "$DOTFILE_PATH/lib-prompt.sh"
 safe_source "$DOTFILE_PATH/.aliases.sh"
 safe_source "$DOTFILE_PATH/.functions.sh"
 

@@ -203,7 +203,7 @@ alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
 
-#general
+# general
 
 alias la='ls -A'
 alias ll='ls -lSAi'
@@ -219,8 +219,6 @@ alias ln='ln -si'
 alias disk='diskutil'
 alias part='partutil'
 alias srit='source $HOME/.bashrc && clear'
-alias pbc='pbcopy'
-alias pbp='pbpaste'
 alias dirs='dirs -v'
 alias du='du -xa | sort -rn'
 alias stat='stat -Ll'
@@ -275,3 +273,4 @@ alias dd='gd status=progress bs=4M'
 alias google="s -p duckduckgo"
 alias commitlint="commitlint --config ~/.commitlintrc.yml"
 alias kubecheck="kubeconform --strict --ignore-missing-schemas --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
+alias lg="lazy-git"

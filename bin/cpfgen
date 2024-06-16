@@ -1,4 +1,6 @@
 #! /usr/bin/env php
+<!-- https://github.com/MestreLion/scripts/blob/main/cpf -->
+
 <?php
 $cpf = substr((empty($argv[1])?'':$argv[1]) . str_pad(rand(1, 999999998), 9, '0', STR_PAD_LEFT), 0, 9);
 for ($t = 9; $t < 11; $t++) {

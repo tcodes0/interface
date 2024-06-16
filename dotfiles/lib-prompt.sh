@@ -5,7 +5,7 @@ random256Color() {
   if [ "$c" -le 17 ] || [ "$c" -ge 232 ]; then
     random256Color
   else
-    echo -n "\\e[38;05;${c}m"
+    echo -ne "\\e[38;05;${c}m"
   fi
 }
 

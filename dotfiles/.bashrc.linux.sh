@@ -1,10 +1,13 @@
 #! /usr/bin/env bash
 
+# /bin symlinked to /usr/bin
+# /sbin symlinked to /usr/sbin
 export PATH="\
 $HOME/bin:\
 /usr/local/sbin:\
 /usr/local/bin:\
 /usr/bin:\
+/usr/sbin:\
 /usr/bin/vendor_perl:\
 /usr/bin/core_perl:\
 $HOME/go/bin:\

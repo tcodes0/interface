@@ -1,0 +1,94 @@
+#! /usr/bin/env bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+MSG_PREFIX="lg > "
+
+gitDo() {
+  # check for another git process running at this time (rare edge-case)
+  # i.e. vscode; wait for it to finish
+  while [ -f "$PWD/.git/index.lock" ]; do
+    msgln ".git/index.lock exits, waiting..."
+    sleep 1
+  done
+
+  command git "$@"
+}
+
+validateDeps() {
+  if ! command -v commitlint >/dev/null; then
+    fatal "$LINENO" "commitlint not found; please run 'npm install -g @commitlint/cli'"
+  fi
+
+  if [ ! -f ~/.commitlintrc.yml ]; then
+    fatal "$LINENO" "\~/.commitlintrc.yml not found"
+  fi
+}
+
+commit() {
+  manuallyStagedFiles=$(git diff --name-only --cached)
+
+  if [ "$manuallyStagedFiles" ]; then
+    msgln "comitting files already staged...\n"
+  fi
+
+  if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
+    fatal "$LINENO" "git add --all failed"
+  else
+    manuallyStagedFiles=$(gitDo diff --name-only --cached)
+
+    if [ ! "$manuallyStagedFiles" ]; then
+      fatal "$LINENO" "no staged files"
+    fi
+  fi
+
+  type="${1/:/}"
+  scope="${2/:/}"
+  subject="${*:3}"
+
+  if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
+    fatal $LINENO "usage: lg <type> <scope> <commit subject>"
+  fi
+
+  commitMsg="$type($scope): $subject"
+  if [ "$scope" == _ ]; then
+    commitMsg="$type: $subject"
+  fi
+
+  command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
+
+  if gitDo commit -q -m "$commitMsg"; then
+    msgln "%s\n" "$commitMsg"
+  fi
+}
+
+push() {
+  if [[ $PUSH ]]; then
+    noUpstreamRegExp="has no upstream branch"
+    pushResult=$(gp 2>&1)
+
+    if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
+      msgln "push error: No upstream. Running 'git push --set-upstream origin %s\n" "$GIT_BRANCH"
+      gitDo push --set-upstream origin "$GIT_BRANCH"
+    fi
+  fi
+}
+
+finally() {
+  gitDo status -s
+}
+
+### script ###
+
+validateDeps
+commit "$@"
+push
+finally

@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# shellcheck disable=2059
 # bash/zsh git prompt support
 #
 # Copyright (C) 2006,2007 Shawn O. Pearce <spearce@spearce.org>
@@ -103,13 +104,13 @@ printf -v __git_printf_supports_v -- '%s' yes >/dev/null 2>&1
 # stores the divergence from upstream in $p
 # used by GIT_PS1_SHOWUPSTREAM
 __git_ps1_show_upstream() {
-  local key value
-  local svn_remote svn_url_pattern count n
-  local upstream=git legacy="" verbose="" name=""
+  key value
+  svn_remote svn_url_pattern count n
+  upstream=git legacy="" verbose="" name=""
 
   svn_remote=()
   # get some config options from git-config
-  local output="$(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')"
+  output="$(git config -z --get-regexp '^(svn-remote\..*\.url|bash\.showupstream)$' 2>/dev/null | tr '\0\n' '\n ')"
   while read -r key value; do
     case "$key" in
     bash.showupstream)
@@ -120,7 +121,7 @@ __git_ps1_show_upstream() {
       fi
       ;;
     svn-remote.*.url)
-      svn_remote[$((${#svn_remote[@]} + 1))]="$value"
+      svn_remote[${#svn_remote[@]} + 1]="$value"
       svn_url_pattern="$svn_url_pattern\\|$value"
       upstream=svn+git # default upstream is SVN if available, else git
       ;;
@@ -149,12 +150,12 @@ __git_ps1_show_upstream() {
     if [[ 0 -ne ${#svn_upstream[@]} ]]; then
       svn_upstream=${svn_upstream[${#svn_upstream[@]} - 2]}
       svn_upstream=${svn_upstream%@*}
-      local n_stop="${#svn_remote[@]}"
+      n_stop="${#svn_remote[@]}"
       for ((n = 1; n <= n_stop; n++)); do
         svn_upstream=${svn_upstream#${svn_remote[$n]}}
       done
 
-      if [[ -z "$svn_upstream" ]]; then
+      if [[ -z "${svn_upstream[0]}" ]]; then
         # default branch name for checkouts with no layout:
         upstream=${GIT_SVN_ID:-git-svn}
       else
@@ -172,9 +173,9 @@ __git_ps1_show_upstream() {
       "$upstream"...HEAD 2>/dev/null)"
   else
     # produce equivalent output to --count for older versions of git
-    local commits
+    commits
     if commits="$(git rev-list --left-right "$upstream"...HEAD 2>/dev/null)"; then
-      local commit behind=0 ahead=0
+      commit behind=0 ahead=0
       for commit in $commits; do
         case "$commit" in
         "<"*) ((behind++)) ;;
@@ -217,7 +218,7 @@ __git_ps1_show_upstream() {
     if [[ -n "$count" && -n "$name" ]]; then
       __git_ps1_upstream_name=$(git rev-parse \
         --abbrev-ref "$upstream" 2>/dev/null)
-      if [ $pcmode = yes ] && [ $ps1_expanded = yes ]; then
+      if [ "$pcmode" = yes ] && [ "$ps1_expanded" = yes ]; then
         p="$p \${__git_ps1_upstream_name}"
       else
         p="$p ${__git_ps1_upstream_name}"
@@ -235,24 +236,24 @@ __git_ps1_show_upstream() {
 # to build a gitstring.
 __git_ps1_colorize_gitstring() {
   if [[ -n ${ZSH_VERSION-} ]]; then
-    local c_red='%F{red}'
-    local c_green='%F{green}'
-    local c_lblue='%F{blue}'
-    local c_clear='%f'
+    c_red='%F{red}'
+    c_green='%F{green}'
+    c_lblue='%F{blue}'
+    c_clear='%f'
   else
     # Using \[ and \] around colors is necessary to prevent
     # issues with command line editing/browsing/completion!
-    local c_red='\[\e[31m\]'
-    local c_green='\[\e[32m\]'
-    local c_lblue='\[\e[1;34m\]'
-    local c_clear='\[\e[0m\]'
+    c_red='\[\e[31m\]'
+    c_green='\[\e[32m\]'
+    c_lblue='\[\e[1;34m\]'
+    c_clear='\[\e[0m\]'
   fi
-  local bad_color=$c_red
-  local ok_color=$c_green
-  local flags_color="$c_lblue"
+  bad_color=$c_red
+  ok_color=$c_green
+  flags_color="$c_lblue"
 
-  local branch_color=""
-  if [ $detached = no ]; then
+  branch_color=""
+  if [ "$detached" = no ]; then
     branch_color="$ok_color"
   else
     branch_color="$bad_color"
@@ -279,7 +280,7 @@ __git_ps1_colorize_gitstring() {
 # __git_eread requires 2 arguments, the file path and the name of the
 # variable, in that order.
 __git_eread() {
-  test -r "$1" && IFS=$'\r\n' read "$2" <"$1"
+  test -r "$1" && IFS=$'\r\n' read -r "$2" <"$1"
 }
 
 # see if a cherry-pick or revert is in progress, if the user has committed a
@@ -322,12 +323,12 @@ __git_sequencer_status() {
 # In this mode you can request colored hints using GIT_PS1_SHOWCOLORHINTS=true
 __git_ps1() {
   # preserve exit status
-  local exit=$?
-  local pcmode=no
-  local detached=no
-  local ps1pc_start='\u@\h:\w '
-  local ps1pc_end='\$ '
-  local printf_format=' (%s)'
+  exit=$?
+  pcmode=no
+  detached=no
+  ps1pc_start='\u@\h:\w '
+  ps1pc_end='\$ '
+  printf_format=' (%s)'
   if git describe --contains --all HEAD >/dev/null 2>&1; then
     GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     GIT_UPSTREAM="$(git rev-parse --abbrev-ref "$GIT_BRANCH"@{upstream} 2>/dev/null)"
@@ -387,11 +388,11 @@ __git_ps1() {
   # shell and safer than the alternative if the assumption is
   # incorrect.)
   #
-  local ps1_expanded=yes
+  ps1_expanded=yes
   [ -z "${ZSH_VERSION-}" ] || [[ -o PROMPT_SUBST ]] || ps1_expanded=no
   [ -z "${BASH_VERSION-}" ] || shopt -q promptvars || ps1_expanded=no
 
-  local repo_info rev_parse_exit_code
+  repo_info rev_parse_exit_code
   repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
     --is-bare-repository --is-inside-work-tree \
     --short HEAD 2>/dev/null)"
@@ -401,17 +402,17 @@ __git_ps1() {
     return $exit
   fi
 
-  local short_sha=""
+  short_sha=""
   if [ "$rev_parse_exit_code" = "0" ]; then
     short_sha="${repo_info##*$'\n'}"
     repo_info="${repo_info%$'\n'*}"
   fi
-  local inside_worktree="${repo_info##*$'\n'}"
+  inside_worktree="${repo_info##*$'\n'}"
   repo_info="${repo_info%$'\n'*}"
-  local bare_repo="${repo_info##*$'\n'}"
+  bare_repo="${repo_info##*$'\n'}"
   repo_info="${repo_info%$'\n'*}"
-  local inside_gitdir="${repo_info##*$'\n'}"
-  local g="${repo_info%$'\n'*}"
+  inside_gitdir="${repo_info##*$'\n'}"
+  g="${repo_info%$'\n'*}"
 
   if [ "true" = "$inside_worktree" ] &&
     [ -n "${GIT_PS1_HIDE_IF_PWD_IGNORED-}" ] &&
@@ -420,10 +421,10 @@ __git_ps1() {
     return $exit
   fi
 
-  local r=""
-  local b=""
-  local step=""
-  local total=""
+  r=""
+  b=""
+  step=""
+  total=""
   if [ -d "$g/rebase-merge" ]; then
     __git_eread "$g/rebase-merge/head-name" b
     __git_eread "$g/rebase-merge/msgnum" step
@@ -459,7 +460,7 @@ __git_ps1() {
       # symlink symbolic ref
       b="$(git symbolic-ref HEAD 2>/dev/null)"
     else
-      local head=""
+      head=""
       if ! __git_eread "$g/HEAD" head; then
         return $exit
       fi
@@ -481,7 +482,7 @@ __git_ps1() {
           describe)
             git describe HEAD
             ;;
-          * | default)
+          *)
             git describe --tags --exact-match HEAD
             ;;
           esac 2>/dev/null
@@ -496,12 +497,12 @@ __git_ps1() {
     r="$r $step/$total"
   fi
 
-  local w=""
-  local i=""
-  local s=""
-  local u=""
-  local c=""
-  local p=""
+  w=""
+  i=""
+  s=""
+  u=""
+  c=""
+  p=""
 
   if [ "true" = "$inside_gitdir" ]; then
     if [ "true" = "$bare_repo" ]; then
@@ -534,7 +535,7 @@ __git_ps1() {
     fi
   fi
 
-  local z="${GIT_PS1_STATESEPARATOR-" "}"
+  z="${GIT_PS1_STATESEPARATOR-" "}"
 
   # NO color option unless in PROMPT_COMMAND mode
   if [ $pcmode = yes ] && [ -n "${GIT_PS1_SHOWCOLORHINTS-}" ]; then
@@ -547,8 +548,8 @@ __git_ps1() {
     b="\${__git_ps1_branch_name}"
   fi
 
-  local f="$w$i$s$u"
-  local gitstring="$c$b${f:+$z$f}$r$p"
+  f="$w$i$s$u"
+  gitstring="$c$b${f:+$z$f}$r$p"
 
   if [ $pcmode = yes ]; then
     if [ "${__git_printf_supports_v-}" != yes ]; then
@@ -562,4 +563,8 @@ __git_ps1() {
   fi
 
   return $exit
+}
+
+_git_log_prettily() {
+  [ "$1" ] && git log --pretty="$1"
 }

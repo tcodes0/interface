@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# see credits at the end
 use strict;
 use warnings;
 
