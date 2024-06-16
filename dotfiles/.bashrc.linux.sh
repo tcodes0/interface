@@ -26,6 +26,8 @@ if [ -f "$NVM_DIR/bash_completion" ]; then
   safe_source "$NVM_DIR/bash_completion"
 fi
 
+eval "$(ssh-agent)"
+
 # https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
 if [ -n "$DESKTOP_SESSION" ] && [ -z "$SSH_AUTH_SOCK" ]; then
   eval "$(gnome-keyring-daemon --start)"
