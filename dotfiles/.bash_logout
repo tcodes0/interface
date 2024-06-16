@@ -1,7 +1,6 @@
 #! /bin/bash
 
-#                                                                     ensure it runs on GUI terminal not before
-if [ "$(whoami)" == "vacation" ] && [ "$FIREFOX_LOGOUT_SYNC" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
-  export FIREFOX_LOGOUT_SYNC="true"
+# /dev/pts ensure it runs on GUI terminal not before
+if [[ "$(uname -s)" =~ Linux ]] && [ "$(whoami)" == "vacation" ] && [[ $(tty) =~ /dev/pts ]]; then
   systemctl --user start firefox-sync.service
 fi

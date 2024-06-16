@@ -1,73 +1,34 @@
 #! /usr/bin/env bash
 
-###############################################
-# If running from script, skip remaining code #
-###############################################
+# dot stuff
 
-[[ $- != *i* ]] && return
-
-##################
-#-------dot stuff
-##################
-
-alias .d="cd \$HOME/Desktop"
-alias .c="cd \$HOME/Code"
-alias o.="open ."
-alias o="open"
-alias .z="cd \$HOME/Desktop/zet"
 alias .hc="cd \$HOME/Desktop/client"
 alias .hs="cd \$HOME/Desktop/server"
 alias .ms="cd \$HOME/Desktop/member-server"
 alias .mc="cd \$HOME/Desktop/member-client"
-alias .s="cd \$HOME/Desktop/shared"
-alias .wtf="cd \$HOME/Desktop/wtf-dot-env"
-alias .dj="cd \$HOME/Desktop/data-jobs"
+alias .i="cd \$DOTFILE_PATH"
+alias .b="cd \$HOME/Desktop/baristai"
+alias .bw="cd \$HOME/Desktop/baristai/client/web"
 
-######
 # work
-######
 
 alias qhub="psql -U postgres -d hub -c"
+alias qhubtest="psql -U postgres -d hub_test -c"
 alias qmember="psql -U postgres -d member -c"
-alias sqlqa="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
-alias kb="kubectl"
+alias qmembertest="psql -U postgres -d member_test -c"
+alias sqlqa="echo renamed to qahub and qamember"
+alias qahub="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d member -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias deploy="make release ENV=prod"
 alias d="deploy"
+alias ehvpn="gcloud alpha cloud-shell ssh --project=ele-qa-436057 --authorize-session -- -D 31337 -CNq; echo configure firefox to use SOCKS proxy v5 on port 31337"
+alias yc="yarn test && yarn typeCheck && yarn lint:fix"
+alias gorun="godotenv -f .env go run -race"
+alias gotestall="godotenv -f .env go test ./... -race -json 2>&1 | gotestfmt"
+alias gotests="gotests -exported -parallel -template testify -w"
+alias ehtoken="gcloud auth print-access-token"
 
-####################
-#--------ls aliases
-####################
-
-alias ls='gls -ph --color=always'
-alias la='ls -A'
-alias ll='ls -lSAi'
-alias lt='ls -ltAi'
-
-###########
-#-----brew
-###########
-
-alias brewi='brew info'
-alias brewl='brew list'
-alias brews='brew search'
-alias brewh='brew home'
-alias brewI='brew install'
-alias brewR='brew uninstall'
-
-###########
-#-----cask
-###########
-
-alias caski='brew info --cask'
-alias caskl='brew list --cask'
-alias casks='brew search --cask'
-alias caskh='brew home --cask'
-alias caskI='brew install --cask'
-alias caskR='brew uninstall --cask'
-
-##########################
-# ----------mistakes typos
-##########################
+# mistakes typos
 
 alias loca='local'
 alias emcas='emacs'
@@ -79,15 +40,12 @@ alias gnc='gcn'
 alias lslbk='lsblk'
 alias lsbkl='lsblk'
 
-####################
-#---------Zsh & Git
-####################
+# Git
 
 alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
 alias ......="cl ../../../../../"
-# alias g=git
 alias ga='git add'
 alias gaa='git add --all && gss'
 alias gapp='git apply'
@@ -115,7 +73,6 @@ alias gcd='git checkout develop'
 alias gcf='git config --list'
 alias gcl='git clone --recursive'
 alias gclean='git clean -fd && gss'
-# alias gcmsg='git commit -m' using function
 alias gco='git checkout'
 alias gcod='git fetch --all --prune && git checkout develop'
 alias gcount='git shortlog -sn'
@@ -130,7 +87,6 @@ alias gdct='git describe --tags `git rev-list --tags --max-count=1`'
 alias gdcw='git diff --cached --word-diff'
 alias gdt='git diff-tree --no-commit-id --name-only -r'
 alias gdw='git diff --word-diff'
-# alias gf='git fetch'
 alias gf='git fetch --all --prune'
 alias gfo='git fetch origin'
 alias gg='git gui citool'
@@ -138,12 +94,8 @@ alias gga='git commit --amend --no-edit'
 alias gae='git add --all && git commit --amend --no-edit'
 alias ggae='git commit --amend'
 alias ggpull="git pull origin \$GIT_BRANCH"
-# alias ggpull="git pull origin \$__git_ps1_branch_name"
-alias ggpur=ggu
 alias ggpush="git push origin \$GIT_BRANCH"
-# alias ggpush="git push origin \$__git_ps1_branch_name"
 alias ggsup="git branch --set-upstream-to=origin/\$GIT_BRANCH"
-# alias ggsup="git branch --set-upstream-to=origin/\$__git_ps1_branch_name"
 alias gpf='git push -f'
 alias ghh='git help'
 alias gignore='git update-index --assume-unchanged'
@@ -191,7 +143,6 @@ alias grbc='git rebase --continue'
 alias grbi='git rebase -i'
 alias grbm='git rebase main'
 alias grbs='git rebase --skip'
-alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias grh='git reset HEAD && gss'
 alias grhh='git reset HEAD --hard && gss'
 alias grh1="git reset HEAD~1"
@@ -216,7 +167,6 @@ alias gsd='git svn dcommit'
 alias gsi='git submodule init'
 alias gsps='git show --pretty=short --show-signature'
 alias gsr='git svn rebase'
-# alias gss='git status -s'
 alias gsss='gss'
 alias gs='gss'
 alias gssss='gss'
@@ -249,33 +199,28 @@ alias grev='git revert'
 alias gnuke='git reset HEAD --hard && git clean -fd'
 alias wip="git add --all && git commit -nm wip"
 alias grl="git reflog | head -20 | sed -Ee \"s/^.*from (.*) to (.*).*$/\1 -> \2/\" -e \"/commit|cherry/d"\"
-alias lgs="SKIPADD=1 && lg"
-alias lgw="WIPCOMMIT=1 && lg"
-alias caf="caffeinate"
 alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
 
-################
-#-------general
-################
+#general
 
+alias la='ls -A'
+alias ll='ls -lSAi'
+alias lt='ls -ltAi'
 alias cd='cd -P'
 alias cd='cl'
 alias rm='rm -ri'
 alias cp='cp -RHi'
-alias mv='gmv -i'
 alias mkdir='mkdir -p'
 alias ..='cl ..'
 alias df='df -h'
 alias ln='ln -si'
 alias disk='diskutil'
 alias part='partutil'
-alias dd='gdd status=progress bs=4M'
 alias srit='source $HOME/.bashrc && clear'
 alias pbc='pbcopy'
 alias pbp='pbpaste'
-alias grep='ggrep --color=auto'
 alias dirs='dirs -v'
 alias du='du -xa | sort -rn'
 alias stat='stat -Ll'
@@ -283,10 +228,8 @@ alias j='jobs'
 alias f='fg'
 alias g='grep -Eie'
 alias ping='ping -c 1'
-alias sed='gsed'
 alias e='echo -e'
 alias less="\$PAGER"
-alias dircolors="gdircolors"
 alias python="python3"
 alias ncdu="ncdu -x --si"
 alias visudo="EDITOR='code -w' && command sudo visudo"
@@ -296,7 +239,6 @@ alias cat='bat --theme Monokai\ Extended\ Origin'
 alias gppr='gpsup && git pull-request -b main --browse --assign thomazella'
 alias gpprd='gpsup && git pull-request -b develop --browse --assign thomazella'
 alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
-alias find="gfind"
 alias t="cat"
 alias l="less"
 alias wget='wget -c'
@@ -317,15 +259,19 @@ alias y="yarn"
 alias yarnl="yarn list --depth=0"
 alias yf="yarn --force"
 alias ys="yarn start"
-alias yc="yarn test && yarn typeCheck && yarn lint:fix"
 alias yarngl="yarn global list --depth=0"
 alias adbl="adb devices"
 alias adbd="adb shell input keyevent 82"
-alias c.="code ."
 alias c="code"
 alias yt="yarn test"
-alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
 alias barebash="env -i HOME=\$HOME TERM=\$TERM bash"
 alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias m="make"
 alias n="nano"
+alias kb="kubectl"
+alias golint="golangci-lint run --timeout 20s --tests=false"
+alias gen='find . -name "mock_*" -exec rm -f {} \; && godotenv -f .env go generate ./...'
+alias dd='gd status=progress bs=4M'
+alias google="s -p duckduckgo"
+alias commitlint="commitlint --config ~/.commitlintrc.yml"
+alias kubecheck="kubeconform --strict --ignore-missing-schemas --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
