@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # run rawgithub https://github.com/mathiasbynens/dotfiles/raw/master/.macos to update
 

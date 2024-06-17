@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # start systemd user units
 for unit in x11-keyboard.service guake.service; do

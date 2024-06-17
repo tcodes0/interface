@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # shellcheck disable=SC2034 disable=SC1090
 
 #========== Completions, external scripts, git prompt

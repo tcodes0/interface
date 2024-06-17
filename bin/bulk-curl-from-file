@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 usage() {
   echo "\
@@ -28,7 +28,7 @@ i=1
 
 while read -r line; do
   eval "curl '$line' -L -o '${setName}-${i}.jpg'"
-  i=$((i+1))
+  i=$((i + 1))
 done <"$filePath"
 
 exit $?

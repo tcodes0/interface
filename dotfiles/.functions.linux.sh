@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # TODO: inline this in priv repo, rotate creds
 relative-drive-push() {

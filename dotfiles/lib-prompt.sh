@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 random256Color() {
   local c && c=$(echo -n $((RANDOM % 231)))
   # bad constrast colors, get another one

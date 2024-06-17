@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 # shellcheck disable=2059
 # bash/zsh git prompt support
 #

@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 # shellcheck disable=SC1090
 # runs on login only
 

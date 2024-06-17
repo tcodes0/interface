@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # Mac incompatible
 alias ls='ls -ph --color=always'

@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 # shellcheck disable=SC2154 # 2024: magic!
 #
 # 🚀   2018 by Thomazella 🌙

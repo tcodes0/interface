@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#! /bin/bash
 
 # /bin symlinked to /usr/bin
 # /sbin symlinked to /usr/sbin
