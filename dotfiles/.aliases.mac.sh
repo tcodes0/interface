@@ -30,6 +30,7 @@ alias grep='ggrep --color=auto'
 alias sed='gsed'
 
 #-----general
+
 alias caf="caffeinate"
 alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
