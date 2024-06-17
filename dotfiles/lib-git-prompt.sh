@@ -104,9 +104,9 @@ printf -v __git_printf_supports_v -- '%s' yes >/dev/null 2>&1
 # stores the divergence from upstream in $p
 # used by GIT_PS1_SHOWUPSTREAM
 __git_ps1_show_upstream() {
-  key value
-  svn_remote svn_url_pattern count n
-  upstream=git legacy="" verbose="" name=""
+  local key value output
+  local svn_remote svn_url_pattern count n
+  local upstream=git legacy="" verbose="" name=""
 
   svn_remote=()
   # get some config options from git-config
