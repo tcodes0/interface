@@ -51,7 +51,7 @@ commit() {
     fi
   fi
 
-  local type="${1/:/}", scope="${2/:/}", subject="${*:3}"
+  local type="${1/:/}" scope="${2/:/}" subject="${*:3}"
 
   if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
     fatal $LINENO "usage: lg <type> <scope> <commit subject>"
@@ -71,7 +71,7 @@ commit() {
 
 push() {
   if [[ $PUSH ]]; then
-    local pushResult, noUpstreamRegExp="has no upstream branch"
+    local pushResult noUpstreamRegExp="has no upstream branch"
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then

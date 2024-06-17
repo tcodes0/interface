@@ -10,6 +10,5 @@ bin/cloud-sql-proxy
 bin/qbittorrent
 bin/baristai
 bin/dir-rename
-dotfiles/.aws/credentials
 dotfiles/.config/rclone/rclone.conf
 dotfiles/.config/hub

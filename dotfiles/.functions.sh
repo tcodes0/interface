@@ -3,7 +3,7 @@
 #- - - - - - - - - - -
 
 cl() {
-  path="$1"
+  local path="$1"
 
   if [ ! "$path" ]; then
     path=$HOME
@@ -22,8 +22,7 @@ findname() {
     return
   fi
 
-  where=.
-  pattern="$1"
+  local where=. pattern="$1"
 
   if [ $# == "2" ]; then
     where="$1"
@@ -40,7 +39,7 @@ tra() {
 
   for pathToTrash in "$@"; do
     trash "$pathToTrash" || return
-    last="$pathToTrash"
+    local last="$pathToTrash"
   done
 
   if [[ $last =~ (.+)[/][^/]+$ ]] && [ -n "${BASH_REMATCH[1]}" ]; then
@@ -160,7 +159,7 @@ gcom() {
     return
   fi
 
-  local branch=main, checkout
+  local branch=main checkout
   checkout=$(git checkout $branch 2>&1)
 
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then

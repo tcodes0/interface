@@ -24,17 +24,12 @@ notify() {
     return
   fi
 
-  if [[ ! "$(uname -s)" =~ Darwin ]]; then
-    # noop on win/linux
-    return 0
-  fi
-
   if ! command -v osascript >/dev/null; then
     echo "osascript not found on \$PATH, we need to work. Try installing Xcode and opening it maybe."
     return 1
   fi
 
-  local title="Hello World", text="Example notification. Use -h for help"
+  local title="Hello World" text="Example notification. Use -h for help"
 
   if [ "$1" ]; then
     title="$1"
