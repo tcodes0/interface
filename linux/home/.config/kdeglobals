@@ -178,7 +178,7 @@ Size=32
 
 [DirSelect Dialog]
 DirSelectDialog Size=825,582
-History Items[$e]=file:$HOME/Desktop//interface/,file:$HOME/Desktop//inter,file:$HOME/Desktop/tcodes0-go,file:///media/data/izi-stuff
+History Items[$e]=file:$HOME/Desktop/go-common,file:$HOME/Desktop/server,file:$HOME/Desktop//interface/,file:$HOME/Desktop//inter,file:$HOME/Desktop/tcodes0-go,file:///media/data/izi-stuff
 
 [Emoticons]
 emoticonsTheme=EmojiOne
