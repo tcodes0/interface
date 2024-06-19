@@ -678,5 +678,40 @@
     "key": "ctrl+h",
     "command": "-editor.action.startFindReplaceAction",
     "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "-workbench.action.files.openFile",
+    "when": "true"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "-workbench.action.files.openFileFolder",
+    "when": "isMacNative && openFolderWorkspaceSupport"
+  },
+  {
+    "key": "ctrl+k ctrl+o",
+    "command": "-workbench.action.files.openFolder",
+    "when": "openFolderWorkspaceSupport"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "-workbench.action.files.openFolderViaWorkspace",
+    "when": "!openFolderWorkspaceSupport && workbenchState == 'workspace'"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "-workbench.action.files.openLocalFile",
+    "when": "remoteFileDialogVisible"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "ctrl+shift+o",
+    "command": "-workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
   }
 ]

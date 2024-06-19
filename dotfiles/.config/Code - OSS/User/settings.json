@@ -219,6 +219,7 @@
     "envtag",
     "errgroup",
     "featureflag",
+    "formspdf",
     "Frameset",
     "frontends",
     "hlog",
