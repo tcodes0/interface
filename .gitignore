@@ -1,15 +1,7 @@
 *.log
 .local/*
-dotfiles/.emacs*/*
-dotfiles/.atom/*
-dotfiles/trustdb*
-dotfiles/.npm*
-dotfiles/.aws/credentials
-dotfiles/.netrc
 bin/typo
 bin/cloud-sql-proxy
 bin/qbittorrent
 bin/baristai
 bin/dir-rename
-dotfiles/.config/rclone/rclone.conf
-dotfiles/.config/hub
