@@ -1,0 +1,86 @@
+!<keycode>     <key>               <Shift+key>
+!xmodmap -pke dumps a full list
+!
+!----------defaults----------
+!
+!--main kbd
+!
+!keycode 66  = Caps_Lock
+!keycode 50  = Shift_L
+!keycode 37  = Control_L
+!keycode 133 = Super_L
+!keycode 64  = Alt_L               Meta_L
+!keycode 108 = ISO_Level3_Shift
+!app switch has no keycode
+!keycode 134 = Super_R
+!keycode 135 = Menu
+!keycode 105 = Control_R
+!keycode 62  = Shift_R
+!keycode 97  =
+!
+!--upper row
+!
+!keycode 148 = XF86Calculator
+!keycode 127 = Pause
+!keycode 78  = Scroll_Lock
+!keycode 107 = Print
+!keycode 96  = F12
+!keycode 95  = F11
+!keycode 76  = F10
+!keycode 75  = F9
+!keycode 74  = F8
+!keycode 73  = F7
+!keycode 72  = F6
+!keycode 71  = F5
+!keycode 70  = F4
+!keycode 69  = F3
+!keycode 68  = F2
+!keycode 67  = F1
+!keycode 9   = Escape
+!
+!--num pad from left to right, top to bottom
+!
+!keycode 77  = Num_Lock
+!keycode 106 = KP_Divide
+!keycode 63  = KP_Multiply
+!keycode 82  = KP_Subtract
+!keycode 86  = KP_Add
+!keycode 129 = KP_Decimal
+!keycode 91  = KP_Decimal
+!
+!--on top of arrowkeys from left to right, top to bottom
+!
+!keycode 118 = Insert
+!keycode 110 = Home
+!keycode 112 = Prior
+!keycode 119 = Delete
+!keycode 115 = End
+!keycode 117 = Next
+!
+!alt = mod1
+!mod4 = super
+!alt     - cmd     - control
+!super   - option  - alt
+!control - control - control
+!alt_gr  - cmd     - super
+!
+!--user commands
+!
+!clear lock
+!clear control
+!clear mod1
+!clear mod4
+!caps to alt
+keycode 66 = Alt_L
+!alt to ctrl
+keycode 64 = Control_L
+!super_L to alt
+!keycode 133 = Alt_L
+!alt_gr to super
+!keycode 108 = Super_R
+!insert to esc
+!keycode 118 = Escape
+!control to control
+!add Control = Control_L
+!mod1 to control
+!add mod1 = Control_L
