@@ -1,4 +1,5 @@
 *.log
+.local/*
 dotfiles/.emacs*/*
 dotfiles/.atom/*
 dotfiles/trustdb*
