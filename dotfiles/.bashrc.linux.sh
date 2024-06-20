@@ -29,10 +29,10 @@ fi
 eval "$(ssh-agent)"
 
 # https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
-if [ -n "$DESKTOP_SESSION" ] && [ -z "$SSH_AUTH_SOCK" ]; then
-  eval "$(gnome-keyring-daemon --start)"
-  export SSH_AUTH_SOCK
-fi
+# if [ "$DESKTOP_SESSION" ] && [ ! "$SSH_AUTH_SOCK" ]; then
+#   eval "$(gnome-keyring-daemon --start)"
+#   export SSH_AUTH_SOCK
+# fi
 
 # /dev/pts ensures it runs on GUI terminal not before
 if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
