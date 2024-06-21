@@ -26,13 +26,16 @@ if [ -f "$NVM_DIR/bash_completion" ]; then
   safe_source "$NVM_DIR/bash_completion"
 fi
 
-eval "$(ssh-agent)"
+if [ "$DESKTOP_SESSION" ] && [ ! "$SSH_AUTH_SOCK" ]; then
+  agent_pid=$(pgrep ssh-agent)
 
-# https://wiki.archlinux.org/title/GNOME/Keyring#Using_the_keyring
-# if [ "$DESKTOP_SESSION" ] && [ ! "$SSH_AUTH_SOCK" ]; then
-#   eval "$(gnome-keyring-daemon --start)"
-#   export SSH_AUTH_SOCK
-# fi
+  if [ "$agent_pid" ]; then
+    kill -HUP "$agent_pid"
+  fi
+
+  eval "$(ssh-agent)" >/dev/null
+  export SSH_AUTH_SOCK
+fi
 
 # /dev/pts ensures it runs on GUI terminal not before
 if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) =~ /dev/pts ]]; then

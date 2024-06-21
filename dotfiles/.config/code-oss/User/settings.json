@@ -214,12 +214,12 @@
     "davinci",
     "devs",
     "doesnt",
+    "dotfiles",
     "eleanorhealth",
     "entityid",
     "envtag",
     "errgroup",
     "featureflag",
-    "formspdf",
     "Frameset",
     "frontends",
     "hlog",
@@ -279,5 +279,6 @@
   "debug.allowBreakpointsEverywhere": true,
   "outline.collapseItems": "alwaysCollapse",
   "update.mode": "manual",
-  "redhat.telemetry.enabled": true
+  "redhat.telemetry.enabled": true,
+  "security.workspace.trust.untrustedFiles": "open"
 }
