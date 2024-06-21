@@ -39,7 +39,7 @@ fi
 
 safe_source "$DOTFILE_PATH/lib.sh"
 
-if [ ! "$SSH_AUTH_SOCK" ]; then
+if [ ! "$SSH_AUTH_SOCK" ] && [ "$(whoami)" != "root" ]; then
   agent_pid=$(pgrep ssh-agent)
 
   if [ "$agent_pid" ]; then
