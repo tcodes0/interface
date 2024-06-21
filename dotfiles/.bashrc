@@ -37,6 +37,17 @@ fi
 
 safe_source "$DOTFILE_PATH/lib.sh"
 
+if [ ! "$SSH_AUTH_SOCK" ]; then
+  agent_pid=$(pgrep ssh-agent)
+
+  if [ "$agent_pid" ]; then
+    kill -HUP "$agent_pid"
+  fi
+
+  eval "$(ssh-agent)" >/dev/null
+  export SSH_AUTH_SOCK
+fi
+
 # If running from script, skip remaining code
 [[ $- != *i* ]] && return
 
