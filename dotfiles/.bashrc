@@ -31,8 +31,10 @@ export GPG_TTY
 if [ "$(whoami)" == "root" ]; then
   # use vacation files on root to have the same envs and aliases
   DOTFILE_PATH="/home/vacation/Desktop/interface/dotfiles"
+  PRIV_PATH="/home/vacation/Desktop/interface/priv"
 elif [ "$(whoami)" == "vacation" ]; then
   DOTFILE_PATH="$HOME/Desktop/interface/dotfiles"
+  PRIV_PATH="$HOME/Desktop/interface/priv"
 fi
 
 safe_source "$DOTFILE_PATH/lib.sh"
@@ -69,7 +71,7 @@ if [ -f "$NVM_DIR/nvm.sh" ]; then
   safe_source "$NVM_DIR/nvm.sh"
 fi
 
-if [ -d "./Desktop" ]; then
+if [ -d "./Desktop" ] && [ "$(whoami)" != "root" ]; then
   command cd ./Desktop || echo 'cd desktop failed'
 fi
 
@@ -87,7 +89,7 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
 # order matters
 
-safe_source "$HOME/Desktop/interface/priv/.bashrc"
+safe_source "$PRIV_PATH/.bashrc"
 safe_source "$DOTFILE_PATH/lib-git-prompt.sh"
 safe_source "$DOTFILE_PATH/lib-prompt.sh"
 safe_source "$DOTFILE_PATH/.aliases.sh"
@@ -104,6 +106,7 @@ if [[ "$(uname -s)" =~ Linux ]]; then
   safe_source "$DOTFILE_PATH/.bashrc.linux.sh"
   safe_source "$DOTFILE_PATH/.aliases.linux.sh"
   safe_source "$DOTFILE_PATH/.functions.linux.sh"
+  # beware $HOME is different if root
   safe_source "$HOME/google-cloud-sdk/completion.bash.inc"
   safe_source /usr/share/bash-completion/bash_completion
   safe_source /usr/share/LS_COLORS/dircolors.sh
