@@ -678,5 +678,24 @@
     "key": "ctrl+h",
     "command": "-editor.action.startFindReplaceAction",
     "when": "editorFocus || editorIsOpen"
+  },
+  {
+    "key": "ctrl+r",
+    "command": "-workbench.action.gotoSymbol"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "-workbench.action.files.openFile",
+    "when": "true"
+  },
+  {
+    "key": "ctrl+o",
+    "command": "workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "ctrl+shift+o",
+    "command": "-workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
   }
 ]
