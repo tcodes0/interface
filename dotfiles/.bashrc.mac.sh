@@ -1,18 +1,12 @@
 #!/bin/bash
 # shellcheck disable=SC2034 disable=SC1090
 
-#========== Completions, external scripts, git prompt
-if [ -d /usr/local/etc/bash_completion.d ]; then
-  for file in /usr/local/etc/bash_completion.d/*; do
-    safe_source "$file"
-  done
-fi
+# Completions, external scripts, git prompt
+for file in /opt/homebrew/opt/nvm/etc/bash_completion.d/nvm /usr/local/etc/bash_completion.d/*; do
+  safe_source "$file"
+done
 
-if [ -f "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ]; then
-  source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
-fi
-
-#========== Environment
+# Environment
 
 export GOPATH=$HOME/.go
 export GOBIN=$HOME/.go/bin
@@ -28,3 +22,5 @@ $HOME/bin:\
 /usr/local/sbin:\
 /usr/sbin:\
 ${GOBIN}"
+
+nvm use node >/dev/null

@@ -22,9 +22,10 @@ $HOME/.local/bin:\
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
 
-if [ -f "$NVM_DIR/bash_completion" ]; then
-  safe_source "$NVM_DIR/bash_completion"
-fi
+# Completions, external scripts, git prompt
+for file in $NVM_DIR/bash_completion; do
+  safe_source "$file"
+done
 
 # /dev/pts ensures it runs on GUI terminal not before
 if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
@@ -36,7 +37,9 @@ if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(t
 fi
 
 # tmux
-if [ ! "$TMUX" ] && [ "$(whoami)" == "vacation" ] && [[ ! "$(tty)" =~ /dev/tty[0-9]* ]]; then
+if [ ! "$TMUX" ] && [ "$(whoami)" == "vacation" ]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
+
+nvm use node >/dev/null
