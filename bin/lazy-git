@@ -10,6 +10,7 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+# shellcheck disable=SC2034 # indirectly used by msgln
 MSG_PREFIX="lg > "
 
 gitDo() {
@@ -65,7 +66,7 @@ commit() {
   command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
-    msgln "%s\n" "$commitMsg"
+    msgln "$commitMsg"
   fi
 }
 
