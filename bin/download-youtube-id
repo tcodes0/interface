@@ -1,85 +1,108 @@
 #! /bin/bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
 
 set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
+### vars and functions ###
+
 vid_id=${1:-}
 format=${2:-}
-destination=${3:-}
+title=${3:-}
+current_wd=$(pwd)
+desktop="$HOME/Desktop"
+out_filename="$title-$vid_id".mp4
 
-audio_only_format=251
-video_audio_720p=22
-desktop=~/Desktop
+declare -rA format_regexps=(
+  ["4k"]="mp4.+3840x2160"
+  ["2k"]="mp4.+2560x1440"
+  ["audio-only"]="opus.+132k 48k" # produces webm extension
+)
 
 usage() {
-  msgln "Usage: $0 <youtube_video_id> <format> <destination>"
+  msgln "Usage: $0 <youtube_video_id> <format> <title>"
   msgln formats:
-  msgln audio only: $audio_only_format
-  msgln video 720p: $video_audio_720p
+
+  for key in "${!format_regexps[@]}"; do
+    msgln "- $key"
+  done
+
   msgln more formats use yt-dlp --list-formats \$vid_id
-  msgln format defaults to video 720p
-  msgln destination defaults to desktop
+  msgln output will be in desktop
 }
 
-if [ -z "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
-  usage
-  fatal "$LINENO" "No video id provided"
-fi
-
-if [ -z "$format" ]; then
-  msgln defaulting to 720p video format
-  format=$video_audio_720p
-fi
-
-if [ -z "$destination" ]; then
-  msgln defaulting destination to desktop
-  destination=$desktop
-fi
-
-temp_dir=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
-current_wd=$(pwd)
-
-msgln using temp "$temp_dir"
-cd "$temp_dir"
-
-# download from youtube
-if ! yt-dlp -f "$format" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
-  yt-dlp "$vid_id" --list-formats
-  fatal "$LINENO" "yt-dlp error, formats supported above"
-fi
-
-# sanitize filename
-if ! rename -z -c -S ___ _ -S _-_ - ./*; then
-  fatal "$LINENO" "rename video error"
-fi
-
-if [ "$format" == $audio_only_format ]; then
-  # convert to mp3
-  # we don't know filename but it's the only file in the folder because we used mktemp
-  if ! ffmpeg -i "$temp_dir"/* -codec:a libmp3lame -q:a 0 out.mp3; then
-    fatal "$LINENO" "mp3 ffmpeg error"
+validateInput() {
+  if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
+    usage
+    fatal "$LINENO" "No video id"
   fi
 
-  if ! find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;; then
-    fatal "$LINENO" "mp3 find error"
+  if [ ! "$format" ]; then
+    usage
+    fatal "$LINENO" "No format"
   fi
 
-  if ! rename -S .webm.mp3 .mp3 ./*; then
-    fatal "$LINENO" "mp3 rename webm to mp3 error"
+  if [ ! "$title" ]; then
+    usage
+    fatal "$LINENO" "No title; note video id will be appended"
   fi
+}
 
-  if ! mv ./*.mp3 ~/Desktop; then
-    fatal "$LINENO" "mp3 mv error"
+prepareTemp() {
+  local temp
+  temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
+
+  msgln using temp "$temp"
+  cd "$temp"
+}
+
+download() {
+  local format_line fmt="$1"
+  format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats))
+  read -rs format_id _ <<<"$format_line"
+
+  if ! yt-dlp -f "$format_id" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
+    yt-dlp "$vid_id" --list-formats 2>/dev/null
+    fatal "$LINENO" "yt-dlp error, formats supported above"
   fi
+}
 
-  exit 0
+audioOnly() {
+  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 out.mp3
+  find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;
+  rename --subst-all .webm.mp3 .mp3 ./*
+}
+
+mux() {
+  local name=$1
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 28 -ac 2 "$name"
+}
+
+move() {
+  local name=$1
+  mv "$name" "$desktop"
+}
+
+cleanup() {
+  cd "$current_wd"
+}
+
+### script ###
+
+validateInput
+prepareTemp
+
+download audio-only
+
+# high res video has no audio, download separetely then mux
+if [ ! "$format" == "audio-only" ]; then
+  download "$format"
+  mux "$out_filename"
 fi
 
-if ! mv ./* "$destination"; then
-  fatal "$LINENO" "mv error"
-fi
-
-cd "$current_wd"
-
-msgln "done"
+move "$out_filename"
+cleanup
