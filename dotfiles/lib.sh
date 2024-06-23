@@ -7,28 +7,26 @@
 # utilities sourced by scripts (non-interactively)
 #
 
-# usage: err $LINENO "message" (default message: error)
-err() {
-  local linenum=$1 msg=error
+__e() {
+  local linenum=${1:?} funcname=$2 msg=error
 
-  if [ "${*:2}" ]; then
-    msg=${*:2}
+  if [ "${*:3}" ]; then
+    msg=${*:3}
   fi
 
-  echo "$msg: $0":"$linenum" \("${FUNCNAME[1]}"\) >&2
+  log "$msg: $0":"$linenum" \("$funcname"\)
+}
+
+# usage: err $LINENO "message" (default message: error)
+err() {
+  __e "$1" "${FUNCNAME[1]}" "${*:2}"
 }
 
 #- - - - - - - - - - -
 
 # usage: fatal $LINENO "message" (default message: error)
 fatal() {
-  local linenum=$1 msg=error
-
-  if [ "${*:2}" ]; then
-    msg=${*:2}
-  fi
-
-  echo "$msg: $0":"$linenum" \("${FUNCNAME[1]}"\) >&2
+  __e "$1" "${FUNCNAME[1]}" "${*:2}"
 
   exit 1
 }
@@ -45,4 +43,11 @@ msgln() {
 # usage: msg hello world
 msg() {
   echo -ne "${MSG_PREFIX:-}$*"
+}
+
+#- - - - - - - - - - -
+
+# usage: log warning!
+log() {
+  echo -ne "${MSG_PREFIX:-}$*\\n" >&2
 }
