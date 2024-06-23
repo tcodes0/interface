@@ -70,7 +70,7 @@ commit() {
 }
 
 push() {
-  if [[ $PUSH ]]; then
+  if [[ ${PUSH:-} ]]; then
     local pushResult noUpstreamRegExp="has no upstream branch"
     pushResult=$(gp 2>&1)
 
