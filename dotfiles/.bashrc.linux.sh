@@ -41,5 +41,3 @@ if [ ! "$TMUX" ] && [ "$(whoami)" == "vacation" ]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
-
-nvm use node >/dev/null

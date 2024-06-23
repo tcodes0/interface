@@ -22,5 +22,3 @@ $HOME/bin:\
 /usr/local/sbin:\
 /usr/sbin:\
 ${GOBIN}"
-
-nvm use node >/dev/null

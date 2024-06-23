@@ -114,4 +114,7 @@ if [[ "$(uname -s)" =~ Linux ]]; then
   safe_source /usr/share/LS_COLORS/dircolors.sh
 fi
 
+# after aliases
 safe_source "$DOTFILE_PATH/.functions.sh"
+# after PATH is set
+nvm use node >/dev/null

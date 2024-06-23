@@ -2,6 +2,7 @@
 
 set -euo pipefail
 shopt -s globstar
+trap 'err $LINENO' ERR
 
 vid_id=${1:-}
 format=${2:-}
@@ -23,7 +24,7 @@ usage() {
 
 if [ -z "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
   usage
-  fatal "No video id provided"
+  fatal "$LINENO" "No video id provided"
 fi
 
 if [ -z "$format" ]; then
@@ -45,38 +46,38 @@ cd "$temp_dir"
 # download from youtube
 if ! yt-dlp -f "$format" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
   yt-dlp "$vid_id" --list-formats
-  fatal "yt-dlp error, formats supported above"
+  fatal "$LINENO" "yt-dlp error, formats supported above"
 fi
 
 # sanitize filename
 if ! rename -z -c -S ___ _ -S _-_ - ./*; then
-  fatal "rename video error"
+  fatal "$LINENO" "rename video error"
 fi
 
 if [ "$format" == $audio_only_format ]; then
   # convert to mp3
   # we don't know filename but it's the only file in the folder because we used mktemp
   if ! ffmpeg -i "$temp_dir"/* -codec:a libmp3lame -q:a 0 out.mp3; then
-    fatal "mp3 ffmpeg error"
+    fatal "$LINENO" "mp3 ffmpeg error"
   fi
 
   if ! find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;; then
-    fatal "mp3 find error"
+    fatal "$LINENO" "mp3 find error"
   fi
 
   if ! rename -S .webm.mp3 .mp3 ./*; then
-    fatal "mp3 rename webm to mp3 error"
+    fatal "$LINENO" "mp3 rename webm to mp3 error"
   fi
 
   if ! mv ./*.mp3 ~/Desktop; then
-    fatal "mp3 mv error"
+    fatal "$LINENO" "mp3 mv error"
   fi
 
   exit 0
 fi
 
 if ! mv ./* "$destination"; then
-  fatal "mv error"
+  fatal "$LINENO" "mv error"
 fi
 
 cd "$current_wd"

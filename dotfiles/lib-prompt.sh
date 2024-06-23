@@ -1,9 +1,10 @@
 #! /bin/bash
 
 random256Color() {
-  local c && c=$(echo -n $((RANDOM % 231)))
-  # bad constrast colors, get another one
+  local c
+  c=$(echo -n $((RANDOM % 231)))
   if [ "$c" -le 17 ] || [ "$c" -ge 232 ]; then
+    # bad constrast colors, get another one
     random256Color
   else
     echo -ne "\\e[38;05;${c}m"

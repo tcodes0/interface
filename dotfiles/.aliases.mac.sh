@@ -1,10 +1,10 @@
 #! /bin/bash
 
-#-----work
+# work
 
 alias ele-db-select="go run \$HOME/Desktop/scripts/db-select/main.go"
 
-#-----brew
+# brew
 
 alias brewi='brew info'
 alias brewl='brew list'
@@ -19,7 +19,7 @@ alias caskh='brew home --cask'
 alias caskI='brew install --cask'
 alias caskR='brew uninstall --cask'
 
-#-----gnu
+# gnu
 
 alias ls='gls -ph --color=always'
 alias dircolors="gdircolors"
@@ -29,7 +29,7 @@ alias dd='gdd status=progress bs=4M'
 alias grep='ggrep --color=auto'
 alias sed='gsed'
 
-#-----general
+# general
 
 alias caf="caffeinate"
 alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"

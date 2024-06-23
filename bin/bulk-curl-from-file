@@ -19,7 +19,7 @@ filePath=${PWD}/$file
 
 if [ ! -f "$filePath" ]; then
   usage
-  echo "File $filePath not found\\n"
+  printf "File %s not found\\n" "$filePath"
   exit 1
 fi
 
