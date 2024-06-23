@@ -207,8 +207,8 @@ alias gla="glo | head -10"
 
 # commitlint
 
-alias fix="lg fix"
-alias misc="lg misc"
+alias fix="lg fix -"
+alias misc="lg misc -"
 
 # general
 

@@ -61,7 +61,7 @@ transparency=97
 
 [style/font]
 allow-bold=true
-bold-is-bright=false
-palette='#000000000000:#cdcdafaf9595:#a7a7ffff6060:#bfbfbbbb1f1f:#7575a5a5b0b0:#ffff7373fdfd:#595964647e7e:#bfbfbfbfbfbf:#666666666666:#eeeecbcbadad:#bcbceeee6868:#e5e5e5e50000:#8686bdbdc9c9:#e5e50000e5e5:#8c8c9b9bc3c3:#ffffffffffff:#ffffffffffff:#050505050505'
+bold-is-bright=true
+palette='#000000000000:#e5e522222222:#a6a6e3e32d2d:#fcfc95951e1e:#c4c48d8dffff:#fafa25257373:#6767d9d9f0f0:#f2f2f2f2f2f2:#555555555555:#ffff55555555:#5555ffff5555:#ffffffff5555:#55555555ffff:#ffff5555ffff:#5555ffffffff:#ffffffffffff:#e5e5e5e5e5e5:#000000000000'
 palette-name='Custom'
 style='PragmataPro Mono Liga 11'
