@@ -48,7 +48,6 @@ rules:
     - 2
     - always
     - - build
-      - chore
       - ci
       - docs
       - feat

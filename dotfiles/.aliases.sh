@@ -205,6 +205,11 @@ alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
 
+# commitlint
+
+alias fix="lg fix"
+alias misc="lg misc"
+
 # general
 
 alias la='ls -A'
