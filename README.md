@@ -12,13 +12,3 @@ Things I use to use computers
 
 5 directories
 ```
-
-### Engines
-
-An application that can be configured to copy/symlink the dotfiles in place,
-ideally with extensible configuration to support other things I copied by hand.
-- mackup (some pains with distribution via aur, using pip still kinda outdated)
-
-## Notes
-
-There are significant gitignored files, move them manually through machines, or move to priv
