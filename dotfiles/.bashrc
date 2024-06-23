@@ -25,9 +25,9 @@ export BASH_ENV="$HOME/.bashrc"
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export DOTFILE_PATH=""
 export CMD_COLOR=true
+export GPG_TTY
 
 GPG_TTY=$(tty)
-export GPG_TTY
 
 if [ "$(whoami)" == "root" ]; then
   # use vacation files on root to have the same envs and aliases
@@ -40,6 +40,11 @@ fi
 
 safe_source "$DOTFILE_PATH/lib.sh"
 
+# If running from script, skip remaining code
+[[ $- != *i* ]] && return
+
+shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
+
 if [ ! "$SSH_AUTH_SOCK" ] && [ "$(whoami)" != "root" ]; then
   agent_pid=$(pgrep ssh-agent)
 
@@ -51,17 +56,20 @@ if [ ! "$SSH_AUTH_SOCK" ] && [ "$(whoami)" != "root" ]; then
   export SSH_AUTH_SOCK
 fi
 
-# If running from script, skip remaining code
-[[ $- != *i* ]] && return
-
-shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
-
 export EDITOR='code -w'
-# gpg agent
 export GPGKEY=D600E88A0C5FE062
-
-# gcloud
+export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# prompt
+safe_source "$DOTFILE_PATH/lib-git-prompt.sh"
+safe_source "$DOTFILE_PATH/lib-prompt.sh"
+
+export PS1
+export PROMPT_COMMAND
+PS1=$(makePS1)
+UNDERLINE="\\[\\e[4m\\]"
+PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
 
 # nvm
 unset PREFIX            # nvm hates this
@@ -91,8 +99,6 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 # order matters
 
 safe_source "$PRIV_PATH/.bashrc"
-safe_source "$DOTFILE_PATH/lib-git-prompt.sh"
-safe_source "$DOTFILE_PATH/lib-prompt.sh"
 safe_source "$DOTFILE_PATH/.aliases.sh"
 safe_source "$DOTFILE_PATH/.functions.sh"
 

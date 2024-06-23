@@ -1,4 +1,5 @@
 #! /bin/bash
+
 random256Color() {
   local c && c=$(echo -n $((RANDOM % 231)))
   # bad constrast colors, get another one
@@ -18,40 +19,28 @@ getTermColumns() {
   fi
 }
 
-#get a random color, for use outside ps1, scripts (no i on $-) don't set this var
-if [[ "$-" =~ i ]]; then
-  r256=$(random256Color)
-  export r256
-fi
-
-# other formatting
-end="\\[\\e[0m\\]"
-underline="\\[\\e[4m\\]"
-# bold="\\[\\e[1m\\]"
-mainColor="\\[$r256\\]"
-auxiliarColor="\\[$(random256Color)\\]"
-
 makePS1() {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
 
   # colors
-  local spacer horizontalLine workdir # historia S green yellow light_black black
+  local spacer horizontalLine workdir
   spacer=' '
+
   getTermColumns
 
   if [ "$(whoami)" != "root" ]; then
-    decorations=$auxiliarColor"~>"$spacer$end
+    decorations=$AUXILIAR_COLOR"~>"$spacer$END
   else
-    decorations=$auxiliarColor"#>"$spacer$end
+    decorations=$AUXILIAR_COLOR"#>"$spacer$END
   fi
 
   horizontalLine="\n"
-  workdir="$mainColor\\w$end"
+  workdir="$MAIN_COLOR\\w$END"
   hostname=""
 
-  if [ "$(hostname)" != "$KNOWN_HOST" ]; then
-    hostname="$auxiliarColor@$KNOWN_HOST$end"
-    decorations=$auxiliarColor"*>"$spacer$end
+  if [[ ! ${KNOWN_HOSTS[*]} =~ $(hostname) ]]; then
+    hostname="$AUXILIAR_COLOR@$(hostname)$END"
+    decorations=$AUXILIAR_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
@@ -61,9 +50,6 @@ makePS1() {
   esac
 }
 
-PS1=$(makePS1)
-export PS1
-# shellcheck disable=2089 disable=2090
-PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$mainColor$underline%s$end'"
-# shellcheck disable=2089 disable=2090
-export PROMPT_COMMAND
+END="\\[\\e[0m\\]"
+MAIN_COLOR="\\[$(random256Color)\\]"
+AUXILIAR_COLOR="\\[$(random256Color)\\]"

@@ -28,7 +28,6 @@ fi
 
 # /dev/pts ensures it runs on GUI terminal not before
 if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
-  echo "setting user services"
   # systemctl call is slow, so only run once, also errors if already running
   export USER_SERVICES_STARTED="true"
   systemctl --user start xkbcomp.service
