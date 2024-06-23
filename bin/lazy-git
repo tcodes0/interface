@@ -39,7 +39,7 @@ commit() {
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
-    msgln "comitting files already staged...\n"
+    msgln "comitting files already staged..."
   fi
 
   if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
@@ -59,7 +59,7 @@ commit() {
   fi
 
   local commitMsg="$type($scope): $subject"
-  if [ "$scope" == _ ]; then
+  if [[ "$scope" =~ ^.$ ]]; then
     commitMsg="$type: $subject"
   fi
 
@@ -76,7 +76,7 @@ push() {
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      msgln "push error: No upstream. Running 'git push --set-upstream origin %s\n" "$GIT_BRANCH"
+      msgln "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
       gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
