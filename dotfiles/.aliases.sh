@@ -2,13 +2,19 @@
 
 # dot stuff
 
+alias .d="cl \$HOME/Desktop"
+alias ..='cl ..'
+alias ...="cl ../../"
+alias ....="cl ../../../"
+alias .....="cl ../../../../"
+alias ......="cl ../../../../../"
 alias .hc="cd \$HOME/Desktop/client"
 alias .hs="cd \$HOME/Desktop/server"
 alias .ms="cd \$HOME/Desktop/member-server"
 alias .mc="cd \$HOME/Desktop/member-client"
 alias .i="cd \$DOTFILE_PATH"
-alias .b="cd \$HOME/Desktop/baristai"
-alias .bw="cd \$HOME/Desktop/baristai/client/web"
+alias .c="code ."
+alias .g="cd \$HOME/Desktop/tcodes0-go"
 
 # work
 
@@ -42,10 +48,6 @@ alias lsbkl='lsblk'
 
 # Git
 
-alias ...="cl ../../"
-alias ....="cl ../../../"
-alias .....="cl ../../../../"
-alias ......="cl ../../../../../"
 alias ga='git add'
 alias gaa='git add --all && gss'
 alias gapp='git apply'
@@ -213,7 +215,6 @@ alias cd='cl'
 alias rm='rm -ri'
 alias cp='cp -RHi'
 alias mkdir='mkdir -p'
-alias ..='cl ..'
 alias df='df -h'
 alias ln='ln -si'
 alias disk='diskutil'

@@ -27,13 +27,13 @@ if [ -f "$NVM_DIR/bash_completion" ]; then
 fi
 
 # /dev/pts ensures it runs on GUI terminal not before
-if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_SET" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
+if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
   echo "setting user services"
   # systemctl call is slow, so only run once, also errors if already running
-  export USER_SERVICES_SET="true"
-  systemctl --user start x11-keyboard.service
-  systemctl --user start srit.service
-  systemctl --user start firefox-sync@mpakm5ej.dev-edition-default.service
+  export USER_SERVICES_STARTED="true"
+  systemctl --user start xkbcomp.service
+  systemctl --user start xset-rate.service
+  systemctl --user start firefox-sync.service
 fi
 
 # tmux

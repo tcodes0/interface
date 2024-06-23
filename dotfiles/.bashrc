@@ -24,6 +24,7 @@ export PAGER="less"
 export BASH_ENV="$HOME/.bashrc"
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export DOTFILE_PATH=""
+export CMD_COLOR=true
 
 GPG_TTY=$(tty)
 export GPG_TTY
