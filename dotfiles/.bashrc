@@ -96,7 +96,6 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
 safe_source "$PRIV_PATH/.bashrc"
 safe_source "$DOTFILE_PATH/.aliases.sh"
-safe_source "$DOTFILE_PATH/.functions.sh"
 
 if [[ "$(uname -s)" =~ Darwin ]]; then
   safe_source "$DOTFILE_PATH/.bashrc.mac.sh"
@@ -114,3 +113,5 @@ if [[ "$(uname -s)" =~ Linux ]]; then
   safe_source /usr/share/bash-completion/bash_completion
   safe_source /usr/share/LS_COLORS/dircolors.sh
 fi
+
+safe_source "$DOTFILE_PATH/.functions.sh"
