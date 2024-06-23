@@ -45,17 +45,13 @@ safe_source "$DOTFILE_PATH/lib.sh"
 
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 
-if [ ! "$SSH_AUTH_SOCK" ] && [ "$(whoami)" != "root" ]; then
-  agent_pid=$(pgrep ssh-agent)
-
-  if [ "$agent_pid" ]; then
-    kill -HUP "$agent_pid"
-  fi
-
+if [ ! "$(pgrep ssh-agent)" ]; then
   eval "$(ssh-agent)" >/dev/null
-  export SSH_AUTH_SOCK
+elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
+  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
 fi
 
+export SSH_AUTH_SOCK
 export EDITOR='code -w'
 export GPGKEY=D600E88A0C5FE062
 export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
