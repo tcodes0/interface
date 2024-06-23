@@ -28,8 +28,8 @@ Comment[fr]=Exploitez la ligne command dans un terminal tel Quake
 Comment[pl]=Używanie wiersza poleceń w terminalu w stylu gry Quake
 Comment[ru]=Использовать командную строку в Quake терминале
 Comment=Use the command line in a Quake-like terminal
-TryExec=guake --restore-preferences=~/.guakerc
-Exec=guake --restore-preferences=~/.guakerc
+TryExec=guake
+Exec=guake
 Icon=guake
 Type=Application
 Categories=GNOME;GTK;System;Utility;TerminalEmulator;
