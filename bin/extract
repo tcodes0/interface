@@ -1,5 +1,4 @@
 #! /bin/bash
-# function Extract for common file formats
 # 2024 comment: I take no credit here, can't find original
 
 SAVEIFS=$IFS
