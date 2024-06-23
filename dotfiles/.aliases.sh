@@ -8,13 +8,13 @@ alias ...="cl ../../"
 alias ....="cl ../../../"
 alias .....="cl ../../../../"
 alias ......="cl ../../../../../"
-alias .hc="cd \$HOME/Desktop/client"
-alias .hs="cd \$HOME/Desktop/server"
-alias .ms="cd \$HOME/Desktop/member-server"
-alias .mc="cd \$HOME/Desktop/member-client"
-alias .i="cd \$(dirname \$DOTFILE_PATH)"
-alias .c="code ."
-alias .g="cd \$HOME/Desktop/tcodes0-go"
+alias .hc="cl \$HOME/Desktop/client"
+alias .hs="cl \$HOME/Desktop/server"
+alias .ms="cl \$HOME/Desktop/member-server"
+alias .mc="cl \$HOME/Desktop/member-client"
+alias .i="cl \$(dirname \$DOTFILE_PATH)"
+alias c.="code ."
+alias .g="cl \$HOME/Desktop/tcodes0-go"
 
 # work
 
@@ -210,7 +210,6 @@ alias gla="glo | head -10"
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
-alias cd='cd -P'
 alias cd='cl'
 alias rm='rm -ri'
 alias cp='cp -RHi'

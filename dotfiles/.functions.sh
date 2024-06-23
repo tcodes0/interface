@@ -9,7 +9,7 @@ cl() {
     path=$HOME
   fi
 
-  command cd -P "$path" 1>/dev/null || return
+  command cd -P "$path" >/dev/null || return
   ls
 }
 
