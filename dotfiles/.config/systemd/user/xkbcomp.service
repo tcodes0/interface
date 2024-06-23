@@ -3,7 +3,7 @@ Description=Loads x11 xkbcomp
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/xkbcomp /home/vacation/Desktop/interface/linux/keymap.xkb $DISPLAY
+ExecStart=/usr/bin/xkbcomp %h/Desktop/interface/dotfiles/.config/keymap.xkb $DISPLAY
 
 [Install]
 WantedBy=default.target

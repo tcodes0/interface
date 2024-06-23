@@ -6,8 +6,8 @@ WantedBy=default.target
 
 [Service]
 Type=simple
-ExecStart=%h/bin/firefox-sync.sh mpakm5ej.dev-edition-default
-ExecStop=%h/bin/firefox-sync.sh mpakm5ej.dev-edition-default
+ExecStart=%h/bin/firefox-sync mpakm5ej.dev-edition-default
+ExecStop=%h/bin/firefox-sync mpakm5ej.dev-edition-default
 Nice=15
 StandardOutput=null
 StandardError=journal

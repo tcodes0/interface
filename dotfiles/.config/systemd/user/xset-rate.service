@@ -1,5 +1,5 @@
 [Unit]
-Description=Apply keystroke speed tweak
+Description=Set keystroke speed
 
 [Service]
 Type=simple

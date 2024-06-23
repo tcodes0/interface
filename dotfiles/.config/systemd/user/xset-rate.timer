@@ -1,5 +1,5 @@
 [Unit]
-Description=Run srit shell command to set keystroke speed
+Description=Set keystroke speed timer
 
 [Timer]
 OnUnitActiveSec=15
