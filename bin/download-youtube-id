@@ -14,7 +14,7 @@ vid_id=${1:-}
 format=${2:-}
 title=${3:-}
 current_wd=$(pwd)
-desktop="$HOME/Desktop"
+out_dir="$HOME/Desktop"
 out_filename="$title-$vid_id".mp4
 
 declare -rA format_regexps=(
@@ -31,24 +31,24 @@ usage() {
     msgln "- $key"
   done
 
-  msgln more formats use yt-dlp --list-formats \$vid_id
-  msgln output will be in desktop
+  msgln output will be in "$out_dir"
+  msgln note: youtube video id will be appended to title
 }
 
 validateInput() {
   if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
     usage
-    fatal "$LINENO" "No video id"
+    fatal "$LINENO" "fatal: no video id"
   fi
 
   if [ ! "$format" ]; then
     usage
-    fatal "$LINENO" "No format"
+    fatal "$LINENO" "fatal: no format"
   fi
 
   if [ ! "$title" ]; then
     usage
-    fatal "$LINENO" "No title; note video id will be appended"
+    fatal "$LINENO" "fatal: no title"
   fi
 }
 
@@ -79,12 +79,12 @@ audioOnly() {
 
 mux() {
   local name=$1
-  ffmpeg -i ./*.mp4 -i ./*.webm -crf 28 -ac 2 "$name"
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name"
 }
 
 move() {
   local name=$1
-  mv "$name" "$desktop"
+  mv "$name" "$out_dir"
 }
 
 cleanup() {
@@ -98,8 +98,8 @@ prepareTemp
 
 download audio-only
 
-# high res video has no audio, download separetely then mux
-if [ ! "$format" == "audio-only" ]; then
+# high res video has no audio, download separately then mux
+if [ "$format" != "audio-only" ]; then
   download "$format"
   mux "$out_filename"
 fi
