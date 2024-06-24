@@ -4,8 +4,8 @@
 
 alias ls='ls -ph --color=always'
 alias mv='mv -i'
-alias pbc='xclip -selection c'
-alias pbp='xclip -selection c -o'
+alias pbc='wl-copy'
+alias pbp='wl-paste'
 alias grep='grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}'
 alias open="xdg-open"
 
