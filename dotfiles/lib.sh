@@ -7,6 +7,7 @@
 # utilities sourced by scripts (non-interactively)
 #
 
+# internal, do not use
 __e() {
   local linenum=${1:?} funcname=$2 msg=error
 

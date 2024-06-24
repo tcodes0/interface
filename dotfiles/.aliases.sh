@@ -13,6 +13,7 @@ alias .hs="cl \$HOME/Desktop/server"
 alias .ms="cl \$HOME/Desktop/member-server"
 alias .mc="cl \$HOME/Desktop/member-client"
 alias .i="cl \$(dirname \$DOTFILE_PATH)"
+alias .p="cl \$(dirname \$DOTFILE_PATH)/priv"
 alias c.="code ."
 alias .g="cl \$HOME/Desktop/tcodes0-go"
 
