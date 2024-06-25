@@ -38,17 +38,17 @@ usage() {
 validateInput() {
   if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
     usage
-    fatal "$LINENO" "fatal: no video id"
+    fatal "$LINENO" "no video id"
   fi
 
   if [ ! "$format" ]; then
     usage
-    fatal "$LINENO" "fatal: no format"
+    fatal "$LINENO" "no format"
   fi
 
   if [ ! "$title" ]; then
     usage
-    fatal "$LINENO" "fatal: no title"
+    fatal "$LINENO" "no title"
   fi
 }
 
