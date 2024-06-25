@@ -8,10 +8,37 @@ set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
-lts_name="hydrogen" # v18
-response=""
-services_to_stop=(sddm postgresql)
-services_to_restart=(postgresql)
+### vars and functions ###
+
+logoutMsg() {
+  local response
+
+  msgln "please logout and switch to a console. All done? (timeout 10s) [y/N]"
+  read -t 10 -r response
+  if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+    fatal $LINENO logout required
+  fi
+}
+
+snapshot() {
+  local response
+
+  msgln "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
+  read -t 10 -r response
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    sudo snapshot.sh
+  fi
+}
+
+stopServices() {
+  msgln "stopping services..."
+  msgln "$*"
+
+  # stop services
+  for service in "$@"; do
+    sudo systemctl stop "$service".service
+  done
+}
 
 extract_version() {
   if [ -z "$*" ]; then
@@ -23,16 +50,15 @@ extract_version() {
 }
 
 migrate_db() {
-  local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data)
-  local old_version
+  local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
-  echo
-  echo "manually migrating pg db across major versions..."
-  echo "sudo required"
+  msgln
+  msgln "manually migrating pg db across major versions..."
+  msgln "sudo required"
   sudo true
 
   old_version="$(sudo -u postgres cat /var/lib/postgres/data/PG_VERSION)"
-  echo "old version: $old_version"
+  msgln "old version: $old_version"
 
   # mv and mkdir will fail here if directories exist
   sudo mv /var/lib/postgres/data /var/lib/postgres/olddata
@@ -44,98 +70,96 @@ migrate_db() {
   sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
 }
 
-echo "please logout and switch to a console. All done? (timeout 10s) [y/N]"
-read -t 10 -r response
-if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
-  exit 0
-fi
+postgresUp() {
+  local pg_major_update current_pg_major new_pg_major bc_result
 
-echo "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
-read -t 10 -r response
-if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-  if ! sudo snapshot.sh; then fatal creating snapshot; fi
-fi
+  current_pg_major=$(extract_version psql --version)
+  # delete all lines but the X line
+  new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
+  new_pg_major=$(extract_version "$new_pg_major")
 
-echo "stopping services..."
-echo "${services_to_stop[*]}"
+  # .0 is necessary because regex is capturing the dot
+  bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
 
-# stop services
-for service in "${services_to_stop[@]}"; do
-  sudo systemctl stop "$service".service
-done
+  if [ "$bc_result" -ge 1 ]; then
+    pg_major_update="yes"
+  fi
 
-#######################
-### Postgres update ###
-#######################
+  yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
 
-pg_major_update="no"
-current_pg_major=$(extract_version psql --version)
-# delete all lines but the X line
-new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
-new_pg_major=$(extract_version "$new_pg_major")
+  if [ "$pg_major_update" ]; then
+    migrate_db
+  fi
 
-# .0 is necessary because regex is capturing the dot
-bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
+  echo "$pg_major_update"
+}
 
-# if bc_result is 1 or greater, there is a new major version
-if [ "$bc_result" -ge 1 ]; then
-  pg_major_update="yes"
-fi
+systemUp() {
+  local lts_name="$1"
+  # Some software only builds from AUR in old node versions
+  # we start by updating NVM itself
+  command cd "$NVM_DIR" && git pull
 
-# update pg
-yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
+  # update node
+  nvm install node
+  # temporarily downgrade the default node in nvm
+  log "using node LTS $lts_name for upgrade..."
+  nvm install --lts="$lts_name" >/dev/null
+  # after install NVM sets the installed node as the one in use
+  LTS_VER="$(node -v)"
+  nvm alias default "$LTS_VER" >/dev/null
 
-if [ "$pg_major_update" == "yes" ]; then
-  migrate_db
-fi
+  # fix some install errors
+  chmod -R u+w,u+r "$HOME/.cache/yay"
 
-######################
-### System upgrade ###
-######################
+  # update arch pkgs first to avoid errors
+  yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring
+  # update linux
+  yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
+  # update everything but linux from repositories
+  yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+  # update everything but linux from AUR
+  yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+}
 
-# Some software only builds from AUR in old node versions
-# we start by updating NVM itself
-command cd "$NVM_DIR" && git pull
+cleanupRestartServices() {
+  local pg_major="$1"
+  # restore node to latest
+  nvm alias default node 1>/dev/null
 
-# temporarily downgrade the default node in nvm
-echo "using node LTS $lts_name for upgrade..."
-nvm install --lts="$lts_name" 1>/dev/null
-# after install NVM sets the installed node as the one in use
-LTS_VER="$(node -v)"
-nvm alias default "$LTS_VER" 1>/dev/null
+  command cd "$HOME/Desktop"
 
-# fix some install errors
-chmod -R u+w,u+r "$HOME/.cache/yay"
+  for service in "${@:2}"; do
+    sudo systemctl start "$service".service
+  done
 
-nvm install node
-# update arch pkgs first to avoid errors
-yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring
-# update linux
-yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
-# update everything but linux from repositories
-yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
-# update everything but linux from AUR
-yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+  if [ "$pg_major" ]; then
+    # make sure postgresql is restarted successfully before attempting removal
+    sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
+    sudo -u postgres vacuumdb --all --analyze-in-stages
+  fi
+}
 
-# restore node to latest
-nvm alias default node 1>/dev/null
+reboot() {
+  local response
 
-# reset PWD
-command cd "$HOME/Desktop"
+  msgln "success"
+  msgln "reboot now? (timeout 10s) [y/N]"
+  read -t 10 -r response
 
-for service in "${services_to_restart[@]}"; do
-  sudo systemctl start "$service".service
-done
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    systemctl reboot
+  fi
+}
 
-if [ "$pg_major_update" == "yes" ]; then
-  # make sure postgresql is restarted successfully before attempting removal
-  sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
-  sudo -u postgres vacuumdb --all --analyze-in-stages
-fi
+### script ###
 
-echo "success"
-echo "reboot now? (timeout 10s) [y/N]"
-read -t 10 -r response
-if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-  systemctl reboot
-fi
+logoutMsg
+snapshot
+stopServices sddm postgresql
+
+pg_update=$(postgresUp)
+
+systemUp hydrogen # 18
+cleanupRestartServices "$pg_update" postgresql
+reboot
