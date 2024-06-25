@@ -27,7 +27,7 @@ err() {
 
 # usage: fatal $LINENO "message" (default message: error)
 fatal() {
-  __e "$1" "${FUNCNAME[1]}" "${*:2}"
+  __e "$1" "${FUNCNAME[1]}" fatal: "${*:2}"
 
   exit 1
 }
