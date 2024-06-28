@@ -1,4 +1,4 @@
 [submodule "priv"]
-	path = priv
-	url = git@github.com:Thomazella/priv-interface-submodule.git
-	branch = master
+path = priv
+url = https://github.com/tcodes0/priv
+branch = main

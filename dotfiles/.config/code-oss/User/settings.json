@@ -280,5 +280,8 @@
   "outline.collapseItems": "alwaysCollapse",
   "update.mode": "manual",
   "redhat.telemetry.enabled": true,
-  "security.workspace.trust.untrustedFiles": "open"
+  "security.workspace.trust.untrustedFiles": "open",
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
