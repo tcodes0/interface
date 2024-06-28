@@ -2,7 +2,3 @@
 path = priv
 url = https://github.com/tcodes0/priv
 branch = main
-[submodule "gopass"]
-path = gopass
-url = https://github.com/tcodes0/gopass
-branch = main

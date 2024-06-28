@@ -71,7 +71,7 @@ download() {
   fi
 }
 
-audioOnly() {
+convertMP3() {
   ffmpeg -i ./* -codec:a libmp3lame -q:a 0 out.mp3
   find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;
   rename --subst-all .webm.mp3 .mp3 ./*
@@ -96,12 +96,14 @@ cleanup() {
 validateInput
 prepareTemp
 
-download audio-only
+download "$format"
 
-# high res video has no audio, download separately then mux
+# video formats have no audio, download audio then mux
 if [ "$format" != "audio-only" ]; then
-  download "$format"
+  download audio-only
   mux "$out_filename"
+else
+  convertMP3
 fi
 
 move "$out_filename"
