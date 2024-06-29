@@ -1,8 +1,11 @@
 #! /usr/bin/env  bash
-
-#####################
-### Pacman update ###
-#####################
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# pacman system update helper
+# note: undefined functions are provided via BASH_ENV
 
 set -euo pipefail
 shopt -s globstar
@@ -95,7 +98,9 @@ postgresUp() {
 }
 
 systemUp() {
-  local lts_name="$1"
+  # use LTS node, the one before the last LTS
+  local lts_name
+  read -rs _ _ lts_name _ < <(nvm list --no-colors | grep lts | tail -2 | head -1)
   # Some software only builds from AUR in old node versions
   # we start by updating NVM itself
   command cd "$NVM_DIR" && git pull
@@ -103,8 +108,8 @@ systemUp() {
   # update node
   nvm install node
   # temporarily downgrade the default node in nvm
-  log "using node LTS $lts_name for upgrade..."
-  nvm install --lts="$lts_name" >/dev/null
+  log "using node $lts_name for upgrade..."
+  nvm install "$lts_name" >/dev/null
   # after install NVM sets the installed node as the one in use
   LTS_VER="$(node -v)"
   nvm alias default "$LTS_VER" >/dev/null
@@ -160,6 +165,6 @@ stopServices sddm postgresql
 
 pg_update=$(postgresUp)
 
-systemUp hydrogen # 18
+systemUp
 cleanupRestartServices "$pg_update" postgresql
 reboot
