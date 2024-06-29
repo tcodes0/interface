@@ -24,11 +24,11 @@ export GOBIN=$HOME/go/bin
 
 # Completions, external scripts, git prompt
 for file in $NVM_DIR/bash_completion; do
-  safe_source "$file"
+  source_noisy "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
 
 # /dev/pts ensures it runs on GUI terminal not before
-if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
+if is_me && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
   # systemctl call is slow, so only run once, also errors if already running
   export USER_SERVICES_STARTED="true"
   systemctl --user start xkbcomp.service
@@ -37,7 +37,7 @@ if [ "$(whoami)" == "vacation" ] && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(t
 fi
 
 # tmux
-if [ ! "$TMUX" ] && [ "$(whoami)" == "vacation" ]; then
+if [ ! "$TMUX" ] && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi

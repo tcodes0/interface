@@ -1,49 +1,34 @@
 #! /bin/bash
-# shellcheck disable=SC1090
-# runs on login only
+# $HOME is different if root, but root's $HOME/Desktop/interface
+# symlinks to me's $HOME/Desktop/interface, covering our bases
 
-safe_source() {
-  warnSourceFailed="yes"
+shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 
-  if [ -f "$1" ]; then
-    source "$1"
-  elif [ "$warnSourceFailed" ]; then
-    echo "$1" not found to source
+source_noisy() {
+  local path=$1 fileLine=$2
+
+  # shellcheck disable=SC1090
+  if ! source "$path" 2>/dev/null; then
+    echo "$fileLine" source "$path": not found
   fi
 }
 
-#========== Environment
-export HISTSIZE=5000
-export HISTFILESIZE=$HISTSIZE
-export HISTTIMEFORMAT="%b %d "
-export HISTCONTROL="ignoredups:erasedups"
-export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
-export BLOCKSIZE=1000000 #1 Megabyte
-export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
-export PAGER="less"
-export BASH_ENV="$HOME/.bashrc"
-export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
-export DOTFILE_PATH=""
-export CMD_COLOR=true
-export GPG_TTY
+source_dotfile() {
+  local path=$1 line=$2
+  source_noisy "$DOTFILES/$path" "$DOTFILES/.bashrc:$line"
+}
 
-GPG_TTY=$(tty)
+# !is_linux will be macOS
+is_linux() {
+  [ "$(uname)" == "Linux" ]
+}
 
-if [ "$(whoami)" == "root" ]; then
-  # use vacation files on root to have the same envs and aliases
-  DOTFILE_PATH="/home/vacation/Desktop/interface/dotfiles"
-  PRIV_PATH="/home/vacation/Desktop/interface/priv"
-elif [ "$(whoami)" == "vacation" ]; then
-  DOTFILE_PATH="$HOME/Desktop/interface/dotfiles"
-  PRIV_PATH="$HOME/Desktop/interface/priv"
-fi
+# !is_me will be root
+is_me() {
+  [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
+}
 
-safe_source "$DOTFILE_PATH/lib.sh"
-
-# If running from script, skip remaining code
-[[ $- != *i* ]] && return
-
-shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
+export DOTFILES="$HOME/Desktop/interface/dotfiles"
 
 if [ ! "$(pgrep ssh-agent)" ]; then
   eval "$(ssh-agent)" >/dev/null
@@ -52,14 +37,29 @@ elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
 fi
 
 export SSH_AUTH_SOCK
+export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
+export BASH_ENV="$HOME/.bash_env"
+export CMD_COLOR=true
 export EDITOR='code -w'
 export GPGKEY=D600E88A0C5FE062
 export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+export HISTSIZE=5000
+export HISTFILESIZE=$HISTSIZE
+export HISTTIMEFORMAT="%b %d "
+export HISTCONTROL="ignoredups:erasedups"
+export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
+export BLOCKSIZE=1000000 #1 Megabyte
+export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
+export PAGER="less"
+#  shellcheck disable=SC2155 # not using exit code of subshell
+export GPG_TTY=$(tty)
+export XDG_RUNTIME_DIR
+export WAYLAND_DISPLAY
 
 # prompt
-safe_source "$DOTFILE_PATH/lib-git-prompt.sh"
-safe_source "$DOTFILE_PATH/lib-prompt.sh"
+source_dotfile "lib-git-prompt.sh" "$LINENO"
+source_dotfile "lib-prompt.sh" "$LINENO"
 
 export PS1
 export PROMPT_COMMAND
@@ -71,16 +71,13 @@ PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$
 unset PREFIX            # nvm hates this
 unset npm_config_prefix # nvm hates this
 export NVM_DIR="$HOME/.nvm"
+source_noisy "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
 
-if [ -f "$NVM_DIR/nvm.sh" ]; then
-  safe_source "$NVM_DIR/nvm.sh"
+if is_me && [ -d "./Desktop" ] && ! command cd ./Desktop; then
+  echo 'cd desktop failed'
 fi
 
-if [ -d "./Desktop" ] && [ "$(whoami)" != "root" ]; then
-  command cd ./Desktop || echo 'cd desktop failed'
-fi
-
-#========== Completions, external scripts, git prompt
+# Completions, external scripts, git prompt
 export GIT_PS1_SHOWDIRTYSTATE="true"
 export GIT_PS1_SHOWSTASHSTATE="true"
 export GIT_PS1_SHOWUNTRACKEDFILES="true"
@@ -94,27 +91,25 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
 # order matters
 
-safe_source "$PRIV_PATH/.bashrc"
-safe_source "$DOTFILE_PATH/.aliases.sh"
+source_dotfile ".aliases.sh" "$LINENO"
 
-if [[ "$(uname -s)" =~ Darwin ]]; then
-  safe_source "$DOTFILE_PATH/.bashrc.mac.sh"
-  safe_source "$DOTFILE_PATH/.aliases.mac.sh"
-  safe_source "$DOTFILE_PATH/.functions.mac.sh"
-  safe_source /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc
-fi
-
-if [[ "$(uname -s)" =~ Linux ]]; then
-  safe_source "$DOTFILE_PATH/.bashrc.linux.sh"
-  safe_source "$DOTFILE_PATH/.aliases.linux.sh"
-  safe_source "$DOTFILE_PATH/.functions.linux.sh"
+if is_linux; then
+  source_dotfile ".bashrc.linux.sh" "$LINENO"
+  source_dotfile ".aliases.linux.sh" "$LINENO"
+  source_dotfile ".functions.linux.sh" "$LINENO"
   # beware $HOME is different if root
-  safe_source "$HOME/google-cloud-sdk/completion.bash.inc"
-  safe_source /usr/share/bash-completion/bash_completion
-  safe_source /usr/share/LS_COLORS/dircolors.sh
+  source_noisy "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
+  source_noisy /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
+  source_noisy /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"
+else
+  source_dotfile ".bashrc.mac.sh" "$LINENO"
+  source_dotfile ".aliases.mac.sh" "$LINENO"
+  source_dotfile ".functions.mac.sh" "$LINENO"
+  source_noisy /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc "$DOTFILES/.bashrc:$LINENO"
 fi
 
 # after aliases
-safe_source "$DOTFILE_PATH/.functions.sh"
+source_dotfile ".functions.sh" "$LINENO"
+source_noisy "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 # after PATH is set
 nvm use node >/dev/null

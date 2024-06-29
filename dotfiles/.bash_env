@@ -1,0 +1,10 @@
+#! /bin/bash
+# uninteractive bash env
+# BASH_ENV must be set to this script in bash config files
+
+export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
+
+if ! source "$HOME/Desktop/interface/dotfiles/lib.sh" 2>/dev/null; then
+  # shellcheck source=lib.sh
+  echo source "$HOME/Desktop/interface/dotfiles/lib.sh": not found
+fi

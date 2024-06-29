@@ -29,7 +29,7 @@ makePS1() {
 
   getTermColumns
 
-  if [ "$(whoami)" != "root" ]; then
+  if is_me; then
     decorations=$AUXILIAR_COLOR"~>"$spacer$END
   else
     decorations=$AUXILIAR_COLOR"#>"$spacer$END

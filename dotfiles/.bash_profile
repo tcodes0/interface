@@ -1,6 +1,6 @@
 #! /bin/bash
 
-if [ -f ~/.bashrc ]; then
-  # shellcheck disable=SC1090
-  source ~/.bashrc
+if [ -f "$HOME/.bashrc" ]; then
+  # shellcheck source=.bashrc
+  source "$HOME/.bashrc"
 fi

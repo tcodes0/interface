@@ -3,7 +3,7 @@
 
 # Completions, external scripts, git prompt
 for file in /opt/homebrew/opt/nvm/etc/bash_completion.d/nvm /usr/local/etc/bash_completion.d/*; do
-  safe_source "$file"
+  source_noisy "$file" "$DOTFILES/.bashrc.mac.sh:$LINENO"
 done
 
 # Environment
