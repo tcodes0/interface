@@ -4,7 +4,7 @@
 # license that can be found in the LICENSE file and online
 # at https://opensource.org/license/BSD-3-clause.
 #
-# utilities sourced by scripts (non-interactively)
+# utilities sourced by scripts
 #
 
 # internal, do not use

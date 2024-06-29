@@ -66,6 +66,4 @@ alias sysuenab='systemctl --user enable'
 alias sunano='sudo nano'
 alias jrn='journalctl --reverse'
 alias jrnu='journalctl --user --reverse --catalog'
-alias fs="btrfs"
-alias fsv="btrfs subvolume"
 alias mouse="rivalcfg"
