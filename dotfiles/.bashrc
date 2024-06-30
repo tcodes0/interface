@@ -4,7 +4,8 @@
 
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 
-source_noisy() {
+# more helpful erro message on source
+src() {
   local path=$1 fileLine=$2
 
   # shellcheck disable=SC1090
@@ -13,9 +14,9 @@ source_noisy() {
   fi
 }
 
-source_dotfile() {
+src_dotfile() {
   local path=$1 line=$2
-  source_noisy "$DOTFILES/$path" "$DOTFILES/.bashrc:$line"
+  src "$DOTFILES/$path" "$DOTFILES/.bashrc:$line"
 }
 
 # !is_linux will be macOS
@@ -58,8 +59,8 @@ export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
 
 # prompt
-source_dotfile "lib-git-prompt.sh" "$LINENO"
-source_dotfile "lib-prompt.sh" "$LINENO"
+src_dotfile "lib-git-prompt.sh" "$LINENO"
+src_dotfile "lib-prompt.sh" "$LINENO"
 
 export PS1
 export PROMPT_COMMAND
@@ -71,7 +72,7 @@ PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$
 unset PREFIX            # nvm hates this
 unset npm_config_prefix # nvm hates this
 export NVM_DIR="$HOME/.nvm"
-source_noisy "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
+src "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
 
 if is_me && [ -d "./Desktop" ] && ! command cd ./Desktop; then
   echo 'cd desktop failed'
@@ -91,25 +92,25 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
 # order matters
 
-source_dotfile ".aliases.sh" "$LINENO"
+src_dotfile ".aliases.sh" "$LINENO"
 
 if is_linux; then
-  source_dotfile ".bashrc.linux.sh" "$LINENO"
-  source_dotfile ".aliases.linux.sh" "$LINENO"
-  source_dotfile ".functions.linux.sh" "$LINENO"
+  src_dotfile ".bashrc.linux.sh" "$LINENO"
+  src_dotfile ".aliases.linux.sh" "$LINENO"
+  src_dotfile ".functions.linux.sh" "$LINENO"
   # beware $HOME is different if root
-  source_noisy "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
-  source_noisy /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
-  source_noisy /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"
+  src "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
+  src /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
+  src /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"
 else
-  source_dotfile ".bashrc.mac.sh" "$LINENO"
-  source_dotfile ".aliases.mac.sh" "$LINENO"
-  source_dotfile ".functions.mac.sh" "$LINENO"
-  source_noisy /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc "$DOTFILES/.bashrc:$LINENO"
+  src_dotfile ".bashrc.mac.sh" "$LINENO"
+  src_dotfile ".aliases.mac.sh" "$LINENO"
+  src_dotfile ".functions.mac.sh" "$LINENO"
+  src /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc "$DOTFILES/.bashrc:$LINENO"
 fi
 
 # after aliases
-source_dotfile ".functions.sh" "$LINENO"
-source_noisy "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
+src_dotfile ".functions.sh" "$LINENO"
+src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 # after PATH is set
 nvm use node >/dev/null

@@ -27,15 +27,15 @@ declare -rA format_regexps=(
 )
 
 usage() {
-  msgln "Usage: $0 <youtube_video_id> <format> <title>"
-  msgln formats:
+  println "Usage: $0 <youtube_video_id> <format> <title>"
+  println formats:
 
   for key in "${!format_regexps[@]}"; do
-    msgln "- $key"
+    println "- $key"
   done
 
-  msgln output will be in "$out_dir"
-  msgln note: youtube video id will be appended to title
+  println output will be in "$out_dir"
+  println note: youtube video id will be appended to title
 }
 
 validateInput() {
@@ -59,7 +59,7 @@ prepareTemp() {
   local temp
   temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
 
-  msgln using temp "$temp"
+  loginfo $LINENO using temp "$temp"
   cd "$temp"
 }
 

@@ -27,28 +27,34 @@ err() {
 
 # usage: fatal $LINENO "message" (default message: error)
 fatal() {
-  __e "$1" "${FUNCNAME[1]}" fatal: "${*:2}"
+  __e "$1" "${FUNCNAME[1]}" "fatal:${*:2}"
 
   exit 1
 }
 
 #- - - - - - - - - - -
 
-# usage: msgln hello world
-msgln() {
-  msg "$*\\n"
+# usage: println hello world
+println() {
+  print "$*\\n"
 }
 
 #- - - - - - - - - - -
 
-# usage: msg hello world
-msg() {
-  echo -ne "${MSG_PREFIX:-}$*"
+# usage: print hello world
+print() {
+  echo -ne "$*"
 }
 
 #- - - - - - - - - - -
 
-# usage: log warning!
-log() {
-  echo -ne "${MSG_PREFIX:-}$*\\n" >&2
+# usage: loginfo $LINENO your pizza is ready
+loginfo() {
+  local linenum=${1:?} msg=${*:2}
+
+  if [ "$msg" ]; then
+    echo -ne "INFO ($0:$linenum) ${*:2}\\n" >&2
+  else
+    echo
+  fi
 }

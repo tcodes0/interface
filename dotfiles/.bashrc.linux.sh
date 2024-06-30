@@ -24,7 +24,7 @@ export GOBIN=$HOME/go/bin
 
 # Completions, external scripts, git prompt
 for file in $NVM_DIR/bash_completion; do
-  source_noisy "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
+  src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
 
 # /dev/pts ensures it runs on GUI terminal not before

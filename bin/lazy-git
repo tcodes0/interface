@@ -13,14 +13,15 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-# shellcheck disable=SC2034 # indirectly used by msgln
-MSG_PREFIX="lg > "
+printlg() {
+  println "lg > $*"
+}
 
 gitDo() {
   # check for another git process running at this time (rare edge-case)
-  # i.e. vscode; wait for it to finish
+  # i.e. some IDE; wait for it to finish
   while [ -f "$PWD/.git/index.lock" ]; do
-    msgln ".git/index.lock exits, waiting..."
+    loginfo $LINENO ".git/index.lock exits, waiting..."
     sleep 1
   done
 
@@ -42,7 +43,7 @@ commit() {
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
-    msgln "comitting files already staged..."
+    loginfo $LINENO "comitting files already staged..."
   fi
 
   if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
@@ -69,7 +70,7 @@ commit() {
   command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
-    msgln "$commitMsg"
+    printlg "$commitMsg"
   fi
 }
 
@@ -79,7 +80,7 @@ push() {
     pushResult=$(gp 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      msgln "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
+      loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
       gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
