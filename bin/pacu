@@ -127,6 +127,31 @@ systemUp() {
   yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
 }
 
+reinstallGlobalNPM() {
+  local old_node="$1" packages=("${@:2}") name version
+
+  if [ "$old_node" == "$(node -v)" ]; then
+    return
+  fi
+
+  if ((${#packages[@]} % 0 != 0)); then
+    fatal $LINENO "expected an even number of packages and versions"
+  fi
+
+  for ((i = 0; i < ${#packages[@]}; i++)); do
+    if ((i % 2 != 0)); then
+      continue
+    fi
+
+    name="${packages[i]}"
+    version="${packages[i + 1]}"
+
+    if ! command -v "$name" >/dev/null; then
+      echo npm install --global "$version"
+    fi
+  done
+}
+
 cleanupRestartServices() {
   local pg_major="$1"
   # restore node to latest
@@ -164,7 +189,11 @@ snapshot
 stopServices sddm postgresql
 
 pg_update=$(postgresUp)
+old_node=$(node -v)
 
 systemUp
+
+reinstallGlobalNPM "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
+
 cleanupRestartServices "$pg_update" postgresql
 reboot
