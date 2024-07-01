@@ -6,6 +6,9 @@
 #
 # a helper to a few git chores like adding and composing standard commit messages
 # note: undefined functions are provided via BASH_ENV
+#
+# GLOBALS:
+#   PUSH_REPOS string: a list of repos to automatically push after a commit
 
 set -euo pipefail
 shopt -s globstar
@@ -75,19 +78,26 @@ commit() {
 }
 
 push() {
-  if [[ ${PUSH:-} ]]; then
-    local pushResult noUpstreamRegExp="has no upstream branch"
+  if [[ ${PUSH_REPOS:-} ]]; then
+    local noUpstreamRegExp="has no upstream branch" pushResult basePWD
+
+    basePWD="$(basename "$PWD")"
+    if [[ $PUSH_REPOS != *$basePWD* ]]; then
+      return
+    fi
+
+    loginfo $LINENO "$basePWD matches \$PUSH_REPOS"
     pushResult=$(gitDo push --quiet 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
       loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
-      gitDo push --set-upstream origin "$GIT_BRANCH"
+      echo gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 }
 
-finally() {
-  gitDo status -s
+status() {
+  gitDo status --short
 }
 
 ### script ###
@@ -95,4 +105,4 @@ finally() {
 validateDeps
 commit "$@"
 push
-finally
+status

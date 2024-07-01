@@ -21,8 +21,8 @@ $HOME/.local/bin:\
 
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-export XDG_RUNTIME_DIR
-export WAYLAND_DISPLAY
+# see lazy-git
+export PUSH_REPOS="member-client interface priv hub-client"
 
 # Completions, external scripts, git prompt
 for file in "$HOME"/.bash_completion.d/*; do
