@@ -25,7 +25,7 @@ export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
 
 # Completions, external scripts, git prompt
-for file in $NVM_DIR/bash_completion; do
+for file in "$HOME"/.bash_completion.d/*; do
   src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
 
