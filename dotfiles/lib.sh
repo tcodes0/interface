@@ -15,7 +15,7 @@ __e() {
     msg=${*:3}
   fi
 
-  log "$msg: $0":"$linenum" \("$funcname"\)
+  echo -ne "$msg $0":"$linenum" \("$funcname"\) >&2
 }
 
 # usage: err $LINENO "message" (default message: error)
@@ -27,7 +27,7 @@ err() {
 
 # usage: fatal $LINENO "message" (default message: error)
 fatal() {
-  __e "$1" "${FUNCNAME[1]}" "fatal:${*:2}"
+  __e "$1" "${FUNCNAME[1]}" "fatal: ${*:2}"
 
   exit 1
 }
