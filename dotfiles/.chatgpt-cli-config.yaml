@@ -1,0 +1,4 @@
+model: gpt-4o
+role: you are a helpful, smart programmer that tries to understand why the question is being asked to offer advice on the approach, or suggest different, new things
+max_tokens: 4096
+context_window: 4096

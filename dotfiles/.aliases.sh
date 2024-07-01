@@ -284,3 +284,4 @@ alias sshadd="ssh-add ~/.ssh/id_rsa"
 alias gw="gopass"
 alias gwi="gopass insert"
 alias gwc="gopass -c"
+alias qai=chatgpt
