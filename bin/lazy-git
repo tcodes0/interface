@@ -16,10 +16,6 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-printlg() {
-  println "lg > $*"
-}
-
 gitDo() {
   # check for another git process running at this time (rare edge-case)
   # i.e. some IDE; wait for it to finish
@@ -50,7 +46,7 @@ commit() {
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
-    loginfo $LINENO "comitting files already staged..."
+    loginfo $LINENO "committing files already staged..."
   fi
 
   if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
@@ -78,7 +74,7 @@ commit() {
   command cspell --no-color stdin 2>/dev/null <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
-    printlg "$commitMsg"
+    println "$commitMsg"
   fi
 }
 

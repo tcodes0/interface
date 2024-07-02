@@ -84,7 +84,7 @@ parse-options() {
       long=${long/-/_}
       # if opt has an =, it means it has an arg
       if [[ "$arg" =~ ^--[[:alpha:]_][[:alpha:]_]+= ]]; then
-        # split opt from arg. Ann=choco makes export ann=choco
+        # split opt from arg. Ann=pizza makes export ann=pizza
         export "${long%=*}"="${long#*=}"
         longsWithArgs+=("${long%=*}")
       else
@@ -199,9 +199,9 @@ print-ansi-colors() {
   # and further by Kazuo Teramoto
   # Color-scripts by Stark
 
-  local FGNAMES=('black ' 'red' 'green' 'yellow' 'purple ' 'pink' 'teal ' 'white ' 'no 8' 'default ')
-  local BGNAMES=('default' 'black  ' 'red    ' 'green  ' 'yellow ' 'purple ' 'pink   ' 'teal   ' 'white  ')
-  #controls distance between columns
+  local foreground_colors=('black ' 'red' 'green' 'yellow' 'purple ' 'pink' 'teal ' 'white ' 'no 8' 'default ')
+  local background_colors=('default' 'black  ' 'red    ' 'green  ' 'yellow ' 'purple ' 'pink   ' 'teal   ' 'white  ')
+  # controls distance between columns
   local gutter="   "
 
   echo -e "\n${seqStart}7;49m* Bg * ${seqClear}$gutter${seqStart}7;49m  ****************   Normal and bold foreground   ****************  ${seqClear}"
@@ -213,16 +213,16 @@ print-ansi-colors() {
 
     #Normal color row
     for f in {0..7} 9; do
-      echo -en "${seqStart}${bg};$((f + 30))m  ${FGNAMES[f]}"
+      echo -en "${seqStart}${bg};$((f + 30))m  ${foreground_colors[f]}"
     done
     echo -en "${seqClear}"
 
     #Left Background color name
-    echo -en "${seqClear}\n${seqStart}7;39;49m${BGNAMES[b]}${seqClear}$gutter"
+    echo -en "${seqClear}\n${seqStart}7;39;49m${background_colors[b]}${seqClear}$gutter"
 
     #Bold color row
     for f in {0..7} 9; do
-      echo -en "${seqStart}${bg};1;$((f + 30))m  ${FGNAMES[f]}"
+      echo -en "${seqStart}${bg};1;$((f + 30))m  ${foreground_colors[f]}"
     done
     echo -en "${seqClear}\n"
 
@@ -233,7 +233,7 @@ print-ansi-colors() {
 
 candy() {
   echo "┌────────────────────────────────────────────────────────────┐"
-  echo "├      Normal backgroud              Light background        ┤"
+  echo "├      Normal background              Light background       ┤"
   echo "├    Normal          Bold           Normal          Bold     ┤"
   echo "└────────────────────────────────────────────────────────────┘"
   j=1
@@ -262,6 +262,7 @@ candy() {
 
 #this var stores user selected colors
 sequence="${seqStart}"
+M=m
 
 if [ "$h" == 0 ] || [ "$help" == 0 ] || [ "$#" == 0 ]; then
   echo -e "\
@@ -270,7 +271,7 @@ if [ "$h" == 0 ] || [ "$help" == 0 ] || [ "$#" == 0 ]; then
   \n${seqStart}4;${seq256Colorstart}70m♦ HUE.SH ${seqStart}1;${seq256Colorstart}71mHELPS ${seqStart}0;4;${seq256Colorstart}72mTO MAKE ${seqStart}1;${seq256Colorstart}73mTHE TERMINAL ${seqStart}0;4;${seq256Colorstart}74mPRETTIER!${seqClear}\
   \n${seqStart}4;${seq256Colorstart}20m♦ HUE.SH ${seqStart}1;${seq256Colorstart}21mHELPS ${seqStart}0;4;${seq256Colorstart}22mTO MAKE ${seqStart}1;${seq256Colorstart}23mTHE TERMINAL ${seqStart}0;4;${seq256Colorstart}24mPRETTIER!${seqClear}
   \n♦︎ $ hue.sh --pink --bold hue.sh works like an echo on steroids for colors\
-  \n  < ${seqStart}35;1;49mhue.sh works like an echo on steroids for colors${seqClear}
+  \n  < ${seqStart}35;1;49${M}hue.sh works like an echo on steroids for colors${seqClear}
   \n♦ $ hue.sh --red --underline --swap --bg=teal Hello!\
   \n  < ${seqStart}4;7;31;46mHello!${seqClear}
   \n♦ ${seqStart}4mANSI colors:${seqClear}
@@ -286,18 +287,18 @@ if [ "$h" == 0 ] || [ "$help" == 0 ] || [ "$#" == 0 ]; then
   \n♦ ${seqStart}4m256color:${seqClear}${seqStart}2;49m#${seqClear}
   ${seqStart}7;${seq256Colorstart}86m 86 ${seqClear}${seqStart}${seq256Colorstart}86;49m 86 ${seqClear}--hue=86       ${seqStart}7;${seq256Colorstart}204m 204 ${seqClear}${seqStart}${seq256Colorstart}204;49m 204 ${seqClear}--hue=204
   ${seqStart}7;${seq256Colorstart}53m 53 ${seqClear}${seqStart}${seq256Colorstart}53;49m 53 ${seqClear}--hue=53       ${seqStart}7;${seq256Colorstart}220m 220 ${seqClear}${seqStart}${seq256Colorstart}220;49m 220 ${seqClear}--hue=220
-  \n♦ ${seqStart}4mstyles${seqStart}2;49m*${seqClear}
+  \n♦ ${seqStart}4${M}styles${seqStart}2;49m*${seqClear}
   ${seqStart}1;7;99m 01 ${seqClear} ${seqStart}1m--bold${seqClear}            ${seqStart}7;99m ${seqStart}4m04${seqStart}24m ${seqClear} ${seqStart}4m--underline${seqClear}
   ${seqStart}2;7;99m 02 ${seqClear} ${seqStart}2m--dim${seqClear}             ${seqStart}5;7;99m 05 ${seqClear} ${seqStart}5m--blink${seqClear}${seqStart}2;49m#${seqClear}
   ${seqStart}3;7;99m 03 ${seqClear} ${seqStart}3m--italic.${seqStart}2;49m#${seqClear}        ${seqStart}7;99m 07 ${seqClear} ${seqStart}7m--swap${seqClear}${seqStart}2;49m+${seqClear}
   \n  ${seqStart}2;49m* You can combine them!${seqClear}
   ${seqStart}2;49m# Depends on terminal emulator support.${seqClear}
   ${seqStart}2;49m+ Swap works swapping foreground and background color.${seqClear}
-  \n♦ ${seqStart}4mbackgrounds${seqClear}
+  \n♦ ${seqStart}4${M}backgrounds${seqClear}
   ${seqStart}107;30m--bg=default${seqClear}           ${seqStart}46m--bg=teal${seqClear}
   ${seqStart}100m--bg=light-black${seqClear}       --bg=${seqStart}3m...any ANSI color!${seqClear}
   ${seqStart}7;38;05;150;49m--hue=150 --swap${seqClear}       ${seqStart}7;38;05;20;49m--hue=20 --swap${seqClear}
-  \n♦ ${seqStart}4mmore options:${seqClear}
+  \n♦ ${seqStart}4${M}more options:${seqClear}
   --code                 output color code only
   --palette              view all possible ANSI combinations
   --view=ansi            view ANSI color preview

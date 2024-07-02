@@ -270,6 +270,18 @@
   "cSpell.showAutocompleteSuggestions": false,
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
+  "cSpell.enableFiletypes": [
+    "go",
+    "plaintext",
+    "markdown",
+    "json",
+    "yaml",
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "shellscript"
+  ],
   "window.commandCenter": false,
   "window.menuBarVisibility": "hidden",
   "window.enableMenuBarMnemonics": false,
