@@ -1,0 +1,197 @@
+#! /usr/bin/env  bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# pacman system update helper
+# note: undefined functions are provided via BASH_ENV
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+logout() {
+  local response
+
+  println "please logout and switch to a console. All done? (timeout 10s) [y/N]"
+  read -t 10 -r response
+  if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+    fatal $LINENO logout required
+  fi
+}
+
+snapshot() {
+  local response
+
+  println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
+  read -t 10 -r response
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    sudo snapshot.sh
+  fi
+}
+
+stop_services() {
+  loginfo $LINENO "$*"
+
+  for service in "$@"; do
+    sudo systemctl stop "$service".service
+    loginfo $LINENO "stopped $service"
+  done
+}
+
+extract_version() {
+  if [ -z "$*" ]; then
+    echo "empty version"
+    return 1
+  fi
+
+  echo -n "$*" | grep -o -E '[0-9]+\.'
+}
+
+migrate_pg() {
+  local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
+
+  loginfo
+  loginfo $LINENO "manually migrating pg db across major versions..."
+  loginfo $LINENO "sudo required"
+  sudo true
+
+  old_version="$(sudo -u postgres cat /var/lib/postgres/data/PG_VERSION)"
+  loginfo "old version: $old_version"
+
+  # mv and mkdir will fail here if directories exist
+  sudo mv /var/lib/postgres/data /var/lib/postgres/olddata
+  sudo mkdir /var/lib/postgres/data /var/lib/postgres/tmp
+  sudo chown postgres:postgres /var/lib/postgres/data /var/lib/postgres/tmp
+
+  cd /var/lib/postgres/tmp
+  sudo -u postgres initdb "${initdb_args[@]}"
+  sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
+}
+
+postgres_up() {
+  local pg_major_update current_pg_major new_pg_major bc_result
+
+  current_pg_major=$(extract_version psql --version)
+  # delete all lines but the 3rd line
+  new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
+  new_pg_major=$(extract_version "$new_pg_major")
+
+  # .0 is necessary because regex is capturing the dot
+  bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
+
+  if [ "$bc_result" -ge 1 ]; then
+    pg_major_update="yes"
+  fi
+
+  yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
+
+  if [ "$pg_major_update" ]; then
+    migrate_pg
+  fi
+
+  echo "$pg_major_update"
+}
+
+system_up() {
+  local lts_name
+  # use LTS node, the one before the latest LTS
+  read -rs _ _ lts_name _ < <(nvm list --no-colors | grep lts | tail -2 | head -1)
+  # Some software only builds from AUR in old node versions
+  # we start by updating NVM itself
+  command cd "$NVM_DIR" && git pull
+
+  # update node
+  nvm install node
+  # temporarily downgrade the default node in nvm
+  loginfo $LINENO "using node $lts_name for upgrade..."
+  nvm install "$lts_name" >/dev/null
+  # after install NVM sets the installed node as the one in use
+  LTS_VER="$(node -v)"
+  nvm alias default "$LTS_VER" >/dev/null
+
+  # fix some install errors
+  chmod -R u+w,u+r "$HOME/.cache/yay"
+
+  # update arch pkgs first to avoid errors
+  yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring
+  # update linux
+  yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
+  # update everything but linux from repositories
+  yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+  # update everything but linux from AUR
+  yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+}
+
+reinstall_global_npm() {
+  local old_node="$1" packages=("${@:2}") name version
+
+  if [ "$old_node" == "$(node -v)" ]; then
+    return
+  fi
+
+  if ((${#packages[@]} % 0 != 0)); then
+    fatal $LINENO "expected an even number of packages and versions"
+  fi
+
+  for ((i = 0; i < ${#packages[@]}; i++)); do
+    if ((i % 2 != 0)); then
+      continue
+    fi
+
+    name="${packages[i]}"
+    version="${packages[i + 1]}"
+
+    if ! command -v "$name" >/dev/null; then
+      echo npm install --global "$version"
+    fi
+  done
+}
+
+cleanup_restart_services() {
+  local pg_major="$1"
+  # restore node to latest
+  nvm alias default node 1>/dev/null
+
+  command cd "$HOME/Desktop"
+
+  for service in "${@:2}"; do
+    sudo systemctl start "$service".service
+  done
+
+  if [ "$pg_major" ]; then
+    # make sure postgresql is restarted successfully before attempting removal
+    sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
+    sudo -u postgres vacuumdb --all --analyze-in-stages
+  fi
+}
+
+reboot() {
+  local response
+
+  println "success. reboot now? (timeout 10s) [y/N]"
+  read -t 10 -r response
+
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    systemctl reboot
+  else
+    println "some services may not be running. Please restart them manually."
+  fi
+}
+
+### script ###
+
+logout
+snapshot
+stop_services sddm postgresql
+
+pg_update=$(postgres_up)
+old_node=$(node -v)
+
+system_up
+reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
+cleanup_restart_services "$pg_update" postgresql
+reboot

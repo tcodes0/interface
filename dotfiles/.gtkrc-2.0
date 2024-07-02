@@ -1,0 +1,18 @@
+gtk-sound-theme-name="ocean"
+gtk-cursor-theme-size=24
+gtk-enable-animations=1
+
+# File created by KDE Gtk Config
+# Configs for GTK2 programs 
+
+
+gtk-font-name="DejaVu Sans,  10"
+gtk-theme-name="Breeze-Dark"
+gtk-icon-theme-name="breeze-dark"
+gtk-fallback-icon-theme="Adwaita"
+gtk-cursor-theme-name="Oxygen_Zion"
+gtk-toolbar-style=3
+gtk-menu-images=1
+gtk-button-images=1
+gtk-primary-button-warps-slider=1
+

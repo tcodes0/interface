@@ -1,0 +1,38 @@
+#!/bin/bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+usage() {
+  echo "\
+  Usage
+    bulk-curl-from-file.sh <file-path>
+      read lines from file and pass them as args to command
+      file-path IS RELATIVE
+  "
+}
+
+if [ "$#" -lt 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  usage
+  exit 1
+fi
+
+file=$1
+filePath=${PWD}/$file
+
+if [ ! -f "$filePath" ]; then
+  usage
+  printf "File %s not found\\n" "$filePath"
+  exit 1
+fi
+
+setName=${file/.txt/}
+i=1
+
+while read -r line; do
+  eval "curl '$line' -L -o '${setName}-${i}.jpg'"
+  i=$((i + 1))
+done <"$filePath"
+
+exit $?

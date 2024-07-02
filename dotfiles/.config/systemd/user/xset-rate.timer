@@ -1,0 +1,10 @@
+[Unit]
+Description=Set keystroke speed timer
+
+[Timer]
+OnUnitActiveSec=15
+AccuracySec=1us
+Persistent=false
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,113 @@
+#! /bin/bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# downloads youtube videos by id in a few formats
+# note: undefined functions are provided via BASH_ENV
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+vid_id=${1:-}
+format=${2:-}
+title=${3:-}
+current_wd=$(pwd)
+out_dir="$HOME/Desktop"
+out_filename="$title-$vid_id".mp4
+
+declare -rA format_regexps=(
+  ["4k"]="mp4.+3840x2160"
+  ["2k"]="mp4.+2560x1440"
+  ["audio-only"]="opus.+132k 48k" # produces webm extension
+)
+
+usage() {
+  println "Usage: $0 <youtube_video_id> <format> <title>"
+  println formats:
+
+  for key in "${!format_regexps[@]}"; do
+    println "- $key"
+  done
+
+  println output will be in "$out_dir"
+  println note: youtube video id will be appended to title
+}
+
+validateInput() {
+  if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
+    usage
+    fatal "$LINENO" "no video id"
+  fi
+
+  if [ ! "$format" ]; then
+    usage
+    fatal "$LINENO" "no format"
+  fi
+
+  if [ ! "$title" ]; then
+    usage
+    fatal "$LINENO" "no title"
+  fi
+}
+
+prepareTemp() {
+  local temp
+  temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
+
+  loginfo $LINENO using temp "$temp"
+  cd "$temp"
+}
+
+download() {
+  local format_line fmt="$1"
+  format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats))
+  read -rs format_id _ <<<"$format_line"
+
+  if ! yt-dlp -f "$format_id" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
+    yt-dlp "$vid_id" --list-formats 2>/dev/null
+    fatal "$LINENO" "yt-dlp error, formats supported above"
+  fi
+}
+
+convertMP3() {
+  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 out.mp3
+  find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;
+  rename --subst-all .webm.mp3 .mp3 ./*
+}
+
+mux() {
+  local name=$1
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name"
+}
+
+move() {
+  local name=$1
+  mv "$name" "$out_dir"
+}
+
+cleanup() {
+  cd "$current_wd"
+}
+
+### script ###
+
+validateInput
+prepareTemp
+
+download "$format"
+
+# video formats have no audio, download audio then mux
+if [ "$format" != "audio-only" ]; then
+  download audio-only
+  mux "$out_filename"
+else
+  convertMP3
+fi
+
+move "$out_filename"
+cleanup
