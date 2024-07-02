@@ -38,6 +38,7 @@ words:
   - cpio
   - dator
   - devmode
+  - euox
   - findutils
   - glslang
   - initdb
@@ -64,3 +65,4 @@ words:
   - unrar
   - unxz
   - vacuumdb
+  - filerrc
