@@ -33,7 +33,11 @@ gitDo() {
 
 validateDeps() {
   if ! command -v commitlint >/dev/null; then
-    fatal "$LINENO" "commitlint not found; please run 'npm install -g @commitlint/cli'"
+    fatal "$LINENO" "commitlint not found; try 'npm install -g @commitlint/cli'"
+  fi
+
+  if ! command -v cspell >/dev/null; then
+    fatal "$LINENO" "commitlint not found; try 'npm install -g cspell@latest'"
   fi
 
   if [ ! -f ~/.commitlintrc.yml ]; then
@@ -71,6 +75,7 @@ commit() {
   fi
 
   command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
+  command cspell --no-color stdin 2>/dev/null <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
     printlg "$commitMsg"
