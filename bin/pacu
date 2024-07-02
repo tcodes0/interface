@@ -13,7 +13,7 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-logoutMsg() {
+logout() {
   local response
 
   println "please logout and switch to a console. All done? (timeout 10s) [y/N]"
@@ -33,12 +33,12 @@ snapshot() {
   fi
 }
 
-stopServices() {
-  loginfo $LINENO "stopping services..."
+stop_services() {
   loginfo $LINENO "$*"
 
   for service in "$@"; do
     sudo systemctl stop "$service".service
+    loginfo $LINENO "stopped $service"
   done
 }
 
@@ -51,7 +51,7 @@ extract_version() {
   echo -n "$*" | grep -o -E '[0-9]+\.'
 }
 
-migrate_db() {
+migrate_pg() {
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
   loginfo
@@ -72,7 +72,7 @@ migrate_db() {
   sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
 }
 
-postgresUp() {
+postgres_up() {
   local pg_major_update current_pg_major new_pg_major bc_result
 
   current_pg_major=$(extract_version psql --version)
@@ -90,13 +90,13 @@ postgresUp() {
   yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
 
   if [ "$pg_major_update" ]; then
-    migrate_db
+    migrate_pg
   fi
 
   echo "$pg_major_update"
 }
 
-systemUp() {
+system_up() {
   local lts_name
   # use LTS node, the one before the latest LTS
   read -rs _ _ lts_name _ < <(nvm list --no-colors | grep lts | tail -2 | head -1)
@@ -126,7 +126,7 @@ systemUp() {
   yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
 }
 
-reinstallGlobalNPM() {
+reinstall_global_npm() {
   local old_node="$1" packages=("${@:2}") name version
 
   if [ "$old_node" == "$(node -v)" ]; then
@@ -151,7 +151,7 @@ reinstallGlobalNPM() {
   done
 }
 
-cleanupRestartServices() {
+cleanup_restart_services() {
   local pg_major="$1"
   # restore node to latest
   nvm alias default node 1>/dev/null
@@ -177,21 +177,21 @@ reboot() {
 
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
     systemctl reboot
+  else
+    println "some services may not be running. Please restart them manually."
   fi
 }
 
 ### script ###
 
-logoutMsg
+logout
 snapshot
-stopServices sddm postgresql
+stop_services sddm postgresql
 
-pg_update=$(postgresUp)
+pg_update=$(postgres_up)
 old_node=$(node -v)
 
-systemUp
-
-reinstallGlobalNPM "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
-
-cleanupRestartServices "$pg_update" postgresql
+system_up
+reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
+cleanup_restart_services "$pg_update" postgresql
 reboot

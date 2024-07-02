@@ -77,7 +77,7 @@ commit() {
 push() {
   if [[ ${PUSH:-} ]]; then
     local pushResult noUpstreamRegExp="has no upstream branch"
-    pushResult=$(gp 2>&1)
+    pushResult=$(gitDo push --quiet 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
       loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"

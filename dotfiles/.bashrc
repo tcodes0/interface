@@ -4,7 +4,7 @@
 
 shopt -s autocd cdspell dirspell globstar cmdhist lithist histverify histappend
 
-# more helpful erro message on source
+# more helpful error message on source
 src() {
   local path=$1 fileLine=$2
 
@@ -29,14 +29,13 @@ is_me() {
   [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
 }
 
-export DOTFILES="$HOME/Desktop/interface/dotfiles"
-
 if [ ! "$(pgrep ssh-agent)" ]; then
   eval "$(ssh-agent)" >/dev/null
 elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
   SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
 fi
 
+export DOTFILES="$HOME/Desktop/interface/dotfiles"
 export SSH_AUTH_SOCK
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export BASH_ENV="$HOME/.bash_env"
@@ -53,31 +52,8 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
-#  shellcheck disable=SC2155 # not using exit code of subshell
-export GPG_TTY=$(tty)
-export XDG_RUNTIME_DIR
-export WAYLAND_DISPLAY
-
-# prompt
-src_dotfile "lib-git-prompt.sh" "$LINENO"
-src_dotfile "lib-prompt.sh" "$LINENO"
-
-export PS1
-export PROMPT_COMMAND
-PS1=$(makePS1)
-UNDERLINE="\\[\\e[4m\\]"
-PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
-
-# nvm
-unset PREFIX            # nvm hates this
-unset npm_config_prefix # nvm hates this
-export NVM_DIR="$HOME/.nvm"
-src "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
-
-if is_me && [ -d "./Desktop" ] && ! command cd ./Desktop; then
-  echo 'cd desktop failed'
-fi
-
+export GPG_TTY
+GPG_TTY=$(tty)
 # Completions, external scripts, git prompt
 export GIT_PS1_SHOWDIRTYSTATE="true"
 export GIT_PS1_SHOWSTASHSTATE="true"
@@ -90,15 +66,33 @@ export GIT_PS1_DESCRIBE_STYLE="branch"
 export GIT_PS1_SHOWCOLORHINTS="true"
 export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 
-# order matters
+# prompt
+src_dotfile "lib-git-prompt.sh" "$LINENO"
+src_dotfile "lib-prompt.sh" "$LINENO"
+export PS1
+PS1=$(makePS1)
+export PROMPT_COMMAND
+UNDERLINE="\\[\\e[4m\\]"
+PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
 
+# nvm
+unset PREFIX            # nvm hates this
+unset npm_config_prefix # nvm hates this
+export NVM_DIR="$HOME/.nvm"
+src "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
+
+if is_me && [ "$(basename "$PWD")" != Desktop ]; then
+  # shellcheck disable=SC2164
+  command cd ./Desktop 2>/dev/null
+fi
+
+# order matters
 src_dotfile ".aliases.sh" "$LINENO"
 
 if is_linux; then
   src_dotfile ".bashrc.linux.sh" "$LINENO"
   src_dotfile ".aliases.linux.sh" "$LINENO"
   src_dotfile ".functions.linux.sh" "$LINENO"
-  # beware $HOME is different if root
   src "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"

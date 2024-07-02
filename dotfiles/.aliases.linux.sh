@@ -40,15 +40,11 @@ alias chromevpn='google-chrome-stable --proxy-server="socks5://localhost:31337"'
 
 # others
 
-alias mkvtomp4='ffmpeg -i example.mkv -c copy example.mp4'
 alias lsblk='lsblk -f'
 alias ssh='ssh-ident'
 alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
-alias desktopRsync="echo rsync --recursive --links --progress --exclude=\"interface/\*\" /home/vacation/Desktop/ vacation@192.168.0.214:/home/vacation/Desktop"
-# shellcheck disable=SC2154
-alias run-command-with-file="echo 'while read -r line; do foo=\$line; done <file.txt'"
 alias apg="apg -M SNCL"
 alias pwgen="apg"
 alias sys='systemctl'

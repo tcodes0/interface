@@ -21,6 +21,8 @@ $HOME/.local/bin:\
 
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
+export XDG_RUNTIME_DIR
+export WAYLAND_DISPLAY
 
 # Completions, external scripts, git prompt
 for file in $NVM_DIR/bash_completion; do
