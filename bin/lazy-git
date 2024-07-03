@@ -6,16 +6,15 @@
 #
 # a helper to a few git chores like adding and composing standard commit messages
 # note: undefined functions are provided via BASH_ENV
+#
+# GLOBALS:
+#   PUSH_REPOS string: a list of repos to automatically push after a commit
 
 set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
 ### vars and functions ###
-
-printlg() {
-  println "lg > $*"
-}
 
 gitDo() {
   # check for another git process running at this time (rare edge-case)
@@ -30,7 +29,11 @@ gitDo() {
 
 validateDeps() {
   if ! command -v commitlint >/dev/null; then
-    fatal "$LINENO" "commitlint not found; please run 'npm install -g @commitlint/cli'"
+    fatal "$LINENO" "commitlint not found; try 'npm install -g @commitlint/cli'"
+  fi
+
+  if ! command -v cspell >/dev/null; then
+    fatal "$LINENO" "commitlint not found; try 'npm install -g cspell@latest'"
   fi
 
   if [ ! -f ~/.commitlintrc.yml ]; then
@@ -43,7 +46,7 @@ commit() {
   manuallyStagedFiles=$(git diff --name-only --cached)
 
   if [ "$manuallyStagedFiles" ]; then
-    loginfo $LINENO "comitting files already staged..."
+    loginfo $LINENO "committing files already staged..."
   fi
 
   if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
@@ -68,26 +71,34 @@ commit() {
   fi
 
   command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
+  command cspell --no-color stdin 2>/dev/null <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
-    printlg "$commitMsg"
+    println "$commitMsg"
   fi
 }
 
 push() {
-  if [[ ${PUSH:-} ]]; then
-    local pushResult noUpstreamRegExp="has no upstream branch"
+  if [[ ${PUSH_REPOS:-} ]]; then
+    local noUpstreamRegExp="has no upstream branch" pushResult basePWD
+
+    basePWD="$(basename "$PWD")"
+    if [[ $PUSH_REPOS != *$basePWD* ]]; then
+      return
+    fi
+
+    loginfo $LINENO "$basePWD matches \$PUSH_REPOS"
     pushResult=$(gitDo push --quiet 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
       loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
-      gitDo push --set-upstream origin "$GIT_BRANCH"
+      echo gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 }
 
-finally() {
-  gitDo status -s
+status() {
+  gitDo status --short
 }
 
 ### script ###
@@ -95,4 +106,4 @@ finally() {
 validateDeps
 commit "$@"
 push
-finally
+status

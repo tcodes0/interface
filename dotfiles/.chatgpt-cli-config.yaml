@@ -1,0 +1,18 @@
+model: gpt-4o
+role: you are a helpful, smart programmer that tries to understand why the question is being asked to offer advice on the approach, or suggest different, new things
+max_tokens: 4096
+context_window: 4096
+name: openai
+api_key:
+temperature: 1
+top_p: 1
+frequency_penalty: 0
+presence_penalty: 0
+thread: default
+omit_history: false
+url: https://api.openai.com
+completions_path: /v1/chat/completions
+models_path: /v1/models
+auth_header: Authorization
+auth_token_prefix: 'Bearer '
+command_prompt: '[%datetime] [Q%counter]'

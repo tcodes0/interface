@@ -52,9 +52,32 @@ export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
-export GPG_TTY
-GPG_TTY=$(tty)
-# Completions, external scripts, git prompt
+#  shellcheck disable=SC2155 # not using exit code of subshell
+export GPG_TTY=$(tty)
+export XDG_RUNTIME_DIR
+export WAYLAND_DISPLAY
+
+# prompt
+src_dotfile "lib-git-prompt.sh" "$LINENO"
+src_dotfile "lib-prompt.sh" "$LINENO"
+
+export PS1
+export PROMPT_COMMAND
+PS1=$(makePS1)
+UNDERLINE="\\[\\e[4m\\]"
+PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
+
+# NVM
+unset PREFIX            # nvm hates this
+unset npm_config_prefix # nvm hates this
+export NVM_DIR="$HOME/.nvm"
+src "$NVM_DIR/nvm.sh" "$DOTFILES/.bashrc:$LINENO"
+
+if is_me && [ -d "./Desktop" ] && ! command cd ./Desktop; then
+  echo 'cd desktop failed'
+fi
+
+# Git prompt
 export GIT_PS1_SHOWDIRTYSTATE="true"
 export GIT_PS1_SHOWSTASHSTATE="true"
 export GIT_PS1_SHOWUNTRACKEDFILES="true"
@@ -106,5 +129,6 @@ fi
 # after aliases
 src_dotfile ".functions.sh" "$LINENO"
 src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
+
 # after PATH is set
 nvm use node >/dev/null

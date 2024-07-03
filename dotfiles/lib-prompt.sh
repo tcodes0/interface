@@ -30,9 +30,9 @@ makePS1() {
   getTermColumns
 
   if is_me; then
-    decorations=$AUXILIAR_COLOR"~>"$spacer$END
+    decorations=$SECOND_COLOR"~>"$spacer$END
   else
-    decorations=$AUXILIAR_COLOR"#>"$spacer$END
+    decorations=$SECOND_COLOR"#>"$spacer$END
   fi
 
   horizontalLine="\n"
@@ -40,8 +40,8 @@ makePS1() {
   hostname=""
 
   if [[ ! ${KNOWN_HOSTS[*]} =~ $(hostname) ]]; then
-    hostname="$AUXILIAR_COLOR@$(hostname)$END"
-    decorations=$AUXILIAR_COLOR"*>"$spacer$END
+    hostname="$SECOND_COLOR@$(hostname)$END"
+    decorations=$SECOND_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
@@ -53,4 +53,4 @@ makePS1() {
 
 END="\\[\\e[0m\\]"
 MAIN_COLOR="\\[$(random256Color)\\]"
-AUXILIAR_COLOR="\\[$(random256Color)\\]"
+SECOND_COLOR="\\[$(random256Color)\\]"

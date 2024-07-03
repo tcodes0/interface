@@ -28,7 +28,7 @@ esac
 
 #  if target is not dator or archlinux
 if [ -z "$target" ]; then
-  echo "Unkown volume: $1, edit script to add it"
+  echo "Unknown volume: $1, edit script to add it"
   echo "Known volumes: ${volumes[*]}"
   helpExit
 fi

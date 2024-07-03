@@ -1,0 +1,68 @@
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: "0.2"
+language: en
+allowCompoundWords: true
+maxNumberOfProblems: 7
+dictionaries:
+  - en-US
+  - bash
+  - docker
+  - filetypes
+  - fullstack
+  - golang
+  - k8s
+  - lorem-ipsum
+  - softwareTerms
+  - computing-acronyms
+ignorePaths:
+  - priv/database.bcup
+  - bin/cloud-sql-proxy
+  - priv/secureBootKeysZ390M
+  - bin/baristai
+  - bin/dir-rename
+  - bin/filer
+  - bin/rename
+  - bin/typo
+  - dotfiles/lib-git-prompt.sh
+  - dotfiles/Brewfile
+  - etc
+  - LICENSE
+words:
+  - argn
+  - baristai
+  - bcup
+  - btrfs
+  - cfprefsd
+  - commitlintrc
+  - coreutils
+  - cpio
+  - dator
+  - devmode
+  - euox
+  - findutils
+  - glslang
+  - initdb
+  - iterm
+  - kaue
+  - kazuo
+  - lemos
+  - libavif
+  - libheif
+  - libmp
+  - lzma
+  - mackup
+  - mkpath
+  - nauck
+  - ncdu
+  - noconfirm
+  - pgsql
+  - prefs
+  - psql
+  - teramoto
+  - thomazella
+  - uncompress
+  - unlzma
+  - unrar
+  - unxz
+  - vacuumdb
+  - filerrc

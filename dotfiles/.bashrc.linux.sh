@@ -21,11 +21,11 @@ $HOME/.local/bin:\
 
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-export XDG_RUNTIME_DIR
-export WAYLAND_DISPLAY
+# see lazy-git
+export PUSH_REPOS="member-client interface priv hub-client"
 
 # Completions, external scripts, git prompt
-for file in $NVM_DIR/bash_completion; do
+for file in "$HOME"/.bash_completion.d/*; do
   src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
 
