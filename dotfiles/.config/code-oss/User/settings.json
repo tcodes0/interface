@@ -88,6 +88,9 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[sql]": {
+    "editor.formatOnPaste": false
+  },
   "sql-formatter.uppercase": true,
   //
   // - - - - - - - - GIT - - - - - - - - -
