@@ -2,9 +2,7 @@
 # shellcheck disable=SC2034 disable=SC1090
 
 # Completions, external scripts, git prompt
-for file in /opt/homebrew/opt/nvm/etc/bash_completion.d/nvm /usr/local/etc/bash_completion.d/*; do
-  src "$file" "$DOTFILES/.bashrc.mac.sh:$LINENO"
-done
+src "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" "$DOTFILES/.bashrc.mac.sh:$LINENO"
 
 # Environment
 

@@ -125,3 +125,9 @@ src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 
 # after PATH is set
 nvm use node >/dev/null
+
+# tmux
+if [ ! "$TMUX" ] && is_me; then
+  tmux attach || tmux new-session
+  tmux source-file "$HOME/.tmux.conf"
+fi

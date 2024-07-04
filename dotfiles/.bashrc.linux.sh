@@ -44,9 +44,3 @@ if is_me && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
   systemctl --user start xset-rate.service
   systemctl --user start firefox-sync.service
 fi
-
-# tmux
-if [ ! "$TMUX" ] && is_me; then
-  tmux attach || tmux new-session
-  tmux source-file "$HOME/.tmux.conf"
-fi
