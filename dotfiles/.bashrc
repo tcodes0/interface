@@ -29,14 +29,7 @@ is_me() {
   [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
 }
 
-if [ ! "$(pgrep ssh-agent)" ]; then
-  eval "$(ssh-agent)" >/dev/null
-elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
-  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
-fi
-
 export DOTFILES="$HOME/Desktop/interface/dotfiles"
-export SSH_AUTH_SOCK
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export BASH_ENV="$HOME/.bash_env"
 export CMD_COLOR=true

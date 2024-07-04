@@ -19,6 +19,13 @@ $HOME/google-cloud-sdk/bin:\
 $HOME/.local/bin:\
 /opt/android-sdk/platform-tools"
 
+if [ ! "$(pgrep ssh-agent)" ]; then
+  eval "$(ssh-agent)" >/dev/null
+elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
+  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
+fi
+
+export SSH_AUTH_SOCK
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
 # see lazy-git

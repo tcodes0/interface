@@ -8,8 +8,14 @@ done
 
 # Environment
 
-export GOPATH=$HOME/.go
-export GOBIN=$HOME/.go/bin
+if [ ! "$(pgrep ssh-agent)" ]; then
+  eval "$(ssh-agent)" >/dev/null
+elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
+  SSH_AUTH_SOCK=$(find /var/folders -type s -name 'agent.*' 2>/dev/null)
+fi
+
+export GOPATH=$HOME/go
+export GOBIN=$HOME/go/bin
 
 export PATH="\
 $HOME/bin:\
