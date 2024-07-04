@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 drive-list() {
   if [[ "$#" == 0 ]]; then

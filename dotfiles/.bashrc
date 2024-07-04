@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # $HOME is different if root, but root's $HOME/Desktop/interface
 # symlinks to me's $HOME/Desktop/interface, covering our bases
 

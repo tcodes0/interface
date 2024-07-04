@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # uninteractive bash env
 # BASH_ENV must be set to this script in bash config files
 
