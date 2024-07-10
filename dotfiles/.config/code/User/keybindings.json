@@ -39,11 +39,6 @@
     "command": "-workbench.action.switchWindow"
   },
   {
-    "key": "ctrl+f",
-    "command": "macros.findAndReplace",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+ctrl+f",
     "command": "-editor.action.startFindReplaceAction"
   },
@@ -205,11 +200,6 @@
   {
     "key": "ctrl+k ctrl+c",
     "command": "-editor.action.addCommentLine",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+k ctrl+c",
-    "command": "macros.commentDown",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -688,10 +678,6 @@
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
   },
   {
-    "key": "shift+cmd+d",
-    "command": "macros.duplicateLinesFromStart"
-  },
-  {
     "key": "shift+cmd+e",
     "command": "-workbench.view.explorer",
     "when": "viewContainer.workbench.view.explorer.enabled"
@@ -699,5 +685,10 @@
   {
     "key": "shift+cmd+e",
     "command": "workbench.files.action.focusFilesExplorer"
-  }
+  },
+  {
+    "key": "shift+cmd+d",
+    "command": "editor.action.duplicateSelection",
+    "when": "editorTextFocus && !editorReadonly"
+  },
 ]

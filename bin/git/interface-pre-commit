@@ -7,6 +7,6 @@ set -euo pipefail
 # script
 
 # shellcheck source=./lib.sh
-source "./bin/git/lib.sh"
+source "$HOME/bin/git/lib.sh"
 
 spellcheck

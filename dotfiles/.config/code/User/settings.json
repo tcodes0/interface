@@ -128,7 +128,6 @@
     "ui.semanticTokens": true
   },
   "go.toolsManagement.autoUpdate": true,
-  "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
