@@ -285,3 +285,5 @@ alias gw="gopass"
 alias gwi="gopass insert"
 alias gwc="gopass -c"
 alias qai=chatgpt
+alias apg="apg -M SNCL"
+alias pwgen="apg"
