@@ -687,5 +687,35 @@
     "key": "cmd+k cmd+9",
     "command": "-editor.unfoldAllMarkerRegions",
     "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFile",
+    "when": "false"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFileFolder",
+    "when": "isMacNative && openFolderWorkspaceSupport"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFolderViaWorkspace",
+    "when": "!openFolderWorkspaceSupport && workbenchState == 'workspace'"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openLocalFileFolder",
+    "when": "remoteFileDialogVisible"
+  },
+  {
+    "key": "cmd+o",
+    "command": "workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "shift+cmd+o",
+    "command": "-workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
   }
 ]

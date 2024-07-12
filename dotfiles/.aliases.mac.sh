@@ -3,6 +3,7 @@
 # work
 
 alias ele-db-select="go run \$HOME/Desktop/scripts/db-select/main.go"
+alias ehtoken="gcloud auth print-access-token | pbcopy"
 
 # brew
 

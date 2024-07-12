@@ -33,7 +33,6 @@ alias yc="yarn test && yarn typeCheck && yarn lint:fix"
 alias gorun="godotenv -f .env go run -race"
 alias gotestall="godotenv -f .env go test ./... -race -json 2>&1 | gotestfmt"
 alias gotests="gotests -exported -parallel -template testify -w"
-alias ehtoken="gcloud auth print-access-token"
 
 # mistakes typos
 

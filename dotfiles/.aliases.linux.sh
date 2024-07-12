@@ -37,6 +37,7 @@ alias pacBigPackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed S
 # work
 
 alias chromevpn='google-chrome-stable --proxy-server="socks5://localhost:31337"'
+alias ehtoken="gcloud auth print-access-token | wl-copy"
 
 # others
 
