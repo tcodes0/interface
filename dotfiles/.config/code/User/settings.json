@@ -87,9 +87,7 @@
   "git.openRepositoryInParentFolders": "always",
   "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
-  "shellcheck.customArgs": [
-    "-x"
-  ],
+  "shellcheck.customArgs": ["-x"],
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.preferences.importModuleSpecifier": "non-relative",
@@ -116,13 +114,9 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.testFlags": [
-    "-race"
-  ],
+  "go.testFlags": ["-race"],
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": [
-    "--print-issued-lines=false"
-  ],
+  "go.lintFlags": ["--print-issued-lines=false"],
   "go.vetOnSave": "off",
   "go.formatTool": "gofumpt",
   "gopls": {

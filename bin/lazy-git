@@ -33,7 +33,7 @@ validateDeps() {
   fi
 
   if ! command -v cspell >/dev/null; then
-    fatal "$LINENO" "commitlint not found; try 'npm install -g cspell@latest'"
+    fatal "$LINENO" "cspell not found; try 'npm install -g cspell@latest'"
   fi
 
   if [ ! -f ~/.commitlintrc.yml ]; then
