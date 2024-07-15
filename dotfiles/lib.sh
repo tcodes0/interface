@@ -53,8 +53,6 @@ loginfo() {
   local linenum=${1:?} msg=${*:2}
 
   if [ "$msg" ]; then
-    echo -ne "INFO ($0:$linenum) ${*:2}\\n" >&2
-  else
-    echo
+    echo -ne "INFO ($0:$linenum) $msg\\n" >&2
   fi
 }

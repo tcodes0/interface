@@ -49,6 +49,8 @@ export PAGER="less"
 export GPG_TTY=$(tty)
 export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
+# see lazy-git
+export PUSH_REPOS="member-client interface priv hub-client server member-server"
 
 # prompt
 src_dotfile "lib-git-prompt.sh" "$LINENO"

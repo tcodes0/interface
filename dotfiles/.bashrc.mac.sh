@@ -14,7 +14,6 @@ fi
 
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-export PUSH_REPOS="member-client interface priv hub-client"
 
 export PATH="\
 $HOME/bin:\

@@ -28,8 +28,6 @@ fi
 export SSH_AUTH_SOCK
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-# see lazy-git
-export PUSH_REPOS="member-client interface priv hub-client"
 
 # Completions, external scripts, git prompt
 for file in "$HOME"/.bash_completion.d/*; do

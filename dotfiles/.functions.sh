@@ -1,5 +1,13 @@
 #! /usr/bin/env bash
 
+loginfo() {
+  local linenum=${1:?} msg=${*:2}
+
+  if [ "$msg" ]; then
+    echo -ne "INFO (.functions.sh:$linenum) $msg\\n" >&2
+  fi
+}
+
 #- - - - - - - - - - -
 
 cl() {
