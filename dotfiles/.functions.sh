@@ -171,16 +171,16 @@ gcom() {
   checkout=$(git checkout $branch 2>&1)
 
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
-    loginfo $LINENO "gcom > Branch behind remote counterpart, pulling..."
+    loginfo $LINENO "branch behind remote counterpart, pulling..."
 
     if ! git diff --quiet; then
-      loginfo $LINENO "gcom > You have unstaged changes"
+      loginfo $LINENO "you have unstaged changes"
       return
     fi
 
     git pull
   elif [[ "$checkout" =~ 'did not match any file' ]]; then
-    loginfo $LINENO "gcom > Branch $branch does not exist, checkout manually"
+    loginfo $LINENO "branch $branch does not exist, checkout manually"
   fi
 }
 

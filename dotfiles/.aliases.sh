@@ -283,5 +283,6 @@ alias gw="gopass"
 alias gwi="gopass insert"
 alias gwc="gopass -c"
 alias qai=chatgpt
+# on mac: go install github.com/wneessen/apg-go/cmd/apg@latest
 alias apg="apg -M SNCL"
 alias pwgen="apg"
