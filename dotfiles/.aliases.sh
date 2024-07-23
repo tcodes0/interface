@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 # dot stuff
 
@@ -23,9 +23,8 @@ alias qhub="psql -U postgres -d hub -c"
 alias qhubtest="psql -U postgres -d hub_test -c"
 alias qmember="psql -U postgres -d member -c"
 alias qmembertest="psql -U postgres -d member_test -c"
-alias sqlqa="echo renamed to qahub and qamember"
-alias qahub="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
-alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d member -h /home/vacation/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias qahub="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d hub -h \$HOME/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
+alias qamember="PGPASSWORD=\$(gcloud auth print-access-token) psql -U thom.ribeiro@eleanorhealth.com -d member -h \$HOME/.eleanor_sql_sockets/ele-qa-436057:us-east1:eleanor-postgres"
 alias deploy="make release ENV=prod"
 alias d="deploy"
 alias ehvpn="gcloud alpha cloud-shell ssh --project=ele-qa-436057 --authorize-session -- -D 31337 -CNq; echo configure firefox to use SOCKS proxy v5 on port 31337"
@@ -33,7 +32,6 @@ alias yc="yarn test && yarn typeCheck && yarn lint:fix"
 alias gorun="godotenv -f .env go run -race"
 alias gotestall="godotenv -f .env go test ./... -race -json 2>&1 | gotestfmt"
 alias gotests="gotests -exported -parallel -template testify -w"
-alias ehtoken="gcloud auth print-access-token"
 
 # mistakes typos
 
@@ -285,3 +283,6 @@ alias gw="gopass"
 alias gwi="gopass insert"
 alias gwc="gopass -c"
 alias qai=chatgpt
+# on mac: go install github.com/wneessen/apg-go/cmd/apg@latest
+alias apg="apg -M SNCL"
+alias pwgen="apg"

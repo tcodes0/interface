@@ -87,14 +87,13 @@
   "git.openRepositoryInParentFolders": "always",
   "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
-  "shellcheck.customArgs": [
-    "-x"
-  ],
+  "shellcheck.customArgs": ["-x"],
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -115,20 +114,15 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.testFlags": [
-    "-race"
-  ],
+  "go.testFlags": ["-race"],
   "go.lintTool": "golangci-lint",
-  "go.lintFlags": [
-    "--print-issued-lines=false"
-  ],
+  "go.lintFlags": ["--print-issued-lines=false"],
   "go.vetOnSave": "off",
   "go.formatTool": "gofumpt",
   "gopls": {
     "ui.semanticTokens": true
   },
   "go.toolsManagement.autoUpdate": true,
-  "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",

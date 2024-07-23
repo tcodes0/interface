@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # $HOME is different if root, but root's $HOME/Desktop/interface
 # symlinks to me's $HOME/Desktop/interface, covering our bases
 
@@ -29,14 +29,7 @@ is_me() {
   [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
 }
 
-if [ ! "$(pgrep ssh-agent)" ]; then
-  eval "$(ssh-agent)" >/dev/null
-elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
-  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
-fi
-
 export DOTFILES="$HOME/Desktop/interface/dotfiles"
-export SSH_AUTH_SOCK
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export BASH_ENV="$HOME/.bash_env"
 export CMD_COLOR=true
@@ -56,6 +49,8 @@ export PAGER="less"
 export GPG_TTY=$(tty)
 export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
+# see lazy-git
+export PUSH_REPOS="member-client interface priv hub-client server member-server"
 
 # prompt
 src_dotfile "lib-git-prompt.sh" "$LINENO"
@@ -132,3 +127,9 @@ src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 
 # after PATH is set
 nvm use node >/dev/null
+
+# tmux
+if [ ! "$TMUX" ] && is_me; then
+  tmux attach || tmux new-session
+  tmux source-file "$HOME/.tmux.conf"
+fi

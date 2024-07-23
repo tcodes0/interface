@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 # a mac version exists
 
@@ -37,6 +37,7 @@ alias pacBigPackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed S
 # work
 
 alias chromevpn='google-chrome-stable --proxy-server="socks5://localhost:31337"'
+alias ehtoken="gcloud auth print-access-token | wl-copy"
 
 # others
 
@@ -45,8 +46,6 @@ alias ssh='ssh-ident'
 alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
-alias apg="apg -M SNCL"
-alias pwgen="apg"
 alias sys='systemctl'
 alias sysa='systemctl status'
 alias sysr='systemctl restart'

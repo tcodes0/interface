@@ -1,4 +1,12 @@
-#! /bin/bash
+#! /usr/bin/env bash
+
+loginfo() {
+  local linenum=${1:?} msg=${*:2}
+
+  if [ "$msg" ]; then
+    echo -ne "INFO (.functions.sh:$linenum) $msg\\n" >&2
+  fi
+}
 
 #- - - - - - - - - - -
 
@@ -137,7 +145,7 @@ gss() {
   if command git status -s 2>/dev/null 1>&2; then
     command git status -s
   else
-    echo "warning: not a git repo"
+    loginfo $LINENO "warning: not a git repo"
     ls
   fi
 }
@@ -163,16 +171,16 @@ gcom() {
   checkout=$(git checkout $branch 2>&1)
 
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
-    echo "gcom > Branch behind remote counterpart, pulling..."
+    loginfo $LINENO "branch behind remote counterpart, pulling..."
 
     if ! git diff --quiet; then
-      echo "gcom > You have unstaged changes"
+      loginfo $LINENO "you have unstaged changes"
       return
     fi
 
     git pull
   elif [[ "$checkout" =~ 'did not match any file' ]]; then
-    echo "gcom > Branch $branch does not exist, checkout manually"
+    loginfo $LINENO "branch $branch does not exist, checkout manually"
   fi
 }
 

@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # run rawgithub https://github.com/mathiasbynens/dotfiles/raw/master/.macos to update
 
 sudo true

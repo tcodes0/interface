@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 # Copyright 2024 Raphael Thomazella. All rights reserved.
 # Use of this source code is governed by the BSD-3-Clause
 # license that can be found in the LICENSE file and online
@@ -53,8 +53,6 @@ loginfo() {
   local linenum=${1:?} msg=${*:2}
 
   if [ "$msg" ]; then
-    echo -ne "INFO ($0:$linenum) ${*:2}\\n" >&2
-  else
-    echo
+    echo -ne "INFO ($0:$linenum) $msg\\n" >&2
   fi
 }

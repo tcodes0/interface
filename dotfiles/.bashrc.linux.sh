@@ -1,4 +1,4 @@
-#! /bin/bash
+#! /usr/bin/env bash
 
 # /bin symlinked to /usr/bin
 # /sbin symlinked to /usr/sbin
@@ -19,10 +19,15 @@ $HOME/google-cloud-sdk/bin:\
 $HOME/.local/bin:\
 /opt/android-sdk/platform-tools"
 
+if [ ! "$(pgrep ssh-agent)" ]; then
+  eval "$(ssh-agent)" >/dev/null
+elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
+  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
+fi
+
+export SSH_AUTH_SOCK
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
-# see lazy-git
-export PUSH_REPOS="member-client interface priv hub-client"
 
 # Completions, external scripts, git prompt
 for file in "$HOME"/.bash_completion.d/*; do
@@ -36,10 +41,4 @@ if is_me && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
   systemctl --user start xkbcomp.service
   systemctl --user start xset-rate.service
   systemctl --user start firefox-sync.service
-fi
-
-# tmux
-if [ ! "$TMUX" ] && is_me; then
-  tmux attach || tmux new-session
-  tmux source-file "$HOME/.tmux.conf"
 fi

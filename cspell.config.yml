@@ -28,6 +28,8 @@ ignorePaths:
   - etc
   - LICENSE
 words:
+  - aliasg
+  - alnum
   - argn
   - baristai
   - bcup
@@ -39,8 +41,13 @@ words:
   - dator
   - devmode
   - euox
+  - filerrc
   - findutils
+  - gcmsg
   - glslang
+  - grbonto
+  - grepl
+  - grepr
   - initdb
   - iterm
   - kaue
@@ -52,12 +59,14 @@ words:
   - lzma
   - mackup
   - mkpath
+  - msgln
   - nauck
   - ncdu
   - noconfirm
   - pgsql
   - prefs
   - psql
+  - tcodes0
   - teramoto
   - thomazella
   - uncompress
@@ -65,4 +74,4 @@ words:
   - unrar
   - unxz
   - vacuumdb
-  - filerrc
+  - wneessen

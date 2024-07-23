@@ -39,11 +39,6 @@
     "command": "-workbench.action.switchWindow"
   },
   {
-    "key": "ctrl+f",
-    "command": "macros.findAndReplace",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "alt+ctrl+f",
     "command": "-editor.action.startFindReplaceAction"
   },
@@ -205,11 +200,6 @@
   {
     "key": "ctrl+k ctrl+c",
     "command": "-editor.action.addCommentLine",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+k ctrl+c",
-    "command": "macros.commentDown",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -521,11 +511,6 @@
     "when": "editorTextFocus"
   },
   {
-    "key": "ctrl+g",
-    "command": "editor.action.nextMatchFindAction",
-    "when": "editorFocus"
-  },
-  {
     "key": "f3",
     "command": "-editor.action.nextMatchFindAction",
     "when": "editorFocus"
@@ -541,12 +526,9 @@
     "when": "editorFocus"
   },
   {
-    "key": "meta+g",
-    "command": "workbench.action.gotoLine"
-  },
-  {
     "key": "ctrl+g",
-    "command": "-workbench.action.gotoLine"
+    "command": "workbench.action.gotoLine",
+    "when": "editorFocus && !findWidgetVisible"
   },
   {
     "key": "ctrl+-",
@@ -622,7 +604,7 @@
     "when": "editorTextFocus && foldingEnabled"
   },
   {
-    "key": "ctrl+k ctrl+9",
+    "key": "cmd+k cmd+9",
     "command": "editor.unfoldAll"
   },
   {
@@ -688,10 +670,6 @@
     "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
   },
   {
-    "key": "shift+cmd+d",
-    "command": "macros.duplicateLinesFromStart"
-  },
-  {
     "key": "shift+cmd+e",
     "command": "-workbench.view.explorer",
     "when": "viewContainer.workbench.view.explorer.enabled"
@@ -699,5 +677,45 @@
   {
     "key": "shift+cmd+e",
     "command": "workbench.files.action.focusFilesExplorer"
+  },
+  {
+    "key": "shift+cmd+d",
+    "command": "editor.action.duplicateSelection",
+    "when": "editorTextFocus && !editorReadonly"
+  },
+  {
+    "key": "cmd+k cmd+9",
+    "command": "-editor.unfoldAllMarkerRegions",
+    "when": "editorTextFocus && foldingEnabled"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFile",
+    "when": "false"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFileFolder",
+    "when": "isMacNative && openFolderWorkspaceSupport"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openFolderViaWorkspace",
+    "when": "!openFolderWorkspaceSupport && workbenchState == 'workspace'"
+  },
+  {
+    "key": "cmd+o",
+    "command": "-workbench.action.files.openLocalFileFolder",
+    "when": "remoteFileDialogVisible"
+  },
+  {
+    "key": "cmd+o",
+    "command": "workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "shift+cmd+o",
+    "command": "-workbench.action.gotoSymbol",
+    "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
   }
 ]
