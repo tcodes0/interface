@@ -4,9 +4,11 @@
 # license that can be found in the LICENSE file and online
 # at https://opensource.org/license/BSD-3-clause.
 
-set -e
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
 
-if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
   echo "usage: snapshot.sh [-n|--dry-run]"
   echo "this is an interactive script, use -n or --dry-run to experiment"
   echo "run without dry-run flags to make snapshots"
@@ -18,7 +20,7 @@ fi
 
 dryrun=""
 
-if [ "$1" = "-n" ] || [ "$1" = "--dry-run" ]; then
+if [ "${1:-}" = "-n" ] || [ "${1:-}" = "--dry-run" ]; then
   dryrun="true"
 fi
 
@@ -47,7 +49,7 @@ source="$response"
 source_no_trailing="${response%%-*}"
 
 echo
-echo "read-write? (Y/n) Default read-only:"
+echo "read-write? (y/N) Default read-only:"
 
 read -r response
 

@@ -23,19 +23,17 @@ logout() {
   fi
 }
 
-snapshot() {
+do_snapshot() {
   local response
 
   println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    sudo snapshot.sh
+    sudo snapshot
   fi
 }
 
 stop_services() {
-  loginfo $LINENO "$*"
-
   for service in "$@"; do
     sudo systemctl stop "$service".service
     loginfo $LINENO "stopped $service"
@@ -44,17 +42,17 @@ stop_services() {
 
 extract_version() {
   if [ -z "$*" ]; then
-    echo "empty version"
+    err $LINENO "empty version"
     return 1
   fi
 
   echo -n "$*" | grep -o -E '[0-9]+\.'
 }
 
-migrate_pg() {
+migrate_postgres() {
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
-  loginfo
+  printf \\n
   loginfo $LINENO "manually migrating pg db across major versions..."
   loginfo $LINENO "sudo required"
   sudo true
@@ -73,7 +71,7 @@ migrate_pg() {
 }
 
 postgres_up() {
-  local pg_major_update current_pg_major new_pg_major bc_result
+  local current_pg_major new_pg_major
 
   current_pg_major=$(extract_version psql --version)
   # delete all lines but the 3rd line
@@ -81,19 +79,14 @@ postgres_up() {
   new_pg_major=$(extract_version "$new_pg_major")
 
   # .0 is necessary because regex is capturing the dot
-  bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
-
-  if [ "$bc_result" -ge 1 ]; then
-    pg_major_update="yes"
-  fi
-
+  major_sub=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
   yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
 
-  if [ "$pg_major_update" ]; then
-    migrate_pg
+  if [ "$major_sub" -ge 1 ]; then
+    migrate_postgres
+  else
+    loginfo $LINENO "nothing to migrate"
   fi
-
-  echo "$pg_major_update"
 }
 
 system_up() {
@@ -185,11 +178,14 @@ reboot() {
 ### script ###
 
 logout
-snapshot
+do_snapshot
 stop_services sddm postgresql
 
 pg_update=$(postgres_up)
 old_node=$(node -v)
+
+# shellcheck source=/dev/null
+source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
