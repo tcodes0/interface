@@ -38,6 +38,7 @@ words:
   - commitlintrc
   - coreutils
   - cpio
+  - csum
   - dator
   - devmode
   - euox
@@ -48,6 +49,7 @@ words:
   - grbonto
   - grepl
   - grepr
+  - guake
   - initdb
   - iterm
   - kaue
@@ -63,6 +65,7 @@ words:
   - nauck
   - ncdu
   - noconfirm
+  - pacu
   - pgsql
   - prefs
   - psql

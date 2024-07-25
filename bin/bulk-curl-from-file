@@ -5,7 +5,7 @@
 # at https://opensource.org/license/BSD-3-clause.
 
 usage() {
-  echo "\
+  println "\
   Usage
     bulk-curl-from-file.sh <file-path>
       read lines from file and pass them as args to command

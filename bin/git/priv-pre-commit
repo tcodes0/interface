@@ -1,12 +1,1 @@
-#!/usr/bin/env bash
-#
-# git commit hook
-
-set -euo pipefail
-
-# script
-
-# shellcheck source=./lib.sh
-source "$HOME/bin/git/lib.sh"
-
-spellcheck
+interface-pre-commit

@@ -168,8 +168,8 @@ alias gsd='git svn dcommit'
 alias gsi='git submodule init'
 alias gsps='git show --pretty=short --show-signature'
 alias gsr='git svn rebase'
-alias gsss='gss'
 alias gs='gss'
+alias gsss='gss'
 alias gssss='gss'
 alias gsssss='gss'
 alias gssssss='gss'
@@ -240,7 +240,6 @@ alias shellcheck="shellcheck --color=auto -s bash"
 alias cat='bat --theme Monokai\ Extended\ Origin'
 alias gppr='gpsup && git pull-request -b main --browse --assign thomazella'
 alias gpprd='gpsup && git pull-request -b develop --browse --assign thomazella'
-alias cleoskylin="cleos -u http://kylin.fn.eosbixin.com"
 alias t="cat"
 alias l="less"
 alias wget='wget -c'

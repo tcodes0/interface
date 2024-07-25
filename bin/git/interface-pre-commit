@@ -3,10 +3,17 @@
 # git commit hook
 
 set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+### vars and functions ###
 
-# script
+spellcheck() {
+  if ! output=$(cspell --unique . 2>&1); then
+    tail -3 <<<"$output"
+    return 1
+  fi
+}
 
-# shellcheck source=./lib.sh
-source "$HOME/bin/git/lib.sh"
+### script ###
 
 spellcheck

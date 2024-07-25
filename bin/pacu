@@ -5,13 +5,15 @@
 # at https://opensource.org/license/BSD-3-clause.
 #
 # pacman system update helper
-# note: undefined functions are provided via BASH_ENV
+# note: undefined functions are in lib.sh (sourced via BASH_ENV)
 
 set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
 ### vars and functions ###
+
+check_log=""
 
 logout() {
   local response
@@ -23,19 +25,17 @@ logout() {
   fi
 }
 
-snapshot() {
+do_snapshot() {
   local response
 
   println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    sudo snapshot.sh
+    sudo snapshot
   fi
 }
 
 stop_services() {
-  loginfo $LINENO "$*"
-
   for service in "$@"; do
     sudo systemctl stop "$service".service
     loginfo $LINENO "stopped $service"
@@ -44,17 +44,17 @@ stop_services() {
 
 extract_version() {
   if [ -z "$*" ]; then
-    echo "empty version"
+    err $LINENO "empty version"
     return 1
   fi
 
   echo -n "$*" | grep -o -E '[0-9]+\.'
 }
 
-migrate_pg() {
+migrate_postgres() {
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
-  loginfo
+  println
   loginfo $LINENO "manually migrating pg db across major versions..."
   loginfo $LINENO "sudo required"
   sudo true
@@ -70,10 +70,11 @@ migrate_pg() {
   cd /var/lib/postgres/tmp
   sudo -u postgres initdb "${initdb_args[@]}"
   sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
+  cd -
 }
 
 postgres_up() {
-  local pg_major_update current_pg_major new_pg_major bc_result
+  local current_pg_major new_pg_major major_sub
 
   current_pg_major=$(extract_version psql --version)
   # delete all lines but the 3rd line
@@ -81,19 +82,14 @@ postgres_up() {
   new_pg_major=$(extract_version "$new_pg_major")
 
   # .0 is necessary because regex is capturing the dot
-  bc_result=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
-
-  if [ "$bc_result" -ge 1 ]; then
-    pg_major_update="yes"
-  fi
-
+  major_sub=$(echo "${new_pg_major}.0 - ${current_pg_major}.0" | bc)
   yay --sync postgresql postgresql-old-upgrade --needed --noconfirm
 
-  if [ "$pg_major_update" ]; then
-    migrate_pg
+  if [ "$major_sub" -ge 1 ]; then
+    migrate_postgres
+  else
+    loginfo $LINENO "no major version change detected in Postgresql"
   fi
-
-  echo "$pg_major_update"
 }
 
 system_up() {
@@ -169,6 +165,35 @@ cleanup_restart_services() {
   fi
 }
 
+btrfs_check() {
+  local disk="/dev/disk/by-label/$1"
+  check_log=$(mktemp btrfs-check-XXXXXX.log)
+
+  println "checking btrfs fs on $disk"
+  println "sudo required..."
+
+  sudo true
+  sudo umount "$disk"
+  btrfs check --check-data-csum "$disk" >"$check_log" &
+
+  printf %s "$!"
+}
+
+btrfs_check_wait() {
+  local pid="$1"
+
+  printf "\e[s" # save cursor position
+
+  while ps -p "$pid" >/dev/null; do
+    printf "\e[u" # restore cursor position
+    command cat "$check_log"
+    sleep 3
+  done
+
+  println "btrfs check done"
+  println "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
+}
+
 reboot() {
   local response
 
@@ -185,13 +210,19 @@ reboot() {
 ### script ###
 
 logout
-snapshot
+do_snapshot
 stop_services sddm postgresql
 
+pid=$(btrfs_check Dator)
 pg_update=$(postgres_up)
 old_node=$(node -v)
+
+# shellcheck source=/dev/null
+source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
 cleanup_restart_services "$pg_update" postgresql
+btrfs_check_wait "$pid"
+
 reboot

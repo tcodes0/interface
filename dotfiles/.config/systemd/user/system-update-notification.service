@@ -1,0 +1,8 @@
+[Unit]
+Description=Reminder to update the system
+
+[Service]
+Type=simple
+ExecStart=notify-send --urgency=normal --expire-time=30000 --app-name="pacman" "scheduled system update" "run pacu to update the system"
+Restart=on-failure
+RestartSec=10s

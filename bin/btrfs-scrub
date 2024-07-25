@@ -11,8 +11,8 @@ cancel=""
 volumes=("Archlinux" "Dator")
 
 function helpExit() {
-  echo "Usage: $0 [cancel] <volume>"
-  echo "Known volumes: ${volumes[*]}"
+  println "Usage: $0 [cancel] <volume>"
+  println "Known volumes: ${volumes[*]}"
   exit 1
 }
 
@@ -28,18 +28,18 @@ esac
 
 #  if target is not dator or archlinux
 if [ -z "$target" ]; then
-  echo "Unknown volume: $1, edit script to add it"
-  echo "Known volumes: ${volumes[*]}"
+  println "Unknown volume: $1, edit script to add it"
+  println "Known volumes: ${volumes[*]}"
   helpExit
 fi
 
 #  grep mounts to check if target is mounted
 if ! grep -qs "$target" /proc/mounts; then
-  echo "$target is not mounted"
+  println "$target is not mounted"
   helpExit
 fi
 
-echo "Scrub requires sudo"
+println "Scrub requires sudo"
 sudo true
 
 # if cancel is true, cancel scrub

@@ -5,7 +5,7 @@
 # at https://opensource.org/license/BSD-3-clause.
 #
 # a helper to a few git chores like adding and composing standard commit messages
-# note: undefined functions are provided via BASH_ENV
+# note: undefined functions are in lib.sh (sourced via BASH_ENV)
 #
 # GLOBALS:
 #   PUSH_REPOS string: a list of repos to automatically push after a commit
@@ -91,8 +91,8 @@ push() {
     pushResult=$(gitDo push --quiet 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
-      echo gitDo push --set-upstream origin "$GIT_BRANCH"
+      println setting upstream to origin/"$GIT_BRANCH"
+      gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 }

@@ -1,42 +1,83 @@
 #! /usr/bin/env bash
-# 2024 comment: I take no credit here, can't find original
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# original author unknown
+# note: undefined functions are in lib.sh (sourced via BASH_ENV)
+#
 
-SAVEIFS=$IFS
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+help() {
+  if [ ! "$1" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+    println "Usage:
+          supports dozens of popular archive extensions
+
+          extract <path/file_name.ext>
+          extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+    exit
+  fi
+}
+
+_rar() {
+  if command -v unrar-free >/dev/null; then
+    unrar-free x -ad ../"$1"
+  else
+    unrar x -ad ../"$1"
+  fi
+}
+
+extract() {
+  for file in "$@"; do
+    if [ ! -f "$file" ]; then
+      loginfo $LINENO "'$file' not found"
+      continue
+    fi
+
+    local dir="${file/.*/}"
+    mkdir -p "$dir"
+    cd "$dir"
+
+    case "${file%,}" in
+    *.tar.bz2 | *.tar.gz | *.tar.xz | *.tbz2 | *.tgz | *.txz | *.tar)
+      tar xvf "../$file"
+      ;;
+    *.lzma) unlzma ../"$file" ;;
+    *.bz2) bunzip2 ../"$file" ;;
+    *.rar) _rar "$file" ;;
+    *.gz) gunzip ../"$file" ;;
+    *.zip) unzip ../"$file" ;;
+    *.z) uncompress ../"$file" ;;
+    *.7z | *.arj | *.cab | *.chm | *.deb | *.dmg | *.iso | *.lzh | *.msi | *.rpm | *.udf | *.wim | *.xar)
+      7z x ../"$file"
+      ;;
+    *.xz) unxz ../"$file" ;;
+    *.exe) cabextract ../"$file" ;;
+    *.cpio) cpio -id <../"$file" ;;
+    *)
+      cd ..
+      fatal $LINENO "'$file' unknown archive method"
+      ;;
+    esac
+
+    printf "extracted to %s\n" "$dir"
+  done
+
+  cd ..
+}
+
+### script ###
+
+SAVED_IFS=$IFS
 IFS=$(echo -en "\n\b")
 
-if [ -z "$1" ]; then
-  # display usage if no parameters given
-  echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>
-          extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
-else
-  for n in "$@"; do
-    if [ -f "$n" ]; then
-      case "${n%,}" in
-      *.tar.bz2 | *.tar.gz | *.tar.xz | *.tbz2 | *.tgz | *.txz | *.tar)
-        tar xvf "$n"
-        ;;
-      *.lzma) unlzma ./"$n" ;;
-      *.bz2) bunzip2 ./"$n" ;;
-      *.rar) unrar-free x -ad ./"$n" ;; # normally just unrar
-      *.gz) gunzip ./"$n" ;;
-      *.zip) unzip ./"$n" ;;
-      *.z) uncompress ./"$n" ;;
-      *.7z | *.arj | *.cab | *.chm | *.deb | *.dmg | *.iso | *.lzh | *.msi | *.rpm | *.udf | *.wim | *.xar)
-        7z x ./"$n"
-        ;;
-      *.xz) unxz ./"$n" ;;
-      *.exe) cabextract ./"$n" ;;
-      *.cpio) cpio -id <./"$n" ;;
-      *)
-        echo "extract: '$n' - unknown archive method"
-        exit 1
-        ;;
-      esac
-    else
-      echo "'$n' - file does not exist"
-      exit 1
-    fi
-  done
-fi
+help "$1"
+extract "$@"
 
-IFS=$SAVEIFS
+IFS=$SAVED_IFS
