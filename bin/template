@@ -5,7 +5,7 @@
 # at https://opensource.org/license/BSD-3-clause.
 #
 # the template is a starting point for new scripts
-# note: undefined functions are provided via BASH_ENV
+# note: undefined functions are in lib.sh (sourced via BASH_ENV)
 
 set -euo pipefail
 shopt -s globstar
