@@ -13,6 +13,8 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+check_log=""
+
 logout() {
   local response
 
@@ -162,6 +164,32 @@ cleanup_restart_services() {
   fi
 }
 
+btrfs_check() {
+  local disk="/dev/disk/by-label/$1"
+  check_log=$(mktemp btrfs-check-XXXXXX.log)
+
+  println "checking btrfs fs on $disk, sudo is required..."
+  sudo umount "$disk"
+  btrfs check --check-data-csum "$disk" >"$check_log" &
+
+  printf %s "$!"
+}
+
+btrfs_check_wait() {
+  local pid="$1"
+
+  printf "\e[s" # save cursor position
+
+  while ps -p "$pid" >/dev/null; do
+    printf "\e[u" # restore cursor position
+    command cat "$check_log"
+    sleep 3
+  done
+
+  println "btrfs check done"
+  println "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
+}
+
 reboot() {
   local response
 
@@ -181,6 +209,7 @@ logout
 do_snapshot
 stop_services sddm postgresql
 
+pid=$(btrfs_check Dator)
 pg_update=$(postgres_up)
 old_node=$(node -v)
 
@@ -190,4 +219,6 @@ source "$NVM_DIR/nvm.sh"
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
 cleanup_restart_services "$pg_update" postgresql
+btrfs_check_wait "$pid"
+
 reboot
