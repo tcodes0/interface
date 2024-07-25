@@ -91,8 +91,8 @@ push() {
     pushResult=$(gitDo push --quiet 2>&1)
 
     if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      loginfo $LINENO "push error: No upstream. Running 'git push --set-upstream origin %s" "$GIT_BRANCH"
-      echo gitDo push --set-upstream origin "$GIT_BRANCH"
+      println setting upstream to origin/"$GIT_BRANCH"
+      gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
   fi
 }
