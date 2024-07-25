@@ -54,7 +54,7 @@ extract_version() {
 migrate_postgres() {
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
-  printf \\n
+  println
   loginfo $LINENO "manually migrating pg db across major versions..."
   loginfo $LINENO "sudo required"
   sudo true
@@ -70,10 +70,11 @@ migrate_postgres() {
   cd /var/lib/postgres/tmp
   sudo -u postgres initdb "${initdb_args[@]}"
   sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
+  cd -
 }
 
 postgres_up() {
-  local current_pg_major new_pg_major
+  local current_pg_major new_pg_major major_sub
 
   current_pg_major=$(extract_version psql --version)
   # delete all lines but the 3rd line
@@ -87,7 +88,7 @@ postgres_up() {
   if [ "$major_sub" -ge 1 ]; then
     migrate_postgres
   else
-    loginfo $LINENO "nothing to migrate"
+    loginfo $LINENO "no major version change detected in Postgresql"
   fi
 }
 
@@ -168,7 +169,10 @@ btrfs_check() {
   local disk="/dev/disk/by-label/$1"
   check_log=$(mktemp btrfs-check-XXXXXX.log)
 
-  println "checking btrfs fs on $disk, sudo is required..."
+  println "checking btrfs fs on $disk"
+  println "sudo required..."
+
+  sudo true
   sudo umount "$disk"
   btrfs check --check-data-csum "$disk" >"$check_log" &
 
