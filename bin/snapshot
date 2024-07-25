@@ -9,12 +9,12 @@ shopt -s globstar
 trap 'err $LINENO' ERR
 
 if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
-  echo "usage: snapshot.sh [-n|--dry-run]"
-  echo "this is an interactive script, use -n or --dry-run to experiment"
-  echo "run without dry-run flags to make snapshots"
-  echo "- choose subvolume to snapshot from /toplevel, we'll list the options"
-  echo "- choose snapshot name, default to \$name-\${todays_date}"
-  echo "- choose read-only or read-write, default is read-write"
+  println "usage: snapshot.sh [-n|--dry-run]"
+  println "this is an interactive script, use -n or --dry-run to experiment"
+  println "run without dry-run flags to make snapshots"
+  println "- choose subvolume to snapshot from /toplevel, we'll list the options"
+  println "- choose snapshot name, default to \$name-\${todays_date}"
+  println "- choose read-only or read-write, default is read-write"
   exit 0
 fi
 
@@ -25,31 +25,31 @@ if [ "${1:-}" = "-n" ] || [ "${1:-}" = "--dry-run" ]; then
 fi
 
 if [ -n "$dryrun" ]; then
-  echo "dry run..."
-  echo
+  println "dry run..."
+  println
 fi
 
-echo "subvolumes in /toplevel owned by you ($(whoami)):"
-echo
+println "subvolumes in /toplevel owned by you ($(whoami)):"
+println
 
 find /toplevel -maxdepth 1 -user "$(whoami)"
 
-echo
-echo "snapshot source:"
+println
+println "snapshot source:"
 
 response=""
 read -r response
 
 if [ -z "$response" ] || [ ! -d "/toplevel/$response" ]; then
-  echo "error: /toplevel/$response is not a valid subvolume"
+  println "error: /toplevel/$response is not a valid subvolume"
   exit 1
 fi
 
 source="$response"
 source_no_trailing="${response%%-*}"
 
-echo
-echo "read-write? (y/N) Default read-only:"
+println
+println "read-write? (y/N) Default read-only:"
 
 read -r response
 
@@ -65,8 +65,8 @@ if [ -n "$readonly" ]; then
   default_name="$default_name-ro"
 fi
 
-echo
-echo "snapshot name, default $default_name:"
+println
+println "snapshot name, default $default_name:"
 
 read -r response
 
@@ -78,7 +78,7 @@ else
 fi
 
 if [ -n "$dryrun" ]; then
-  echo would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
+  println would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
   exit 0
 fi
 
