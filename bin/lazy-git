@@ -86,9 +86,9 @@ push() {
     fi
 
     loginfo $LINENO "$basePWD matches \$PUSH_REPOS"
-    if ! gitDo push --quiet >/dev/null 2>&1; then
+    if ! gitDo push >/dev/null 2>&1; then
       println setting upstream to origin/"$GIT_BRANCH"
-      gitDo push --quiet --set-upstream origin "$GIT_BRANCH"
+      gitDo push --set-upstream origin "$GIT_BRANCH" >/dev/null 2>&1
     fi
   fi
 }
