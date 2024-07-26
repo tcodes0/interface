@@ -71,7 +71,7 @@ commit() {
   fi
 
   command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
-  command cspell --no-color stdin 2>/dev/null <<<"$commitMsg"
+  command cspell --no-color --config ~/.cspell.config.yml stdin 2>/dev/null <<<"$commitMsg"
 
   if gitDo commit -q -m "$commitMsg"; then
     println "$commitMsg"
@@ -80,17 +80,13 @@ commit() {
 
 push() {
   if [[ ${PUSH_REPOS:-} ]]; then
-    local noUpstreamRegExp="has no upstream branch" pushResult basePWD
-
     basePWD="$(basename "$PWD")"
     if [[ $PUSH_REPOS != *$basePWD* ]]; then
       return
     fi
 
     loginfo $LINENO "$basePWD matches \$PUSH_REPOS"
-    pushResult=$(gitDo push --quiet 2>&1)
-
-    if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
+    if ! gitDo push --quiet; then
       println setting upstream to origin/"$GIT_BRANCH"
       gitDo push --set-upstream origin "$GIT_BRANCH"
     fi
