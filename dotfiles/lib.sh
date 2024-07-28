@@ -9,13 +9,13 @@
 
 # internal, do not use
 __e() {
-  local linenum=${1:?} funcname=$2 msg=error
+  local linenum=${1:?} funcname=$2 msg=ERROR
 
   if [ "${*:3}" ]; then
     msg=${*:3}
   fi
 
-  echo -ne "$msg $0":"$linenum" \("$funcname"\) >&2
+  echo -ne "$msg $0:$linenum ($funcname)" >&2
 }
 
 # usage: err $LINENO "message" (default message: error)
@@ -27,7 +27,7 @@ err() {
 
 # usage: fatal $LINENO "message" (default message: error)
 fatal() {
-  __e "$1" "${FUNCNAME[1]}" "fatal: ${*:2}"
+  __e "$1" "${FUNCNAME[1]}" "FATAL: ${*:2}"
 
   exit 1
 }
