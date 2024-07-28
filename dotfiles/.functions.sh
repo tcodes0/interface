@@ -145,7 +145,7 @@ gss() {
   if command git status -s 2>/dev/null 1>&2; then
     command git status -s
   else
-    loginfo $LINENO "warning: not a git repo"
+    logwarn $LINENO "not a git repo"
     ls
   fi
 }
