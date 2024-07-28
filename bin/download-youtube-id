@@ -17,6 +17,8 @@ vid_id=${1:-}
 title=${2:-}
 current_wd=$(pwd)
 out_dir="$HOME/Desktop"
+audio_fmt=""
+video_fmt=""
 
 usage() {
   println "Usage: $0 <youtube_video_id> <title>"
@@ -58,23 +60,20 @@ download() {
 }
 
 prompt_audio_format() {
-  local input
+  println high quality video has no audio, to have audio choose an audio format:
 
-  println high quality video has no audio\; to have audio
-
-  read -rp "Choose audio format" input
-  printf %s "$input"
+  read -r
+  audio_fmt="$REPLY"
 }
 
 prompt_video_format() {
-  local input
-
+  println Choose a video format:
   println 4k: look for mp4 3840x2160
   println 2k: look for mp4 2560x1440
   println Leave blank to download only audio
 
-  read -rp "Choose video format" input
-  printf %s "$input"
+  read -r
+  video_fmt="$REPLY"
 }
 
 validate_formats() {
@@ -102,6 +101,7 @@ mux() {
   fi
 
   ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name.mp4"
+  mv "$name.mp4" "$out_dir"
 }
 
 convert_MP3() {
@@ -113,6 +113,7 @@ convert_MP3() {
   fi
 
   ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$name.mp3"
+  mv "$name.mp3" "$out_dir"
 }
 
 ### script ###
@@ -122,8 +123,9 @@ prepareTemp
 
 yt-dlp "$vid_id" --list-formats
 
-audio_fmt=$(prompt_audio_format)
-video_fmt=$(prompt_video_format)
+prompt_audio_format
+prompt_video_format
+
 validate_formats "$audio_fmt" "$video_fmt"
 
 download "$audio_fmt"
@@ -133,5 +135,4 @@ filename="$title-$vid_id"
 mux "$audio_fmt" "$video_fmt" "$filename"
 convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
 
-mv "${filename}*" "$out_dir"
 cd "$current_wd"
