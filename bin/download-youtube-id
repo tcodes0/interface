@@ -16,9 +16,9 @@ trap 'err $LINENO' ERR
 vid_id=${1:-}
 format=${2:-}
 title=${3:-}
+skip_download=$([[ "$*" == *-no-download* ]] && echo yes || echo "")
 current_wd=$(pwd)
 out_dir="$HOME/Desktop"
-out_filename="$title-$vid_id".mp4
 
 declare -rA format_regexps=(
   ["4k"]="mp4.+3840x2160"
@@ -27,13 +27,18 @@ declare -rA format_regexps=(
 )
 
 usage() {
-  println "Usage: $0 <youtube_video_id> <format> <title>"
+  println "Usage: $0 <youtube_video_id> <format> <title> -no-download"
   println formats:
 
   for key in "${!format_regexps[@]}"; do
     println "- $key"
   done
 
+  println
+  println flags:
+  println -no-download: manually download and place files in working dir. No temp is created.
+  println \\tuseful when format parsing is not working for the video.
+  println
   println output will be in "$out_dir"
   println note: youtube video id will be appended to title
 }
@@ -65,7 +70,12 @@ prepareTemp() {
 
 download() {
   local format_line fmt="$1"
-  format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats))
+
+  if ! format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats)); then
+    yt-dlp "$vid_id" --list-formats 2>/dev/null
+    fatal "$LINENO" "parsing failed: '${format_regexps[$fmt]}'"
+  fi
+
   read -rs format_id _ <<<"$format_line"
 
   if ! yt-dlp -f "$format_id" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
@@ -74,40 +84,30 @@ download() {
   fi
 }
 
-convertMP3() {
-  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 out.mp3
-  find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;
-  rename --subst-all .webm.mp3 .mp3 ./*
-}
-
-mux() {
-  local name=$1
-  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name"
-}
-
-move() {
-  local name=$1
-  mv "$name" "$out_dir"
-}
-
-cleanup() {
-  cd "$current_wd"
-}
-
 ### script ###
 
 validateInput
-prepareTemp
 
-download "$format"
+if [ ! "$skip_download" ]; then
+  prepareTemp
+  download "$format"
+fi
 
 # video formats have no audio, download audio then mux
 if [ "$format" != "audio-only" ]; then
-  download audio-only
-  mux "$out_filename"
+  out_filename="$title-$vid_id".mp4
+
+  if [ ! "$skip_download" ]; then
+    download audio-only
+  fi
+
+  # mux audio and video
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$out_filename"
 else
-  convertMP3
+  out_filename="$title-$vid_id".mp3
+  # convert mp3
+  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$out_filename"
 fi
 
-move "$out_filename"
-cleanup
+mv "$out_filename" "$out_dir"
+cd "$current_wd"
