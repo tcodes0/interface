@@ -14,30 +14,12 @@ trap 'err $LINENO' ERR
 ### vars and functions ###
 
 vid_id=${1:-}
-format=${2:-}
-title=${3:-}
-skip_download=$([[ "$*" == *-no-download* ]] && echo yes || echo "")
+title=${2:-}
 current_wd=$(pwd)
 out_dir="$HOME/Desktop"
 
-declare -rA format_regexps=(
-  ["4k"]="mp4.+3840x2160"
-  ["2k"]="mp4.+2560x1440"
-  ["audio-only"]="opus.+132k 48k" # produces webm extension
-)
-
 usage() {
-  println "Usage: $0 <youtube_video_id> <format> <title> -no-download"
-  println formats:
-
-  for key in "${!format_regexps[@]}"; do
-    println "- $key"
-  done
-
-  println
-  println flags:
-  println -no-download: manually download and place files in working dir. No temp is created.
-  println \\tuseful when format parsing is not working for the video.
+  println "Usage: $0 <youtube_video_id> <title>"
   println
   println output will be in "$out_dir"
   println note: youtube video id will be appended to title
@@ -47,11 +29,6 @@ validateInput() {
   if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
     usage
     fatal "$LINENO" "no video id"
-  fi
-
-  if [ ! "$format" ]; then
-    usage
-    fatal "$LINENO" "no format"
   fi
 
   if [ ! "$title" ]; then
@@ -69,45 +46,92 @@ prepareTemp() {
 }
 
 download() {
-  local format_line fmt="$1"
+  local format_id=$1
 
-  if ! format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats)); then
-    yt-dlp "$vid_id" --list-formats 2>/dev/null
-    fatal "$LINENO" "parsing failed: '${format_regexps[$fmt]}'"
+  if [ ! "$format_id" ]; then
+    return
   fi
-
-  read -rs format_id _ <<<"$format_line"
 
   if ! yt-dlp -f "$format_id" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
-    yt-dlp "$vid_id" --list-formats 2>/dev/null
-    fatal "$LINENO" "yt-dlp error, formats supported above"
+    fatal "$LINENO" "yt-dlp error"
   fi
+}
+
+prompt_audio_format() {
+  local input
+
+  println high quality video has no audio\; to have audio
+
+  read -rp "Choose audio format" input
+  printf %s "$input"
+}
+
+prompt_video_format() {
+  local input
+
+  println 4k: look for mp4 3840x2160
+  println 2k: look for mp4 2560x1440
+  println Leave blank to download only audio
+
+  read -rp "Choose video format" input
+  printf %s "$input"
+}
+
+validate_formats() {
+  local audio_fmt=$1 video_fmt=$2
+
+  if [ "$audio_fmt" ] && ! [[ "$audio_fmt" =~ ^[0-9]+$ ]]; then
+    fatal "$LINENO" "audio format must be a number"
+  fi
+
+  if [ "$video_fmt" ] && ! [[ "$video_fmt" =~ ^[0-9]+$ ]]; then
+    fatal "$LINENO" "video format must be a number"
+  fi
+
+  if [ "$video_fmt" ] && [ ! "$audio_fmt" ]; then
+    logwarn "$LINENO" "video might have no audio"
+  fi
+}
+
+mux() {
+  local audio_fmt=$1 video_fmt=$2 name=$3
+
+  if [ ! "$audio_fmt" ] || [ ! "$video_fmt" ]; then
+    loginfo "$LINENO" "not muxing: expected audio and video format"
+    return
+  fi
+
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name.mp4"
+}
+
+convert_MP3() {
+  local audio_fmt=$1 video_fmt=$2 name=$3
+
+  if [ ! "$audio_fmt" ] || [ "$video_fmt" ]; then
+    loginfo "$LINENO" "not converting to mp3: expected audio only format"
+    return
+  fi
+
+  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$name.mp3"
 }
 
 ### script ###
 
 validateInput
+prepareTemp
 
-if [ ! "$skip_download" ]; then
-  prepareTemp
-  download "$format"
-fi
+yt-dlp "$vid_id" --list-formats
 
-# video formats have no audio, download audio then mux
-if [ "$format" != "audio-only" ]; then
-  out_filename="$title-$vid_id".mp4
+audio_fmt=$(prompt_audio_format)
+video_fmt=$(prompt_video_format)
+validate_formats "$audio_fmt" "$video_fmt"
 
-  if [ ! "$skip_download" ]; then
-    download audio-only
-  fi
+download "$audio_fmt"
+download "$video_fmt"
+filename="$title-$vid_id"
 
-  # mux audio and video
-  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$out_filename"
-else
-  out_filename="$title-$vid_id".mp3
-  # convert mp3
-  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$out_filename"
-fi
+mux "$audio_fmt" "$video_fmt" "$filename"
+convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
 
-mv "$out_filename" "$out_dir"
+mv "${filename}*" "$out_dir"
 cd "$current_wd"

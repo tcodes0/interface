@@ -48,11 +48,25 @@ print() {
 
 #- - - - - - - - - - -
 
-# usage: loginfo $LINENO your pizza is ready
-loginfo() {
-  local linenum=${1:?} msg=${*:2}
+# internal, do not use
+__log() {
+  local level=$1 linenum=${2:?} msg=${*:3}
 
   if [ "$msg" ]; then
-    echo -ne "INFO ($0:$linenum) $msg\\n" >&2
+    echo -ne "$level ($0:$linenum) $msg\\n" >&2
   fi
+}
+
+#- - - - - - - - - - -
+
+# usage: loginfo $LINENO your pizza is ready
+loginfo() {
+  __log INFO "$@"
+}
+
+#- - - - - - - - - - -
+
+# usage: logwarn $LINENO pizza is too long in oven
+logwarn() {
+  __log WARNING "$@"
 }
