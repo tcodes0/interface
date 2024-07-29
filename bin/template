@@ -13,10 +13,10 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-validateInput() {
+validate_input() {
   true
 }
 
 ### script ###
 
-validateInput
+validate_input

@@ -15,7 +15,6 @@ trap 'err $LINENO' ERR
 
 vid_id=${1:-}
 title=${2:-}
-current_wd=$(pwd)
 out_dir="$HOME/Desktop"
 audio_fmt=""
 video_fmt=""
@@ -27,7 +26,7 @@ usage() {
   println note: youtube video id will be appended to title
 }
 
-validateInput() {
+validate_input() {
   if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
     usage
     fatal "$LINENO" "no video id"
@@ -39,7 +38,7 @@ validateInput() {
   fi
 }
 
-prepareTemp() {
+prepare_temp() {
   local temp
   temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
 
@@ -89,6 +88,7 @@ validate_formats() {
 
   if [ "$video_fmt" ] && [ ! "$audio_fmt" ]; then
     logwarn "$LINENO" "video might have no audio"
+    sleep 2
   fi
 }
 
@@ -96,7 +96,8 @@ mux() {
   local audio_fmt=$1 video_fmt=$2 name=$3
 
   if [ ! "$audio_fmt" ] || [ ! "$video_fmt" ]; then
-    loginfo "$LINENO" "not muxing: expected audio and video format"
+    loginfo "$LINENO" "skip mux: expected audio and video format"
+    sleep 1
     return
   fi
 
@@ -108,7 +109,8 @@ convert_MP3() {
   local audio_fmt=$1 video_fmt=$2 name=$3
 
   if [ ! "$audio_fmt" ] || [ "$video_fmt" ]; then
-    loginfo "$LINENO" "not converting to mp3: expected audio only format"
+    loginfo "$LINENO" "skip mp3 convert: expected audio only format"
+    sleep 1
     return
   fi
 
@@ -118,8 +120,10 @@ convert_MP3() {
 
 ### script ###
 
-validateInput
-prepareTemp
+current_wd=$(pwd)
+
+validate_input
+prepare_temp
 
 yt-dlp "$vid_id" --list-formats
 
