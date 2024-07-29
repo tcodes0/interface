@@ -27,7 +27,7 @@ case "$1" in
 esac
 
 #  if target is not dator or archlinux
-if [ -z "$target" ]; then
+if [ ! "$target" ]; then
   println "Unknown volume: $1, edit script to add it"
   println "Known volumes: ${volumes[*]}"
   helpExit
