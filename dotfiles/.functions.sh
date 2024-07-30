@@ -8,6 +8,14 @@ loginfo() {
   fi
 }
 
+logwarn() {
+  local linenum=${1:?} msg=${*:2}
+
+  if [ "$msg" ]; then
+    echo -ne "WARN (.functions.sh:$linenum) $msg\\n" >&2
+  fi
+}
+
 #- - - - - - - - - - -
 
 cl() {
