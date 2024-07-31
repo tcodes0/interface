@@ -204,10 +204,35 @@ alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
 
-# commitlint
+# lazy-git
 
-alias fix="lg fix -"
-alias misc="lg misc -"
+alias lg="lazy-git"
+
+alias build="lg build"
+alias ci="lg ci"
+alias docs="lg docs"
+alias feat="lg feat"
+alias fix="lg fix"
+alias perf="lg perf"
+alias refactor="lg refactor"
+alias revert="lg revert"
+alias style="lg style"
+# test is a shell builtin, use lg test
+alias misc="lg misc"
+alias chore="lg misc"
+
+alias build-="lg build -"
+alias ci-="lg ci -"
+alias docs-="lg docs -"
+alias feat-="lg feat -"
+alias fix-="lg fix -"
+alias perf-="lg perf -"
+alias refactor-="lg refactor -"
+alias revert-="lg revert -"
+alias style-="lg style -"
+alias test-="lg test -"
+alias misc-="lg misc -"
+alias chore-="lg misc -"
 
 # general
 
@@ -276,7 +301,6 @@ alias dd='gd status=progress bs=4M'
 alias google="s -p duckduckgo"
 alias commitlint="commitlint --config ~/.commitlintrc.yml"
 alias kubecheck="kubeconform --strict --ignore-missing-schemas --schema-location=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master --schema-location=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json"
-alias lg="lazy-git"
 alias sshadd="ssh-add ~/.ssh/id_rsa"
 alias gw="gopass"
 alias gwi="gopass insert"
