@@ -43,7 +43,7 @@ stop_services() {
 }
 
 extract_version() {
-  if [ -z "$*" ]; then
+  if [ ! "$*" ]; then
     err $LINENO "empty version"
     return 1
   fi

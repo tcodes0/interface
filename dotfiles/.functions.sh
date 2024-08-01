@@ -8,6 +8,14 @@ loginfo() {
   fi
 }
 
+logwarn() {
+  local linenum=${1:?} msg=${*:2}
+
+  if [ "$msg" ]; then
+    echo -ne "WARN (.functions.sh:$linenum) $msg\\n" >&2
+  fi
+}
+
 #- - - - - - - - - - -
 
 cl() {
@@ -145,7 +153,7 @@ gss() {
   if command git status -s 2>/dev/null 1>&2; then
     command git status -s
   else
-    loginfo $LINENO "warning: not a git repo"
+    logwarn $LINENO "not a git repo"
     ls
   fi
 }

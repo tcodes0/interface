@@ -16,7 +16,10 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-gitDo() {
+commit_cfg=$HOME/.commitlintrc.yml
+cspell_cfg=$HOME/.cspell.config.yml
+
+git_do() {
   # check for another git process running at this time (rare edge-case)
   # i.e. some IDE; wait for it to finish
   while [ -f "$PWD/.git/index.lock" ]; do
@@ -27,7 +30,7 @@ gitDo() {
   command git "$@"
 }
 
-validateDeps() {
+validate_deps() {
   if ! command -v commitlint >/dev/null; then
     fatal "$LINENO" "commitlint not found; try 'npm install -g @commitlint/cli'"
   fi
@@ -36,25 +39,29 @@ validateDeps() {
     fatal "$LINENO" "cspell not found; try 'npm install -g cspell@latest'"
   fi
 
-  if [ ! -f ~/.commitlintrc.yml ]; then
-    fatal "$LINENO" "\~/.commitlintrc.yml not found"
+  if [ ! -f "$commit_cfg" ]; then
+    fatal "$LINENO" "$commit_cfg not found"
+  fi
+
+  if [ ! -f "$cspell_cfg" ]; then
+    fatal "$LINENO" "$cspell_cfg not found"
   fi
 }
 
 commit() {
-  local manuallyStagedFiles
-  manuallyStagedFiles=$(git diff --name-only --cached)
+  local manually_staged
+  manually_staged=$(git diff --name-only --cached)
 
-  if [ "$manuallyStagedFiles" ]; then
+  if [ "$manually_staged" ]; then
     loginfo $LINENO "committing files already staged..."
   fi
 
-  if [ ! "$manuallyStagedFiles" ] && ! gitDo add --all; then
+  if [ ! "$manually_staged" ] && ! git_do add --all; then
     fatal "$LINENO" "git add --all failed"
   else
-    manuallyStagedFiles=$(gitDo diff --name-only --cached)
+    manually_staged=$(git_do diff --name-only --cached)
 
-    if [ ! "$manuallyStagedFiles" ]; then
+    if [ ! "$manually_staged" ]; then
       fatal "$LINENO" "no staged files"
     fi
   fi
@@ -65,45 +72,40 @@ commit() {
     fatal $LINENO "usage: lg <type> <scope> <commit subject>"
   fi
 
-  local commitMsg="$type($scope): $subject"
+  local commit_msg="$type($scope): $subject"
   if [[ "$scope" =~ ^.$ ]]; then
-    commitMsg="$type: $subject"
+    commit_msg="$type: $subject"
   fi
 
-  command commitlint --config ~/.commitlintrc.yml <<<"$commitMsg"
-  command cspell --no-color stdin 2>/dev/null <<<"$commitMsg"
+  command commitlint --config "$commit_cfg" <<<"$commit_msg"
+  command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
 
-  if gitDo commit -q -m "$commitMsg"; then
-    println "$commitMsg"
+  if git_do commit -q -m "$commit_msg"; then
+    println "$commit_msg"
   fi
 }
 
 push() {
-  if [[ ${PUSH_REPOS:-} ]]; then
-    local noUpstreamRegExp="has no upstream branch" pushResult basePWD
-
-    basePWD="$(basename "$PWD")"
-    if [[ $PUSH_REPOS != *$basePWD* ]]; then
-      return
-    fi
-
-    loginfo $LINENO "$basePWD matches \$PUSH_REPOS"
-    pushResult=$(gitDo push --quiet 2>&1)
-
-    if [[ "$pushResult" =~ $noUpstreamRegExp ]]; then
-      println setting upstream to origin/"$GIT_BRANCH"
-      gitDo push --set-upstream origin "$GIT_BRANCH"
-    fi
+  if [ ! "${PUSH_REPOS:-}" ]; then
+    return
   fi
-}
 
-status() {
-  gitDo status --short
+  base_pwd="$(basename "$PWD")"
+  if [[ $PUSH_REPOS != *$base_pwd* ]]; then
+    return
+  fi
+
+  loginfo $LINENO "$base_pwd matches \$PUSH_REPOS"
+
+  if ! git_do push >/dev/null 2>&1; then
+    loginfo $LINENO set upstream to origin/"$GIT_BRANCH"
+    git_do push --set-upstream origin "$GIT_BRANCH" >/dev/null 2>&1
+  fi
 }
 
 ### script ###
 
-validateDeps
+validate_deps
 commit "$@"
 push
-status
+git_do status --short

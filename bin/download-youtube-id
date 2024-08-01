@@ -14,39 +14,22 @@ trap 'err $LINENO' ERR
 ### vars and functions ###
 
 vid_id=${1:-}
-format=${2:-}
-title=${3:-}
-current_wd=$(pwd)
+title=${2:-}
 out_dir="$HOME/Desktop"
-out_filename="$title-$vid_id".mp4
-
-declare -rA format_regexps=(
-  ["4k"]="mp4.+3840x2160"
-  ["2k"]="mp4.+2560x1440"
-  ["audio-only"]="opus.+132k 48k" # produces webm extension
-)
+audio_fmt=""
+video_fmt=""
 
 usage() {
-  println "Usage: $0 <youtube_video_id> <format> <title>"
-  println formats:
-
-  for key in "${!format_regexps[@]}"; do
-    println "- $key"
-  done
-
+  println "Usage: $0 <youtube_video_id> <title>"
+  println
   println output will be in "$out_dir"
   println note: youtube video id will be appended to title
 }
 
-validateInput() {
+validate_input() {
   if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
     usage
     fatal "$LINENO" "no video id"
-  fi
-
-  if [ ! "$format" ]; then
-    usage
-    fatal "$LINENO" "no format"
   fi
 
   if [ ! "$title" ]; then
@@ -55,7 +38,7 @@ validateInput() {
   fi
 }
 
-prepareTemp() {
+prepare_temp() {
   local temp
   temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
 
@@ -64,50 +47,96 @@ prepareTemp() {
 }
 
 download() {
-  local format_line fmt="$1"
-  format_line=$(grep -Eie "${format_regexps[$fmt]}" < <(yt-dlp "$vid_id" --list-formats))
-  read -rs format_id _ <<<"$format_line"
+  local format_id=$1
+
+  if [ ! "$format_id" ]; then
+    return
+  fi
 
   if ! yt-dlp -f "$format_id" "$vid_id" --output "%(title)s-%(release_date)s.%(ext)s"; then
-    yt-dlp "$vid_id" --list-formats 2>/dev/null
-    fatal "$LINENO" "yt-dlp error, formats supported above"
+    fatal "$LINENO" "yt-dlp error"
   fi
 }
 
-convertMP3() {
-  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 out.mp3
-  find . -name "*.webm" -exec mv out.mp3 {}.mp3 \;
-  rename --subst-all .webm.mp3 .mp3 ./*
+prompt_audio_format() {
+  println high quality video has no audio, to have audio choose an audio format:
+
+  read -r
+  audio_fmt="$REPLY"
+}
+
+prompt_video_format() {
+  println Choose a video format:
+  println 4k: look for mp4 3840x2160
+  println 2k: look for mp4 2560x1440
+  println Leave blank to download only audio
+
+  read -r
+  video_fmt="$REPLY"
+}
+
+validate_formats() {
+  local audio_fmt=$1 video_fmt=$2
+
+  if [ "$audio_fmt" ] && ! [[ "$audio_fmt" =~ ^[0-9]+$ ]]; then
+    fatal "$LINENO" "audio format must be a number"
+  fi
+
+  if [ "$video_fmt" ] && ! [[ "$video_fmt" =~ ^[0-9]+$ ]]; then
+    fatal "$LINENO" "video format must be a number"
+  fi
+
+  if [ "$video_fmt" ] && [ ! "$audio_fmt" ]; then
+    logwarn "$LINENO" "video might have no audio"
+    sleep 2
+  fi
 }
 
 mux() {
-  local name=$1
-  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name"
+  local audio_fmt=$1 video_fmt=$2 name=$3
+
+  if [ ! "$audio_fmt" ] || [ ! "$video_fmt" ]; then
+    loginfo "$LINENO" "skip mux: expected audio and video format"
+    sleep 1
+    return
+  fi
+
+  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name.mp4"
+  mv "$name.mp4" "$out_dir"
 }
 
-move() {
-  local name=$1
-  mv "$name" "$out_dir"
-}
+convert_MP3() {
+  local audio_fmt=$1 video_fmt=$2 name=$3
 
-cleanup() {
-  cd "$current_wd"
+  if [ ! "$audio_fmt" ] || [ "$video_fmt" ]; then
+    loginfo "$LINENO" "skip mp3 convert: expected audio only format"
+    sleep 1
+    return
+  fi
+
+  ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$name.mp3"
+  mv "$name.mp3" "$out_dir"
 }
 
 ### script ###
 
-validateInput
-prepareTemp
+current_wd=$(pwd)
 
-download "$format"
+validate_input
+prepare_temp
 
-# video formats have no audio, download audio then mux
-if [ "$format" != "audio-only" ]; then
-  download audio-only
-  mux "$out_filename"
-else
-  convertMP3
-fi
+yt-dlp "$vid_id" --list-formats
 
-move "$out_filename"
-cleanup
+prompt_audio_format
+prompt_video_format
+
+validate_formats "$audio_fmt" "$video_fmt"
+
+download "$audio_fmt"
+download "$video_fmt"
+filename="$title-$vid_id"
+
+mux "$audio_fmt" "$video_fmt" "$filename"
+convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
+
+cd "$current_wd"

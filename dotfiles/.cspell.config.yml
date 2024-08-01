@@ -1,0 +1,17 @@
+$schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json
+version: "0.2"
+language: en
+allowCompoundWords: true
+dictionaries:
+  - en-US
+  - bash
+  - docker
+  - filetypes
+  - fullstack
+  - golang
+  - k8s
+  - lorem-ipsum
+  - softwareTerms
+  - computing-acronyms
+words:
+  - flansbaum

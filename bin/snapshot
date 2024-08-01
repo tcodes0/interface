@@ -40,7 +40,7 @@ println "snapshot source:"
 response=""
 read -r response
 
-if [ -z "$response" ] || [ ! -d "/toplevel/$response" ]; then
+if [ ! "$response" ] || [ ! -d "/toplevel/$response" ]; then
   println "error: /toplevel/$response is not a valid subvolume"
   exit 1
 fi
