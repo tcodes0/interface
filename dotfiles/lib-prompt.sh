@@ -39,8 +39,8 @@ makePS1() {
   workdir="$MAIN_COLOR\\w$END"
   hostname=""
 
-  if [[ ! ${KNOWN_HOSTS[*]} =~ $(hostname) ]]; then
-    hostname="$SECOND_COLOR@$(hostname)$END"
+  if [[ ! ${KNOWN_HOSTS[*]} =~ $hostname ]]; then
+    hostname="$SECOND_COLOR@$hostname$END"
     decorations=$SECOND_COLOR"*>"$spacer$END
   fi
 
