@@ -81,10 +81,12 @@ prompt_video_format() {
   read -r
   video_fmt="$REPLY"
 
-  println video extension: \(see column EXT\)
+  if [ "$video_fmt" ]; then
+    println Video extension: \(see column EXT\)
 
-  read -r
-  video_ext="$REPLY"
+    read -r
+    video_ext="$REPLY"
+  fi
 }
 
 validate_formats() {
