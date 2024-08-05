@@ -73,6 +73,15 @@ migrate_postgres() {
   cd -
 }
 
+refresh_collations() {
+  local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres)
+
+  for db in "${dbs[@]}"; do
+    loginfo $LINENO collation update "$db"
+    psql -U postgres -c "alter database $db refresh collation version;" >/dev/null
+  done
+}
+
 postgres_up() {
   local current_pg_major new_pg_major major_sub
 
@@ -87,6 +96,7 @@ postgres_up() {
 
   if [ "$major_sub" -ge 1 ]; then
     migrate_postgres
+    refresh_collations
   else
     loginfo $LINENO "no major version change detected in Postgresql"
   fi
@@ -203,7 +213,7 @@ reboot() {
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
     systemctl reboot
   else
-    println "some services may not be running. Please restart them manually."
+    println "some services (sddm) may not be running. Please restart them manually."
   fi
 }
 
