@@ -170,7 +170,7 @@
 		<key>NeverDoRecovery</key>
 		<true/>
 		<key>NeverHibernate</key>
-		<true/>
+		<false/>
 		<key>Secure</key>
 		<false/>
 		<key>Timeout</key>
