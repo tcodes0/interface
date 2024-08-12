@@ -17,7 +17,9 @@ vid_id=${1:-}
 title=${2:-}
 out_dir="$HOME/Desktop"
 audio_fmt=""
+audio_ext=""
 video_fmt=""
+video_ext=""
 
 usage() {
   println "Usage: $0 <youtube_video_id> <title>"
@@ -59,10 +61,15 @@ download() {
 }
 
 prompt_audio_format() {
-  println high quality video has no audio, to have audio choose an audio format:
+  println note: high quality video has no audio, choose audio now
+  println choose an audio format:
 
   read -r
   audio_fmt="$REPLY"
+  println audio extension: \(see column EXT\)
+
+  read -r
+  audio_ext="$REPLY"
 }
 
 prompt_video_format() {
@@ -73,6 +80,13 @@ prompt_video_format() {
 
   read -r
   video_fmt="$REPLY"
+
+  if [ "$video_fmt" ]; then
+    println Video extension: \(see column EXT\)
+
+    read -r
+    video_ext="$REPLY"
+  fi
 }
 
 validate_formats() {
@@ -93,7 +107,7 @@ validate_formats() {
 }
 
 mux() {
-  local audio_fmt=$1 video_fmt=$2 name=$3
+  local audio_fmt=$1 audio_ext=$2 video_fmt=$3 video_ext=$4 name=$5
 
   if [ ! "$audio_fmt" ] || [ ! "$video_fmt" ]; then
     loginfo "$LINENO" "skip mux: expected audio and video format"
@@ -101,7 +115,7 @@ mux() {
     return
   fi
 
-  ffmpeg -i ./*.mp4 -i ./*.webm -crf 26 -ac 2 "$name.mp4"
+  ffmpeg -i ./*."$audio_ext" -i ./*."$video_ext" -crf 26 -ac 2 "$name.mp4"
   mv "$name.mp4" "$out_dir"
 }
 
@@ -114,6 +128,7 @@ convert_MP3() {
     return
   fi
 
+  # extension not needed, assume only one audio file
   ffmpeg -i ./* -codec:a libmp3lame -q:a 0 "$name.mp3"
   mv "$name.mp3" "$out_dir"
 }
@@ -136,7 +151,7 @@ download "$audio_fmt"
 download "$video_fmt"
 filename="$title-$vid_id"
 
-mux "$audio_fmt" "$video_fmt" "$filename"
+mux "$audio_fmt" "$audio_ext" "$video_fmt" "$video_ext" "$filename"
 convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
 
 cd "$current_wd"

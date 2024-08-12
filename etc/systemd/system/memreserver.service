@@ -1,0 +1,11 @@
+[Unit]
+Description=Sleep hook which frees up RAM needed to evacuate GPU VRAM into
+Before=sleep.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/memreserver
+
+[Install]
+WantedBy=sleep.target
+
