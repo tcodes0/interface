@@ -1,0 +1,42 @@
+#! /usr/bin/env bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+now="$(date +%Y-%m-%d-%H-%M)"
+# read-only
+flags=(-r)
+
+create_snaps() {
+  btrfs subvolume snapshot "${flags[@]}" /toplevel/@root "/toplevel/@root-$now-ro"
+  btrfs subvolume snapshot "${flags[@]}" /toplevel/@vacation "/toplevel/@vacation-$now-ro"
+  # script is run as root
+  chown vacation:vacation "/toplevel/@vacation-$now-ro"
+  loginfo $LINENO "created snapshots at $now"
+}
+
+trim_old() {
+  local old_snaps max=50 name=$1
+  # shellcheck disable=SC2207
+  old_snaps=($(find /toplevel -maxdepth 1 -name "${name}*-ro" | sort | head -${max}))
+
+  if [ "${#old_snaps[@]}" -le "$max" ]; then
+    return
+  fi
+
+  btrfs subvolume delete "${old_snaps[0]}"
+  loginfo $LINENO "deleted ${old_snaps[0]}"
+}
+
+### script ###
+
+create_snaps
+trim_old @root
+trim_old @vacation
