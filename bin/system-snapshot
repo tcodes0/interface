@@ -10,33 +10,36 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-now="$(date +%Y-%m-%d-%H-%M)"
-# read-only
-flags=(-r)
-
 create_snaps() {
-  btrfs subvolume snapshot "${flags[@]}" /toplevel/@root "/toplevel/@root-$now-ro"
-  btrfs subvolume snapshot "${flags[@]}" /toplevel/@vacation "/toplevel/@vacation-$now-ro"
-  # script is run as root
-  chown vacation:vacation "/toplevel/@vacation-$now-ro"
+  local now flags
+  now="$(date +%Y-%m-%d-%H)"
+  # read-only
+  flags=(-r)
+
+  for target in "$@"; do
+    btrfs subvolume snapshot "${flags[@]}" "/toplevel/$target" "/toplevel/$target-$now-ro"
+  done
+
   loginfo $LINENO "created snapshots at $now"
 }
 
 trim_old() {
-  local old_snaps max=50 name=$1
-  # shellcheck disable=SC2207
-  old_snaps=($(find /toplevel -maxdepth 1 -name "${name}*-ro" | sort | head -${max}))
+  local old_snaps max=50
 
-  if [ "${#old_snaps[@]}" -le "$max" ]; then
-    return
-  fi
+  for target in "$@"; do
+    # shellcheck disable=SC2207
+    old_snaps=($(find /toplevel -maxdepth 1 -name "${target}*-ro" | sort | head -${max}))
 
-  btrfs subvolume delete "${old_snaps[0]}"
-  loginfo $LINENO "deleted ${old_snaps[0]}"
+    if [ "${#old_snaps[@]}" -le "$max" ]; then
+      return
+    fi
+
+    btrfs subvolume delete "${old_snaps[0]}"
+    loginfo $LINENO "deleted ${old_snaps[0]}"
+  done
 }
 
 ### script ###
 
-create_snaps
-trim_old @root
-trim_old @vacation
+create_snaps @root @vacation
+trim_old @root @vacation
