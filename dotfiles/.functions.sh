@@ -227,6 +227,7 @@ root() {
 next() {
   if ! git checkout -b next >/dev/null 2>&1; then
     git branch --delete next
+    git push origin --delete next
   fi
 
   git checkout -b next
