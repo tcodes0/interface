@@ -129,7 +129,8 @@ src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 nvm use node >/dev/null
 
 # tmux
-if [ ! "$TMUX" ] && is_me; then
+# set NO_TMUX to skip tmux startup
+if [ ! "$TMUX" ] && [ ! "$NO_TMUX" ] && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
