@@ -30,7 +30,7 @@ mkinitcpio() {
     return 0
   fi
 
-  mkinitcpio "$@"
+  command mkinitcpio "$@"
 }
 
 #- - - - - - - - - - -
