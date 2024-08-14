@@ -3,5 +3,5 @@ Description=btrfs snapshot system and delete old snapshots
 
 [Service]
 Type=oneshot
-ExecStart=/home/vacation/bin/system-snapshot
+ExecStart=%h/bin/system-snapshot
 User=root
