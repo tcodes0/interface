@@ -54,3 +54,29 @@ tar7z() {
 goo() {
   google "$@"
 }
+
+#- - - - - - - - - - -
+
+pacOrphanDepsInteractive() {
+  # shellcheck disable=SC2155
+  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 wlroots) orphans=$(yay --query --deps --unrequired)
+
+  println "$(wc -l <<<"$orphans")" orphans:
+  println "$orphans"
+  println removing...
+
+  # some pkg versions will be present in pkg var due to bash being limited
+  for pkg in $orphans; do
+    if [[ "$pkg" =~ ^[0-9] ]]; then
+      continue
+    fi
+
+    if [[ "${keep[*]}" == *"$pkg"* ]]; then
+      println "keeping $pkg"
+      continue
+    fi
+
+    yay --sync --info "$pkg"
+    yay --remove --recursive --recursive "$pkg"
+  done
+}

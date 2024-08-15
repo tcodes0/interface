@@ -20,7 +20,6 @@ alias paci='yay --sync --info'
 alias pacInfoVerbose='yay --sync --info --info' # -Sii
 alias pacii='yay --sync --info --info'
 alias pacInfoDeps='yay --query --info'                # -Qi
-alias pacOrphanDeps='yay --query --deps --unrequired' # -Qdt
 alias pacList='yay --query'                           # -Q
 alias pacl='yay --query'
 alias pacListVerbose='yay --query --list' # -Ql

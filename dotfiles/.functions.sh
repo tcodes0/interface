@@ -16,6 +16,14 @@ logwarn() {
   fi
 }
 
+println() {
+  print "$*\\n"
+}
+
+print() {
+  echo -ne "$*"
+}
+
 #- - - - - - - - - - -
 
 cl() {
