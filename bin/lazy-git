@@ -16,8 +16,11 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-commit_cfg=$HOME/.commitlintrc.yml
-cspell_cfg=$HOME/.cspell.config.yml
+# known issue: these configs can be name differently
+default_commit_cfg=$HOME/.commitlintrc.yml
+default_cspell_cfg=$HOME/.cspell.config.yml
+commit_cfg=.commitlintrc.yml
+cspell_cfg=.cspell.config.yml
 
 git_do() {
   # check for another git process running at this time (rare edge-case)
@@ -39,12 +42,12 @@ validate_deps() {
     fatal "$LINENO" "cspell not found; try 'npm install -g cspell@latest'"
   fi
 
-  if [ ! -f "$commit_cfg" ]; then
-    fatal "$LINENO" "$commit_cfg not found"
+  if [ ! -f ".commitlintrc.yml" ]; then
+    commit_cfg=$default_commit_cfg
   fi
 
-  if [ ! -f "$cspell_cfg" ]; then
-    fatal "$LINENO" "$cspell_cfg not found"
+  if [ ! -f ".cspell.config.yml" ]; then
+    cspell_cfg=$default_cspell_cfg
   fi
 }
 
