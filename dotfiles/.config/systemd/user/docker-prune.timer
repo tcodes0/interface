@@ -1,0 +1,10 @@
+[Unit]
+Description=Prunes docker system every week
+
+[Timer]
+OnCalendar=Sat 15..23:00:00
+AccuracySec=1us
+Persistent=false
+
+[Install]
+WantedBy=timers.target

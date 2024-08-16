@@ -6,7 +6,7 @@ After=network.target network-online.target
 [Service]
 ExecStart=/usr/bin/ollama serve
 Restart=on-failure
-RestartSec=3
+RestartSec=10
 Type=simple
 
 [Install]
