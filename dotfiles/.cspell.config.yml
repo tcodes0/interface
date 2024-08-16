@@ -19,3 +19,5 @@ words:
   - tomejila
   - mkinitcpio
   - ollama
+  - zswap
+  - zram

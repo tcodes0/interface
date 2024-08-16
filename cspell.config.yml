@@ -123,3 +123,5 @@ words:
   - IOUSB
   - GULNV
   - ZPJV
+  - zswap
+  - zram
