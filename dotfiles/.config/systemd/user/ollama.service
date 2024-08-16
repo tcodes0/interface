@@ -1,0 +1,13 @@
+[Unit]
+Description=Ollama Service
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+ExecStart=/usr/bin/ollama serve
+Restart=on-failure
+RestartSec=3
+Type=simple
+
+[Install]
+WantedBy=default.target
