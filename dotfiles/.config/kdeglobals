@@ -178,7 +178,7 @@ Size=32
 
 [DirSelect Dialog]
 DirSelectDialog Size=825,582
-History Items[$e]=file:///media/data/Games,file:$HOME/docs,file:$HOME/Desktop/go-athenahealth,file:///media/data/Games/prefixes/cotl/drive_c/users/vacation/Desktop/,file:///media/data/Games/,file:$HOME/Desktop/shared,file:$HOME/Desktop/member-client,file:$HOME/Desktop/tcodes0-go,file:$HOME/Desktop/go-common,file:$HOME/Desktop/server,file:$HOME/Desktop//interface/,file:$HOME/Desktop//inter,file:$HOME/Desktop/tcodes0-go,file:///media/data/izi-stuff
+History Items[$e]=file:$HOME/Desktop/ollama,file:///media/data/Games,file:$HOME/docs,file:$HOME/Desktop/go-athenahealth,file:///media/data/Games/prefixes/cotl/drive_c/users/vacation/Desktop/,file:///media/data/Games/,file:$HOME/Desktop/shared,file:$HOME/Desktop/member-client,file:$HOME/Desktop/tcodes0-go,file:$HOME/Desktop/go-common,file:$HOME/Desktop/server,file:$HOME/Desktop//interface/,file:$HOME/Desktop//inter,file:$HOME/Desktop/tcodes0-go,file:///media/data/izi-stuff
 
 [Emoticons]
 emoticonsTheme=EmojiOne

@@ -12,22 +12,15 @@ alias open="xdg-open"
 # pacman and yay
 
 alias pac='pacman'
-alias pacSearch='yay --sync --search' # -Ss
 alias pacs='yay --sync --search'
 alias pacWhyFile='pacman -Qo'
-alias pacInfo='yay --sync --info' # -Si
 alias paci='yay --sync --info'
-alias pacInfoVerbose='yay --sync --info --info' # -Sii
 alias pacii='yay --sync --info --info'
-alias pacInfoDeps='yay --query --info'                # -Qi
-alias pacList='yay --query'                           # -Q
+alias pacInfoDeps='yay --query --info' # -Qi
 alias pacl='yay --query'
-alias pacListVerbose='yay --query --list' # -Ql
 alias pacll='yay --query --list'
-alias pacInstall='yay --sync --noconfirm' # -S
 alias pacI='yay --sync --noconfirm'
-alias pacRemove='yay --remove'                             # -R
-alias pacRemoveDeps='yay --remove --recursive --recursive' # -Rss
+alias pacRemove='yay --remove' # -R
 alias pacR='yay --remove --recursive --recursive'
 alias pacRemoveForce='yay --remove --nodeps --nodeps' # -Rdd
 # shellcheck disable=SC2142
