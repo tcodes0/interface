@@ -21,3 +21,4 @@ words:
   - ollama
   - zswap
   - zram
+  - rocm

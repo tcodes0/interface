@@ -17,6 +17,7 @@ $HOME/Desktop/scripts-eleanor:\
 $HOME/Desktop/dir-rename/build:\
 $HOME/google-cloud-sdk/bin:\
 $HOME/.local/bin:\
+/opt/rocm/bin:\
 /opt/android-sdk/platform-tools"
 
 if [ ! "$(pgrep ssh-agent)" ]; then

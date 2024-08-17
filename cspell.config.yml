@@ -125,3 +125,4 @@ words:
   - ZPJV
   - zswap
   - zram
+  - rocm
