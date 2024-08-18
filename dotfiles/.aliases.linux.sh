@@ -54,3 +54,4 @@ alias sunano='sudo nano'
 alias jrn='journalctl --reverse'
 alias jrnu='journalctl --user --reverse --catalog'
 alias mouse="rivalcfg"
+alias ol="ollama"

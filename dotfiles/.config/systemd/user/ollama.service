@@ -4,7 +4,7 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Service]
-ExecStart=/usr/bin/ollama serve
+ExecStart=%h/bin/ollama serve
 Restart=on-failure
 RestartSec=10
 Type=simple

@@ -6,3 +6,4 @@ bin/qbittorrent
 bin/baristai
 bin/dir-rename
 bin/filer
+bin/ollama
