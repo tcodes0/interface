@@ -28,10 +28,10 @@ trim_old() {
 
   for target in "$@"; do
     # shellcheck disable=SC2207
-    old_snaps=($(find /toplevel -maxdepth 1 -name "${target}*-ro" | sort | head -${max}))
+    old_snaps=($(find /toplevel -maxdepth 1 -name "${target}*-ro" | sort))
 
     if [ "${#old_snaps[@]}" -le "$max" ]; then
-      return
+      continue
     fi
 
     btrfs subvolume delete "${old_snaps[0]}"
