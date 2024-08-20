@@ -220,7 +220,7 @@ alias revert="lg revert"
 alias style="lg style"
 # test is a shell builtin, use lg test
 alias misc="lg misc"
-alias chore="lg misc"
+alias chore="lg chore"
 
 alias build-="lg build -"
 alias ci-="lg ci -"
@@ -233,7 +233,7 @@ alias revert-="lg revert -"
 alias style-="lg style -"
 alias test-="lg test -"
 alias misc-="lg misc -"
-alias chore-="lg misc -"
+alias chore-="lg chore -"
 
 # general
 
