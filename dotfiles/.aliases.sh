@@ -16,6 +16,7 @@ alias .i="cl \$(dirname \$DOTFILES)"
 alias .p="cl \$(dirname \$DOTFILES)/priv"
 alias c.="code ."
 alias .g="cl \$HOME/Desktop/tcodes0-go"
+alias .a="cl \$HOME/Desktop/assistd"
 
 # work
 
