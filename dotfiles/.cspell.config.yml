@@ -15,11 +15,12 @@ dictionaries:
   - computing-acronyms
 words:
   - flansbaum
-  - pacu
-  - tomejila
+  - hloc
   - mkinitcpio
   - ollama
-  - zswap
-  - zram
+  - pacu
   - rocm
-  - hloc
+  - tomejila
+  - uninteractive
+  - zram
+  - zswap

@@ -10,3 +10,5 @@ if ! source "$HOME/Desktop/interface/dotfiles/lib.sh" 2>/dev/null; then
   # shellcheck source=lib.sh
   echo source "$HOME/Desktop/interface/dotfiles/lib.sh": not found
 fi
+
+export PATH="$PATH:$HOME/bin"
