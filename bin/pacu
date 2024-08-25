@@ -31,7 +31,7 @@ do_snapshot() {
   println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    sudo snapshot
+    sudo "$HOME/bin/snapshot"
   fi
 }
 
