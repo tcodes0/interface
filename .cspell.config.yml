@@ -28,101 +28,103 @@ ignorePaths:
   - etc
   - LICENSE
 words:
+  - ACPI
+  - AGDP
+  - AHCI
   - aliasg
   - alnum
+  - APLF
+  - APSN
+  - AQAAAA
   - argn
+  - ASPM
   - baristai
   - bcup
   - btrfs
+  - busid
   - cfprefsd
   - commitlintrc
   - coreutils
   - cpio
+  - CPUPM
+  - CQAAAA
   - csum
   - dator
   - devmode
+  - DMAR
+  - DSDT
+  - EDID
   - euox
   - filerrc
   - findutils
+  - FUMA
+  - FUQQ
   - gcmsg
+  - GIGE
+  - GLAN
   - glslang
   - grbonto
   - grepl
   - grepr
   - guake
+  - GULNV
+  - HDAS
+  - HDEF
+  - HECI
+  - HPET
+  - IGPU
+  - IMEI
   - initdb
+  - iokit
+  - IOUSB
+  - IPIC
   - iterm
   - kaue
   - kazuo
+  - Kext
+  - Kexts
   - lemos
   - libavif
   - libheif
   - libmp
   - lzma
   - mackup
+  - MCFG
+  - Mikey
   - mkpath
   - msgln
   - nauck
   - ncdu
+  - noatime
   - noconfirm
   - pacu
+  - pgrep
   - pgsql
+  - pids
+  - ppfeaturemask
   - prefs
   - psql
+  - QAAA
+  - rocm
+  - SEVDSQ
+  - SSDT
   - tcodes0
   - teramoto
   - thomazella
+  - UAAAA
+  - ucode
   - uncompress
   - unlzma
   - unrar
   - unxz
+  - USBXHCI
+  - USBXHCIPCI
   - vacuumdb
   - wneessen
-  - IGPU
-  - ZYMA
-  - HDAS
-  - HDEF
-  - HECI
-  - IMEI
-  - ACPI
-  - DSDT
-  - HPET
-  - IPIC
-  - DSDT
-  - SEVDSQ
-  - FUMA
-  - FUQQ
-  - GLAN
-  - GIGE
-  - ASPM
-  - DMAR
-  - MCFG
-  - SSDT
-  - APLF
-  - APSN
-  - busid
-  - AQAAAA
-  - CQAAAA
-  - noatime
-  - ucode
-  - ppfeaturemask
-  - EDID
-  - Kext
-  - CPUPM
   - XCPM
-  - Kexts
-  - AHCI
-  - Mikey
-  - AGDP
-  - UAAAA
-  - USBXHCIPCI
-  - QAAA
-  - USBXHCI
   - ydeng
-  - iokit
-  - IOUSB
-  - GULNV
   - ZPJV
-  - zswap
   - zram
-  - rocm
+  - zswap
+  - ZYMA
+  - btrfs
