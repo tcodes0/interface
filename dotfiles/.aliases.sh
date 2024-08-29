@@ -15,8 +15,9 @@ alias .mc="cl \$HOME/Desktop/member-client"
 alias .i="cl \$(dirname \$DOTFILES)"
 alias .p="cl \$(dirname \$DOTFILES)/priv"
 alias c.="code ."
-alias .g="cl \$HOME/Desktop/tcodes0-go"
-alias .a="cl \$HOME/Desktop/assistd"
+alias .go="cl \$HOME/Desktop/go"
+alias .sh="cl \$HOME/Desktop/sh"
+alias .ad="cl \$HOME/Desktop/assistd"
 
 # work
 
