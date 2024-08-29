@@ -94,7 +94,7 @@ push() {
   fi
 
   base_pwd="$(basename "$PWD")"
-  if [[ $PUSH_REPOS != *$base_pwd* ]]; then
+  if [[ $PUSH_REPOS != .*[[:blank:]]*${base_pwd}[[:blank:]]*.* ]]; then
     return
   fi
 
