@@ -310,3 +310,4 @@ alias qai=chatgpt
 # on mac: go install github.com/wneessen/apg-go/cmd/apg@latest
 alias apg="apg -M SNCL"
 alias pwgen="apg"
+alias cd-="cd -"
