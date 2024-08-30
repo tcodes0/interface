@@ -8,7 +8,7 @@ set -e
 
 target=""
 cancel=""
-volumes=("Archlinux" "Dator")
+volumes=(Archlinux Data2TB Data4TB)
 
 function helpExit() {
   println "Usage: $0 [cancel] <volume>"
@@ -24,9 +24,10 @@ fi
 case "$1" in
 "${volumes[0]}") target="/" ;;
 "${volumes[1]}") target="/media/data" ;;
+"${volumes[2]}") target="/media/data4tb" ;;
 esac
 
-#  if target is not dator or archlinux
+#  if target is not data2TB or archlinux
 if [ ! "$target" ]; then
   println "Unknown volume: $1, edit script to add it"
   println "Known volumes: ${volumes[*]}"

@@ -37,11 +37,11 @@ export EDITOR='code -w'
 export GPGKEY=D600E88A0C5FE062
 export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-export HISTSIZE=5000
+export HISTSIZE=50000
 export HISTFILESIZE=$HISTSIZE
 export HISTTIMEFORMAT="%b %d "
 export HISTCONTROL="ignoredups:erasedups"
-export TIMEFORMAT=$'\n-time elapsed-\nreal\t%3Rs\nuser\t%3Us\nsystem\t%3Ss'
+export TIMEFORMAT='%3Rs'
 export BLOCKSIZE=1000000 #1 Megabyte
 export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
@@ -129,7 +129,8 @@ src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 nvm use node >/dev/null
 
 # tmux
-if [ ! "$TMUX" ] && is_me; then
+# set NO_TMUX to skip tmux startup
+if [ ! "$TMUX" ] && [ ! "$NO_TMUX" ] && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi

@@ -15,7 +15,9 @@ alias .mc="cl \$HOME/Desktop/member-client"
 alias .i="cl \$(dirname \$DOTFILES)"
 alias .p="cl \$(dirname \$DOTFILES)/priv"
 alias c.="code ."
-alias .g="cl \$HOME/Desktop/tcodes0-go"
+alias .go="cl \$HOME/Desktop/go"
+alias .sh="cl \$HOME/Desktop/sh"
+alias .ad="cl \$HOME/Desktop/assistd"
 
 # work
 
@@ -219,7 +221,7 @@ alias revert="lg revert"
 alias style="lg style"
 # test is a shell builtin, use lg test
 alias misc="lg misc"
-alias chore="lg misc"
+alias chore="lg chore"
 
 alias build-="lg build -"
 alias ci-="lg ci -"
@@ -232,7 +234,7 @@ alias revert-="lg revert -"
 alias style-="lg style -"
 alias test-="lg test -"
 alias misc-="lg misc -"
-alias chore-="lg misc -"
+alias chore-="lg chore -"
 
 # general
 
@@ -249,7 +251,6 @@ alias disk='diskutil'
 alias part='partutil'
 alias srit='source $HOME/.bashrc && clear'
 alias dirs='dirs -v'
-alias du='du -xa | sort -rn'
 alias stat='stat -L'
 alias j='jobs'
 alias f='fg'
@@ -309,3 +310,4 @@ alias qai=chatgpt
 # on mac: go install github.com/wneessen/apg-go/cmd/apg@latest
 alias apg="apg -M SNCL"
 alias pwgen="apg"
+alias cd-="cd -"

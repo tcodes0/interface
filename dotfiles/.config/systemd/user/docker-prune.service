@@ -1,0 +1,8 @@
+[Unit]
+Description=Prune docker system
+
+[Service]
+Type=simple
+ExecStart=echo y | docker system prune
+Restart=no
+RestartSec=10s

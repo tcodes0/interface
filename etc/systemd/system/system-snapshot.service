@@ -1,0 +1,7 @@
+[Unit]
+Description=btrfs snapshot system and delete old snapshots
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/system-snapshot
+User=root

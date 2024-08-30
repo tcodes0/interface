@@ -1,0 +1,10 @@
+[Unit]
+Description=btrfs snapshot system timer
+After=multi-user.target
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+
+[Install]
+WantedBy=timers.target

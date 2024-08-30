@@ -1,8 +1,8 @@
 [Unit]
-Description=firefox sync timer
+Description=Prunes docker system every week
 
 [Timer]
-OnUnitActiveSec=5min
+OnCalendar=Sat 15..23:00:00
 AccuracySec=1us
 Persistent=false
 

@@ -13,8 +13,6 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-check_log=""
-
 logout() {
   local response
 
@@ -31,7 +29,7 @@ do_snapshot() {
   println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    sudo snapshot
+    sudo "$HOME/bin/snapshot"
   fi
 }
 
@@ -129,7 +127,7 @@ system_up() {
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
   # update everything but linux from AUR
-  yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+  yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
 }
 
 reinstall_global_npm() {
@@ -176,27 +174,34 @@ cleanup_restart_services() {
 }
 
 btrfs_check() {
-  local disk="/dev/disk/by-label/$1"
-  check_log=$(mktemp btrfs-check-XXXXXX.log)
+  println "checking btrfs on disks: $*"
+  println "please unmount all partitions from all disks. All done? [y/N]"
 
-  println "checking btrfs fs on $disk"
+  read -r response
+  if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
+    fatal $LINENO unmount required
+  fi
+
   println "sudo required..."
-
   sudo true
-  sudo umount "$disk"
-  btrfs check --check-data-csum "$disk" >"$check_log" &
 
-  printf %s "$!"
+  for disk in "$@"; do
+    if ! sudo bash -c "btrfs check --check-data-csum /dev/disk/by-label/$disk >/dev/null &"; then
+      fatal $LINENO "btrfs check failed. See 'btrfs check --progress /dev/disk/bt-label/$disk'"
+    fi
+  done
 }
 
 btrfs_check_wait() {
-  local pid="$1"
-
   printf "\e[s" # save cursor position
 
-  while ps -p "$pid" >/dev/null; do
+  while true; do
+    if ! pgrep -f 'btrfs check' >/dev/null; then
+      break
+    fi
+
+    println "waiting for btrfs check on disks $*..."
     printf "\e[u" # restore cursor position
-    command cat "$check_log"
     sleep 3
   done
 
@@ -223,7 +228,7 @@ logout
 do_snapshot
 stop_services sddm postgresql
 
-pid=$(btrfs_check Dator)
+btrfs_check Data2TB Data4TB
 pg_update=$(postgres_up)
 old_node=$(node -v)
 
@@ -231,8 +236,8 @@ old_node=$(node -v)
 source "$NVM_DIR/nvm.sh"
 
 system_up
-reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest
+reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
 cleanup_restart_services "$pg_update" postgresql
-btrfs_check_wait "$pid"
+btrfs_check_wait Data2TB Data4TB
 
 reboot
