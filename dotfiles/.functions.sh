@@ -234,10 +234,8 @@ root() {
 # lazily create a branch called next
 next() {
   if ! git checkout -b next >/dev/null 2>&1; then
-    git branch --delete next
+    git branch --delete --force next
     git push origin --delete next
-  else
     git checkout -b next
   fi
-
 }
