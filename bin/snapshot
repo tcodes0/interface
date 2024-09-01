@@ -8,14 +8,14 @@ set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
-if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
-  println "usage: snapshot.sh [-n|--dry-run]"
-  println "this is an interactive script, use -n or --dry-run to experiment"
-  println "run without dry-run flags to make snapshots"
-  println "- choose subvolume to snapshot from /toplevel, we'll list the options"
-  println "- choose snapshot name, default to \$name-\${todays_date}"
-  println "- choose read-only or read-write, default is read-write"
-  exit 0
+if requested_help; then
+  msgln "usage: snapshot.sh [-n|--dry-run]"
+  msgln "this is an interactive script, use -n or --dry-run to experiment"
+  msgln "run without dry-run flags to make snapshots"
+  msgln "- choose subvolume to snapshot from /toplevel, we'll list the options"
+  msgln "- choose snapshot name, default to \$name-\${todays_date}"
+  msgln "- choose read-only or read-write, default is read-write"
+  exit 1
 fi
 
 dryrun=""
@@ -25,31 +25,31 @@ if [ "${1:-}" = "-n" ] || [ "${1:-}" = "--dry-run" ]; then
 fi
 
 if [ -n "$dryrun" ]; then
-  println "dry run..."
-  println
+  msgln "dry run..."
+  msgln
 fi
 
-println "subvolumes in /toplevel owned by you ($(whoami)):"
-println
+msgln "subvolumes in /toplevel owned by you ($(whoami)):"
+msgln
 
 find /toplevel -maxdepth 1 -user "$(whoami)"
 
-println
-println "snapshot source:"
+msgln
+msgln "snapshot source:"
 
 response=""
 read -r response
 
 if [ ! "$response" ] || [ ! -d "/toplevel/$response" ]; then
-  println "error: /toplevel/$response is not a valid subvolume"
+  msgln "error: /toplevel/$response is not a valid subvolume"
   exit 1
 fi
 
 source="$response"
 source_no_trailing="${response%%-*}"
 
-println
-println "read-write? (y/N) Default read-only:"
+msgln
+msgln "read-write? (y/N) Default read-only:"
 
 read -r response
 
@@ -65,8 +65,8 @@ if [ -n "$readonly" ]; then
   default_name="$default_name-ro"
 fi
 
-println
-println "snapshot name, default $default_name:"
+msgln
+msgln "snapshot name, default $default_name:"
 
 read -r response
 
@@ -78,7 +78,7 @@ else
 fi
 
 if [ -n "$dryrun" ]; then
-  println would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
+  msgln would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
   exit 0
 fi
 

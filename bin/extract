@@ -15,8 +15,8 @@ trap 'err $LINENO' ERR
 ### vars and functions ###
 
 help() {
-  if [ ! "$1" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
-    println "Usage:
+  if [ ! "$1" ] || requested_help; then
+    msgln "Usage:
           supports dozens of popular archive extensions
 
           extract <path/file_name.ext>
@@ -36,7 +36,7 @@ _rar() {
 extract() {
   for file in "$@"; do
     if [ ! -f "$file" ]; then
-      loginfo $LINENO "'$file' not found"
+      log $LINENO "'$file' not found"
       continue
     fi
 

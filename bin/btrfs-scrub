@@ -11,8 +11,8 @@ cancel=""
 volumes=(Archlinux Data2TB Data4TB)
 
 function helpExit() {
-  println "Usage: $0 [cancel] <volume>"
-  println "Known volumes: ${volumes[*]}"
+  msgln "Usage: $0 [cancel] <volume>"
+  msgln "Known volumes: ${volumes[*]}"
   exit 1
 }
 
@@ -29,18 +29,18 @@ esac
 
 #  if target is not data2TB or archlinux
 if [ ! "$target" ]; then
-  println "Unknown volume: $1, edit script to add it"
-  println "Known volumes: ${volumes[*]}"
+  msgln "Unknown volume: $1, edit script to add it"
+  msgln "Known volumes: ${volumes[*]}"
   helpExit
 fi
 
 #  grep mounts to check if target is mounted
 if ! grep -qs "$target" /proc/mounts; then
-  println "$target is not mounted"
+  msgln "$target is not mounted"
   helpExit
 fi
 
-println "Scrub requires sudo"
+msgln "Scrub requires sudo"
 sudo true
 
 # if cancel is true, cancel scrub

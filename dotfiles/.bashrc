@@ -19,16 +19,6 @@ src_dotfile() {
   src "$DOTFILES/$path" "$DOTFILES/.bashrc:$line"
 }
 
-# !is_linux will be macOS
-is_linux() {
-  [ "$(uname)" == "Linux" ]
-}
-
-# !is_me will be root
-is_me() {
-  [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
-}
-
 export DOTFILES="$HOME/Desktop/interface/dotfiles"
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export BASH_ENV="$HOME/.bash_env"
@@ -52,7 +42,8 @@ export WAYLAND_DISPLAY
 # see lazy-git
 export PUSH_REPOS="member-client interface priv hub-client server member-server shared go-athenahealth"
 
-# prompt
+# libs
+src_dotfile "lib.sh" "$LINENO"
 src_dotfile "lib-git-prompt.sh" "$LINENO"
 src_dotfile "lib-prompt.sh" "$LINENO"
 
@@ -107,18 +98,18 @@ fi
 # order matters
 src_dotfile ".aliases.sh" "$LINENO"
 
-if is_linux; then
+if macos; then
+  src_dotfile ".bashrc.mac.sh" "$LINENO"
+  src_dotfile ".aliases.mac.sh" "$LINENO"
+  src_dotfile ".functions.mac.sh" "$LINENO"
+  src /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc "$DOTFILES/.bashrc:$LINENO"
+else
   src_dotfile ".bashrc.linux.sh" "$LINENO"
   src_dotfile ".aliases.linux.sh" "$LINENO"
   src_dotfile ".functions.linux.sh" "$LINENO"
   src "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"
-else
-  src_dotfile ".bashrc.mac.sh" "$LINENO"
-  src_dotfile ".aliases.mac.sh" "$LINENO"
-  src_dotfile ".functions.mac.sh" "$LINENO"
-  src /opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc "$DOTFILES/.bashrc:$LINENO"
 fi
 
 # after aliases
@@ -128,9 +119,9 @@ src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 # after PATH is set
 nvm use node >/dev/null
 
-# tmux
-# set NO_TMUX to skip tmux startup
-if [ ! "$TMUX" ] && [ ! "$NO_TMUX" ] && is_me; then
+# start tmux on login only if not already in a tmux session,
+# if in a terminal emulator, and if the user is me
+if [ ! "$TMUX" ] && term_emulator && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi

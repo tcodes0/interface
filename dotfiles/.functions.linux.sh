@@ -36,7 +36,7 @@ mkinitcpio() {
 #- - - - - - - - - - -
 
 tar7z() {
-  if [ "$#" == 0 ] || [ "$1" == "-h" ]; then
+  if [ "$#" == 0 ] || requested_help; then
     echo "tar7z foo produces foo.tar.7z"
     return 1
   fi
@@ -61,9 +61,9 @@ pacOrphanDepsInteractive() {
   # shellcheck disable=SC2155
   local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 wlroots) orphans=$(yay --query --deps --unrequired)
 
-  println "$(wc -l <<<"$orphans")" orphans:
-  println "$orphans"
-  println removing...
+  msgln "$(wc -l <<<"$orphans")" orphans:
+  msgln "$orphans"
+  msgln removing...
 
   # some pkg versions will be present in pkg var due to bash being limited
   for pkg in $orphans; do
@@ -72,7 +72,7 @@ pacOrphanDepsInteractive() {
     fi
 
     if [[ "${keep[*]}" == *"$pkg"* ]]; then
-      println "keeping $pkg"
+      msgln "keeping $pkg"
       continue
     fi
 
