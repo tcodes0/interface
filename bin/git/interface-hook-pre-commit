@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#
+# git commit hook for interface and priv repos
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+### vars and functions ###
+
+spellcheck() {
+  if ! output=$(cspell --unique . 2>&1); then
+    tail -3 <<<"$output"
+    return 1
+  fi
+}
+
+install_config_plist() {
+  local local_path=boot/EFI/CLOVER/config.plist
+  local root_path=/${local_path} sum_local sum_root
+
+  read -r sum_local < <(sha256sum $local_path)
+  read -r sum_root < <(sha256sum "$root_path")
+
+  if [ "$sum_local" != "$sum_root" ]; then
+    cp $local_path $root_path
+    log "config.plist updated on /boot"
+  fi
+}
+
+### script ###
+
+spellcheck
+install_config_plist
