@@ -18,6 +18,10 @@ install_config_plist() {
   local local_path=boot/EFI/CLOVER/config.plist
   local root_path=/${local_path} sum_local sum_root
 
+  if [ ! -f "$local_path" ]; then
+    return 0
+  fi
+
   read -r sum_local _ < <(sha256sum $local_path)
   read -r sum_root _ < <(sha256sum "$root_path")
 
