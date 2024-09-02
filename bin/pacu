@@ -155,22 +155,22 @@ reinstall_global_npm() {
   done
 }
 
-cleanup_restart_services() {
+cleanup() {
   local pg_major="$1"
   # restore node to latest
   nvm alias default node 1>/dev/null
-
-  command cd "$HOME/Desktop"
-
-  for service in "${@:2}"; do
-    sudo systemctl start "$service".service
-  done
 
   if [ "$pg_major" ]; then
     # make sure postgresql is restarted successfully before attempting removal
     sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
     sudo -u postgres vacuumdb --all --analyze-in-stages
   fi
+}
+
+restart_services() {
+  for service in "${@:2}"; do
+    sudo systemctl start "$service".service
+  done
 }
 
 btrfs_check() {
@@ -217,8 +217,6 @@ reboot() {
 
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
     systemctl reboot
-  else
-    msgln "some services (sddm) may not be running. Please restart them manually."
   fi
 }
 
@@ -237,7 +235,8 @@ source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
-cleanup_restart_services "$pg_update" postgresql
+cleanup "$pg_update"
 btrfs_check_wait Data2TB Data4TB
 
 reboot
+restart_services "$pg_update" postgresql
