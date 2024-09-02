@@ -175,49 +175,28 @@ restart_services() {
 
 btrfs_check() {
   msgln "checking btrfs on disks: $*"
-  msgln "please unmount all partitions from all disks. All done? [y/N]"
+  msgln "please unmount all partitions from all disks. Type y to continue, anything else to skip."
 
   read -r response
   if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
-    fatal $LINENO unmount required
+    return
   fi
 
   msgln "sudo required..."
   sudo true
 
   for disk in "$@"; do
+    # TODO: unsure this command works
     if ! sudo bash -c "btrfs check --check-data-csum /dev/disk/by-label/$disk >/dev/null &"; then
       fatal $LINENO "btrfs check failed. See 'btrfs check --progress /dev/disk/bt-label/$disk'"
     fi
   done
 }
 
-btrfs_check_wait() {
-  printf "\e[s" # save cursor position
-
-  while true; do
-    if ! pgrep -f 'btrfs check' >/dev/null; then
-      break
-    fi
-
-    msgln "waiting for btrfs check on disks $*..."
-    printf "\e[u" # restore cursor position
-    sleep 3
-  done
-
-  msgln "btrfs check done"
+finally() {
+  msgln "success, you may want to reboot."
   msgln "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
-}
-
-reboot() {
-  local response
-
-  msgln "success. reboot now? (timeout 10s) [y/N]"
-  read -t 10 -r response
-
-  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    systemctl reboot
-  fi
+  msgln "if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'"
 }
 
 ### script ###
@@ -236,7 +215,6 @@ source "$NVM_DIR/nvm.sh"
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
 cleanup "$pg_update"
-btrfs_check_wait Data2TB Data4TB
 
-reboot
 restart_services "$pg_update" postgresql
+finally
