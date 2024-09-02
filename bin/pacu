@@ -127,7 +127,7 @@ system_up() {
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
   # update everything but linux from AUR
-  yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
+  echo yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
 }
 
 reinstall_global_npm() {
@@ -137,7 +137,7 @@ reinstall_global_npm() {
     return
   fi
 
-  if ((${#packages[@]} % 0 != 0)); then
+  if ((${#packages[@]} % 2 != 0)); then
     fatal $LINENO "expected an even number of packages and versions"
   fi
 
