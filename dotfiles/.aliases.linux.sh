@@ -55,3 +55,4 @@ alias jrn='journalctl --reverse'
 alias jrnu='journalctl --user --reverse --catalog'
 alias mouse="rivalcfg"
 alias ol="ollama"
+alias mpv="mpv --audio-buffer=10 --audio-channels=2"
