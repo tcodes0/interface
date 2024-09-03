@@ -213,3 +213,33 @@ next() {
     git checkout -b next
   fi
 }
+
+#- - - - - - - - - - -
+
+# question an AI, save dialogue, view with pager
+qai() {
+  if [ ! "$*" ]; then
+    echo "Usage: qai \"what is the capital of france\""
+    return
+  fi
+
+  local question="$*"
+  # shellcheck disable=2155
+  local dir=~/.question-ai now=$(date +%s) filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
+  local dirfile="$dir/${now}_${filename:0:25}"
+
+  if [ ! -d "$dir" ]; then
+    mkdir -p "$dir"
+    chmod 700 "$dir"
+  fi
+
+  touch "$dirfile"
+
+  {
+    echo "// $question"
+    echo "// $now, $(date)"
+    chatgpt "$*" 2>/dev/null
+  } >>"$dirfile"
+
+  less "$dirfile"
+}
