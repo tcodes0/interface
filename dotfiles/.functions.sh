@@ -223,14 +223,22 @@ qai() {
     return
   fi
 
-  local question="$*"
   # shellcheck disable=2155
-  local dir=~/.question-ai now=$(date +%s) filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
-  local dirfile="$dir/${now}_${filename:0:25}"
+  local question="$*" dir=~/.question-ai now=$(date +%s)
+  # shellcheck disable=2155
+  local filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
+  local filename_short=${filename:0:25}
+  local dirfile="$dir/${now}_${filename_short}"
 
   if [ ! -d "$dir" ]; then
     mkdir -p "$dir"
     chmod 700 "$dir"
+  fi
+
+  if find $dir -name "*${filename_short}" >/dev/null; then
+    #  shellcheck disable=2086 # intentional globbing
+    less ./*${filename_short}
+    return
   fi
 
   touch "$dirfile"
