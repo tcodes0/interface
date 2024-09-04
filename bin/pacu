@@ -194,9 +194,9 @@ btrfs_check() {
 }
 
 finally() {
-  msgln "success, you may want to reboot."
-  msgln "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
-  msgln "if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'"
+  msgln "success, you may want to reboot.
+    consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
+    if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'"
 }
 
 ### script ###
