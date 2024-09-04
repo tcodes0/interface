@@ -8,7 +8,7 @@ set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
-if requested_help; then
+if requested_help "$*"; then
   msgln "usage: snapshot.sh [-n|--dry-run]"
   msgln "this is an interactive script, use -n or --dry-run to experiment"
   msgln "run without dry-run flags to make snapshots"

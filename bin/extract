@@ -14,18 +14,15 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-help() {
-  if [ ! "$1" ] || requested_help; then
-    msgln "Usage:
-          supports dozens of popular archive extensions
+usage() {
+  msgln "Usage:
+          extract dozens of popular archive extensions
 
           extract <path/file_name.ext>
           extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
-    exit
-  fi
 }
 
-_rar() {
+unrar() {
   if command -v unrar-free >/dev/null; then
     unrar-free x -ad ../"$1"
   else
@@ -34,6 +31,9 @@ _rar() {
 }
 
 extract() {
+  SAVED_IFS=$IFS
+  IFS=$(echo -en "\n\b")
+
   for file in "$@"; do
     if [ ! -f "$file" ]; then
       log $LINENO "'$file' not found"
@@ -50,7 +50,7 @@ extract() {
       ;;
     *.lzma) unlzma ../"$file" ;;
     *.bz2) bunzip2 ../"$file" ;;
-    *.rar) _rar "$file" ;;
+    *.rar) unrar "$file" ;;
     *.gz) gunzip ../"$file" ;;
     *.zip) unzip ../"$file" ;;
     *.z) uncompress ../"$file" ;;
@@ -70,14 +70,14 @@ extract() {
   done
 
   cd ..
+  IFS=$SAVED_IFS
 }
 
 ### script ###
 
-SAVED_IFS=$IFS
-IFS=$(echo -en "\n\b")
+if [ ! "${1:-}" ] || requested_help "$*"; then
+  usage
+  exit
+fi
 
-help "$1"
 extract "$@"
-
-IFS=$SAVED_IFS

@@ -36,7 +36,7 @@ mkinitcpio() {
 #- - - - - - - - - - -
 
 tar7z() {
-  if [ "$#" == 0 ] || requested_help; then
+  if [ "$#" == 0 ] || requested_help "$*"; then
     echo "tar7z foo produces foo.tar.7z"
     return 1
   fi

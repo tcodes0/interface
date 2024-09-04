@@ -29,11 +29,6 @@ usage() {
 }
 
 validate_input() {
-  if requested_help; then
-    usage
-    exit 1
-  fi
-
   if [ ! "$vid_id" ]; then
     usage
     fatal "$LINENO" "no video id"
@@ -139,6 +134,11 @@ convert_MP3() {
 }
 
 ### script ###
+
+if requested_help "$*"; then
+  usage
+  exit 1
+fi
 
 current_wd=$(pwd)
 

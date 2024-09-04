@@ -13,7 +13,7 @@ usage() {
   "
 }
 
-if requested_help; then
+if requested_help "$*"; then
   usage
   exit 1
 fi

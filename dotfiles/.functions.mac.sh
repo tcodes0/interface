@@ -16,7 +16,7 @@ hidedesktop() {
 #- - - - - - - - - - -
 
 notify() {
-  if requested_help; then
+  if requested_help "$*"; then
     echo "
     Send system notifications using MacOs osascript
     notify <title?> <content?>

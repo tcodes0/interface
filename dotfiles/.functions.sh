@@ -50,7 +50,7 @@ tra() {
 #- - - - - - - - - - -
 
 grepr() {
-  if [ "$#" == "0" ] || requested_help; then
+  if [ "$#" == "0" ] || requested_help "$*"; then
     grepl -h
     echo "recursive."
     return
@@ -62,7 +62,7 @@ grepr() {
 #- - - - - - - - - - -
 
 grepl() {
-  if [ "$#" == "0" ] || requested_help; then
+  if [ "$#" == "0" ] || requested_help "$*"; then
     echo "grep files with matches, case-insensitive, extended regex, on \$PWD, no error messages."
     return
   fi
@@ -143,7 +143,7 @@ gss() {
 #- - - - - - - - - - -
 
 grbonto() {
-  if [ ! "$1" ] || requested_help; then
+  if [ ! "$1" ] || requested_help "$*"; then
     echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin main"
     return
   fi
