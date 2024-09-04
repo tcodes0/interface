@@ -1,31 +1,5 @@
 #! /usr/bin/env bash
 
-loginfo() {
-  local linenum=${1:?} msg=${*:2}
-
-  if [ "$msg" ]; then
-    echo -ne "INFO (.functions.sh:$linenum) $msg\\n" >&2
-  fi
-}
-
-logwarn() {
-  local linenum=${1:?} msg=${*:2}
-
-  if [ "$msg" ]; then
-    echo -ne "WARN (.functions.sh:$linenum) $msg\\n" >&2
-  fi
-}
-
-println() {
-  print "$*\\n"
-}
-
-print() {
-  echo -ne "$*"
-}
-
-#- - - - - - - - - - -
-
 cl() {
   local path="$1"
 
@@ -76,7 +50,7 @@ tra() {
 #- - - - - - - - - - -
 
 grepr() {
-  if [ "$#" == "0" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  if [ "$#" == "0" ] || requested_help "$*"; then
     grepl -h
     echo "recursive."
     return
@@ -88,7 +62,7 @@ grepr() {
 #- - - - - - - - - - -
 
 grepl() {
-  if [ "$#" == "0" ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
+  if [ "$#" == "0" ] || requested_help "$*"; then
     echo "grep files with matches, case-insensitive, extended regex, on \$PWD, no error messages."
     return
   fi
@@ -161,7 +135,7 @@ gss() {
   if command git status -s 2>/dev/null 1>&2; then
     command git status -s
   else
-    logwarn $LINENO "not a git repo"
+    warn $LINENO "not a git repo"
     ls
   fi
 }
@@ -169,7 +143,7 @@ gss() {
 #- - - - - - - - - - -
 
 grbonto() {
-  if [ ! "$1" ] || [ "$1" == -h ] || [ "$1" == --help ]; then
+  if [ ! "$1" ] || requested_help "$*"; then
     echo "Usage: grbonto 5 to rebase HEAD~5 commits into origin main"
     return
   fi
@@ -187,16 +161,16 @@ gcom() {
   checkout=$(git checkout $branch 2>&1)
 
   if [[ "$checkout" =~ 'can be fast-forwarded' ]]; then
-    loginfo $LINENO "branch behind remote counterpart, pulling..."
+    log $LINENO "branch behind remote counterpart, pulling..."
 
     if ! git diff --quiet; then
-      loginfo $LINENO "you have unstaged changes"
+      log $LINENO "you have unstaged changes"
       return
     fi
 
     git pull
   elif [[ "$checkout" =~ 'did not match any file' ]]; then
-    loginfo $LINENO "branch $branch does not exist, checkout manually"
+    log $LINENO "branch $branch does not exist, checkout manually"
   fi
 }
 
@@ -234,10 +208,38 @@ root() {
 # lazily create a branch called next
 next() {
   if ! git checkout -b next >/dev/null 2>&1; then
-    git branch --delete next
+    git branch --delete --force next
     git push origin --delete next
-  else
     git checkout -b next
   fi
+}
 
+#- - - - - - - - - - -
+
+# question an AI, save dialogue, view with pager
+qai() {
+  if [ ! "$*" ]; then
+    echo "Usage: qai \"what is the capital of france\""
+    return
+  fi
+
+  local question="$*"
+  # shellcheck disable=2155
+  local dir=~/.question-ai now=$(date +%s) filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
+  local dirfile="$dir/${now}_${filename:0:25}"
+
+  if [ ! -d "$dir" ]; then
+    mkdir -p "$dir"
+    chmod 700 "$dir"
+  fi
+
+  touch "$dirfile"
+
+  {
+    echo "// $question"
+    echo "// $now, $(date)"
+    chatgpt "$*" 2>/dev/null
+  } >>"$dirfile"
+
+  less "$dirfile"
 }

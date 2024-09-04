@@ -1,9 +1,11 @@
 [Unit]
 Description=Loads x11 xkbcomp
+After=graphical-session.target
+Requires=graphical-session.target
 
 [Service]
 Type=simple
 ExecStart=/usr/bin/xkbcomp %h/Desktop/interface/dotfiles/.config/keymap.xkb $DISPLAY
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

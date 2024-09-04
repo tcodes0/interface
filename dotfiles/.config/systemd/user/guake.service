@@ -1,9 +1,0 @@
-[Unit]
-Description=guake dropdown terminal process
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/guake
-
-[Install]
-WantedBy=default.target

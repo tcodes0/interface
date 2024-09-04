@@ -1,9 +1,11 @@
 [Unit]
 Description=Set keystroke speed
+After=default.target
+Requires=default.target
 
 [Service]
 Type=simple
 ExecStart=/usr/bin/xset r rate 140 70
 
 [Install]
-WantedBy=graphical.target
+WantedBy=default.target

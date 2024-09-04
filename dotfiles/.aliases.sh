@@ -257,7 +257,6 @@ alias f='fg'
 alias g='grep -Eie'
 alias ping='ping -c 1'
 alias e='echo -e'
-alias less="\$PAGER"
 alias python="python3"
 alias ncdu="ncdu -x --si"
 alias visudo="EDITOR='code -w' && command sudo visudo"
@@ -306,7 +305,6 @@ alias sshadd="ssh-add ~/.ssh/id_rsa"
 alias gw="gopass"
 alias gwi="gopass insert"
 alias gwc="gopass -c"
-alias qai=chatgpt
 # on mac: go install github.com/wneessen/apg-go/cmd/apg@latest
 alias apg="apg -M SNCL"
 alias pwgen="apg"

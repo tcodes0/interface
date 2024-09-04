@@ -34,12 +34,3 @@ export GOBIN=$HOME/go/bin
 for file in "$HOME"/.bash_completion.d/*; do
   src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
-
-# /dev/pts ensures it runs on GUI terminal not before
-if is_me && [ "$USER_SERVICES_STARTED" == "" ] && [[ $(tty) =~ /dev/pts ]]; then
-  # systemctl call is slow, so only run once, also errors if already running
-  export USER_SERVICES_STARTED="true"
-  systemctl --user start xkbcomp.service
-  systemctl --user start xset-rate.service
-  systemctl --user start firefox-sync.service
-fi

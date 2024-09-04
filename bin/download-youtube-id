@@ -22,14 +22,14 @@ video_fmt=""
 video_ext=""
 
 usage() {
-  println "Usage: $0 <youtube_video_id> <title>"
-  println
-  println output will be in "$out_dir"
-  println note: youtube video id will be appended to title
+  msgln "Usage: $0 <youtube_video_id> <title>"
+  msgln
+  msgln output will be in "$out_dir"
+  msgln note: youtube video id will be appended to title
 }
 
 validate_input() {
-  if [ ! "$vid_id" ] || [ "$vid_id" == -h ] || [ "$vid_id" == --help ]; then
+  if [ ! "$vid_id" ]; then
     usage
     fatal "$LINENO" "no video id"
   fi
@@ -44,7 +44,7 @@ prepare_temp() {
   local temp
   temp=$(mktemp -d youtube_dl-XXXXXX -p /tmp)
 
-  loginfo $LINENO using temp "$temp"
+  log $LINENO using temp "$temp"
   cd "$temp"
 }
 
@@ -61,28 +61,28 @@ download() {
 }
 
 prompt_audio_format() {
-  println note: high quality video has no audio, choose audio now
-  println choose an audio format:
+  msgln note: high quality video has no audio, choose audio now
+  msgln choose an audio format:
 
   read -r
   audio_fmt="$REPLY"
-  println audio extension: \(see column EXT\)
+  msgln audio extension: \(see column EXT\)
 
   read -r
   audio_ext="$REPLY"
 }
 
 prompt_video_format() {
-  println Choose a video format:
-  println 4k: look for mp4 3840x2160
-  println 2k: look for mp4 2560x1440
-  println Leave blank to download only audio
+  msgln Choose a video format:
+  msgln 4k: look for mp4 3840x2160
+  msgln 2k: look for mp4 2560x1440
+  msgln Leave blank to download only audio
 
   read -r
   video_fmt="$REPLY"
 
   if [ "$video_fmt" ]; then
-    println Video extension: \(see column EXT\)
+    msgln Video extension: \(see column EXT\)
 
     read -r
     video_ext="$REPLY"
@@ -101,7 +101,7 @@ validate_formats() {
   fi
 
   if [ "$video_fmt" ] && [ ! "$audio_fmt" ]; then
-    logwarn "$LINENO" "video might have no audio"
+    warn "$LINENO" "video might have no audio"
     sleep 2
   fi
 }
@@ -110,7 +110,7 @@ mux() {
   local audio_fmt=$1 audio_ext=$2 video_fmt=$3 video_ext=$4 name=$5
 
   if [ ! "$audio_fmt" ] || [ ! "$video_fmt" ]; then
-    loginfo "$LINENO" "skip mux: expected audio and video format"
+    log "$LINENO" "skip mux: expected audio and video format"
     sleep 1
     return
   fi
@@ -123,7 +123,7 @@ convert_MP3() {
   local audio_fmt=$1 video_fmt=$2 name=$3
 
   if [ ! "$audio_fmt" ] || [ "$video_fmt" ]; then
-    loginfo "$LINENO" "skip mp3 convert: expected audio only format"
+    log "$LINENO" "skip mp3 convert: expected audio only format"
     sleep 1
     return
   fi
@@ -134,6 +134,11 @@ convert_MP3() {
 }
 
 ### script ###
+
+if requested_help "$*"; then
+  usage
+  exit 1
+fi
 
 current_wd=$(pwd)
 

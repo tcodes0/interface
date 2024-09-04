@@ -16,7 +16,7 @@ trap 'err $LINENO' ERR
 logout() {
   local response
 
-  println "please logout and switch to a console. All done? (timeout 10s) [y/N]"
+  msgln "please logout and switch to a console. All done? (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
     fatal $LINENO logout required
@@ -26,7 +26,7 @@ logout() {
 do_snapshot() {
   local response
 
-  println "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
+  msgln "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
   read -t 10 -r response
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
     sudo "$HOME/bin/snapshot"
@@ -36,7 +36,7 @@ do_snapshot() {
 stop_services() {
   for service in "$@"; do
     sudo systemctl stop "$service".service
-    loginfo $LINENO "stopped $service"
+    log $LINENO "stopped $service"
   done
 }
 
@@ -52,13 +52,13 @@ extract_version() {
 migrate_postgres() {
   local initdb_args=(--encoding=UTF8 -D /var/lib/postgres/data) old_version
 
-  println
-  loginfo $LINENO "manually migrating pg db across major versions..."
-  loginfo $LINENO "sudo required"
+  msgln
+  log $LINENO "manually migrating pg db across major versions..."
+  log $LINENO "sudo required"
   sudo true
 
   old_version="$(sudo -u postgres cat /var/lib/postgres/data/PG_VERSION)"
-  loginfo "old version: $old_version"
+  log "old version: $old_version"
 
   # mv and mkdir will fail here if directories exist
   sudo mv /var/lib/postgres/data /var/lib/postgres/olddata
@@ -75,7 +75,7 @@ refresh_collations() {
   local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres)
 
   for db in "${dbs[@]}"; do
-    loginfo $LINENO collation update "$db"
+    log $LINENO collation update "$db"
     psql -U postgres -c "alter database $db refresh collation version;" >/dev/null
   done
 }
@@ -96,7 +96,7 @@ postgres_up() {
     migrate_postgres
     refresh_collations
   else
-    loginfo $LINENO "no major version change detected in Postgresql"
+    log $LINENO "no major version change detected in Postgresql"
   fi
 }
 
@@ -111,7 +111,7 @@ system_up() {
   # update node
   nvm install node
   # temporarily downgrade the default node in nvm
-  loginfo $LINENO "using node $lts_name for upgrade..."
+  log $LINENO "using node $lts_name for upgrade..."
   nvm install "$lts_name" >/dev/null
   # after install NVM sets the installed node as the one in use
   LTS_VER="$(node -v)"
@@ -127,7 +127,7 @@ system_up() {
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
   # update everything but linux from AUR
-  yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
+  echo yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
 }
 
 reinstall_global_npm() {
@@ -137,7 +137,7 @@ reinstall_global_npm() {
     return
   fi
 
-  if ((${#packages[@]} % 0 != 0)); then
+  if ((${#packages[@]} % 2 != 0)); then
     fatal $LINENO "expected an even number of packages and versions"
   fi
 
@@ -155,16 +155,10 @@ reinstall_global_npm() {
   done
 }
 
-cleanup_restart_services() {
+cleanup() {
   local pg_major="$1"
   # restore node to latest
   nvm alias default node 1>/dev/null
-
-  command cd "$HOME/Desktop"
-
-  for service in "${@:2}"; do
-    sudo systemctl start "$service".service
-  done
 
   if [ "$pg_major" ]; then
     # make sure postgresql is restarted successfully before attempting removal
@@ -173,53 +167,36 @@ cleanup_restart_services() {
   fi
 }
 
+restart_services() {
+  for service in "${@:2}"; do
+    sudo systemctl start "$service".service
+  done
+}
+
 btrfs_check() {
-  println "checking btrfs on disks: $*"
-  println "please unmount all partitions from all disks. All done? [y/N]"
+  msgln "checking btrfs on disks: $*"
+  msgln "please unmount all partitions from all disks. Type y to continue, anything else to skip."
 
   read -r response
   if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
-    fatal $LINENO unmount required
+    return
   fi
 
-  println "sudo required..."
+  msgln "sudo required..."
   sudo true
 
   for disk in "$@"; do
+    # TODO: unsure this command works
     if ! sudo bash -c "btrfs check --check-data-csum /dev/disk/by-label/$disk >/dev/null &"; then
       fatal $LINENO "btrfs check failed. See 'btrfs check --progress /dev/disk/bt-label/$disk'"
     fi
   done
 }
 
-btrfs_check_wait() {
-  printf "\e[s" # save cursor position
-
-  while true; do
-    if ! pgrep -f 'btrfs check' >/dev/null; then
-      break
-    fi
-
-    println "waiting for btrfs check on disks $*..."
-    printf "\e[u" # restore cursor position
-    sleep 3
-  done
-
-  println "btrfs check done"
-  println "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
-}
-
-reboot() {
-  local response
-
-  println "success. reboot now? (timeout 10s) [y/N]"
-  read -t 10 -r response
-
-  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    systemctl reboot
-  else
-    println "some services (sddm) may not be running. Please restart them manually."
-  fi
+finally() {
+  msgln "success, you may want to reboot."
+  msgln "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
+  msgln "if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'"
 }
 
 ### script ###
@@ -237,7 +214,7 @@ source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
-cleanup_restart_services "$pg_update" postgresql
-btrfs_check_wait Data2TB Data4TB
+cleanup "$pg_update"
 
-reboot
+restart_services "$pg_update" postgresql
+finally

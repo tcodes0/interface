@@ -26,7 +26,7 @@ git_do() {
   # check for another git process running at this time (rare edge-case)
   # i.e. some IDE; wait for it to finish
   while [ -f "$PWD/.git/index.lock" ]; do
-    loginfo $LINENO ".git/index.lock exits, waiting..."
+    log $LINENO ".git/index.lock exits, waiting..."
     sleep 1
   done
 
@@ -56,7 +56,7 @@ commit() {
   manually_staged=$(git diff --name-only --cached)
 
   if [ "$manually_staged" ]; then
-    loginfo $LINENO "committing files already staged..."
+    log $LINENO "committing files already staged..."
   fi
 
   if [ ! "$manually_staged" ] && ! git_do add --all; then
@@ -84,7 +84,7 @@ commit() {
   command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
 
   if git_do commit -q -m "$commit_msg"; then
-    println "$commit_msg"
+    msgln "$commit_msg"
   fi
 }
 
@@ -98,10 +98,10 @@ push() {
     return
   fi
 
-  loginfo $LINENO "$base_pwd matches \$PUSH_REPOS"
+  log $LINENO "$base_pwd matches \$PUSH_REPOS"
 
   if ! git_do push >/dev/null 2>&1; then
-    loginfo $LINENO set upstream to origin/"$GIT_BRANCH"
+    log $LINENO set upstream to origin/"$GIT_BRANCH"
     git_do push --set-upstream origin "$GIT_BRANCH" >/dev/null 2>&1
   fi
 }
