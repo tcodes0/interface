@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# shellcheck disable=2155
 
 cl() {
   local path="$1"
@@ -223,31 +224,33 @@ qai() {
     return
   fi
 
-  # shellcheck disable=2155
   local question="$*" dir=~/.question-ai now=$(date +%s)
-  # shellcheck disable=2155
   local filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
   local filename_short=${filename:0:25}
-  local dirfile="$dir/${now}_${filename_short}"
+  local dir_file="$dir/${now}_${filename_short}" existing_files=()
 
   if [ ! -d "$dir" ]; then
     mkdir -p "$dir"
     chmod 700 "$dir"
   fi
 
-  if find $dir -name "*${filename_short}" >/dev/null; then
-    #  shellcheck disable=2086 # intentional globbing
-    less ./*${filename_short}
+  shopt -s nullglob
+
+  # shellcheck disable=2206 # intentional globbing
+  existing_files=(./*${filename_short})
+  if [ ${#existing_files[@]} == 1 ]; then
+    # shellcheck disable=2086 # intentional globbing
+    less ${existing_files[0]}
     return
   fi
 
-  touch "$dirfile"
+  touch "$dir_file"
 
   {
     echo "// $question"
     echo "// $now, $(date)"
     chatgpt "$*" 2>/dev/null
-  } >>"$dirfile"
+  } >>"$dir_file"
 
-  less "$dirfile"
+  less "$dir_file"
 }
