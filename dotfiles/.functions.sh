@@ -225,7 +225,7 @@ qai() {
   fi
 
   local question="$*" dir=~/.question-ai now=$(date +%s)
-  local filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
+  local filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,\?/'\''"`;')
   local filename_short=${filename:0:25}
   local dir_file="$dir/${now}_${filename_short}" existing_files=()
 
