@@ -206,12 +206,20 @@ root() {
 
 #- - - - - - - - - - -
 
-# lazily create a branch called next
-next() {
-  if ! git checkout -b next >/dev/null 2>&1; then
-    git branch --delete --force next
-    git push origin --delete next 2>&1
-    git checkout -b next
+# lazy branch
+lb() {
+  local branch=$1
+
+  if [ ! "$branch" ]; then
+    echo "Usage: lb branch-name"
+    return
+  fi
+
+  if ! git checkout -b "$branch" >/dev/null 2>&1; then
+    git checkout main
+    git branch --delete --force "$branch"
+    git push origin --delete "$branch" >/dev/null 2>&1
+    git checkout -b "$branch"
   fi
 }
 
