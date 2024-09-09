@@ -1,6 +1,5 @@
 [Unit]
 Description=Monthly Btrfs scrub on %f
-After=multi-user.target
 
 [Timer]
 OnCalendar=monthly
