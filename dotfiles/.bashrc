@@ -23,6 +23,7 @@ export DOTFILES="$HOME/Desktop/interface/dotfiles"
 export GOPRIVATE="github.com/eleanorhealth/\* github.com/tcodes0/\*"
 export BASH_ENV="$HOME/.bash_env"
 export CMD_COLOR=true
+export T0_COLOR=true
 export EDITOR='code -w'
 export GPGKEY=D600E88A0C5FE062
 export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
