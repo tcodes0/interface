@@ -98,10 +98,10 @@ push() {
     return
   fi
 
-  log $LINENO "$base_pwd matches \$PUSH_REPOS"
+  debug $LINENO "$base_pwd matches \$PUSH_REPOS"
 
   if ! git_do push >/dev/null 2>&1; then
-    log $LINENO set upstream to origin/"$GIT_BRANCH"
+    debug $LINENO set upstream to origin/"$GIT_BRANCH"
     git_do push --set-upstream origin "$GIT_BRANCH" >/dev/null 2>&1
   fi
 }
