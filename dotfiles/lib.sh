@@ -15,6 +15,7 @@
 # ANSI escape codes for visual formatting
 export LIB_VISUAL_END="\e[0m"
 export LIB_FORMAT_DIM="\e[2m"
+export LIB_COLOR_DARK_GRAY="\e[38;05;8m"
 
 # on most systems, sed is GNU sed
 export SED="sed"
@@ -64,6 +65,19 @@ msgln() {
 # Example    : log $LINENO pizza order received
 log() {
   __log INFO "$@"
+}
+
+# Description: Log a message with DEBUG level and line number
+# Globals    : T0_COLOR (env) colored output if "true"
+# Args       : Any
+# STDERR     : INFO (pizza.sh:34) message + \n
+# Example    : log $LINENO pizza order received
+debug() {
+  if [ "${T0_COLOR:-}" == "true" ]; then
+    __log "${LIB_COLOR_DARK_GRAY}DEBUG" "$@" "${LIB_VISUAL_END}"
+  else
+    __log DEBUG "$@"
+  fi
 }
 
 # Description: Log a message with ERROR level and line number

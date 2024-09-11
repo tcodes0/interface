@@ -33,10 +33,12 @@ do_snapshot() {
   fi
 }
 
-stop_services() {
-  for service in "$@"; do
-    sudo systemctl stop "$service".service
-    log $LINENO "stopped $service"
+services() {
+  local cmd="$1" service
+
+  for service in "${@:2}"; do
+    sudo systemctl "$cmd" "$service".service
+    log $LINENO "$cmd $service"
   done
 }
 
@@ -150,7 +152,7 @@ reinstall_global_npm() {
     version="${packages[i + 1]}"
 
     if ! command -v "$name" >/dev/null; then
-      echo npm install --global "$version"
+      npm install --global "$version"
     fi
   done
 }
@@ -165,12 +167,6 @@ cleanup() {
     sudo rm -fr /var/lib/postgres/olddata /var/lib/postgres/tmp
     sudo -u postgres vacuumdb --all --analyze-in-stages
   fi
-}
-
-restart_services() {
-  for service in "${@:2}"; do
-    sudo systemctl start "$service".service
-  done
 }
 
 btrfs_check() {
@@ -194,16 +190,17 @@ btrfs_check() {
 }
 
 finally() {
-  msgln "success, you may want to reboot."
-  msgln "consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'"
-  msgln "if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'"
+  msgln "success, you may want to reboot.
+    consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
+    if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'.
+    sddm was not restarted, you can do so now to go back to GUI."
 }
 
 ### script ###
 
 logout
 do_snapshot
-stop_services sddm postgresql
+services stop sddm postgresql
 
 btrfs_check Data2TB Data4TB
 pg_update=$(postgres_up)
@@ -214,7 +211,7 @@ source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
-cleanup "$pg_update"
+services start postgresql
 
-restart_services "$pg_update" postgresql
+cleanup "$pg_update"
 finally

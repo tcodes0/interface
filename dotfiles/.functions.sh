@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+# shellcheck disable=2155
 
 cl() {
   local path="$1"
@@ -205,12 +206,20 @@ root() {
 
 #- - - - - - - - - - -
 
-# lazily create a branch called next
-next() {
-  if ! git checkout -b next >/dev/null 2>&1; then
-    git branch --delete --force next
-    git push origin --delete next
-    git checkout -b next
+# lazy branch
+lb() {
+  local branch=$1
+
+  if [ ! "$branch" ]; then
+    echo "Usage: lb branch-name"
+    return
+  fi
+
+  if ! git checkout -b "$branch" >/dev/null 2>&1; then
+    git checkout main
+    git branch --delete --force "$branch"
+    git push origin --delete "$branch" >/dev/null 2>&1
+    git checkout -b "$branch"
   fi
 }
 
@@ -223,23 +232,33 @@ qai() {
     return
   fi
 
-  local question="$*"
-  # shellcheck disable=2155
-  local dir=~/.question-ai now=$(date +%s) filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,?'\''"`;')
-  local dirfile="$dir/${now}_${filename:0:25}"
+  local question="$*" dir=~/.question-ai now=$(date +%s)
+  local filename=$(tr '[:upper:]' '[:lower:]' <<<"$question" | tr -d ' ,\?/'\''"`;')
+  local filename_short=${filename:0:25}
+  local dir_file="$dir/${now}_${filename_short}" existing_files=()
 
   if [ ! -d "$dir" ]; then
     mkdir -p "$dir"
     chmod 700 "$dir"
   fi
 
-  touch "$dirfile"
+  shopt -s nullglob
+
+  # shellcheck disable=2206 # intentional globbing
+  existing_files=(./*${filename_short})
+  if [ ${#existing_files[@]} == 1 ]; then
+    # shellcheck disable=2086 # intentional globbing
+    less ${existing_files[0]}
+    return
+  fi
+
+  touch "$dir_file"
 
   {
     echo "// $question"
     echo "// $now, $(date)"
     chatgpt "$*" 2>/dev/null
-  } >>"$dirfile"
+  } >>"$dir_file"
 
-  less "$dirfile"
+  less "$dir_file"
 }

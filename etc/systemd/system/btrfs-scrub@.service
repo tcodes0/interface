@@ -1,9 +1,10 @@
 [Unit]
 Description=Scrub btrfs filesystems
+After=local-fs.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/bin/btrfs-scrub.sh %i &
+ExecStart=%h/bin/btrfs-scrub %i &
 NotifyAccess=main
 User=root
 Group=root

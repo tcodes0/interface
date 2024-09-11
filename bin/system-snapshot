@@ -19,8 +19,6 @@ create_snaps() {
   for target in "$@"; do
     btrfs subvolume snapshot "${flags[@]}" "/toplevel/$target" "/toplevel/$target-$now-ro"
   done
-
-  echo -e "INFO ($0:$LINENO) created snapshots at $now" >&2
 }
 
 trim_old() {
@@ -35,7 +33,6 @@ trim_old() {
     fi
 
     btrfs subvolume delete "${old_snaps[0]}"
-    echo -e "INFO ($0:$LINENO) deleted ${old_snaps[0]}" >&2
   done
 }
 
