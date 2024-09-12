@@ -7,6 +7,8 @@
 # Library of shell functions and vars.
 # This script is sourced by path from other scripts, careful if moving or renaming it.
 # Sourcing this library causes side effects only to library variables.
+#
+# this lib should be kept in sync with https://github.com/tcodes0/sh/blob/main/lib.sh
 
 ############
 ### vars ###
@@ -15,7 +17,11 @@
 # ANSI escape codes for visual formatting
 export LIB_VISUAL_END="\e[0m"
 export LIB_FORMAT_DIM="\e[2m"
+
+# ANSI escape codes for specific colors
 export LIB_COLOR_DARK_GRAY="\e[38;05;8m"
+export LIB_COLOR_RED="\e[38;05;124m"
+export LIB_COLOR_RED_BRIGHT="\e[38;05;197m"
 
 # on most systems, sed is GNU sed
 export SED="sed"
@@ -64,7 +70,11 @@ msgln() {
 # STDERR     : INFO (pizza.sh:34) message + \n
 # Example    : log $LINENO pizza order received
 log() {
-  __log INFO "$@"
+  if [ "${T0_COLOR:-}" == "true" ]; then
+    __log "${LIB_COLOR_DARK_GRAY}INFO" "$@" "${LIB_VISUAL_END}"
+  else
+    __log INFO "$@"
+  fi
 }
 
 # Description: Log a message with DEBUG level and line number
@@ -81,19 +91,29 @@ debug() {
 }
 
 # Description: Log a message with ERROR level and line number
+# Globals    : T0_COLOR (env) colored output if "true"
 # Args       : Any
 # STDERR     : ERROR (pizza.sh:34) message + \n
 # Example    : err $LINENO oven temperature too high
 err() {
-  __log ERROR "$@"
+  if [ "${T0_COLOR:-}" == "true" ]; then
+    __log "${LIB_COLOR_RED}ERROR" "$@" "${LIB_VISUAL_END}"
+  else
+    __log ERROR "$@"
+  fi
 }
 
 # Description: Calls err with args, then exits with status 1
+# Globals    : T0_COLOR (env) colored output if "true"
 # Args       : Any
 # STDERR     : FATAL (pizza.sh:34) message + \n
 # Example    : fatal $LINENO we've run out of cheese
 fatal() {
-  __log FATAL "$@"
+  if [ "${T0_COLOR:-}" == "true" ]; then
+    __log "${LIB_COLOR_RED_BRIGHT}FATAL" "$@" "${LIB_VISUAL_END}"
+  else
+    __log FATAL "$@"
+  fi
   exit 1
 }
 
