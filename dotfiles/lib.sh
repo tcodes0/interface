@@ -121,7 +121,7 @@ fatal() {
 # Args       : $@
 # Example    : if requested_help "$*"; then echo "help"; fi
 requested_help() {
-  [[ "$*" =~ -h|--help|help ]]
+  [[ "$*" =~ [[:blank:]]+-h[[:blank:]]+|[[:blank:]]+--help[[:blank:]]+|[[:blank:]]+help[[:blank:]]+ ]]
 }
 
 ####################
