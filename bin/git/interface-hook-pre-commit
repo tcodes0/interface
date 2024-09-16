@@ -9,7 +9,7 @@ trap 'err $LINENO' ERR
 
 spellcheck() {
   if ! output=$(cspell --unique . 2>&1); then
-    tail -3 <<<"$output"
+    command cat "$output"
     return 1
   fi
 }
@@ -19,7 +19,7 @@ install_config_plist() {
   local root_path=/${local_path} sum_local sum_root
 
   if [ ! -f "$local_path" ]; then
-    return 0
+    return
   fi
 
   read -r sum_local _ < <(sha256sum $local_path)
