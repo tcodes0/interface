@@ -46,6 +46,7 @@ alias yy='yarn'
 alias gnc='gcn'
 alias lslbk='lsblk'
 alias lsbkl='lsblk'
+alias gocm='gcom'
 
 # Git
 
