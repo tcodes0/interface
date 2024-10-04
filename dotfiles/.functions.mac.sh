@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-hidedesktop() {
+hide_desktop() {
   local state
   state=$(defaults read com.apple.finder CreateDesktop)
 

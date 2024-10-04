@@ -24,7 +24,7 @@ usage() {
 
 unrar() {
   if command -v unrar-free >/dev/null; then
-    unrar-free x -ad ../"$1"
+    unrar-free x ../"$1"
   else
     unrar x -ad ../"$1"
   fi

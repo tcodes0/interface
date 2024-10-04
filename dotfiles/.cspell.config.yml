@@ -16,6 +16,7 @@ dictionaries:
 words:
   - flansbaum
   - GPGKEY
+  - gsed
   - hloc
   - mkinitcpio
   - msgln

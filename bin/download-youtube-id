@@ -6,6 +6,7 @@
 #
 # downloads youtube videos by id in a few formats
 # note: undefined functions are in lib.sh (sourced via BASH_ENV)
+# shellcheck disable=SC2155
 
 set -euo pipefail
 shopt -s globstar
@@ -15,7 +16,7 @@ trap 'err $LINENO' ERR
 
 vid_id=${1:-}
 title=${2:-}
-out_dir="$HOME/Desktop"
+out_dir="/plex/music/youtube-sets"
 audio_fmt=""
 audio_ext=""
 video_fmt=""
@@ -37,6 +38,24 @@ validate_input() {
   if [ ! "$title" ]; then
     usage
     fatal "$LINENO" "no title"
+  fi
+}
+
+validate_plex_perms() {
+  if ! [[ "$out_dir" =~ ^/plex ]]; then
+    debug $LINENO "output not a plex directory, skip"
+
+    return
+  fi
+
+  local not_plex=$(find $out_dir -not -user plex -or -not -group plex) sudo_timeout=10s
+
+  if [ "$not_plex" ]; then
+    log $LINENO sudo required to change ownership of files to plex \(10s\)
+
+    if ! timeout --kill-after=$sudo_timeout $sudo_timeout sudo chown -R plex:plex $out_dir; then
+      true # ignore timeout here, it's optional
+    fi
   fi
 }
 
@@ -143,6 +162,8 @@ fi
 current_wd=$(pwd)
 
 validate_input
+# catch files from previous runs early
+validate_plex_perms
 prepare_temp
 
 yt-dlp "$vid_id" --list-formats
@@ -158,5 +179,7 @@ filename="$title-$vid_id"
 
 mux "$audio_fmt" "$audio_ext" "$video_fmt" "$video_ext" "$filename"
 convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
+
+validate_plex_perms
 
 cd "$current_wd"

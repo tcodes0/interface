@@ -74,7 +74,7 @@ migrate_postgres() {
 }
 
 refresh_collations() {
-  local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres)
+  local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres testdb template1)
 
   for db in "${dbs[@]}"; do
     log $LINENO collation update "$db"
@@ -128,8 +128,12 @@ system_up() {
   yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+  sudo -v
+
   # update everything but linux from AUR
-  echo yes | yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed
+  if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then
+    fatal $LINENO failed to update from AUR, try 'yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed' manually
+  fi
 }
 
 reinstall_global_npm() {

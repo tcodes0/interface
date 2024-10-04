@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-drive-list() {
+drive_list() {
   if [[ "$#" == 0 ]]; then
     rclone lsf google-drive:
   else
@@ -10,14 +10,14 @@ drive-list() {
 
 #- - - - - - - - - - -
 
-vpnup() {
+vpn_up() {
   sudo wg-quick up wg0
   sudo wg
 }
 
 #- - - - - - - - - - -
 
-vpndown() {
+vpn_down() {
   sudo wg-quick down wg0
   sudo wg
 }
@@ -57,7 +57,7 @@ goo() {
 
 #- - - - - - - - - - -
 
-pacOrphanDepsInteractive() {
+pac_orphan_deps_interactive() {
   # shellcheck disable=SC2155
   local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 wlroots) orphans=$(yay --query --deps --unrequired)
 
