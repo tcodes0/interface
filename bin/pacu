@@ -16,7 +16,7 @@ trap 'err $LINENO' ERR
 logout() {
   local response
 
-  msgln "please logout and switch to a console. All done? (timeout 10s) [y/N]"
+  msgln "please logout and switch to a console. All done? (timeout 10s) [y/N] (10s fatal timeout)"
   read -t 10 -r response
   if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
     fatal $LINENO logout required
@@ -26,8 +26,8 @@ logout() {
 do_snapshot() {
   local response
 
-  msgln "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N]"
-  read -t 10 -r response
+  msgln "start a new @root snapshot? Sudo is necessary (timeout 10s) [y/N] (10s timeout)"
+  read -t 10 -r response || true
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
     sudo "$HOME/bin/snapshot"
   fi
@@ -134,8 +134,13 @@ system_up() {
   if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then
     fatal $LINENO failed to update from AUR, try 'yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed' manually
   fi
+
+  sudo -v
+  # restore node to latest
+  nvm alias default node 1>/dev/null
 }
 
+# make sure node packages are reinstalled in the new node version, not LTS
 reinstall_global_npm() {
   local old_node="$1" packages=("${@:2}") name version
 
@@ -163,8 +168,6 @@ reinstall_global_npm() {
 
 cleanup() {
   local pg_major="$1"
-  # restore node to latest
-  nvm alias default node 1>/dev/null
 
   if [ "$pg_major" ]; then
     # make sure postgresql is restarted successfully before attempting removal
@@ -194,10 +197,42 @@ btrfs_check() {
 }
 
 finally() {
-  msgln "success, you may want to reboot.
-    consider booting to flashdrive and running on / using 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
+  msgln "success; consider booting to flashdrive and running 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
     if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'.
     sddm was not restarted, you can do so now to go back to GUI."
+}
+
+reboot_prompt() {
+  local response
+
+  msgln "reboot now? Beware btrfs checks may be running [y/N] (10s timeout)"
+  read -t 10 -r response || true
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    systemctl reboot
+  fi
+}
+
+kexec_prompt() {
+  local response base_name=vmlinuz-linux suffix="${1:-}"
+  local kernel_file="/boot/$base_name$suffix" initrd_file="/boot/initramfs-linux$suffix.img"
+
+  if ! stat "$kernel_file" >/dev/null 2>&1; then
+    warn $LINENO "kernel file not found: $kernel_file"
+    return
+  fi
+
+  if ! stat "$initrd_file" >/dev/null 2>&1; then
+    warn $LINENO "initramfs file not found: $initrd_file"
+    return
+  fi
+
+  msgln "load new kernel and switch to it? Beware btrfs checks may be running [y/N] (10s timeout)"
+  msgln "kernel: $kernel_file"
+  read -t 10 -r response || true
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    echo sudo kexec -l "$kernel_file" --initrd="$initrd_file" --reuse-cmdline
+    echo sudo kexec -e
+  fi
 }
 
 ### script ###
@@ -219,3 +254,5 @@ services start postgresql
 
 cleanup "$pg_update"
 finally
+reboot_prompt
+kexec_prompt -neptune-65
