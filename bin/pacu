@@ -230,8 +230,8 @@ kexec_prompt() {
   msgln "kernel: $kernel_file"
   read -t 10 -r response || true
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    echo sudo kexec -l "$kernel_file" --initrd="$initrd_file" --reuse-cmdline
-    echo sudo kexec -e
+    sudo kexec -l "$kernel_file" --initrd="$initrd_file" --reuse-cmdline
+    sudo kexec -e
   fi
 }
 
