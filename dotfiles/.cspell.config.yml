@@ -19,6 +19,7 @@ words:
   - GPGKEY
   - gsed
   - hloc
+  - meds
   - mkinitcpio
   - msgln
   - ollama
