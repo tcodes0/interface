@@ -13,6 +13,13 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+sudo_refresh() {
+  while true; do
+    sudo -v
+    sleep 240 # 4 minutes
+  done
+}
+
 logout() {
   local response
 
@@ -36,6 +43,7 @@ do_snapshot() {
 services() {
   local cmd="$1" service
 
+  msgln "$cmd-ing services, sudo is necessary"
   for service in "${@:2}"; do
     sudo systemctl "$cmd" "$service".service
     log $LINENO "$cmd $service"
@@ -122,20 +130,21 @@ system_up() {
   # fix some install errors
   chmod -R u+w,u+r "$HOME/.cache/yay"
 
+  # keep the sudo timestamp alive across long compiles from AUR
+  sudo_refresh &
+
   # update arch pkgs first to avoid errors
   yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring
   # update linux
   yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
-  sudo -v
 
   # update everything but linux from AUR
   if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then
     fatal $LINENO failed to update from AUR, try 'yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed' manually
   fi
 
-  sudo -v
   # restore node to latest
   nvm alias default node 1>/dev/null
 }
