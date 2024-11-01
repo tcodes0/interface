@@ -111,21 +111,13 @@ postgres_up() {
 }
 
 system_up() {
-  local lts_name
-  # use LTS node, the one before the latest LTS
-  read -rs _ _ lts_name _ < <(nvm list --no-colors | grep lts | tail -2 | head -1)
-  # Some software only builds from AUR in old node versions
   # we start by updating NVM itself
   command cd "$NVM_DIR" && git pull
 
   # update node
   nvm install node
-  # temporarily downgrade the default node in nvm
-  log $LINENO "using node $lts_name for upgrade..."
-  nvm install "$lts_name" >/dev/null
   # after install NVM sets the installed node as the one in use
-  LTS_VER="$(node -v)"
-  nvm alias default "$LTS_VER" >/dev/null
+  nvm alias default "$(node -v)" >/dev/null
 
   # fix some install errors
   chmod -R u+w,u+r "$HOME/.cache/yay"
@@ -144,18 +136,10 @@ system_up() {
   if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then
     fatal $LINENO failed to update from AUR, try 'yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed' manually
   fi
-
-  # restore node to latest
-  nvm alias default node 1>/dev/null
 }
 
-# make sure node packages are reinstalled in the new node version, not LTS
 reinstall_global_npm() {
-  local old_node="$1" packages=("${@:2}") name version
-
-  if [ "$old_node" == "$(node -v)" ]; then
-    return
-  fi
+  local packages=("${@:1}") name version
 
   if ((${#packages[@]} % 2 != 0)); then
     fatal $LINENO "expected an even number of packages and versions"
@@ -252,13 +236,12 @@ services stop sddm postgresql
 
 btrfs_check Data2TB Data4TB
 pg_update=$(postgres_up)
-old_node=$(node -v)
 
 # shellcheck source=/dev/null
 source "$NVM_DIR/nvm.sh"
 
 system_up
-reinstall_global_npm "$old_node" cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
+reinstall_global_npm cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
 services start postgresql
 
 cleanup "$pg_update"
