@@ -300,5 +300,6 @@
   "security.workspace.trust.untrustedFiles": "open",
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "explorer.confirmPasteNative": false
 }
