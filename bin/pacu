@@ -189,20 +189,11 @@ btrfs_check() {
   done
 }
 
-finally() {
+success_message() {
   msgln "success; consider booting to flashdrive and running 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
     if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'.
-    sddm was not restarted, you can do so now to go back to GUI."
-}
-
-reboot_prompt() {
-  local response
-
-  msgln "reboot now? Beware btrfs checks may be running [y/N] (10s timeout)"
-  read -t 10 -r response || true
-  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    systemctl reboot
-  fi
+    You should probably logout and restart SDDM.
+    "
 }
 
 kexec_prompt() {
@@ -232,7 +223,7 @@ kexec_prompt() {
 
 logout
 do_snapshot
-services stop sddm postgresql
+services stop postgresql
 
 btrfs_check Data2TB Data4TB
 pg_update=$(postgres_up)
@@ -245,6 +236,5 @@ reinstall_global_npm cspell cspell@latest prettier prettier@latest commitlint @c
 services start postgresql
 
 cleanup "$pg_update"
-finally
-reboot_prompt
 kexec_prompt -neptune-65
+success_message
