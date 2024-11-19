@@ -23,9 +23,7 @@ getTermColumns() {
 makePS1() {
   # use "preGit" or "postGit" as arg 1 to integrate with gitprompt script
 
-  # colors
-  local spacer horizontalLine workdir
-  spacer=' '
+  local spacer=' ' horizontal_line workdir current_host=""
 
   getTermColumns
 
@@ -35,19 +33,18 @@ makePS1() {
     decorations=$SECOND_COLOR"#>"$spacer$END
   fi
 
-  horizontalLine="\n"
+  horizontal_line="\n"
   workdir="$MAIN_COLOR\\w$END"
-  hostname=""
 
-  if [[ ! ${KNOWN_HOSTS[*]} =~ $hostname ]]; then
-    hostname="$SECOND_COLOR@$hostname$END"
+  if [[ ! ${KNOWN_HOSTS[*]} =~ $(hostname) ]]; then
+    current_host="$SECOND_COLOR@$(hostname)$END"
     decorations=$SECOND_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
-  "preGit") printf %s "${horizontalLine}${workdir}${hostname} " ;;
+  "preGit") printf %s "${horizontal_line}${workdir}${current_host} " ;;
   "postGit") printf %s "\\n${decorations}" ;;
-  *) printf %s "${horizontalLine}${workdir}\\n${decorations}" ;;
+  *) printf %s "${horizontal_line}${workdir}\\n${decorations}" ;;
   esac
 }
 
