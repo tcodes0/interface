@@ -18,6 +18,10 @@ install_config_plist() {
   local local_path=boot/EFI/CLOVER/config.plist
   local root_path=/${local_path} sum_local sum_root
 
+  if macos; then
+    return
+  fi
+
   if [ ! -f "$local_path" ]; then
     return
   fi
