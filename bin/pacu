@@ -196,6 +196,7 @@ success_message() {
     "
 }
 
+# todo: currently doesn't tell if the kernel was updated or not and always prompts
 kexec_prompt() {
   local response base_name=vmlinuz-linux suffix="${1:-}"
   local kernel_file="/boot/$base_name$suffix" initrd_file="/boot/initramfs-linux$suffix.img"
@@ -210,7 +211,7 @@ kexec_prompt() {
     return
   fi
 
-  msgln "load new kernel and switch to it? Beware btrfs checks may be running [y/N] (10s timeout)"
+  msgln "load new kernel and switch to it? Beware: btrfs checks may be running. This will be equivalent to a fast reboot. [y/N] (10s timeout)"
   msgln "kernel: $kernel_file"
   read -t 10 -r response || true
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
