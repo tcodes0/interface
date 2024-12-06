@@ -197,7 +197,8 @@
   "github.copilot.enable": {
     "*": true,
     "plaintext": false,
-    "markdown": false
+    "markdown": false,
+    "scminput": false
   },
   "cSpell.userWords": [
     "AIAPI",
@@ -299,5 +300,6 @@
   "security.workspace.trust.untrustedFiles": "open",
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "explorer.confirmPasteNative": false
 }

@@ -59,7 +59,7 @@ goo() {
 
 pac_orphan_deps_interactive() {
   # shellcheck disable=SC2155
-  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 wlroots) orphans=$(yay --query --deps --unrequired)
+  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 extra-cmake-modules hipblas rust) orphans=$(yay --query --deps --unrequired)
 
   msgln "$(wc -l <<<"$orphans")" orphans:
   msgln "$orphans"
