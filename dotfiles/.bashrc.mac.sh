@@ -9,7 +9,7 @@ src "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" "$DOTFILES/.bashrc.mac.sh:
 if [ ! "$(pgrep ssh-agent)" ]; then
   eval "$(ssh-agent)" >/dev/null
 elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
-  SSH_AUTH_SOCK=$(find /var/folders -type s -name 'agent.*' 2>/dev/null)
+  SSH_AUTH_SOCK=$(find /var/folders -name 'agent.*' 2>/dev/null)
 fi
 
 export GOPATH=$HOME/go
