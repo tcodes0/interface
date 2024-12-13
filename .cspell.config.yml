@@ -42,6 +42,7 @@ words:
   - bcup
   - btrfs
   - busid
+  - blazingly
   - cfprefsd
   - commitlintrc
   - coreutils
@@ -70,6 +71,7 @@ words:
   - gsed
   - guake
   - GULNV
+  - gcloud
   - HDAS
   - HDEF
   - HECI
