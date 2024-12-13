@@ -9,6 +9,7 @@
 #
 # GLOBALS:
 #   PUSH_REPOS string: a list of repos to automatically push after a commit
+#   GIT_BRANCH: current git branch, exported by lib-git-prompt __git_ps1()
 
 set -euo pipefail
 shopt -s globstar
@@ -91,6 +92,11 @@ commit() {
 push() {
   if [ ! "${PUSH_REPOS:-}" ]; then
     return
+  fi
+
+  # should not happen unless PROMPT_COMMAND is not using lib-git-prompt
+  if [ ! "${GIT_BRANCH:-}" ]; then
+    GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
   fi
 
   base_pwd="$(basename "$PWD")"
