@@ -156,6 +156,11 @@ fi
 # Description: Reports whether the shell is in a terminal emulator or console
 # Example    : if term_emulator; then echo "yes"; fi
 term_emulator() {
+  if macos; then
+    # on macOS we're always in emulator
+    return
+  fi
+
   [[ $(tty) =~ /dev/pts ]]
 }
 
