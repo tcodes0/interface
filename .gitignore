@@ -5,5 +5,5 @@ bin/cloud-sql-proxy
 bin/qbittorrent
 bin/baristai
 bin/dir-rename
-bin/filer
+bin/t0filer
 bin/ollama
