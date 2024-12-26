@@ -252,3 +252,5 @@ services start postgresql
 cleanup "$pg_update"
 kexec_prompt -neptune-65
 success_message
+
+cleanup_backgrounded_processes
