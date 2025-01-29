@@ -212,11 +212,14 @@ lb() {
 
   if [ ! "$branch" ]; then
     echo "Usage: lb branch-name"
+    echo "lb - lazy branch: Create a branch from main after pulling latest changes. Deletes the branch locally and remotely if it exists."
     return
   fi
 
+  git checkout main
+  git pull --quiet
+
   if ! git checkout -b "$branch" >/dev/null 2>&1; then
-    git checkout main
     git branch --delete --force "$branch"
     git push origin --delete "$branch" >/dev/null 2>&1
     git checkout -b "$branch"
