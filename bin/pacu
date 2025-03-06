@@ -22,16 +22,6 @@ sudo_refresh() {
   done
 }
 
-logout() {
-  local response
-
-  msgln "please logout and switch to a console. All done? (timeout 10s) [y/N] (10s fatal timeout)"
-  read -t 10 -r response
-  if [ "$response" != "y" ] && [ "$response" != "Y" ]; then
-    fatal $LINENO logout required
-  fi
-}
-
 do_snapshot() {
   local response
 
@@ -214,7 +204,7 @@ kexec_prompt() {
     return
   fi
 
-  msgln "load new kernel and switch to it? Beware: btrfs checks may be running. This will be equivalent to a fast reboot. [y/N] (10s timeout)"
+  msgln "load new kernel vmlinuz-linux-$suffix and switch to it? Beware: btrfs checks may be running. This will be equivalent to a fast reboot. [y/N] (10s timeout)"
   msgln "kernel: $kernel_file"
   read -t 10 -r response || true
   if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
@@ -235,7 +225,6 @@ cleanup_backgrounded_processes() {
 
 ### script ###
 
-logout
 do_snapshot
 services stop postgresql
 
@@ -250,7 +239,7 @@ reinstall_global_npm cspell cspell@latest prettier prettier@latest commitlint @c
 services start postgresql
 
 cleanup "$pg_update"
-kexec_prompt -neptune-65
+kexec_prompt ""
 success_message
 
 cleanup_backgrounded_processes
