@@ -48,7 +48,6 @@
       "types": "#6abe7f"
     }
   },
-  "materialTheme.accent": "Pink",
   //
   // - - - - - - - - FONT - - - - - - - - -
   //
@@ -283,7 +282,6 @@
     "zerolog"
   ],
   "cSpell.maxDuplicateProblems": 2,
-  "cSpell.showAutocompleteSuggestions": false,
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "cSpell.enableFiletypes": [
