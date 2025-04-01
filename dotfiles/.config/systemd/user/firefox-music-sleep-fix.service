@@ -1,0 +1,12 @@
+[Unit]
+Description=Firefox music sleep fix service
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+ExecStart=%h/bin/firefox-music-sleep-fix.sh
+Restart=no
+Type=simple
+
+[Install]
+WantedBy=default.target

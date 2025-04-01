@@ -106,6 +106,7 @@ words:
   - pgrep
   - pgsql
   - pids
+  - playerctl
   - ppfeaturemask
   - prefs
   - psql
