@@ -14,7 +14,7 @@ trap 'err $LINENO && kill $child' ERR
 
 ### vars and functions ###
 
-inhibition_duration_secs=59
+inhibition_duration_secs=65
 pooling_interval_secs=60
 playing="Playing"
 child=""
