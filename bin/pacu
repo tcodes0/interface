@@ -13,6 +13,8 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+cleanup_processes=()
+
 sudo_refresh() {
   while true; do
     sudo -v
@@ -124,6 +126,7 @@ system_up() {
 
   # keep the sudo timestamp alive across long compiles from AUR
   sudo_refresh &
+  cleanup_processes+=($!)
 
   # update arch pkgs first to avoid errors
   yay --sync --refresh --needed --noconfirm archlinux-appstream-data archlinux-keyring
@@ -220,6 +223,16 @@ kexec_prompt() {
   fi
 }
 
+cleanup_backgrounded_processes() {
+  for pid in "${cleanup_processes[@]}"; do
+    if ps -p "$pid" >/dev/null; then
+      if ! kill -HUP "$pid"; then
+        warn $LINENO "failed to hangup process $pid"
+      fi
+    fi
+  done
+}
+
 ### script ###
 
 logout
@@ -239,3 +252,5 @@ services start postgresql
 cleanup "$pg_update"
 kexec_prompt -neptune-65
 success_message
+
+cleanup_backgrounded_processes
