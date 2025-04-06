@@ -108,7 +108,7 @@ else
   src_dotfile ".bashrc.linux.sh" "$LINENO"
   src_dotfile ".aliases.linux.sh" "$LINENO"
   src_dotfile ".functions.linux.sh" "$LINENO"
-  src "$HOME/google-cloud-sdk/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
+  src "/opt/google-cloud-cli/completion.bash.inc" "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/bash-completion/bash_completion "$DOTFILES/.bashrc:$LINENO"
   src /usr/share/LS_COLORS/dircolors.sh "$DOTFILES/.bashrc:$LINENO"
 fi
