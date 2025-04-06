@@ -21,16 +21,6 @@
     "when": "editorTextFocus && !editorReadonly"
   },
   {
-    "key": "alt+e",
-    "command": "editor.action.clipboardPasteAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "meta+y",
-    "command": "editor.action.clipboardPasteAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
     "key": "meta+w",
     "command": "editor.action.clipboardCutAction",
     "when": "editorTextFocus && !editorReadonly"
@@ -265,37 +255,8 @@
     "when": "editorTextFocus"
   },
   {
-    "key": "ctrl+v",
-    "command": "workbench.action.terminal.paste",
-    "when": "terminalFocus"
-  },
-  {
-    "key": "meta+y",
-    "command": "workbench.action.terminal.paste",
-    "when": "terminalFocus"
-  },
-  {
-    "key": "alt+e",
-    "command": "workbench.action.terminal.paste",
-    "when": "terminalFocus"
-  },
-  {
     "key": "ctrl+y",
     "command": "-redo"
-  },
-  {
-    "key": "ctrl+v",
-    "command": "editor.action.clipboardPasteAction"
-  },
-  {
-    "key": "alt+e",
-    "command": "editor.action.clipboardPasteAction",
-    "when": "editorFocus && findInputFocussed && findWidgetVisible"
-  },
-  {
-    "key": "meta+y",
-    "command": "editor.action.clipboardPasteAction",
-    "when": "editorFocus && findInputFocussed && findWidgetVisible"
   },
   {
     "key": "ctrl+c",
@@ -478,11 +439,6 @@
   {
     "key": "ctrl+'",
     "command": "editor.action.clipboardCopyAction",
-    "when": "editorTextFocus && !editorReadonly"
-  },
-  {
-    "key": "ctrl+;",
-    "command": "editor.action.clipboardPasteAction",
     "when": "editorTextFocus && !editorReadonly"
   },
   {
@@ -697,5 +653,23 @@
     "key": "ctrl+shift+o",
     "command": "-workbench.action.gotoSymbol",
     "when": "!accessibilityHelpIsShown && !accessibleViewIsShown"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "-editor.action.clipboardPasteAction"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "-filesExplorer.paste",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "shift+insert",
+    "command": "-editor.action.clipboardPasteAction"
+  },
+  {
+    "key": "alt+e",
+    "command": "paste",
+    "when": "editorFocus && !editorReadonly"
   }
 ]

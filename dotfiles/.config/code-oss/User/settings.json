@@ -2,9 +2,8 @@
   //
   // - - - - - - - - THEME - - - - - - - - -
   //
-  "workbench.colorTheme": "Material Theme Darker High Contrast",
   "workbench.colorCustomizations": {
-    "[Material Theme Darker High Contrast]": {
+    "[GitHub Dark High Contrast]": {
       "editor.background": "#000",
       "activityBar.background": "#000",
       "statusBar.background": "#000",
@@ -41,7 +40,7 @@
     "menubar.selectionForeground": "#FF4081"
   },
   "editor.tokenColorCustomizations": {
-    "[Material Theme Darker High Contrast]": {
+    "[GitHub Dark High Contrast]": {
       "comments": "#676767",
       "functions": "#7e7fdd",
       "strings": "#8b907f",
@@ -49,7 +48,6 @@
       "types": "#6abe7f"
     }
   },
-  "materialTheme.accent": "Pink",
   //
   // - - - - - - - - FONT - - - - - - - - -
   //
@@ -187,10 +185,22 @@
   "explorer.confirmDragAndDrop": false,
   "explorer.confirmDelete": false,
   "githubPullRequests.queries": [
-    { "label": "Waiting", "query": "is:open review-requested:${user}" },
-    { "label": "Open", "query": "is:open" },
-    { "label": "Assigned", "query": "is:open assignee:${user}" },
-    { "label": "Created", "query": "is:open author:${user}" }
+    {
+      "label": "Waiting",
+      "query": "repo:${owner}/${repository} is:open review-requested:${user}"
+    },
+    {
+      "label": "Open",
+      "query": "repo:${owner}/${repository} is:open"
+    },
+    {
+      "label": "Assigned",
+      "query": "repo:${owner}/${repository} is:open assignee:${user}"
+    },
+    {
+      "label": "Created",
+      "query": "repo:${owner}/${repository} is:open author:${user}"
+    }
   ],
   "githubPullRequests.fileListLayout": "flat",
   "githubPullRequests.pullBranch": "never",
@@ -272,7 +282,6 @@
     "zerolog"
   ],
   "cSpell.maxDuplicateProblems": 2,
-  "cSpell.showAutocompleteSuggestions": false,
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
   "cSpell.enableFiletypes": [
@@ -301,5 +310,6 @@
   "[yaml]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "explorer.confirmPasteNative": false
+  "explorer.confirmPasteNative": false,
+  "workbench.colorTheme": "GitHub Dark High Contrast"
 }
