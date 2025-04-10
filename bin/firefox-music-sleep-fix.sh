@@ -39,7 +39,8 @@ if requested_help "$*"; then
 fi
 
 while true; do
-  status=$(playerctl --player=plasma-browser-integration status)
+  # playerctl will error if there are no players, ignore that
+  status=$(playerctl --player=plasma-browser-integration status 2>&1 || true)
 
   if [ "$status" = $playing ]; then
     systemd-inhibit --what=idle --who="$0" --why='Firefox is playing audio' sleep $inhibition_duration_secs &
