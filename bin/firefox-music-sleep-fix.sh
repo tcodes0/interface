@@ -10,7 +10,7 @@
 
 set -euo pipefail
 shopt -s globstar
-trap 'err $LINENO && kill $child' ERR
+trap 'err $LINENO && cleanup' ERR
 
 ### vars and functions ###
 
@@ -26,6 +26,11 @@ usage() {
   msgln It will work if invoked manually as well.
 }
 
+cleanup() {
+  # we do not care if child is already terminated
+  kill $child 2>/dev/null || true
+}
+
 ### script ###
 
 if requested_help "$*"; then
@@ -34,7 +39,7 @@ if requested_help "$*"; then
 fi
 
 while true; do
-  status=$(playerctl --player=plasma-browser-integration status 2>/dev/null)
+  status=$(playerctl --player=plasma-browser-integration status)
 
   if [ "$status" = $playing ]; then
     systemd-inhibit --what=idle --who="$0" --why='Firefox is playing audio' sleep $inhibition_duration_secs &
