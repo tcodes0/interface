@@ -238,8 +238,8 @@ View Style=Simple
 listViewIconSize=0
 
 [KScreen]
-ScaleFactor=1.375
-ScreenScaleFactors=DP-3=1.375;
+ScaleFactor=1.125
+ScreenScaleFactors=DisplayPort-0=1.125;DisplayPort-1=1.125;HDMI-A-0=1.125;HDMI-A-1=1.125;
 XwaylandClientsScale=false
 
 [KShortcutsDialog Settings]
