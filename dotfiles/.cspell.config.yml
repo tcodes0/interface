@@ -37,12 +37,13 @@ words:
   - APSN
   - AQAAAA
   - argn
+  - Asam
   - ASPM
   - baristai
   - bcup
+  - blazingly
   - btrfs
   - busid
-  - blazingly
   - cfprefsd
   - commitlintrc
   - coreutils
@@ -55,26 +56,34 @@ words:
   - DMAR
   - DSDT
   - EDID
+  - ehff
+  - envtest
   - euox
   - fbcon
   - filerrc
   - findutils
+  - flansbaum
   - FUMA
   - FUQQ
+  - gcloud
   - gcmsg
+  - gcom
   - GIGE
   - GLAN
   - glslang
+  - godotenv
+  - gotestfmt
+  - GPGKEY
   - grbonto
   - grepl
   - grepr
   - gsed
   - guake
   - GULNV
-  - gcloud
   - HDAS
   - HDEF
   - HECI
+  - hloc
   - HPET
   - IGPU
   - IMEI
@@ -95,12 +104,17 @@ words:
   - lzma
   - mackup
   - MCFG
+  - meds
   - Mikey
+  - mkinitcpio
   - mkpath
+  - mserver
+  - msgln
   - nauck
   - ncdu
   - noatime
   - noconfirm
+  - ollama
   - pacu
   - pgrep
   - pgsql
@@ -119,15 +133,18 @@ words:
   - testdb
   - thom
   - thomazella
+  - tomejila
   - UAAAA
   - ucode
   - uncompress
+  - uninteractive
   - unlzma
   - unrar
   - unxz
   - USBXHCI
   - USBXHCIPCI
   - vacuumdb
+  - vite
   - wneessen
   - XCPM
   - ydeng
@@ -135,17 +152,3 @@ words:
   - zram
   - zswap
   - ZYMA
-  - vite
-  - Asam
-  - ehff
-  - envtest
-  - flansbaum
-  - GPGKEY
-  - hloc
-  - meds
-  - mkinitcpio
-  - mserver
-  - ollama
-  - tomejila
-  - uninteractive
-  - msgln
