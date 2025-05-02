@@ -265,3 +265,31 @@ qai() {
 
   less "$dir_file"
 }
+
+#- - - - - - - - - - -
+
+# todo: remove
+unalias g- 2>/dev/null
+
+# git checkout 2nd or 3rd ref in reflog that is not a main branch
+# first line of reflog is the current branch, second line is the last branch, etc...
+g-() {
+  local last_branch=$(git reflog | head -2 | sed -Ene "s/^.*from (.*) to .*$/\1/" -e "/commit|cherry/d" -e '2p')
+  local before_last_branch=$(git reflog | head -3 | sed -Ene "s/^.*from (.*) to .*$/\1/" -e "/commit|cherry/d" -e '3p')
+
+  if [ -z "$last_branch" ]; then
+    warn $LINENO "last branch: '$last_branch' is empty. Doing nothing."
+    return
+  fi
+
+  if [ "$last_branch" != "main" ] && [ "$last_branch" != "master" ]; then
+    git checkout "$last_branch"
+  else
+    if [ -z "$before_last_branch" ]; then
+      warn $LINENO "before last branch: '$before_last_branch' is empty. Doing nothing."
+      return
+    fi
+
+    git checkout "$before_last_branch"
+  fi
+}
