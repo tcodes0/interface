@@ -15,6 +15,15 @@ trap 'err $LINENO' ERR
 
 cleanup_processes=()
 
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
 sudo_refresh() {
   while true; do
     sudo -v
@@ -224,6 +233,8 @@ cleanup_backgrounded_processes() {
 }
 
 ### script ###
+
+check_dependencies
 
 do_snapshot
 services stop postgresql
