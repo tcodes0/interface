@@ -8,7 +8,11 @@ set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
 
-if requested_help "$*"; then
+### vars and functions ###
+
+dryrun=""
+
+help_exit() {
   msgln "usage: snapshot.sh [-n|--dry-run]"
   msgln "this is an interactive script, use -n or --dry-run to experiment"
   msgln "run without dry-run flags to make snapshots"
@@ -16,9 +20,13 @@ if requested_help "$*"; then
   msgln "- choose snapshot name, default to \$name-\${todays_date}"
   msgln "- choose read-only or read-write, default is read-write"
   exit 1
-fi
+}
 
-dryrun=""
+### script ###
+
+if requested_help "$*"; then
+  help_exit
+fi
 
 if [ "${1:-}" = "-n" ] || [ "${1:-}" = "--dry-run" ]; then
   dryrun="true"
