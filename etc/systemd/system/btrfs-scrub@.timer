@@ -1,7 +1,7 @@
 [Unit]
 Description=Monthly Btrfs scrub on %f
-After=time-set.target
-Wants=time-set.target
+After=time-set.target local-fs.target
+Wants=time-set.target local-fs.target
 
 [Timer]
 OnCalendar=monthly
