@@ -1,5 +1,7 @@
 [Unit]
 Description=btrfs snapshot system timer
+After=time-set.target
+Wants=time-set.target
 
 [Timer]
 OnCalendar=hourly
