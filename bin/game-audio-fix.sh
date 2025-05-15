@@ -19,24 +19,37 @@ check_dependencies() {
   fi
 }
 
-help_exit() {
+detect_game() {
   local outputs=""
-  outputs=$(pw-link -o)
+  # remove known outputs out that aren't games
+  outputs=$(pw-link --output | sed -e "/^alsa_.*/d" -e "/^Midi-.*/d" -e "/^v4l2.*/d")
 
-  msgln "Usage: $0 [-h|--help] [game]"
-  msgln "See game name below:"
-  debug "\n$outputs"
+  if [ "$outputs" == "" ]; then
+    debug $LINENO "No game outputs found"
+    msg ""
 
-  exit 1
-}
-
-validate_input() {
-  if [ $# == 0 ] || [ $# -gt 1 ] || requested_help; then
-    help_exit
+    return
   fi
+
+  # whatever is in outputs should have defined 6 channels
+  for word in FL FR FC LFE RL RR; do
+    if ! grep -q "$word" <<<"$outputs"; then
+      debug $LINENO "channel $word not found in outputs"
+      msg ""
+
+      return
+    fi
+  done
+
+  # game outputs have form 'game:output_LFE'
+  # split and return the first part
+  name=$(grep "LFE" <<<"$outputs" | sed -e "s/^\(.*\):.*/\1/g")
+  msg "$name"
 }
 
 create_links() {
+  debug $LINENO "Audio fix $1"
+
   pw-link "$1:output_FC" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FL
   pw-link "$1:output_FC" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FR
   pw-link "$1:output_LFE" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FR
@@ -48,11 +61,19 @@ create_links() {
 ### script ###
 
 check_dependencies
-validate_input "$@"
-error=$(create_links 2>&1 "$1" || true)
+
+game_name=$(detect_game)
+
+if [ "$game_name" == "" ]; then
+  debug $LINENO "No game detected"
+
+  exit
+fi
+
+error=$(create_links 2>&1 "$game_name" || true)
 
 # file exists means we are already linked
 if [ "$error" != "" ] && [[ ! "$error" =~ "failed to link ports: File exists" ]]; then
   msgln "$error"
-  help_exit
+  exit 1
 fi
