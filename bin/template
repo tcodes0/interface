@@ -3,9 +3,6 @@
 # Use of this source code is governed by the BSD-3-Clause
 # license that can be found in the LICENSE file and online
 # at https://opensource.org/license/BSD-3-clause.
-#
-# the template is a starting point for new scripts
-# note: undefined functions are in lib.sh (sourced via BASH_ENV)
 
 set -euo pipefail
 shopt -s globstar
@@ -23,11 +20,15 @@ check_dependencies() {
 }
 
 help_exit() {
-  msgln "Usage: "
+  msgln "Usage: $0 [-h|--help] "
   exit 1
 }
 
 validate_input() {
+  if [ $# -eq 0 ] || requested_help; then
+    help_exit
+  fi
+
   true
 }
 
@@ -39,4 +40,4 @@ if requested_help "$*"; then
   help_exit
 fi
 
-validate_input
+validate_input "$@"
