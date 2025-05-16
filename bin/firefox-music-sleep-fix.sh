@@ -10,7 +10,7 @@
 
 set -euo pipefail
 shopt -s globstar
-trap 'err $LINENO && kill $child' ERR
+trap 'err $LINENO && cleanup' ERR
 
 ### vars and functions ###
 
@@ -19,22 +19,39 @@ pooling_interval_secs=60
 playing="Playing"
 child=""
 
-usage() {
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
+help_exit() {
   msgln "Usage: $0"
   msgln
   msgln This tool is meant to be fire-and-forget by an automation.
   msgln It will work if invoked manually as well.
 }
 
+cleanup() {
+  # we do not care if child is already terminated
+  kill $child 2>/dev/null || true
+}
+
 ### script ###
 
+check_dependencies
+
 if requested_help "$*"; then
-  usage
+  help_exit
   exit 1
 fi
 
 while true; do
-  status=$(playerctl --player=plasma-browser-integration status 2>/dev/null)
+  # playerctl will error if there are no players, ignore that
+  status=$(playerctl --player=plasma-browser-integration status 2>&1 || true)
 
   if [ "$status" = $playing ]; then
     systemd-inhibit --what=idle --who="$0" --why='Firefox is playing audio' sleep $inhibition_duration_secs &
