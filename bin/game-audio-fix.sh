@@ -21,8 +21,8 @@ check_dependencies() {
 
 detect_game() {
   local outputs=""
-  # remove known outputs out that aren't games
-  outputs=$(pw-link --output | sed -e "/^alsa_.*/d" -e "/^Midi-.*/d" -e "/^v4l2.*/d")
+  # remove known outputs that aren't games
+  outputs=$(pw-link --output | sed -e "/^alsa_.*/d" -e "/^Midi-.*/d" -e "/^v4l2.*/d" -e "/^Firefox.*/d")
 
   if [ "$outputs" == "" ]; then
     debug $LINENO "No game outputs found"
@@ -31,7 +31,7 @@ detect_game() {
     return
   fi
 
-  # whatever is in outputs should have defined 6 channels
+  # if a game is in outputs, it will define 6 channels
   for word in FL FR FC LFE RL RR; do
     if ! grep -q "$word" <<<"$outputs"; then
       debug $LINENO "channel $word not found in outputs"
@@ -43,19 +43,20 @@ detect_game() {
 
   # game outputs have form 'game:output_LFE'
   # split and return the first part
+  # any of the 6 channels can be used, LFE is arbitrary
   name=$(grep "LFE" <<<"$outputs" | sed -e "s/^\(.*\):.*/\1/g")
   msg "$name"
 }
 
 create_links() {
-  debug $LINENO "Audio fix $1"
-
   pw-link "$1:output_FC" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FL
   pw-link "$1:output_FC" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FR
   pw-link "$1:output_LFE" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FR
   pw-link "$1:output_LFE" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FL
   pw-link "$1:output_RL" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FL
   pw-link "$1:output_RR" alsa_output.usb-Native_Instruments_Komplete_Audio_6_056E39FC-00.analog-stereo-out-ab:playback_FR
+
+  debug $LINENO "Audio fixed $1"
 }
 
 ### script ###
@@ -67,7 +68,7 @@ game_name=$(detect_game)
 if [ "$game_name" == "" ]; then
   debug $LINENO "No game detected"
 
-  exit
+  exit 0
 fi
 
 error=$(create_links 2>&1 "$game_name" || true)
