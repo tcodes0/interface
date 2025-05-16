@@ -1,0 +1,12 @@
+[Unit]
+Description=game audio fix timer
+After=time-set.target
+Wants=time-set.target
+
+[Timer]
+# every minute
+OnCalendar=*-*-* *:*:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

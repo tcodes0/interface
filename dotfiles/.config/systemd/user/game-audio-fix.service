@@ -1,0 +1,12 @@
+[Unit]
+Description=Game audio fix service. Corrects games using 5.1 audio when I have 2 speakers.
+Wants=local-fs.target
+After=local-fs.target
+
+[Service]
+ExecStart=%h/bin/game-audio-fix.sh
+Environment="BASH_ENV=$HOME/.bash_env"
+Type=simple
+
+[Install]
+WantedBy=default.target
