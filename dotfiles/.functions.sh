@@ -265,3 +265,42 @@ qai() {
 
   less "$dir_file"
 }
+
+#- - - - - - - - - - -
+
+# todo: remove
+unalias g- 2>/dev/null
+
+# $1 current branch
+# $2 branch to checkout
+helper_g-() {
+  if [ "$1" != "$2" ]; then
+    git checkout "$2"
+  else
+    log $LINENO "branch '$2' is already checked out"
+  fi
+}
+
+# git checkout 2nd or 3rd ref in reflog that is not a main branch
+# first line of reflog is 'from last branch to current branch', second line is 'from before last branch to last branch', etc...
+g-() {
+  local last_branch=$(git reflog | head -1 | sed -Ene "s/^.*from (.*) to .*$/\1/" -e "/commit|cherry/d" -e '1p')
+  local before_last_branch=$(git reflog | head -2 | sed -Ene "s/^.*from (.*) to .*$/\1/" -e "/commit|cherry/d" -e '2p')
+  local current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+  if [ -z "$last_branch" ]; then
+    warn $LINENO "last branch: '$last_branch' is empty. Doing nothing."
+    return
+  fi
+
+  if [ "$last_branch" != "main" ] && [ "$last_branch" != "master" ]; then
+    helper_g- "$current_branch" "$last_branch"
+  else
+    if [ -z "$before_last_branch" ]; then
+      warn $LINENO "before last branch: '$before_last_branch' is empty. Doing nothing."
+      return
+    fi
+
+    helper_g- "$current_branch" "$before_last_branch"
+  fi
+}

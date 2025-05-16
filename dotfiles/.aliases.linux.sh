@@ -13,18 +13,18 @@ alias open="xdg-open"
 
 alias pac='pacman'
 alias pacs='yay --sync --search'
-alias pacWhyFile='pacman -Qo'
+alias pacwhyfile='pacman -Qo'
 alias paci='yay --sync --info'
 alias pacii='yay --sync --info --info'
-alias pacInfoDeps='yay --query --info' # -Qi
+alias pacinfodeps='yay --query --info' # -Qi
 alias pacl='yay --query'
 alias pacll='yay --query --list'
 alias pacI='yay --sync --noconfirm'
-alias pacRemove='yay --remove' # -R
+alias pacremove='yay --remove' # -R
 alias pacR='yay --remove --recursive --recursive'
-alias pacRemoveForce='yay --remove --nodeps --nodeps' # -Rdd
+alias pacremoveforce='yay --remove --nodeps --nodeps' # -Rdd
 # shellcheck disable=SC2142
-alias pacBigPackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort -rh | head -100 | less"
+alias pacbigpackages="LC_ALL=C pacman -Qi | awk '/^Name/{name=\$3} /^Installed Size/{print \$4\$5, name}' | sort -rh | head -100 | less"
 
 # work
 

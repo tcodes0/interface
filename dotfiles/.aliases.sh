@@ -203,7 +203,6 @@ alias grev='git revert'
 alias gnuke='git reset HEAD --hard && git clean -fd'
 alias wip="git add --all && git commit -nm wip"
 alias grl="git reflog | head -20 | sed -Ee \"s/^.*from (.*) to (.*).*$/\1 -> \2/\" -e \"/commit|cherry/d"\"
-alias g-="git checkout -"
 alias gfp="git fetch --all --prune && git pull"
 alias gla="glo | head -10"
 
