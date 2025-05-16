@@ -1,0 +1,12 @@
+[Unit]
+Description=Game audio fix service, creates pipewire links because games think my audio system has 6 channels
+Wants=local-fs.target
+After=local-fs.target
+
+[Service]
+ExecStart=%h/bin/game-audio-fix.sh
+Environment="BASH_ENV=$HOME/.bash_env"
+Type=simple
+
+[Install]
+WantedBy=default.target
