@@ -314,5 +314,6 @@
   "workbench.colorTheme": "GitHub Dark High Contrast",
   "cSpell.enabledNotifications": {
     "Lines too Long": false
-  }
+  },
+  "workbench.editor.showTabs": "multiple",
 }

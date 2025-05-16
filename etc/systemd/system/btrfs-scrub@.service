@@ -4,7 +4,8 @@ After=local-fs.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/bin/btrfs-scrub %i &
+ExecStart=%h/bin/btrfs-scrub %i
+Environment="BASH_ENV=$HOME/.bash_env"
 NotifyAccess=main
 User=root
 Group=root
