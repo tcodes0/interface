@@ -10,6 +10,9 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+readonly file=$1
+readonly file_path=${PWD}/$file
+
 check_dependencies() {
   if [ -z "$BASH_ENV" ]; then
     echo "This script uses functions defined externally."
@@ -19,7 +22,7 @@ check_dependencies() {
   fi
 }
 
-help_exit() {
+help() {
   msgln "\
   usage:
     bulk-curl-from-file.sh <file-path>
@@ -33,25 +36,22 @@ help_exit() {
 check_dependencies
 
 if requested_help "$*"; then
-  help_exit
+  help
   exit 1
 fi
 
-file=$1
-filePath=${PWD}/$file
-
-if [ ! -f "$filePath" ]; then
-  help_exit
-  printf "File %s not found\\n" "$filePath"
+if [ ! -f "$file_path" ]; then
+  help
+  printf "File %s not found\\n" "$file_path"
   exit 1
 fi
 
-setName=${file/.txt/}
+set_name=${file/.txt/}
 i=1
 
 while read -r line; do
-  eval "curl '$line' -L -o '${setName}-${i}.jpg'"
+  eval "curl '$line' -L -o '${set_name}-${i}.jpg'"
   i=$((i + 1))
-done <"$filePath"
+done <"$file_path"
 
 exit $?

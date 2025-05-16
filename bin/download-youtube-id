@@ -14,14 +14,15 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-initial_working_dir=$(pwd)
-vid_id=${1:-}
-title=${2:-}
-out_dir="/plex/music/youtube-sets"
+readonly initial_working_dir=$(pwd)
+readonly vid_id=${1:-}
+readonly title=${2:-}
+readonly out_dir="/plex/music/youtube-sets"
 audio_fmt=""
 audio_ext=""
 video_fmt=""
 video_ext=""
+filename=""
 
 check_dependencies() {
   if [ -z "$BASH_ENV" ]; then
@@ -32,7 +33,7 @@ check_dependencies() {
   fi
 }
 
-help_exit() {
+help() {
   msgln "Usage: $0 <youtube_video_id> <title>"
   msgln
   msgln output will be in "$out_dir"
@@ -41,12 +42,12 @@ help_exit() {
 
 validate_input() {
   if [ ! "$vid_id" ]; then
-    help_exit
+    help
     fatal "$LINENO" "no video id"
   fi
 
   if [ ! "$title" ]; then
-    help_exit
+    help
     fatal "$LINENO" "no title"
   fi
 }
@@ -167,7 +168,7 @@ convert_MP3() {
 check_dependencies
 
 if requested_help "$*"; then
-  help_exit
+  help
   exit 1
 fi
 

@@ -14,9 +14,9 @@ trap 'err $LINENO && cleanup' ERR
 
 ### vars and functions ###
 
-inhibition_duration_secs=65
-pooling_interval_secs=60
-playing="Playing"
+readonly inhibition_duration_secs=65
+readonly pooling_interval_secs=60
+readonly playing="Playing"
 child=""
 
 check_dependencies() {

@@ -20,7 +20,7 @@ check_dependencies() {
 }
 
 detect_game() {
-  local outputs=""
+  local outputs="" name=""
   # remove known outputs that aren't games
   outputs=$(pw-link --output | sed -e "/^alsa_.*/d" -e "/^Midi-.*/d" -e "/^v4l2.*/d" -e "/^Firefox.*/d")
 

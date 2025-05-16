@@ -18,8 +18,8 @@ trap 'err $LINENO' ERR
 ### vars and functions ###
 
 # known issue: these configs can be named differently
-default_commit_cfg=$HOME/.commitlintrc.yml
-default_cspell_cfg=$HOME/.cspell.config.yml
+readonly default_commit_cfg=$HOME/.commitlintrc.yml
+readonly default_cspell_cfg=$HOME/.cspell.config.yml
 commit_cfg=.commitlintrc.yml
 cspell_cfg=.cspell.config.yml
 
