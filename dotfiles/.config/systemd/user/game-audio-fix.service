@@ -1,5 +1,5 @@
 [Unit]
-Description=Game audio fix service, creates pipewire links because games think my audio system has 6 channels
+Description=Game audio fix service. Corrects games using 5.1 audio when I have 2 speakers.
 Wants=local-fs.target
 After=local-fs.target
 
