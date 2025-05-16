@@ -17,11 +17,20 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-# known issue: these configs can be name differently
+# known issue: these configs can be named differently
 default_commit_cfg=$HOME/.commitlintrc.yml
 default_cspell_cfg=$HOME/.cspell.config.yml
 commit_cfg=.commitlintrc.yml
 cspell_cfg=.cspell.config.yml
+
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
 
 git_do() {
   # check for another git process running at this time (rare edge-case)
@@ -114,6 +123,7 @@ push() {
 
 ### script ###
 
+check_dependencies
 validate_deps
 commit "$@"
 push

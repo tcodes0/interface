@@ -14,6 +14,7 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+initial_working_dir=$(pwd)
 vid_id=${1:-}
 title=${2:-}
 out_dir="/plex/music/youtube-sets"
@@ -22,7 +23,16 @@ audio_ext=""
 video_fmt=""
 video_ext=""
 
-usage() {
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
+help_exit() {
   msgln "Usage: $0 <youtube_video_id> <title>"
   msgln
   msgln output will be in "$out_dir"
@@ -31,12 +41,12 @@ usage() {
 
 validate_input() {
   if [ ! "$vid_id" ]; then
-    usage
+    help_exit
     fatal "$LINENO" "no video id"
   fi
 
   if [ ! "$title" ]; then
-    usage
+    help_exit
     fatal "$LINENO" "no title"
   fi
 }
@@ -154,12 +164,12 @@ convert_MP3() {
 
 ### script ###
 
+check_dependencies
+
 if requested_help "$*"; then
-  usage
+  help_exit
   exit 1
 fi
-
-current_wd=$(pwd)
 
 validate_input
 # catch files from previous runs early
@@ -182,4 +192,4 @@ convert_MP3 "$audio_fmt" "$video_fmt" "$filename"
 
 validate_plex_perms
 
-cd "$current_wd"
+cd "$initial_working_dir"

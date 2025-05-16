@@ -3,9 +3,6 @@
 # Use of this source code is governed by the BSD-3-Clause
 # license that can be found in the LICENSE file and online
 # at https://opensource.org/license/BSD-3-clause.
-#
-# the template is a starting point for new scripts
-# note: undefined functions are in lib.sh (sourced via BASH_ENV)
 
 set -euo pipefail
 shopt -s globstar
@@ -13,10 +10,34 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
+help_exit() {
+  msgln "Usage: $0 [-h|--help] "
+  exit 1
+}
+
 validate_input() {
+  if [ $# -eq 0 ] || requested_help; then
+    help_exit
+  fi
+
   true
 }
 
 ### script ###
 
-validate_input
+check_dependencies
+
+if requested_help "$*"; then
+  help_exit
+fi
+
+validate_input "$@"
