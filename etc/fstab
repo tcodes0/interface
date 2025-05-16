@@ -1,5 +1,6 @@
 # Static information about the filesystems.
 # See fstab(5) for details.
+# Hardlink to /etc/fstab, symbolic *breaks*
 
 #############################################################################################################################################
 # <file system>           <dir>                      <type>     <options>                                              <dump><pass>
@@ -16,22 +17,22 @@
 #
 ########################################################## auto #############################################################################
 #
-LABEL=EFI-BLUE        /boot                                     vfat       auto,rw,umask=111,dmask=000                                0 2
+LABEL=EFI-BLUE        /boot                                 vfat       auto,rw,umask=111,dmask=000                                0 2
 ######################
-LABEL=Data2TB         /media/data                               btrfs      defaults,noatime,compress=lzo                              0 0
-LABEL=Data2TB         /home/vacation/.ollama                    btrfs      subvol=/toplevel/@.ollama,defaults,noatime,compress=lzo    0 0
+LABEL=Data2TB         /media/data                           btrfs      defaults,noatime,compress=lzo                              0 0
+LABEL=Data2TB         /home/vacation/.ollama                btrfs      subvol=/toplevel/@.ollama,defaults,noatime,compress=lzo    0 0
 ######################
-LABEL=Data4TB         /media/data4tb                            btrfs      defaults,noatime,compress=lzo                              0 0
-LABEL=Data4TB         /plex                                     btrfs      subvol=/toplevel/@plex,defaults,noatime,compress=lzo       0 0
-LABEL=Data4TB         /home/vacation/Videos/plex                btrfs      subvol=/toplevel/@plex,defaults,noatime,compress=lzo       0 0
+LABEL=Data4TB         /media/data4tb                        btrfs      defaults,noatime,compress=lzo                              0 0
+LABEL=Data4TB         /plex                                 btrfs      subvol=/toplevel/@plex,defaults,noatime,compress=lzo       0 0
+LABEL=Data4TB         /home/vacation/Videos/plex            btrfs      subvol=/toplevel/@plex,defaults,noatime,compress=lzo       0 0
 ######################
-LABEL=Archlinux       /toplevel                                 btrfs      subvol=/,defaults,noatime,compress=lzo                     0 0
-LABEL=Archlinux       /home/vacation                            btrfs      subvol=/@vacation,defaults,noatime,compress=lzo            0 0
-LABEL=Archlinux       /home/vacation/.local/share/lutris        btrfs      subvol=/@lutris,defaults,noatime,compress=lzo              0 0
-LABEL=Archlinux       /home/vacation/.local/share/Steam         btrfs      subvol=/@steam,defaults,noatime,compress=lzo               0 0
-LABEL=Archlinux       /var/lib/postgres                         btrfs      subvol=/@postgres,defaults,noatime,compress=lzo            0 0
-LABEL=Archlinux       /home/vacation/.cache                     btrfs      subvol=/@.cache,defaults,noatime,compress=lzo              0 0
-LABEL=Archlinux       /var/lib/docker                           btrfs      subvol=/@docker,defaults,noatime,compress=lzo              0 0
+LABEL=Archlinux       /toplevel                             btrfs      subvol=/,defaults,noatime,compress=lzo                     0 0
+LABEL=Archlinux       /home/vacation                        btrfs      subvol=/@vacation,defaults,noatime,compress=lzo            0 0
+LABEL=Archlinux       /home/vacation/.local/share/lutris    btrfs      subvol=/@lutris,defaults,noatime,compress=lzo              0 0
+LABEL=Archlinux       /home/vacation/.local/share/Steam     btrfs      subvol=/@steam,defaults,noatime,compress=lzo               0 0
+LABEL=Archlinux       /var/lib/postgres                     btrfs      subvol=/@postgres,defaults,noatime,compress=lzo            0 0
+LABEL=Archlinux       /home/vacation/.cache                 btrfs      subvol=/@.cache,defaults,noatime,compress=lzo              0 0
+LABEL=Archlinux       /var/lib/docker                       btrfs      subvol=/@docker,defaults,noatime,compress=lzo              0 0
 #
 ####################################### noauto ###############################################################################################
 #
@@ -43,4 +44,4 @@ LABEL=External        /media/external      exfat      defaults,noauto,user,exec 
 #
 hugetlbfs             /dev/hugepages       hugetlbfs  mode=01770,gid=kvm                                        0 0
 /swap/swapfile        none                 swap       defaults,pri=0                                            0 0
-LABEL=Archlinux       /swap                btrfs      subvol=/@swap,defaults,noatime,compress=lzo               0 0               
+LABEL=Archlinux       /swap                btrfs      subvol=/@swap,defaults,noatime,compress=lzo               0 0
