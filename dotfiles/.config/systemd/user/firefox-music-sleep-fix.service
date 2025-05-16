@@ -5,6 +5,7 @@ After=network.target network-online.target
 
 [Service]
 ExecStart=%h/bin/firefox-music-sleep-fix.sh
+Environment="BASH_ENV=$HOME/.bash_env"
 Restart=always
 Type=simple
 
