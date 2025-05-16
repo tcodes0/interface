@@ -19,7 +19,16 @@ pooling_interval_secs=60
 playing="Playing"
 child=""
 
-usage() {
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
+help_exit() {
   msgln "Usage: $0"
   msgln
   msgln This tool is meant to be fire-and-forget by an automation.
@@ -33,8 +42,10 @@ cleanup() {
 
 ### script ###
 
+check_dependencies
+
 if requested_help "$*"; then
-  usage
+  help_exit
   exit 1
 fi
 
