@@ -72,15 +72,15 @@ msgln "read-write? (y/N) Default read-only:"
 
 read -r response
 
-readonly="-r"
+use_readonly="-r"
 if [ -n "$response" ] && [ "$response" != "n" ] && [ "$response" != "N" ]; then
-  readonly=""
+  use_readonly=""
 fi
 
 today="$(date +%Y-%m-%d)"
 default_name="$source_no_trailing-$today"
 
-if [ -n "$readonly" ]; then
+if [ -n "$use_readonly" ]; then
   default_name="$default_name-ro"
 fi
 
@@ -97,8 +97,8 @@ else
 fi
 
 if [ -n "$dryrun" ]; then
-  msgln would run: btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
+  msgln would run: btrfs subvolume snapshot $use_readonly "/toplevel/$source" "/toplevel/$destination"
   exit 0
 fi
 
-btrfs subvolume snapshot $readonly "/toplevel/$source" "/toplevel/$destination"
+btrfs subvolume snapshot $use_readonly "/toplevel/$source" "/toplevel/$destination"
