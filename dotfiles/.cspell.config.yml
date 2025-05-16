@@ -2,6 +2,7 @@ $schema: https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell
 version: "0.2"
 language: en
 allowCompoundWords: true
+maxNumberOfProblems: 7
 dictionaries:
   - en-US
   - bash
@@ -13,22 +14,141 @@ dictionaries:
   - lorem-ipsum
   - softwareTerms
   - computing-acronyms
+ignorePaths:
+  - priv/database.bcup
+  - bin/cloud-sql-proxy
+  - priv/secureBootKeysZ390M
+  - bin/baristai
+  - bin/dir-rename
+  - bin/filer
+  - bin/rename
+  - bin/typo
+  - dotfiles/lib-git-prompt.sh
+  - dotfiles/Brewfile
+  - etc
+  - LICENSE
 words:
+  - ACPI
+  - AGDP
+  - AHCI
+  - aliasg
+  - alnum
+  - APLF
+  - APSN
+  - AQAAAA
+  - argn
   - Asam
+  - ASPM
+  - baristai
+  - bcup
+  - blazingly
+  - btrfs
+  - busid
+  - cfprefsd
+  - commitlintrc
+  - coreutils
+  - cpio
+  - CPUPM
+  - CQAAAA
+  - csum
+  - dator
+  - devmode
+  - DMAR
+  - DSDT
+  - EDID
   - ehff
   - envtest
+  - euox
+  - fbcon
+  - filerrc
+  - findutils
   - flansbaum
+  - FUMA
+  - FUQQ
+  - gcloud
+  - gcmsg
+  - gcom
+  - GIGE
+  - GLAN
+  - glslang
+  - godotenv
+  - gotestfmt
   - GPGKEY
+  - grbonto
+  - grepl
+  - grepr
   - gsed
+  - guake
+  - GULNV
+  - HDAS
+  - HDEF
+  - HECI
   - hloc
+  - HPET
+  - IGPU
+  - IMEI
+  - initdb
+  - iokit
+  - IOUSB
+  - IPIC
+  - iterm
+  - kaue
+  - kazuo
+  - kexec
+  - Kext
+  - Kexts
+  - lemos
+  - libavif
+  - libheif
+  - libmp
+  - lzma
+  - mackup
+  - MCFG
   - meds
+  - Mikey
   - mkinitcpio
+  - mkpath
   - mserver
   - msgln
+  - nauck
+  - ncdu
+  - noatime
+  - noconfirm
   - ollama
   - pacu
+  - pgrep
+  - pgsql
+  - pids
+  - playerctl
+  - ppfeaturemask
+  - prefs
+  - psql
+  - QAAA
+  - ribeiro
   - rocm
+  - SEVDSQ
+  - SSDT
+  - tcodes0
+  - teramoto
+  - testdb
+  - thom
+  - thomazella
   - tomejila
+  - UAAAA
+  - ucode
+  - uncompress
   - uninteractive
+  - unlzma
+  - unrar
+  - unxz
+  - USBXHCI
+  - USBXHCIPCI
+  - vacuumdb
+  - vite
+  - wneessen
+  - XCPM
+  - ydeng
+  - ZPJV
   - zram
   - zswap
+  - ZYMA

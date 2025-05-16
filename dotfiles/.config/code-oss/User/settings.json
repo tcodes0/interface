@@ -311,5 +311,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "explorer.confirmPasteNative": false,
-  "workbench.colorTheme": "GitHub Dark High Contrast"
+  "workbench.colorTheme": "GitHub Dark High Contrast",
+  "cSpell.enabledNotifications": {
+    "Lines too Long": false
+  }
 }
