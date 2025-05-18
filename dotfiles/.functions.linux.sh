@@ -63,7 +63,6 @@ pac_orphan_deps_interactive() {
 
   msgln "$(wc -l <<<"$orphans")" orphans:
   msgln "$orphans"
-  msgln removing...
 
   # some pkg versions will be present in pkg var due to bash being limited
   for pkg in $orphans; do
@@ -73,6 +72,11 @@ pac_orphan_deps_interactive() {
 
     if [[ "${keep[*]}" == *"$pkg"* ]]; then
       msgln "keeping $pkg"
+      continue
+    fi
+
+    if [[ "$pkg" =~ .*-debug-.* ]]; then
+      msgln "removing debug $pkg"
       continue
     fi
 
