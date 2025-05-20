@@ -1,0 +1,14 @@
+[Unit]
+Description=Fetch and save a currency value relative to USD.
+Wants=network-online.target
+After=network.target network-online.target
+
+[Service]
+ExecStart=%h/bin/forex %i
+Environment="BASH_ENV=$HOME/.bash_env"
+Type=simple
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
