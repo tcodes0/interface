@@ -48,6 +48,24 @@ check_dependencies() {
   fi
 }
 
+markets_open() {
+  local day_of_week hour
+  day_of_week=$(date --utc +%u)
+  hour=$(date --utc +%H)
+
+  # Markets not open yet on Sunday
+  if { [ "$day_of_week" -eq 7 ] && [ "$hour" -lt 22 ]; } ||
+    # Markets closed for the weekend
+    { [ "$day_of_week" -eq 5 ] && [ "$hour" -ge 22 ]; } ||
+    # Abort if it's Saturday
+    [ "$day_of_week" -eq 6 ]; then
+
+    return 1
+  fi
+
+  return 0
+}
+
 # expects $1 to be a currency code in uppercase; BRL, EUR, etc...
 fetch_currency_rate_usd() {
   local base_url="${OPEN_EXCHANGE_RATES_BASE_URL:-https://openexchangerates.org/api}" response="" rate_json_path=".rates.$1" rate="" timestamp=""
@@ -92,6 +110,11 @@ save_sorted() {
 ### script ###
 
 check_dependencies
+
+if ! markets_open; then
+  exit 0
+fi
+
 result=$(fetch_currency_rate_usd "$CURRENCY")
 
 IFS=' ' read -r rate_usd timestamp <<<"$result"
