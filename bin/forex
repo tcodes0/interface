@@ -1,0 +1,90 @@
+#! /usr/bin/env bash
+# Copyright 2025 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+CURRENCY="${1:-}"
+REDIS_DB="${2:-0}"
+SET_BASENAME="${3:-t0forex}"
+
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+
+  if [ "${OPEN_EXCHANGE_RATES_API_KEY:-}" == "" ]; then
+    err $LINENO "OPEN_EXCHANGE_RATES_API_KEY is not set"
+    exit 1
+  fi
+
+  if [ "$CURRENCY" == "" ]; then
+    err $LINENO "currency code is required"
+    exit 1
+  fi
+
+  if ! command -v redis-cli >/dev/null; then
+    err $LINENO "redis is not installed"
+    exit 1
+  fi
+
+  if ! redis-cli ping >/dev/null; then
+    err $LINENO "redis is not running"
+    exit 1
+  fi
+}
+
+# expects $1 to be a currency code in uppercase; BRL, EUR, etc...
+fetch_rates() {
+  local base_url="https://openexchangerates.org/api" response="" rate_json_path=".rates.$1" rate="" timestamp=""
+  local url="$base_url/latest.json?app_id=$OPEN_EXCHANGE_RATES_API_KEY" timestamp_json_path=".timestamp"
+
+  if ! response=$(curl --silent "$url"); then
+    err $LINENO "fetching exchange rates"
+    return 1
+  fi
+
+  debug $LINENO "Response: $response"
+
+  if ! rate=$(jq --raw-output "$rate_json_path" <<<"$response"); then
+    err $LINENO "parsing currency rate"
+    return 1
+  fi
+
+  if ! timestamp=$(jq --raw-output "$timestamp_json_path" <<<"$response"); then
+    err $LINENO "parsing timestamp"
+    return 1
+  fi
+
+  msg "$rate $timestamp"
+}
+
+save_sorted() {
+  local score="$1" value="$2"
+
+  if ! redis-cli -n "$REDIS_DB" ZADD "${SET_BASENAME}_${CURRENCY}" "$score" "$value" >/dev/null; then
+    err $LINENO "saving to redis"
+    return 1
+  fi
+}
+
+### script ###
+
+check_dependencies
+
+read -r rate timestamp <<<"$(fetch_rates "$CURRENCY")"
+if [ "$rate" == "" ] || [ "$timestamp" == "" ]; then
+  err $LINENO "read empty value"
+  exit 1
+fi
+
+save_sorted "$timestamp" "$rate"
