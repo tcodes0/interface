@@ -5,8 +5,8 @@ After=network.target network-online.target
 
 [Service]
 ExecStart=%h/bin/forex %i
+EnvironmentFile=%h/.config/t0/forex.env
 Environment="BASH_ENV=$HOME/.bash_env"
-EnvironmentFile=$h/.config/t0/forex.env
 Type=simple
 StandardOutput=journal
 StandardError=journal
