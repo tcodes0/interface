@@ -7,6 +7,7 @@
 # Fetches the latest exchange rate for a given currency passed as $1
 # $2 optional: redis db number (default 0)
 # $3 optional: redis set basename (default t0forex)
+# Example: bin/forex.sh BRL
 
 set -euo pipefail
 shopt -s globstar
@@ -19,7 +20,7 @@ REDIS_DB="${2:-0}"
 SET_BASENAME="${3:-t0forex}"
 
 check_dependencies() {
-  if [ -z "$BASH_ENV" ]; then
+  if [ "${BASH_ENV:-}" == "" ]; then
     echo "This script uses functions defined externally."
     echo "\$BASH_ENV is used to source dependencies, and is empty."
     echo "If functions are in the environment, please set BASH_ENV to any string."
@@ -49,20 +50,31 @@ check_dependencies() {
 
 # expects $1 to be a currency code in uppercase; BRL, EUR, etc...
 fetch_currency_rate_usd() {
-  local base_url="https://openexchangerates.org/api" response="" rate_json_path=".rates.$1" rate="" timestamp=""
-  local url="$base_url/latest.json?app_id=$OPEN_EXCHANGE_RATES_API_KEY" timestamp_json_path=".timestamp"
+  local base_url="${OPEN_EXCHANGE_RATES_BASE_URL:-https://openexchangerates.org/api}" response="" rate_json_path=".rates.$1" rate="" timestamp=""
+  local url="$base_url/latest.json?app_id=$OPEN_EXCHANGE_RATES_API_KEY" timestamp_json_path=".timestamp" http_status="" body=""
 
-  if ! response=$(curl --silent "$url"); then
+  if ! response=$(curl --silent --retry 3 --retry-delay 10 --write-out "\n%{http_code}" "$url"); then
     return 1
   fi
 
-  if ! rate=$(jq --raw-output "$rate_json_path" <<<"$response"); then
-    debug $LINENO "Response: $(head -5 <<<"$response")"
+  http_status=$(tail -n1 <<<"$response")
+  body=$(sed '$d' <<<"$response")
+
+  debug $LINENO "http_status: $http_status"
+
+  if [ "$http_status" != 200 ]; then
+    err $LINENO "API request failed with status $http_status"
+    debug $LINENO "response: $(head <<<"$body")"
     return 1
   fi
 
-  if ! timestamp=$(jq --raw-output "$timestamp_json_path" <<<"$response"); then
-    debug $LINENO "Response: $(head -5 <<<"$response")"
+  if ! rate=$(jq --raw-output "$rate_json_path" <<<"$body"); then
+    debug $LINENO "body: $(head <<<"$body")"
+    return 1
+  fi
+
+  if ! timestamp=$(jq --raw-output "$timestamp_json_path" <<<"$body"); then
+    debug $LINENO "body: $(head <<<"$body")"
     return 1
   fi
 
@@ -82,8 +94,9 @@ save_sorted() {
 check_dependencies
 result=$(fetch_currency_rate_usd "$CURRENCY")
 
-read -r rate_usd timestamp <<<"$result"
-if [ "$rate_usd" == "" ] || [ "$timestamp" == "" ]; then
+IFS=' ' read -r rate_usd timestamp <<<"$result"
+if [ "$rate_usd" == "" ] || [ "$timestamp" == "" ] || [ "$rate_usd" == "null" ] || [ "$timestamp" == "null" ]; then
+  debug $LINENO "rate: $rate_usd timestamp: $timestamp"
   err $LINENO "read empty value"
   exit 1
 fi
