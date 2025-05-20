@@ -3,6 +3,10 @@
 # Use of this source code is governed by the BSD-3-Clause
 # license that can be found in the LICENSE file and online
 # at https://opensource.org/license/BSD-3-clause.
+#
+# Fetches the latest exchange rate for a given currency passed as $1
+# $2 optional: redis db number (default 0)
+# $3 optional: redis set basename (default t0forex)
 
 set -euo pipefail
 shopt -s globstar
@@ -28,7 +32,7 @@ check_dependencies() {
   fi
 
   if [ "$CURRENCY" == "" ]; then
-    err $LINENO "currency code is required"
+    err $LINENO "currency code is required, e.g $0 BRL"
     exit 1
   fi
 
@@ -44,24 +48,21 @@ check_dependencies() {
 }
 
 # expects $1 to be a currency code in uppercase; BRL, EUR, etc...
-fetch_rates() {
+fetch_currency_rate_usd() {
   local base_url="https://openexchangerates.org/api" response="" rate_json_path=".rates.$1" rate="" timestamp=""
   local url="$base_url/latest.json?app_id=$OPEN_EXCHANGE_RATES_API_KEY" timestamp_json_path=".timestamp"
 
   if ! response=$(curl --silent "$url"); then
-    err $LINENO "fetching exchange rates"
     return 1
   fi
 
-  debug $LINENO "Response: $response"
-
   if ! rate=$(jq --raw-output "$rate_json_path" <<<"$response"); then
-    err $LINENO "parsing currency rate"
+    debug $LINENO "Response: $(head -5 <<<"$response")"
     return 1
   fi
 
   if ! timestamp=$(jq --raw-output "$timestamp_json_path" <<<"$response"); then
-    err $LINENO "parsing timestamp"
+    debug $LINENO "Response: $(head -5 <<<"$response")"
     return 1
   fi
 
@@ -72,7 +73,6 @@ save_sorted() {
   local score="$1" value="$2"
 
   if ! redis-cli -n "$REDIS_DB" ZADD "${SET_BASENAME}_${CURRENCY}" "$score" "$value" >/dev/null; then
-    err $LINENO "saving to redis"
     return 1
   fi
 }
@@ -80,11 +80,12 @@ save_sorted() {
 ### script ###
 
 check_dependencies
+result=$(fetch_currency_rate_usd "$CURRENCY")
 
-read -r rate timestamp <<<"$(fetch_rates "$CURRENCY")"
-if [ "$rate" == "" ] || [ "$timestamp" == "" ]; then
+read -r rate_usd timestamp <<<"$result"
+if [ "$rate_usd" == "" ] || [ "$timestamp" == "" ]; then
   err $LINENO "read empty value"
   exit 1
 fi
 
-save_sorted "$timestamp" "$rate"
+save_sorted "$timestamp" "$rate_usd"
