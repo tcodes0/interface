@@ -111,8 +111,7 @@ __sys() {
 
   if [[ "$sub_cmd" == "" ]]; then
     debug $LINENO "$cmd" "$args"
-    # shellcheck disable=SC2086
-    # on purpose, causes systemctl error if quoted
+    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
     $cmd $args
 
     return
@@ -138,7 +137,8 @@ __sys() {
     fi
 
     debug $LINENO "$cmd" "$sub_cmd" "$args"
-    $cmd "$sub_cmd" "$args"
+    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
+    $cmd $sub_cmd $args
   elif ((${#matches[@]} > 1)); then
     msgln "$prefix ambiguous subcommand '$sub_cmd'. Possible matches:"
     for match in "${matches[@]}"; do
@@ -148,7 +148,8 @@ __sys() {
     return 1
   else
     debug $LINENO "$cmd" "$sub_cmd" "$args"
-    $cmd "$sub_cmd" "$args"
+    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
+    $cmd $sub_cmd $args
   fi
 }
 
