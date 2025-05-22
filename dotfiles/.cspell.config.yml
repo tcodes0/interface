@@ -33,6 +33,7 @@ words:
   - AHCI
   - aliasg
   - alnum
+  - alsa
   - APLF
   - APSN
   - AQAAAA
@@ -63,6 +64,7 @@ words:
   - filerrc
   - findutils
   - flansbaum
+  - forex
   - FUMA
   - FUQQ
   - gcloud
@@ -97,6 +99,7 @@ words:
   - kexec
   - Kext
   - Kexts
+  - Komplete
   - lemos
   - libavif
   - libheif
@@ -143,14 +146,14 @@ words:
   - unxz
   - USBXHCI
   - USBXHCIPCI
+  - USDBRL
   - vacuumdb
   - vite
   - wneessen
   - XCPM
   - ydeng
+  - ZADD
   - ZPJV
   - zram
   - zswap
   - ZYMA
-  - Komplete
-  - alsa
