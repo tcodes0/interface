@@ -4,7 +4,7 @@ Wants=local-fs.target
 After=local-fs.target
 
 [Service]
-ExecStart=%h/bin/game-audio-fix.sh
+ExecStart=%h/bin/game-audio-fix
 Environment="BASH_ENV=$HOME/.bash_env"
 Type=simple
 
