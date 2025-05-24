@@ -63,6 +63,12 @@ markets_open() {
     return 1
   fi
 
+  # Market volume too low between 18 and 7 EST
+  if [ "$hour" -gt 22 ] || [ "$hour" -lt 11 ]; then
+
+    return 1
+  fi
+
   return 0
 }
 
