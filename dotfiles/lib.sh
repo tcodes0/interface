@@ -25,6 +25,7 @@ export LIB_COLOR_YELLOW="\e[38;05;214m"
 export LIB_COLOR_RED_BRIGHT="\e[38;05;197m"
 
 # on most systems, sed is GNU sed
+# on macOS, this variable should be set to gsed
 export SED="sed"
 
 ###############
