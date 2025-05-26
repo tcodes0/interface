@@ -43,7 +43,6 @@ var (
 
 func main() {
 	defer func() {
-		// the first deferred function will run last.
 		if msg := recover(); msg != nil {
 			logger.Stacktrace(logging.LError, true)
 			logger.Fatalf("%v", msg)
@@ -101,7 +100,7 @@ func passAway(fatal error) {
 }
 
 func usage() {
-	fmt.Printf(`
+	msg := `
 forex fetch script
 use -h | --help for flag documentation
 
@@ -112,7 +111,8 @@ environment variables:
 - %s toggle logger colored output (default: false)
 - %s 1 - 5, 1 is debug. The higher the less logs (default: 2)
 - %s api key
-`, envColorVal, envLogLevelVal, envAPIKeyVal)
+`
+	fmt.Printf(msg, envColorVal, envLogLevelVal, envAPIKeyVal)
 }
 
 func forex(currency, setBasename, apiKey string, DBNumber int, clk clock.Nower) error {
