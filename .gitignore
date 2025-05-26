@@ -7,4 +7,5 @@ bin/baristai
 bin/dir-rename
 bin/t0filer
 bin/ollama
+bin/forex
 dotfiles/**/.uuid

@@ -4,9 +4,8 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Service]
-ExecStart=%h/bin/forex %i
+ExecStart=%h/bin/forex -currency %i
 EnvironmentFile=%h/.config/t0/forex.env
-Environment="BASH_ENV=$HOME/.bash_env"
 Type=simple
 StandardOutput=journal
 StandardError=journal

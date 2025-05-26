@@ -27,6 +27,8 @@ ignorePaths:
   - dotfiles/Brewfile
   - etc
   - LICENSE
+  - go.mod
+  - go.sum
 words:
   - ACPI
   - AGDP
@@ -157,3 +159,8 @@ words:
   - zram
   - zswap
   - ZYMA
+  - nolint
+  - gosec
+  - Nower
+  - Debugf
+  - Wrapfl

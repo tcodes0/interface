@@ -1,0 +1,41 @@
+#! /usr/bin/env bash
+# Copyright 2025 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+build() {
+  local src_dir="src" bin_dir="bin"
+  readonly src_dir bin_dir
+
+  if ! [[ -d "$src_dir" ]] || ! [[ -d "$bin_dir" ]]; then
+    fatal $LINENO "'$src_dir' or '$bin_dir' not found"
+  fi
+
+  mkdir -p "$bin_dir"
+
+  for main_go in "$src_dir"/**/main.go; do
+    if [[ ! -f "$main_go" ]]; then
+      continue
+    fi
+
+    local tool_dir tool_name out_path
+
+    tool_dir=$(dirname "$main_go")
+    tool_name=$(basename "$tool_dir")
+    out_path="../../$bin_dir/$tool_name"
+
+    msgln "building $tool_name"
+    go build -C "$tool_dir" -v -race -mod=readonly -o "$out_path" main.go
+  done
+}
+
+### script ###
+
+build
