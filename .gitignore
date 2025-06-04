@@ -9,3 +9,4 @@ bin/t0filer
 bin/ollama
 bin/forex
 dotfiles/**/.uuid
+**/.DS_Store

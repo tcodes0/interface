@@ -93,7 +93,7 @@ commit() {
   command commitlint --config "$commit_cfg" <<<"$commit_msg"
   command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
 
-  if git_do commit -q -m "$commit_msg"; then
+  if git_do commit --quiet --no-verify --message "$commit_msg"; then
     msgln "$commit_msg"
   fi
 }
