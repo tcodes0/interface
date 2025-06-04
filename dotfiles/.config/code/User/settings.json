@@ -1,20 +1,24 @@
 {
-  "workbench.colorTheme": "Material Theme Darker High Contrast",
+  //
+  // - - - - - - - - THEME - - - - - - - - -
+  //
+  "workbench.colorTheme": "GitHub Dark High Contrast",
   "workbench.colorCustomizations": {
-    "[Material Theme Darker High Contrast]": {
-      "editor.background": "#050505",
-      "activityBar.background": "#050505",
-      "statusBar.background": "#050505",
-      "panel.background": "#050505",
-      "sideBar.background": "#050505",
-      "activityBarBadge.background": "#050505",
-      "badge.background": "#050505",
-      "editorPane.background": "#050505",
-      "editorWidget.background": "#050505",
-      "tab.inactiveBackground": "#050505",
-      "tab.activeBackground": "#050505",
-      "titleBar.activeBackground": "#050505",
-      "editorGutter.background": "#050505"
+    "[GitHub Dark High Contrast]": {
+      "editor.background": "#000",
+      "activityBar.background": "#000",
+      "statusBar.background": "#000",
+      "panel.background": "#000",
+      "sideBar.background": "#000",
+      "activityBarBadge.background": "#000",
+      "badge.background": "#000",
+      "editorPane.background": "#000",
+      "editorWidget.background": "#000",
+      "tab.inactiveBackground": "#000",
+      "tab.activeBackground": "#000",
+      "titleBar.activeBackground": "#000",
+      "editorGutter.background": "#000",
+      "breadcrumb.background": "#000"
     },
     "activityBarBadge.background": "#FF4081",
     "list.activeSelectionForeground": "#FF4081",
@@ -37,7 +41,7 @@
     "menubar.selectionForeground": "#FF4081"
   },
   "editor.tokenColorCustomizations": {
-    "[Material Theme Darker High Contrast]": {
+    "[GitHub Dark High Contrast]": {
       "comments": "#676767",
       "functions": "#7e7fdd",
       "strings": "#8b907f",
@@ -45,6 +49,9 @@
       "types": "#6abe7f"
     }
   },
+  //
+  // - - - - - - - - FONT - - - - - - - - -
+  //
   "markdown.preview.fontSize": 12,
   "editor.fontLigatures": true,
   "terminal.integrated.fontWeightBold": "300",
@@ -56,6 +63,9 @@
   "editor.fontWeight": "normal",
   "editor.lineHeight": 21,
   "editor.fontSize": 13,
+  //
+  // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
+  //
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -78,15 +88,30 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[sql]": {
+    "editor.formatOnPaste": false
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "sql-formatter.uppercase": true,
+  //
+  // - - - - - - - - GIT - - - - - - - - -
+  //
   "git.enableSmartCommit": true,
   "git.confirmSync": false,
   "git.autofetch": true,
   "git.untrackedChanges": "separate",
   "git.openRepositoryInParentFolders": "always",
+  //
+  // - - - - - - - - BASH - - - - - - - - -
+  //
   "shellformat.path": "/opt/homebrew/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
   "shellcheck.customArgs": ["-x"],
+  //
+  // - - - - - - - - JS/TS - - - - - - - - -
+  //
   "javascript.validate.enable": false,
   "javascript.updateImportsOnFileMove.enabled": "always",
   "javascript.preferences.importModuleSpecifier": "non-relative",
@@ -101,6 +126,9 @@
   },
   "typescript.implementationsCodeLens.enabled": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  //
+  // - - - - - - - - GO - - - - - - - - -
+  //
   "go.useLanguageServer": true,
   "[go]": {
     "editor.formatOnSave": true,
@@ -122,6 +150,10 @@
     "ui.semanticTokens": true
   },
   "go.toolsManagement.autoUpdate": true,
+  //
+  // - - - - - - - - MISC - - - - - - - - -
+  //
+  "macros": {},
   "terminal.integrated.macOptionIsMeta": true,
   "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
@@ -129,6 +161,7 @@
   "workbench.statusBar.visible": true,
   "workbench.startupEditor": "none",
   "workbench.activityBar.location": "hidden",
+  "workbench.editor.showTabs": "multiple",
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
   "editor.wordBasedSuggestions": "matchingDocuments",
@@ -180,7 +213,8 @@
   "github.copilot.enable": {
     "*": true,
     "plaintext": false,
-    "markdown": false
+    "markdown": false,
+    "scminput": false
   },
   "cSpell.userWords": [
     "AIAPI",
@@ -254,6 +288,21 @@
   "cSpell.showAutocompleteSuggestions": false,
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
+  "#cSpell.enableFiletypes#": [
+    "go",
+    "plaintext",
+    "markdown",
+    "json",
+    "yaml",
+    "html",
+    "css",
+    "javascript",
+    "typescript",
+    "shellscript"
+  ],
+  "cSpell.enabledNotifications": {
+    "Lines too Long": false
+  },
   "window.commandCenter": false,
   "window.menuBarVisibility": "hidden",
   "window.enableMenuBarMnemonics": false,
@@ -264,5 +313,10 @@
   "update.mode": "manual",
   "redhat.telemetry.enabled": true,
   "terminal.integrated.defaultProfile.osx": "bash",
-  "window.zoomLevel": -1
+  "window.zoomLevel": -1,
+  "security.workspace.trust.untrustedFiles": "open",
+  "explorer.confirmPasteNative": false
+  //
+  // - - - - - - - - NEW - - - - - - - - -
+  //
 }

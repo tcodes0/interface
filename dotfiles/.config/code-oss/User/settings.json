@@ -2,6 +2,7 @@
   //
   // - - - - - - - - THEME - - - - - - - - -
   //
+  "workbench.colorTheme": "GitHub Dark High Contrast",
   "workbench.colorCustomizations": {
     "[GitHub Dark High Contrast]": {
       "editor.background": "#000",
@@ -90,6 +91,9 @@
   "[sql]": {
     "editor.formatOnPaste": false
   },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
   "sql-formatter.uppercase": true,
   //
   // - - - - - - - - GIT - - - - - - - - -
@@ -149,13 +153,12 @@
   // - - - - - - - - MISC - - - - - - - - -
   //
   "macros": {},
-  "terminal.integrated.macOptionIsMeta": true,
-  "terminal.external.osxExec": "iTerm2.app",
   "terminal.integrated.cursorStyle": "line",
   "workbench.settings.editor": "json",
   "workbench.statusBar.visible": true,
   "workbench.startupEditor": "none",
   "workbench.activityBar.location": "hidden",
+  "workbench.editor.showTabs": "multiple",
   "editor.multiCursorModifier": "alt",
   "editor.renderWhitespace": "all",
   "editor.wordBasedSuggestions": "matchingDocuments",
@@ -284,7 +287,7 @@
   "cSpell.maxDuplicateProblems": 2,
   "cSpell.spellCheckDelayMs": 2000,
   "cSpell.maxNumberOfProblems": 5,
-  "cSpell.enableFiletypes": [
+  "#cSpell.enableFiletypes#": [
     "go",
     "plaintext",
     "markdown",
@@ -296,10 +299,12 @@
     "typescript",
     "shellscript"
   ],
+  "cSpell.enabledNotifications": {
+    "Lines too Long": false
+  },
   "window.commandCenter": false,
   "window.menuBarVisibility": "hidden",
   "window.enableMenuBarMnemonics": false,
-  // OTHERS
   "merge-conflict.diffViewPosition": "Below",
   "diffEditor.ignoreTrimWhitespace": false,
   "debug.allowBreakpointsEverywhere": true,
@@ -307,13 +312,8 @@
   "update.mode": "manual",
   "redhat.telemetry.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
-  "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "explorer.confirmPasteNative": false,
-  "workbench.colorTheme": "GitHub Dark High Contrast",
-  "cSpell.enabledNotifications": {
-    "Lines too Long": false
-  },
-  "workbench.editor.showTabs": "multiple",
+  "explorer.confirmPasteNative": false
+  //
+  // - - - - - - - - NEW - - - - - - - - -
+  //
 }
