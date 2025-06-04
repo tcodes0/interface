@@ -45,7 +45,6 @@
       "types": "#6abe7f"
     }
   },
-  "materialTheme.accent": "Pink",
   "markdown.preview.fontSize": 12,
   "editor.fontLigatures": true,
   "terminal.integrated.fontWeightBold": "300",
@@ -55,8 +54,8 @@
   "terminal.integrated.splitCwd": "inherited",
   "editor.fontFamily": "PragmataPro Liga",
   "editor.fontWeight": "normal",
-  "editor.lineHeight": 20.3,
-  "editor.fontSize": 12.5,
+  "editor.lineHeight": 21,
+  "editor.fontSize": 13,
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
