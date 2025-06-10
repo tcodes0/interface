@@ -24,15 +24,14 @@ export_columns() {
 #  $pre_prompt <git stuff> $post_prompt
 #  empty: just the prompt
 make_ps1() {
-
   export_columns
 
   local spacer=' '
 
   if is_me; then
-    decorations=$SECOND_COLOR"~>"$spacer$END
+    decorations=$SECONDARY_COLOR"~>"$spacer$END
   else
-    decorations=$SECOND_COLOR"#>"$spacer$END
+    decorations=$SECONDARY_COLOR"#>"$spacer$END
   fi
 
   local horizontal_line="\n"
@@ -47,8 +46,8 @@ make_ps1() {
   local current_host=""
 
   if [[ ! ${KNOWN_HOSTS[*]} =~ $host_name ]]; then
-    current_host="$SECOND_COLOR@$host_name$END"
-    decorations=$SECOND_COLOR"*>"$spacer$END
+    current_host="$SECONDARY_COLOR@$host_name$END"
+    decorations=$SECONDARY_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
@@ -60,4 +59,4 @@ make_ps1() {
 
 END="\\[\\e[0m\\]"
 MAIN_COLOR="\\[$(rand_256_color)\\]"
-SECOND_COLOR="\\[$(rand_256_color)\\]"
+SECONDARY_COLOR="\\[$(rand_256_color)\\]"
