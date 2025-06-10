@@ -18,5 +18,6 @@ git.init.default-branch = "main"
 git.url."ssh://git@github.com/".instead-of = "https://github.com/"
 
 ui.diff-formatter = "tkdiff"
+ui.default-command = "log"
 
 http.cookiefile = "/home/vacation/.gitcookies"
