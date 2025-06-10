@@ -327,18 +327,19 @@ vcs_prompt() {
 #- - - - - - - - - - -
 
 jj_prompt() {
-  local at name user date time hash empty description
-  local light_pink="\\[\\e[33;95m\\]"
+  local at rev_name user date time hash rest bookmark
   local light_black="\\[\\e[33;90m\\]"
-  local green="\\[\\e[33;32m\\]"
 
   # shellcheck disable=SC2034
-  read -r at name user date time hash empty description < <(command jj log -T builtin_log_oneline | head -1)
+  read -r at rev_name user date time hash rest < <(command jj log --template builtin_log_oneline --color=always | head -1)
+  read -r _ bookmark < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks' --color=always)
 
-  # "no description set"
-  if [[ $empty == "(empty)" || $empty == "(no" ]]; then
-    empty="-"
+  rest=${rest/(empty)/empty}
+  rest=${rest/(no description set)/}
+
+  if [[ "$rest" =~ empty ]]; then
+    rest="${light_black}empty$END"
   fi
 
-  printf %s "$green$at$END$light_pink${name::4}$light_black${name:4} $empty$END"
+  printf %s "$at$rev_name $bookmark $rest"
 }
