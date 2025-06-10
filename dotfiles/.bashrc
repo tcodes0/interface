@@ -48,12 +48,6 @@ src_dotfile "lib.sh" "$LINENO"
 src_dotfile "lib-git-prompt.sh" "$LINENO"
 src_dotfile "lib-prompt.sh" "$LINENO"
 
-export PS1
-export PROMPT_COMMAND
-PS1=$(makePS1)
-UNDERLINE="\\[\\e[4m\\]"
-PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
-
 # NVM
 unset PREFIX            # nvm hates this
 unset npm_config_prefix # nvm hates this
