@@ -77,7 +77,7 @@ export PS1
 PS1=$(make_ps1)
 export PROMPT_COMMAND
 UNDERLINE="\\[\\e[4m\\]"
-PROMPT_COMMAND="__git_ps1 '$(make_ps1 pre)' '$(make_ps1 post)' '$MAIN_COLOR$UNDERLINE%s$END'"
+PROMPT_COMMAND="vcs_prompt '$(make_ps1 pre)' '$(make_ps1 post)' '$MAIN_COLOR$UNDERLINE%s$END'"
 
 # nvm
 unset PREFIX            # nvm hates this

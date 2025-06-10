@@ -17,7 +17,7 @@ git.remote.origin.prune = true
 git.init.default-branch = "main"
 git.url."ssh://git@github.com/".instead-of = "https://github.com/"
 
-ui.diff-formatter = "tkdiff"
 ui.default-command = "log"
+ui.diff-editor = "nano"
 
 http.cookiefile = "/home/vacation/.gitcookies"

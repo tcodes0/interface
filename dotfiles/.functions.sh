@@ -268,9 +268,6 @@ qai() {
 
 #- - - - - - - - - - -
 
-# todo: remove
-unalias g- 2>/dev/null
-
 # $1 current branch
 # $2 branch to checkout
 helper_g-() {
@@ -280,6 +277,8 @@ helper_g-() {
     log $LINENO "branch '$2' is already checked out"
   fi
 }
+
+#- - - - - - - - - - -
 
 # git checkout 2nd or 3rd ref in reflog that is not a main branch
 # first line of reflog is 'from last branch to current branch', second line is 'from before last branch to last branch', etc...
@@ -303,4 +302,43 @@ g-() {
 
     helper_g- "$current_branch" "$before_last_branch"
   fi
+}
+
+#- - - - - - - - - - -
+
+# args:
+# $1 - pre vcs stuff
+# $2 - post vcs stuff
+# $3 - format string
+vcs_prompt() {
+  local pre="$1" post="$2"
+
+  if command jj root &>/dev/null; then
+    local using_jj="true"
+  fi
+
+  if [ "$using_jj" ]; then
+    export PS1=$(printf %s%s%s "$pre" "$(jj_prompt)" "$post")
+  else
+    __git_ps1 "$@"
+  fi
+}
+
+#- - - - - - - - - - -
+
+jj_prompt() {
+  local at name user date time hash empty description
+  local light_pink="\\[\\e[33;95m\\]"
+  local light_black="\\[\\e[33;90m\\]"
+  local green="\\[\\e[33;32m\\]"
+
+  # shellcheck disable=SC2034
+  read -r at name user date time hash empty description < <(command jj log -T builtin_log_oneline | head -1)
+
+  # "no description set"
+  if [[ $empty == "(empty)" || $empty == "(no" ]]; then
+    empty="-"
+  fi
+
+  printf %s "$green$at$END$light_pink${name::4}$light_black${name:4} $empty$END"
 }
