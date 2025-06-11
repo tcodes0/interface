@@ -327,19 +327,24 @@ vcs_prompt() {
 #- - - - - - - - - - -
 
 jj_prompt() {
-  local at rev_name user date time hash rest bookmark
-  local light_black="\\[\\e[33;90m\\]"
+  local change_id description change_id_parent description_parent bookmarks=()
 
   # shellcheck disable=SC2034
-  read -r at rev_name user date time hash rest < <(command jj log --template builtin_log_oneline --color=always | head -1)
-  read -r _ bookmark < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks' --color=always)
+  read -r change_id description change_id_parent description_parent < <(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
+  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
 
-  rest=${rest/(empty)/empty}
-  rest=${rest/(no description set)/}
+  # remove prefix to erase empty descriptions
+  description=${description/desc:/}
+  description_parent=${description_parent/desc:/}
+  # set empty if second parent bookmark is main or master
+  bookmarks[1]=${bookmarks[1]/main/}
+  bookmarks[1]=${bookmarks[1]/master/}
 
-  if [[ "$rest" =~ empty ]]; then
-    rest="${light_black}empty$END"
-  fi
+  local light_black="\\[\\e[33;90m\\]" green="\\[\\e[33;32m\\]"
+  local format="${bookmarks[0]} ${bookmarks[1]} $green@$END$change_id $description $green@-$END$change_id_parent $light_black$description_parent$END"
 
-  printf %s "$at$rev_name $bookmark $rest"
+  # strip double spaces
+  format=${format//  / }
+
+  printf %s "$format"
 }
