@@ -268,9 +268,6 @@ qai() {
 
 #- - - - - - - - - - -
 
-# todo: remove
-unalias g- 2>/dev/null
-
 # $1 current branch
 # $2 branch to checkout
 helper_g-() {
@@ -280,6 +277,8 @@ helper_g-() {
     log $LINENO "branch '$2' is already checked out"
   fi
 }
+
+#- - - - - - - - - - -
 
 # git checkout 2nd or 3rd ref in reflog that is not a main branch
 # first line of reflog is 'from last branch to current branch', second line is 'from before last branch to last branch', etc...
@@ -303,4 +302,49 @@ g-() {
 
     helper_g- "$current_branch" "$before_last_branch"
   fi
+}
+
+#- - - - - - - - - - -
+
+# args:
+# $1 - pre vcs stuff
+# $2 - post vcs stuff
+# $3 - format string
+vcs_prompt() {
+  local pre="$1" post="$2"
+
+  if command jj root &>/dev/null; then
+    local using_jj="true"
+  fi
+
+  if [ "$using_jj" ]; then
+    export PS1=$(printf %s%s%s "$pre" "$(jj_prompt)" "$post")
+  else
+    __git_ps1 "$@"
+  fi
+}
+
+#- - - - - - - - - - -
+
+jj_prompt() {
+  local change_id description change_id_parent description_parent bookmarks=()
+
+  # shellcheck disable=SC2034
+  read -r change_id description change_id_parent description_parent < <(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
+  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+
+  # remove prefix to erase empty descriptions
+  description=${description/desc:/}
+  description_parent=${description_parent/desc:/}
+  # set empty if second parent bookmark is main or master
+  bookmarks[1]=${bookmarks[1]/main/}
+  bookmarks[1]=${bookmarks[1]/master/}
+
+  local light_black="\\[\\e[33;90m\\]" green="\\[\\e[33;32m\\]"
+  local format="${bookmarks[0]} ${bookmarks[1]} $green@$END$change_id $description $green@-$END$change_id_parent $light_black$description_parent$END"
+
+  # strip double spaces
+  format=${format//  / }
+
+  printf %s "$format"
 }

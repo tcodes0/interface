@@ -48,12 +48,6 @@ src_dotfile "lib.sh" "$LINENO"
 src_dotfile "lib-git-prompt.sh" "$LINENO"
 src_dotfile "lib-prompt.sh" "$LINENO"
 
-export PS1
-export PROMPT_COMMAND
-PS1=$(makePS1)
-UNDERLINE="\\[\\e[4m\\]"
-PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
-
 # NVM
 unset PREFIX            # nvm hates this
 unset npm_config_prefix # nvm hates this
@@ -80,10 +74,10 @@ export GIT_PS1_HIDE_IF_PWD_IGNORED="true"
 src_dotfile "lib-git-prompt.sh" "$LINENO"
 src_dotfile "lib-prompt.sh" "$LINENO"
 export PS1
-PS1=$(makePS1)
+PS1=$(make_ps1)
 export PROMPT_COMMAND
 UNDERLINE="\\[\\e[4m\\]"
-PROMPT_COMMAND="__git_ps1 '$(makePS1 preGit)' '$(makePS1 postGit)' '$MAIN_COLOR$UNDERLINE%s$END'"
+PROMPT_COMMAND="vcs_prompt '$(make_ps1 pre)' '$(make_ps1 post)' '$MAIN_COLOR$UNDERLINE%s$END'"
 
 # nvm
 unset PREFIX            # nvm hates this
