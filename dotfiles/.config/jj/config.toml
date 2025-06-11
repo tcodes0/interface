@@ -6,15 +6,5 @@ signing.key = "D600E88A0C5FE062"
 signing.backend = "gpg"
 signing.behavior = "own"
 
-git.fetch.prune = true
-git.pull.rebase = true
-git.rebase.missing-commits-check = "error"
-git.checkout.default-remote = "origin"
-git.remote.origin.prune = true
-git.init.default-branch = "main"
-git.url."ssh://git@github.com/".instead-of = "https://github.com/"
-
 ui.default-command = ["log", "--no-pager", "--color=always", "--limit", "10"]
 ui.diff-editor = "nano"
-
-http.cookiefile = "/home/vacation/.gitcookies"
