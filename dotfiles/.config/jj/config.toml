@@ -6,9 +6,6 @@ signing.key = "D600E88A0C5FE062"
 signing.backend = "gpg"
 signing.behavior = "own"
 
-core.excludesfile = "/Users/vamac/.gitignore_global"
-core.compression = -1
-
 git.fetch.prune = true
 git.pull.rebase = true
 git.rebase.missing-commits-check = "error"
