@@ -77,7 +77,7 @@ push() {
 
   local output
 
-  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=never --no-graph)
   read -ra bookmarks <<<"$output"
 
   # should not happen unless PROMPT_COMMAND is not using lib-git-prompt
@@ -96,7 +96,7 @@ push() {
 
   debug $LINENO "$base_pwd matches \$PUSH_REPOS"
 
-  command jj git push --quiet
+  command jj git push --quiet --allow-new
 }
 
 ### script ###

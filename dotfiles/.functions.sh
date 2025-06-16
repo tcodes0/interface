@@ -340,6 +340,7 @@ jj_prompt() {
   temp=$(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
   read -r change_id description change_id_parent description_parent <<<"$temp"
 
+  # color=always produces strings unsuitable for anything but display, they contain escape sequences
   temp2=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
   read -ra bookmarks <<<"$temp2"
 
