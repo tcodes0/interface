@@ -131,14 +131,25 @@ yad() {
 
 #- - - - - - - - - - -
 
-# fix calling git status when there's no repo, call ls instead
-gss() {
-  if command git status -s 2>/dev/null 1>&2; then
-    command git status -s
+jss() {
+  if command jj status 2>/dev/null 1>&2; then
+    command jj status
   else
     warn $LINENO "not a git repo"
     ls
   fi
+}
+
+# fix calling git status when there's no repo, call ls instead
+gss() {
+  jss
+
+  # if command git status -s 2>/dev/null 1>&2; then
+  #   command git status -s
+  # else
+  #   warn $LINENO "not a git repo"
+  #   ls
+  # fi
 }
 
 #- - - - - - - - - - -
