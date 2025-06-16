@@ -131,14 +131,25 @@ yad() {
 
 #- - - - - - - - - - -
 
-# fix calling git status when there's no repo, call ls instead
-gss() {
-  if command git status -s 2>/dev/null 1>&2; then
-    command git status -s
+jss() {
+  if command jj status 2>/dev/null 1>&2; then
+    command jj status
   else
     warn $LINENO "not a git repo"
     ls
   fi
+}
+
+# fix calling git status when there's no repo, call ls instead
+gss() {
+  jss
+
+  # if command git status -s 2>/dev/null 1>&2; then
+  #   command git status -s
+  # else
+  #   warn $LINENO "not a git repo"
+  #   ls
+  # fi
 }
 
 #- - - - - - - - - - -
@@ -306,6 +317,7 @@ g-() {
 
 #- - - - - - - - - - -
 
+# meant to be called in PROMPT_COMMAND
 # args:
 # $1 - pre vcs stuff
 # $2 - post vcs stuff
@@ -314,10 +326,6 @@ vcs_prompt() {
   local pre="$1" post="$2"
 
   if command jj root &>/dev/null; then
-    local using_jj="true"
-  fi
-
-  if [ "$using_jj" ]; then
     export PS1=$(printf %s%s%s "$pre" "$(jj_prompt)" "$post")
   else
     __git_ps1 "$@"
@@ -327,11 +335,14 @@ vcs_prompt() {
 #- - - - - - - - - - -
 
 jj_prompt() {
-  local change_id description change_id_parent description_parent bookmarks=()
+  local change_id description change_id_parent description_parent bookmarks=() temp temp2
 
-  # shellcheck disable=SC2034
-  read -r change_id description change_id_parent description_parent < <(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
-  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  temp=$(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
+  read -r change_id description change_id_parent description_parent <<<"$temp"
+
+  # color=always produces strings unsuitable for anything but display, they contain escape sequences
+  temp2=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  read -ra bookmarks <<<"$temp2"
 
   # remove prefix to erase empty descriptions
   description=${description/desc:/}
