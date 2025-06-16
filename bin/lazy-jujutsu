@@ -65,6 +65,17 @@ commit() {
   command commitlint --config "$commit_cfg" <<<"$commit_msg"
   command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
 
+  local output
+
+  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=never --no-graph)
+  read -ra bookmarks <<<"$output"
+
+  if [ ! "${bookmarks[0]}" ]; then
+    warn $LINENO "no bookmark found, push might fail"
+  fi
+
+  jj bookmark set "${bookmarks[0]}" --revision=@
+
   if command jj commit --quiet --message "$commit_msg"; then
     msgln "$commit_msg"
   fi
@@ -74,20 +85,6 @@ push() {
   if [ ! "${PUSH_REPOS:-}" ]; then
     return
   fi
-
-  local output
-
-  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=never --no-graph)
-  read -ra bookmarks <<<"$output"
-
-  # should not happen unless PROMPT_COMMAND is not using lib-git-prompt
-  if [ ! "${bookmarks[0]}" ]; then
-    warn $LINENO "no bookmark found, cannot push"
-
-    return
-  fi
-
-  jj bookmark set "${bookmarks[0]}" --revision=@
 
   base_pwd="$(basename "$PWD")"
   if [[ ! $PUSH_REPOS =~ .*[[:blank:]]*${base_pwd}[[:blank:]]*.* ]]; then
