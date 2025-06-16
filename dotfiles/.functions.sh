@@ -317,6 +317,7 @@ g-() {
 
 #- - - - - - - - - - -
 
+# meant to be called in PROMPT_COMMAND
 # args:
 # $1 - pre vcs stuff
 # $2 - post vcs stuff
@@ -325,10 +326,6 @@ vcs_prompt() {
   local pre="$1" post="$2"
 
   if command jj root &>/dev/null; then
-    local using_jj="true"
-  fi
-
-  if [ "$using_jj" ]; then
     export PS1=$(printf %s%s%s "$pre" "$(jj_prompt)" "$post")
   else
     __git_ps1 "$@"

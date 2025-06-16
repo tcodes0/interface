@@ -1,0 +1,107 @@
+#! /usr/bin/env bash
+# Copyright 2024 Raphael Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# a helper to a few jj chores like adding and composing standard commit messages
+# note: undefined functions are in lib.sh (sourced via BASH_ENV)
+#
+# GLOBALS:
+#   PUSH_REPOS: a list of repos to automatically push after a commit
+
+set -euo pipefail
+shopt -s globstar
+trap 'err $LINENO' ERR
+
+### vars and functions ###
+
+# known issue: these configs can be named differently
+readonly default_commit_cfg=$HOME/.commitlintrc.yml
+readonly default_cspell_cfg=$HOME/.cspell.config.yml
+commit_cfg=.commitlintrc.yml
+cspell_cfg=.cspell.config.yml
+
+check_dependencies() {
+  if [ -z "$BASH_ENV" ]; then
+    echo "This script uses functions defined externally."
+    echo "\$BASH_ENV is used to source dependencies, and is empty."
+    echo "If functions are in the environment, please set BASH_ENV to any string."
+    exit 1
+  fi
+}
+
+validate_deps() {
+  if ! command -v commitlint >/dev/null; then
+    fatal "$LINENO" "commitlint not found; try 'npm install -g @commitlint/cli'"
+  fi
+
+  if ! command -v cspell >/dev/null; then
+    fatal "$LINENO" "cspell not found; try 'npm install -g cspell@latest'"
+  fi
+
+  if [ ! -f ".commitlintrc.yml" ]; then
+    commit_cfg=$default_commit_cfg
+  fi
+
+  if [ ! -f ".cspell.config.yml" ]; then
+    cspell_cfg=$default_cspell_cfg
+  fi
+}
+
+commit() {
+  local type="${1/:/}" scope="${2/:/}" subject="${*:3}"
+
+  if [ ! "$type" ] || [ ! "$scope" ] || [ ! "$subject" ]; then
+    fatal $LINENO "usage: lg <type> <scope> <commit subject>"
+  fi
+
+  local commit_msg="$type($scope): $subject"
+
+  if [[ "$scope" =~ ^.$ ]]; then
+    commit_msg="$type: $subject"
+  fi
+
+  command commitlint --config "$commit_cfg" <<<"$commit_msg"
+  command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
+
+  if command jj commit --quiet --message "$commit_msg"; then
+    msgln "$commit_msg"
+  fi
+}
+
+push() {
+  if [ ! "${PUSH_REPOS:-}" ]; then
+    return
+  fi
+
+  local bookmarks=()
+
+  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+
+  # should not happen unless PROMPT_COMMAND is not using lib-git-prompt
+  if [ ! "${bookmarks[0]}" ]; then
+    warn $LINENO "no bookmark found, cannot push"
+
+    return
+  fi
+
+  jj bookmark set "${bookmarks[0]}" --revision=@
+
+  base_pwd="$(basename "$PWD")"
+  if [[ ! $PUSH_REPOS =~ .*[[:blank:]]*${base_pwd}[[:blank:]]*.* ]]; then
+    return
+  fi
+
+  debug $LINENO "$base_pwd matches \$PUSH_REPOS"
+
+  command jj git push --quiet
+}
+
+### script ###
+
+check_dependencies
+validate_deps
+commit "$@"
+push
+command jj status
