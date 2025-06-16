@@ -102,4 +102,3 @@ check_dependencies
 validate_deps
 commit "$@"
 push
-command jj status
