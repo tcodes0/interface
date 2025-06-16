@@ -335,11 +335,13 @@ vcs_prompt() {
 #- - - - - - - - - - -
 
 jj_prompt() {
-  local change_id description change_id_parent description_parent bookmarks=()
+  local change_id description change_id_parent description_parent bookmarks=() temp temp2
 
-  # shellcheck disable=SC2034
-  read -r change_id description change_id_parent description_parent < <(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
-  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  temp=$(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
+  read -r change_id description change_id_parent description_parent <<<"$temp"
+
+  temp2=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  read -ra bookmarks <<<"$temp2"
 
   # remove prefix to erase empty descriptions
   description=${description/desc:/}

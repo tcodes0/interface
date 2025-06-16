@@ -75,9 +75,10 @@ push() {
     return
   fi
 
-  local bookmarks=()
+  local output
 
-  read -ra bookmarks < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
+  read -ra bookmarks <<<"$output"
 
   # should not happen unless PROMPT_COMMAND is not using lib-git-prompt
   if [ ! "${bookmarks[0]}" ]; then
