@@ -351,6 +351,12 @@ jj_prompt() {
   bookmarks[1]=${bookmarks[1]/main/}
   bookmarks[1]=${bookmarks[1]/master/}
 
+  # local repo_root
+
+  # if repo_root=$(command jj root 2>/dev/null); then
+  #   track_jj_bookmarks "$repo_root" "${bookmarks[0]}"
+  # fi
+
   local light_black="\\[\\e[33;90m\\]" green="\\[\\e[33;32m\\]"
   local format="${bookmarks[0]} ${bookmarks[1]} $green@$END$change_id $description $green@-$END$change_id_parent $light_black$description_parent$END"
 
@@ -358,4 +364,64 @@ jj_prompt() {
   format=${format//  / }
 
   printf %s "$format"
+}
+
+#- - - - - - - - - - -
+
+# Track recent bookmarks per repo using a global var.
+# track_jj_bookmarks() {
+#   local repo="$1" current_bookmark="$2"
+
+#   if [[ "$current_bookmark" == "main" || "$current_bookmark" == "master" ]]; then
+#     return
+#   fi
+
+#   if [[ "${JJ_RECENT_BOOKMARK_MAP[$repo]+set}" == "" ]]; then
+#     JJ_RECENT_BOOKMARK_MAP[$repo]=""
+#   fi
+
+#   local -a bookmarks=()
+#   read -ra bookmarks <<<"${JJ_RECENT_BOOKMARK_MAP[$repo]}"
+
+#   if [[ "${bookmarks[0]}" != "$current_bookmark" ]]; then
+#     bookmarks=("$current_bookmark" "${bookmarks[@]}")
+#   fi
+
+#   if [ "${#bookmarks[@]}" -gt 7 ]; then
+#     bookmarks=("${bookmarks[@]:0:7}")
+#   fi
+
+#   JJ_RECENT_BOOKMARK_MAP["$repo"]="${bookmarks[*]}"
+# }
+
+#- - - - - - - - - - -
+
+# jj bookmark set private
+# $1 - bookmark name
+# $2 - revision
+# $3 - additional arguments
+__jj_bookmark_set() {
+  jj bookmark set set "$1" --revision "$2" "${@:3}"
+}
+
+# jj bookmark set on @
+jjb() {
+  if help_requested "$@" || [[ $# == 0 ]]; then
+    echo "jjb bookmark set on @"
+    echo "'jjb foobar' jj bookmark set foobar --revision @"
+    return
+  fi
+
+  __jj_bookmark_set "$1" @
+}
+
+# jj bookmark set on @-
+jjb-() {
+  if help_requested "$@" || [[ $# == 0 ]]; then
+    echo "jjb- bookmark set on @-"
+    echo "'jjb- foobar' jj bookmark set foobar --revision @- --allow-backwards"
+    return
+  fi
+
+  __jj_bookmark_set "$1" @- --allow-backwards
 }

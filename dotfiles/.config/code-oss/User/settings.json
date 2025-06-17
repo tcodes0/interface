@@ -189,6 +189,10 @@
   "explorer.confirmDelete": false,
   "githubPullRequests.queries": [
     {
+      "label": "Local Pull Request Branches",
+      "query": "default"
+    },
+    {
       "label": "Waiting",
       "query": "repo:${owner}/${repository} is:open review-requested:${user}"
     },
@@ -203,6 +207,10 @@
     {
       "label": "Created",
       "query": "repo:${owner}/${repository} is:open author:${user}"
+    },
+    {
+      "label": "All Open",
+      "query": "default"
     }
   ],
   "githubPullRequests.fileListLayout": "flat",
