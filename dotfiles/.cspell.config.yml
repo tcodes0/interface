@@ -37,6 +37,7 @@ words:
   - alnum
   - alsa
   - APLF
+  - appt
   - APSN
   - AQAAAA
   - argn
@@ -55,6 +56,7 @@ words:
   - CQAAAA
   - csum
   - dator
+  - Debugf
   - devmode
   - DMAR
   - DSDT
@@ -76,6 +78,7 @@ words:
   - GLAN
   - glslang
   - godotenv
+  - gosec
   - gotestfmt
   - GPGKEY
   - grbonto
@@ -119,6 +122,8 @@ words:
   - ncdu
   - noatime
   - noconfirm
+  - nolint
+  - Nower
   - ollama
   - pacu
   - pgrep
@@ -133,11 +138,13 @@ words:
   - rocm
   - SEVDSQ
   - SSDT
+  - Strs
   - tcodes0
   - teramoto
   - testdb
   - thom
   - thomazella
+  - tkdiff
   - tomejila
   - UAAAA
   - ucode
@@ -152,6 +159,7 @@ words:
   - vacuumdb
   - vite
   - wneessen
+  - Wrapfl
   - XCPM
   - ydeng
   - ZADD
@@ -159,10 +167,3 @@ words:
   - zram
   - zswap
   - ZYMA
-  - nolint
-  - gosec
-  - Nower
-  - Debugf
-  - Wrapfl
-  - tkdiff
-  - appt

@@ -74,11 +74,12 @@ commit() {
     warn $LINENO "no bookmark found, push might fail"
   fi
 
-  jj bookmark set "${bookmarks[0]}" --revision=@
-
-  if command jj commit --quiet --message "$commit_msg"; then
-    msgln "$commit_msg"
+  if [[ "${bookmarks[0]}" != "main" && "${bookmarks[0]}" != "master" ]]; then
+    jj bookmark set "${bookmarks[0]}" --revision=@
   fi
+
+  command jj commit --quiet --message "$commit_msg"
+  msgln "$commit_msg"
 }
 
 push() {
