@@ -1,14 +1,16 @@
 #! /usr/bin/env bash
 
 rand_256_color() {
-  local c
-  c=$(echo -n $((RANDOM % 231)))
-  if [ "$c" -le 17 ] || [ "$c" -ge 232 ]; then
-    # bad constrast colors, get another one
-    rand_256_color
-  else
-    echo -ne "\\e[38;05;${c}m"
-  fi
+  local color
+  color=$(echo -n $((RANDOM % 231)))
+
+  while :; do
+    color=$((RANDOM % 231))
+    if [ "$color" -gt 17 ] && [ "$color" -lt 232 ]; then
+      echo -ne "\\e[38;05;${color}m"
+      return
+    fi
+  done
 }
 
 export_columns() {
@@ -43,9 +45,17 @@ make_ps1() {
     host_name=$(hostnamectl hostname)
   fi
 
-  local current_host=""
+  local current_host="" known_host=false
 
-  if [[ ! ${KNOWN_HOSTS[*]} =~ $host_name ]]; then
+  for k_host in "${KNOWN_HOSTS[@]}"; do
+    if [[ "$k_host" == "$host_name" ]]; then
+      known_host=true
+
+      break
+    fi
+  done
+
+  if ! $known_host; then
     current_host="$SECONDARY_COLOR@$host_name$END"
     decorations=$SECONDARY_COLOR"*>"$spacer$END
   fi
@@ -57,6 +67,12 @@ make_ps1() {
   esac
 }
 
-END="\\[\\e[0m\\]"
+END=$(tput sgr0)
 MAIN_COLOR="\\[$(rand_256_color)\\]"
 SECONDARY_COLOR="\\[$(rand_256_color)\\]"
+
+# global var used in jj functions
+# if ! declare -p JJ_RECENT_BOOKMARK_MAP &>/dev/null; then
+#   declare -g -A JJ_RECENT_BOOKMARK_MAP=()
+#   export JJ_RECENT_BOOKMARK_MAP
+# fi

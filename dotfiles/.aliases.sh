@@ -85,7 +85,7 @@ alias gcpa='git cherry-pick --abort'
 alias gcpc='git cherry-pick --continue'
 alias gcs='git commit -S'
 alias gcsm='git commit -s -m'
-alias gd='git diff'
+alias gd='jj diff'
 alias gdca='git diff --cached'
 alias gdct='git describe --tags `git rev-list --tags --max-count=1`'
 alias gdcw='git diff --cached --word-diff'
@@ -208,7 +208,8 @@ alias gla="glo | head -10"
 
 # lazy-git
 
-alias lg="lazy-git"
+# alias lg="lazy-git"
+alias lg="lazy-jujutsu"
 
 alias build="lg build"
 alias ci="lg ci"
@@ -236,6 +237,8 @@ alias test-="lg test -"
 alias misc-="lg misc -"
 alias chore-="lg chore -"
 
+# jujutsu
+
 # general
 
 alias la='ls -A'
@@ -252,7 +255,7 @@ alias part='partutil'
 alias srit='source $HOME/.bashrc && clear'
 alias dirs='dirs -v'
 alias stat='stat -L'
-alias j='jj'
+alias j='jobs'
 alias f='fg'
 alias g='grep -Eie'
 alias ping='ping -c 1'
