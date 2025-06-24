@@ -72,7 +72,7 @@ MAIN_COLOR="\\[$(rand_256_color)\\]"
 SECONDARY_COLOR="\\[$(rand_256_color)\\]"
 
 # global var used in jj functions
-# if ! declare -p JJ_RECENT_BOOKMARK_MAP &>/dev/null; then
-#   declare -g -A JJ_RECENT_BOOKMARK_MAP=()
-#   export JJ_RECENT_BOOKMARK_MAP
-# fi
+if ! declare -p JJ_RECENT_BOOKMARK_MAP &>/dev/null; then
+  declare -g -A JJ_RECENT_BOOKMARK_MAP=()
+  export JJ_RECENT_BOOKMARK_MAP
+fi
