@@ -10,8 +10,8 @@ trap 'err $LINENO' ERR
 
 ### vars and functions ###
 
-readonly file=$1
-readonly file_path=${PWD}/$file
+readonly file="$1"
+readonly file_path="${PWD}/$file"
 
 check_dependencies() {
   if [ -z "$BASH_ENV" ]; then
@@ -50,7 +50,7 @@ set_name=${file/.txt/}
 i=1
 
 while read -r line; do
-  eval "curl '$line' -L -o '${set_name}-${i}.jpg'"
+  curl "$line" -L -o "${set_name}-${i}.jpg"
   i=$((i + 1))
 done <"$file_path"
 

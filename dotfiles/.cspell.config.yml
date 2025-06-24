@@ -169,3 +169,10 @@ words:
   - zram
   - zswap
   - ZYMA
+  - nolint
+  - gosec
+  - Nower
+  - Debugf
+  - Wrapfl
+  - tkdiff
+  - appt
