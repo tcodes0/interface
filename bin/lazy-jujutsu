@@ -70,6 +70,9 @@ commit() {
   output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=never --no-graph)
   read -ra bookmarks <<<"$output"
 
+  # * might be suffixed to indicate changes not pushed
+  bookmarks[0]=${bookmarks[0]/\*/}
+
   if [ ! "${bookmarks[0]}" ]; then
     warn $LINENO "no bookmark found, push might fail"
   fi

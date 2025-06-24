@@ -406,7 +406,7 @@ __jj_bookmark_set() {
 
 # jj bookmark set on @
 jjb() {
-  if help_requested "$@" || [[ $# == 0 ]]; then
+  if [[ $# == 0 ]]; then
     echo "jjb bookmark set on @"
     echo "'jjb foobar' jj bookmark set foobar --revision @"
     return
@@ -417,7 +417,7 @@ jjb() {
 
 # jj bookmark set on @-
 jjb-() {
-  if help_requested "$@" || [[ $# == 0 ]]; then
+  if [[ $# == 0 ]]; then
     echo "jjb- bookmark set on @-"
     echo "'jjb- foobar' jj bookmark set foobar --revision @- --allow-backwards"
     return
