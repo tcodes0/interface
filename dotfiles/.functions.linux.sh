@@ -98,28 +98,10 @@ unalias sysu 2>/dev/null
 # Allows fuzzy subcommand matching
 # Adds --now to 'enable' if user confirms.
 __sys() {
-  local type="$1" sub_cmd="$2" args="${*:3}" cmd sub_cmd args prefix="sys:"
+  local type="$1" sub_cmd="$2" args="${*:3}" cmd prefix="sys:"
   local valid_abrev_sub_cmds=(status restart start stop enable daemon-reload cat)
-
-  if [[ "$type" == "system" ]]; then
-    sudo --validate || return 1
-    cmd="sudo systemctl"
-  elif [[ "$type" == "user" ]]; then
-    cmd="systemctl --user"
-  else
-    err "invalid first argument: must be 'system' or 'user'" >&2
-    return 1
-  fi
-
-  if [[ "$sub_cmd" == "" ]]; then
-    debug $LINENO "$cmd" "$args"
-    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
-    $cmd $args
-
-    return
-  fi
-
-  local matches=() answer
+  local no_sudo_sub_cmds=(status cat)
+  local matches=()
 
   for option in "${valid_abrev_sub_cmds[@]}"; do
     if [[ "$option" == "$sub_cmd"* ]]; then
@@ -129,30 +111,48 @@ __sys() {
 
   if ((${#matches[@]} == 1)); then
     sub_cmd="${matches[0]}"
-
-    if [[ "$sub_cmd" == "enable" ]]; then
-      read -r -p "Add --now to 'enable'? [y/N]" answer
-
-      if [[ "$answer" =~ ^[Yy]$ ]]; then
-        sub_cmd="enable --now"
-      fi
-    fi
-
-    debug $LINENO "$cmd" "$sub_cmd" "$args"
-    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
-    $cmd $sub_cmd $args
   elif ((${#matches[@]} > 1)); then
     msgln "$prefix ambiguous subcommand '$sub_cmd'. Possible matches:"
     for match in "${matches[@]}"; do
       msgln "\t$match"
     done
-
     return 1
-  else
-    debug $LINENO "$cmd" "$sub_cmd" "$args"
-    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted
-    $cmd $sub_cmd $args
   fi
+
+  # Determine command prefix
+  if [[ "$type" == "system" ]]; then
+    local needs_sudo=true
+    for n in "${no_sudo_sub_cmds[@]}"; do
+      if [[ "$sub_cmd" == "$n" ]]; then
+        needs_sudo=false
+        break
+      fi
+    done
+
+    if $needs_sudo; then
+      sudo --validate || return 1
+      cmd="sudo systemctl"
+    else
+      cmd="systemctl"
+    fi
+  elif [[ "$type" == "user" ]]; then
+    cmd="systemctl --user"
+  else
+    err "invalid first argument: must be 'system' or 'user'" >&2
+    return 1
+  fi
+
+  debug $LINENO "$cmd" "$sub_cmd" "$args"
+
+  if [[ "$sub_cmd" == "" ]]; then
+    # shellcheck disable=SC2086 # on purpose, causes systemctl error if quoted or empty sub_cmd
+    $cmd $args
+
+    return
+  fi
+
+  # shellcheck disable=SC2086
+  $cmd $sub_cmd $args # on purpose, causes systemctl error if quoted
 }
 
 sys() {
