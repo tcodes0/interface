@@ -30,6 +30,7 @@ ignorePaths:
   - go.mod
   - go.sum
 words:
+  - abrev
   - ACPI
   - AGDP
   - AHCI
@@ -91,6 +92,7 @@ words:
   - HDAS
   - HDEF
   - HECI
+  - hipblas
   - hloc
   - HPET
   - IGPU
@@ -102,10 +104,14 @@ words:
   - iterm
   - kaue
   - kazuo
+  - kdesu
+  - kdnssd
   - kexec
   - Kext
   - Kexts
   - Komplete
+  - krunner
+  - ldns
   - lemos
   - libavif
   - libheif
@@ -136,11 +142,13 @@ words:
   - prefs
   - psql
   - QAAA
+  - rclone
   - ribeiro
   - rocm
   - SEVDSQ
   - SSDT
   - Strs
+  - sysu
   - tcodes0
   - teramoto
   - testdb
@@ -154,6 +162,7 @@ words:
   - uninteractive
   - unlzma
   - unrar
+  - unrequired
   - unxz
   - USBXHCI
   - USBXHCIPCI
@@ -169,10 +178,3 @@ words:
   - zram
   - zswap
   - ZYMA
-  - nolint
-  - gosec
-  - Nower
-  - Debugf
-  - Wrapfl
-  - tkdiff
-  - appt

@@ -59,7 +59,9 @@ goo() {
 
 pac_orphan_deps_interactive() {
   # shellcheck disable=SC2155
-  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 extra-cmake-modules hipblas rust) orphans=$(yay --query --deps --unrequired)
+  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 extra-cmake-modules hipblas rust make patch rsync wget)
+  # shellcheck disable=SC2155
+  local orphans=$(yay --query --deps --unrequired)
 
   msgln "$(wc -l <<<"$orphans")" orphans:
   msgln "$orphans"
@@ -75,7 +77,7 @@ pac_orphan_deps_interactive() {
       continue
     fi
 
-    if [[ "$pkg" =~ .*-debug-.* ]]; then
+    if [[ "$pkg" =~ .*-debug.* ]]; then
       msgln "removing debug $pkg"
       continue
     fi

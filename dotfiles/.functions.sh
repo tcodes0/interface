@@ -135,7 +135,7 @@ jss() {
   if command jj status 2>/dev/null 1>&2; then
     command jj status
   else
-    warn $LINENO "not a git repo"
+    warn $LINENO "not a jj root"
     ls
   fi
 }
