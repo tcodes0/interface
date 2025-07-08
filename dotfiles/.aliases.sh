@@ -238,6 +238,8 @@ alias misc-="lg misc -"
 alias chore-="lg chore -"
 
 # jujutsu
+alias jjn="jj new main"
+alias jgp="jj git push"
 
 # general
 
