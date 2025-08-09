@@ -247,6 +247,7 @@ source "$NVM_DIR/nvm.sh"
 
 system_up
 reinstall_global_npm cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
+refresh_collations
 services start postgresql
 
 cleanup "$pg_update"
