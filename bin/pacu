@@ -83,7 +83,7 @@ migrate_postgres() {
 }
 
 refresh_collations() {
-  local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres testdb template1)
+  local dbs=(comms comms_test hub hub_test member member_test vacation postgres)
 
   for db in "${dbs[@]}"; do
     log $LINENO collation update "$db"
