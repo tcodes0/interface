@@ -240,7 +240,7 @@ alias chore-="lg chore -"
 
 # jujutsu
 alias jnm="jj new main"
-alias jgp="jj git push"
+alias jgp="jj git push --allow-new"
 alias jn="jj new"
 
 # general
