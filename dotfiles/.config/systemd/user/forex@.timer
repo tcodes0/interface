@@ -4,7 +4,7 @@ Wants=network-online.target
 After=network.target network-online.target
 
 [Timer]
-OnUnitActiveSec=30min
+OnCalendar=hourly
 Persistent=true
 
 [Install]
