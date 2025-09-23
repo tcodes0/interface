@@ -135,7 +135,7 @@ jss() {
   if command jj status 2>/dev/null 1>&2; then
     command jj status
   else
-    warn $LINENO "not a git repo"
+    warn $LINENO "not a jj root"
     ls
   fi
 }
@@ -401,7 +401,7 @@ jj_prompt() {
 # $2 - revision
 # $3 - additional arguments
 __jj_bookmark_set() {
-  jj bookmark set set "$1" --revision "$2" "${@:3}"
+  jj bookmark set "$1" --revision "$2" "${@:3}"
 }
 
 # jj bookmark set on @

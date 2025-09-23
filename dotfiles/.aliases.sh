@@ -12,6 +12,7 @@ alias .hc="cl \$HOME/Desktop/client"
 alias .hs="cl \$HOME/Desktop/server"
 alias .ms="cl \$HOME/Desktop/member-server"
 alias .mc="cl \$HOME/Desktop/member-client"
+alias .sc="cl \$HOME/Desktop/scheduling"
 alias .i="cl \$(dirname \$DOTFILES)"
 alias .p="cl \$(dirname \$DOTFILES)/priv"
 alias c.="code ."
@@ -238,6 +239,9 @@ alias misc-="lg misc -"
 alias chore-="lg chore -"
 
 # jujutsu
+alias jnm="jj new main"
+alias jgp="jj git push --allow-new"
+alias jn="jj new"
 
 # general
 

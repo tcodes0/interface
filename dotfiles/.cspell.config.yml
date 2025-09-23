@@ -30,6 +30,7 @@ ignorePaths:
   - go.mod
   - go.sum
 words:
+  - abrev
   - ACPI
   - AGDP
   - AHCI
@@ -41,19 +42,26 @@ words:
   - APSN
   - AQAAAA
   - argn
+  - artis
   - Asam
   - ASPM
+  - athenadepartmentid
+  - BARC
   - baristai
   - bcup
+  - Benzodiazepines
   - blazingly
   - btrfs
   - busid
   - cfprefsd
+  - CIWA
+  - CIWAB
   - commitlintrc
   - coreutils
   - cpio
   - CPUPM
   - CQAAAA
+  - CSSRS
   - csum
   - Cynwyd
   - dator
@@ -70,6 +78,7 @@ words:
   - findutils
   - flansbaum
   - forex
+  - Fulgham
   - FUMA
   - FUQQ
   - gcloud
@@ -79,33 +88,43 @@ words:
   - GLAN
   - glslang
   - godotenv
+  - goqu
   - gosec
   - gotestfmt
   - GPGKEY
   - grbonto
   - grepl
   - grepr
+  - groupid
   - gsed
   - guake
   - GULNV
   - HDAS
   - HDEF
   - HECI
+  - hipblas
   - hloc
   - HPET
   - IGPU
   - IMEI
   - initdb
+  - insuranceid
   - iokit
   - IOUSB
   - IPIC
   - iterm
   - kaue
   - kazuo
+  - kdesu
+  - kdnssd
   - kexec
   - Kext
   - Kexts
   - Komplete
+  - krunner
+  - LARRIS
+  - ldns
+  - ldvalue
   - lemos
   - libavif
   - libheif
@@ -114,20 +133,25 @@ words:
   - mackup
   - MCFG
   - meds
+  - Mgmt
   - Mikey
   - mkinitcpio
   - mkpath
   - Mooresville
   - mserver
   - msgln
+  - MSUD
   - nauck
   - ncdu
   - noatime
   - noconfirm
   - nolint
   - Nower
+  - OBAT
   - ollama
   - pacu
+  - PAWSS
+  - pgdialect
   - pgrep
   - pgsql
   - pids
@@ -136,11 +160,15 @@ words:
   - prefs
   - psql
   - QAAA
+  - rclone
   - ribeiro
   - rocm
   - SEVDSQ
   - SSDT
+  - SSRS
+  - stretchr
   - Strs
+  - sysu
   - tcodes0
   - teramoto
   - testdb
@@ -154,12 +182,15 @@ words:
   - uninteractive
   - unlzma
   - unrar
+  - unrequired
   - unxz
+  - uptrace
   - USBXHCI
   - USBXHCIPCI
   - USDBRL
   - vacuumdb
   - vite
+  - VRTL
   - wneessen
   - Wrapfl
   - XCPM
@@ -169,10 +200,3 @@ words:
   - zram
   - zswap
   - ZYMA
-  - nolint
-  - gosec
-  - Nower
-  - Debugf
-  - Wrapfl
-  - tkdiff
-  - appt

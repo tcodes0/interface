@@ -83,7 +83,7 @@ migrate_postgres() {
 }
 
 refresh_collations() {
-  local dbs=(baristai comms comms_test hub hub_test member member_test vacation postgres testdb template1)
+  local dbs=(comms comms_test hub hub_test member member_test vacation postgres)
 
   for db in "${dbs[@]}"; do
     log $LINENO collation update "$db"
@@ -248,6 +248,7 @@ source "$NVM_DIR/nvm.sh"
 system_up
 reinstall_global_npm cspell cspell@latest prettier prettier@latest commitlint @commitlint/cli@latest commitlint/config-conventional @commitlint/config-conventional@latest
 services start postgresql
+refresh_collations
 
 cleanup "$pg_update"
 kexec_prompt ""
