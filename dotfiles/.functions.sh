@@ -425,3 +425,13 @@ jjb-() {
 
   __jj_bookmark_set "$1" @- --allow-backwards
 }
+
+# jj rebase --source $1 --destination $2
+jjrb() {
+  if [[ $# != 2 ]]; then
+    echo "jj rebase --source \$1 --destination \$2"
+    return
+  fi
+
+  jj rebase --source "$1" --destination "$2"
+}
