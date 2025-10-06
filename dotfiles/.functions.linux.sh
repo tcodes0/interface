@@ -59,7 +59,7 @@ goo() {
 
 pac_orphan_deps_interactive() {
   # shellcheck disable=SC2155
-  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 krunner5 ldns oxygen-sounds qt5-webview re2 extra-cmake-modules hipblas rust make patch rsync wget ffmpeg ffmpeg4.4 libdvbpsi aribb24 libmatroska libebml libmpeg2 libtar libkate libtiger vlc)
+  local keep=(go oath-toolkit git-lfs kdesu5 kdnssd5 knewstuff5 ldns oxygen-sounds qt5-webview re2 extra-cmake-modules hipblas rust make patch rsync wget ffmpeg ffmpeg4.4 libdvbpsi aribb24 libmatroska libebml libmpeg2 libtar libkate libtiger vlc)
   # shellcheck disable=SC2155
   local orphans=$(yay --query --deps --unrequired)
 
