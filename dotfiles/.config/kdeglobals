@@ -203,6 +203,9 @@ smallestReadableFont=DejaVu Sans,9,-1,5,50,0,0,0,0,0,Book
 toolBarFont=DejaVu Sans,10,-1,5,50,0,0,0,0,0,Book
 widgetStyle=Breeze
 
+[Icons]
+Theme=breeze-dark
+
 [KDE]
 AnimationDurationFactor=0.125
 ColorScheme=Breeze
@@ -224,7 +227,6 @@ Breadcrumb Navigation=false
 Decoration position=0
 LocationCombo Completionmode=5
 PathCombo Completionmode=5
-Show Bookmarks=false
 Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
@@ -300,6 +302,7 @@ ForwardWord=Alt+Right
 GotoLine=
 Help=
 SelectAll=
+WhatsThis=
 
 [SmallIcons]
 ActiveColor[$d]
