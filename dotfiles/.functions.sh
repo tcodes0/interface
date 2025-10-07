@@ -435,3 +435,13 @@ jjrb() {
 
   jj rebase --source "$1" --destination "$2"
 }
+
+#url decode and json format
+urldecode_json() {
+  if [ ! "$1" ]; then
+    echo "urldecode_json '%7B%22foo%22%3A+%22bar%22%7D'"
+    return
+  fi
+
+  python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$1" | jq
+}

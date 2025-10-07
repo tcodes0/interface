@@ -320,7 +320,16 @@
   "update.mode": "manual",
   "redhat.telemetry.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
-  "explorer.confirmPasteNative": false
+  "explorer.confirmPasteNative": false,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  }
   //
   // - - - - - - - - NEW - - - - - - - - -
   //
