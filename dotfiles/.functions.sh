@@ -351,11 +351,11 @@ jj_prompt() {
   bookmarks[1]=${bookmarks[1]/main/}
   bookmarks[1]=${bookmarks[1]/master/}
 
-  # local repo_root
+  local repo_root
 
-  # if repo_root=$(command jj root 2>/dev/null); then
-  #   track_jj_bookmarks "$repo_root" "${bookmarks[0]}"
-  # fi
+  if repo_root=$(command jj root 2>/dev/null); then
+    track_jj_bookmarks "$repo_root" "${bookmarks[0]}"
+  fi
 
   local light_black="\\[\\e[33;90m\\]" green="\\[\\e[33;32m\\]"
   local format="${bookmarks[0]} ${bookmarks[1]} $green@$END$change_id $description $green@-$END$change_id_parent $light_black$description_parent$END"
@@ -369,30 +369,34 @@ jj_prompt() {
 #- - - - - - - - - - -
 
 # Track recent bookmarks per repo using a global var.
-# track_jj_bookmarks() {
-#   local repo="$1" current_bookmark="$2"
+track_jj_bookmarks() {
+  local repo="$1" current_bookmark="$2"
 
-#   if [[ "$current_bookmark" == "main" || "$current_bookmark" == "master" ]]; then
-#     return
-#   fi
+  if [[ -z "$repo" || -z "$current_bookmark" ]]; then
+    return
+  fi
 
-#   if [[ "${JJ_RECENT_BOOKMARK_MAP[$repo]+set}" == "" ]]; then
-#     JJ_RECENT_BOOKMARK_MAP[$repo]=""
-#   fi
+  if [[ "$current_bookmark" == "main" || "$current_bookmark" == "master" ]]; then
+    return
+  fi
 
-#   local -a bookmarks=()
-#   read -ra bookmarks <<<"${JJ_RECENT_BOOKMARK_MAP[$repo]}"
+  if [[ "${JJ_RECENT_BOOKMARK_MAP[$repo]+set}" != "set" ]]; then
+    JJ_RECENT_BOOKMARK_MAP[$repo]=""
+  fi
 
-#   if [[ "${bookmarks[0]}" != "$current_bookmark" ]]; then
-#     bookmarks=("$current_bookmark" "${bookmarks[@]}")
-#   fi
+  local -a bookmarks=()
+  read -ra bookmarks <<< "${JJ_RECENT_BOOKMARK_MAP[$repo]}"
 
-#   if [ "${#bookmarks[@]}" -gt 7 ]; then
-#     bookmarks=("${bookmarks[@]:0:7}")
-#   fi
+  if [[ "${bookmarks[0]}" != "$current_bookmark" ]]; then
+    bookmarks=("$current_bookmark" "${bookmarks[@]}")
+  fi
 
-#   JJ_RECENT_BOOKMARK_MAP["$repo"]="${bookmarks[*]}"
-# }
+  if (( ${#bookmarks[@]} > 7 )); then
+    bookmarks=("${bookmarks[@]:0:7}")
+  fi
+
+  JJ_RECENT_BOOKMARK_MAP[$repo]="${bookmarks[*]}"
+}
 
 #- - - - - - - - - - -
 
