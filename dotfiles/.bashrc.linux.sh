@@ -22,7 +22,7 @@ $HOME/.local/bin:\
 if [ ! "$(pgrep ssh-agent)" ]; then
   eval "$(ssh-agent)" >/dev/null
 elif [[ ! "$SSH_AUTH_SOCK" =~ $(pgrep ssh-agent) ]]; then
-  SSH_AUTH_SOCK=$(find /tmp -maxdepth 2 -type s -name 'agent.*' 2>/dev/null)
+  SSH_AUTH_SOCK=$(find "$HOME/.ssh" -type s 2>/dev/null | head -1)
 fi
 
 export SSH_AUTH_SOCK
