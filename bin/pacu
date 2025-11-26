@@ -89,9 +89,10 @@ EOF
 refresh_collations() {
   local dbs=(comms comms_test hub hub_test member member_test vacation postgres)
 
+  log $LINENO collation update on "${dbs[*]}"
+
   for db in "${dbs[@]}"; do
-    log $LINENO collation update "$db"
-    psql -U postgres -c "alter database $db refresh collation version;" >/dev/null
+    psql -U postgres -c "alter database $db refresh collation version;" >/dev/null || log $LINENO "refresh failed on $db, ignoring"
   done
 }
 
