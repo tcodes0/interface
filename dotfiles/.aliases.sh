@@ -244,7 +244,6 @@ alias jgp="jj git push --allow-new"
 alias jn="jj new"
 
 # general
-
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
@@ -318,3 +317,4 @@ alias pwgen="apg"
 alias cd-="cd -"
 alias hexdump="hexdump -v -e '1/1 \"%02x \"'"
 alias urldecode="python3 -c \"import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))\""
+alias unixnow="date +%s"
