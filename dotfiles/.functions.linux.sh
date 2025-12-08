@@ -89,10 +89,6 @@ pac_orphan_deps_interactive() {
 
 #- - - - - - - - - - -
 
-# todo: remove
-unalias sys 2>/dev/null
-unalias sysu 2>/dev/null
-
 # __sys: A smart wrapper for systemctl commands.
 # Supports 'system' (with sudo) and 'user' modes.
 # Allows fuzzy subcommand matching
@@ -155,10 +151,74 @@ __sys() {
   $cmd $sub_cmd $args # on purpose, causes systemctl error if quoted
 }
 
+#- - - - - - - - - - -
 sys() {
   __sys "system" "$@"
 }
 
+#- - - - - - - - - - -
 sysu() {
   __sys "user" "$@"
 }
+
+#- - - - - - - - - - -
+compress() {
+  local method="$1" src="$2" out="$3"
+
+  if [ -z "$method" ] || [ -z "$src" ]; then
+    err $LINENO "usage: compress <zip|tar7z> <src> [output]"
+    return 1
+  fi
+
+  if [ ! -e "$src" ]; then
+    err $LINENO "source does not exist: $src"
+    return 1
+  fi
+
+  # choose default output filename
+  if [ -z "$out" ]; then
+    if [ "$method" = "zip" ]; then
+      out="${src%/}.zip"
+    elif [ "$method" = "tar7z" ]; then
+      out="${src%/}.tar.7z"
+    else
+      err $LINENO "invalid method: $method"
+      return 1
+    fi
+  fi
+
+  if [ "$method" = "zip" ]; then
+    if ! command -v zip >/dev/null; then
+      err $LINENO "zip not installed"
+      return 1
+    fi
+
+    msg "creating zip archive: $out"
+
+    if ! zip -r "$out" "$src"; then
+      err $LINENO "zip compression failed"
+      return 1
+    fi
+
+  elif [ "$method" = "tar7z" ]; then
+    if ! command -v 7za >/dev/null; then
+      err $LINENO "7za (p7zip) not installed"
+      return 1
+    fi
+
+    msg "creating tar.7z archive: $out"
+
+    # tar stream → 7za via stdin (your exact pattern)
+    if ! tar -cf - "$src" | 7za a -si -mx=7 "$out" > /dev/null; then
+      err $LINENO "tar.7z compression failed"
+      return 1
+    fi
+
+  else
+    err $LINENO "unknown compression method: $method"
+    return 1
+  fi
+
+  msg "done: $out"
+}
+
