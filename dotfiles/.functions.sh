@@ -436,6 +436,26 @@ jjrb() {
   jj rebase --source "$1" --destination "$2"
 }
 
+# jj new <ref>@origin
+jno() {
+  if [[ $# != 1 ]]; then
+    echo "jj new <ref>@origin"
+    echo "runs git fetch"
+    echo "adds '@origin' to your ref, then runs jj new"
+    echo "runs jj bookmark track <ref>@origin"
+    echo "runs jj bookmark <ref> @-"
+    return
+  fi
+
+  git fetch --all --prune
+
+  local refAt="$1@origin"
+
+  jj new "$refAt"
+  jj bookmark track "$refAt"
+  __jj_bookmark_set "$1" @- --allow-backwards
+}
+
 #url decode and json format
 urldecode_json() {
   if [ ! "$1" ]; then
