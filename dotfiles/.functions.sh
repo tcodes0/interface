@@ -456,6 +456,38 @@ jno() {
   __jj_bookmark_set "$1" @- --allow-backwards
 }
 
+__npc() {
+  local branch=$1 backwards_flag="$2" today_date=$(date +"%b-%d" | tr '[:upper:]' '[:lower:]')
+
+  if [ "$backwards_flag" == "-" ]; then
+    jjb- "pc-$1-$today_date"
+  else
+    jjb "pc-$1-$today_date"
+  fi
+}
+
+# new PC ticket bookmark on @
+npc() {
+  if [[ $# != 1 ]]; then
+    echo "runs jj bookmark set pc-<ticket number> @"
+    echo "sufixes with today's date"
+    return
+  fi
+
+  __npc "$1"
+}
+
+# new PC ticket bookmark on @-
+npc-() {
+  if [[ $# != 1 ]]; then
+    echo "runs jj bookmark set pc-<ticket number> @-"
+    echo "sufixes with today's date"
+    return
+  fi
+
+  __npc "$1" -
+}
+
 #url decode and json format
 urldecode_json() {
   if [ ! "$1" ]; then

@@ -71,7 +71,7 @@
     "resolvePluginsRelativeTo": "."
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
+    "editor.defaultFormatter": "lumirelle.shell-format-rev"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -106,9 +106,11 @@
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
+  "shellcheck.customArgs": ["-x"],
+  //
   "shellformat.path": "/usr/local/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
-  "shellcheck.customArgs": ["-x"],
+  "shellformat.useEditorConfig": true,
   //
   // - - - - - - - - JS/TS - - - - - - - - -
   //
