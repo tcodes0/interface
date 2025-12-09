@@ -97,7 +97,7 @@ push() {
 
   debug $LINENO "$base_pwd matches \$PUSH_REPOS"
 
-  command jj git push --quiet --allow-new
+  command jj git push --quiet # --allow-new
 }
 
 ### script ###
