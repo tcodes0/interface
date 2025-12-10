@@ -1,10 +1,17 @@
 "$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
-user.name = "Raphael \"Thom\" Thomazella"
-user.email = "thomazella9@gmail.com"
 
-signing.key = "D600E88A0C5FE062"
-signing.backend = "gpg"
-signing.behavior = "own"
+[user]
+name = "Raphael \"Thom\" Thomazella"
+email = "thomazella9@gmail.com"
 
-ui.default-command = ["log", "--no-pager", "--color=always", "--limit", "10"]
-ui.diff-editor = "nano"
+[signing]
+key = "D600E88A0C5FE062"
+backend = "gpg"
+behavior = "own"
+
+[ui]
+default-command = ["log", "--no-pager", "--color=always", "--limit", "10"]
+diff-editor = "nano"
+
+[remotes.origin]
+auto-track-bookmarks = "glob:*"
