@@ -34,7 +34,7 @@ export HISTTIMEFORMAT="%b %d "
 export HISTCONTROL="ignoredups:erasedups"
 export TIMEFORMAT='%3Rs'
 export BLOCKSIZE=1000000 #1 Megabyte
-export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
+export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
 #  shellcheck disable=SC2155 # not using exit code of subshell
 export GPG_TTY=$(tty)

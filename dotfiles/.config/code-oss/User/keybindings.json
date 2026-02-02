@@ -573,10 +573,6 @@
     "command": "-workbench.action.zoomOut"
   },
   {
-    "key": "ctrl+shift+-",
-    "command": "workbench.action.zoomOut"
-  },
-  {
     "key": "ctrl+k ctrl+s",
     "command": "-workbench.action.openGlobalKeybindings"
   },
@@ -671,5 +667,21 @@
     "key": "alt+e",
     "command": "paste",
     "when": "editorFocus && !editorReadonly"
+  },
+  {
+    "key": "ctrl+=",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+numpad_add",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+shift+=",
+    "command": "-workbench.action.zoomIn"
+  },
+  {
+    "key": "ctrl+numpad_subtract",
+    "command": "-workbench.action.zoomOut"
   }
 ]
