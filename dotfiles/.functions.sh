@@ -131,25 +131,31 @@ yad() {
 
 #- - - - - - - - - - -
 
+# when there's no repo, call ls instead
 jss() {
-  if command jj status 2>/dev/null 1>&2; then
+  if ! command jj root &>/dev/null; then
+    _git_gss "$@"
+    return $?
+  fi
+
+  if command jj root &>/dev/null; then
     command jj status
   else
     warn $LINENO "not a jj root"
     ls
   fi
+
 }
 
-# fix calling git status when there's no repo, call ls instead
-gss() {
-  jss
+#- - - - - - - - - - -
 
-  # if command git status -s 2>/dev/null 1>&2; then
-  #   command git status -s
-  # else
-  #   warn $LINENO "not a git repo"
-  #   ls
-  # fi
+_git_gss() {
+  if command git status -s 2>/dev/null 1>&2; then
+    command git status -s
+  else
+    warn $LINENO "not a git repo"
+    ls
+  fi
 }
 
 #- - - - - - - - - - -
@@ -164,7 +170,7 @@ grbonto() {
 
 #- - - - - - - - - - -
 
-gcom() {
+_git_gcom() {
   if ! git fetch --all --prune; then
     return
   fi
@@ -184,6 +190,21 @@ gcom() {
   elif [[ "$checkout" =~ 'did not match any file' ]]; then
     log $LINENO "branch $branch does not exist, checkout manually"
   fi
+}
+
+#----------------
+
+gcom() {
+  if ! command jj root &>/dev/null; then
+    _git_gcom "$@"
+    return $?
+  fi
+
+  if ! git fetch --all --prune; then
+    return
+  fi
+
+  jj new main
 }
 
 #----------------
