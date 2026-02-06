@@ -26,7 +26,7 @@ export CMD_COLOR=true
 export T0_COLOR=true
 export EDITOR='code -w'
 export GPGKEY=D600E88A0C5FE062
-export KNOWN_HOSTS=(Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
+export KNOWN_HOSTS=(ArchAM5 Arch7 Thoms-MacBook-Pro-14.local ThomRiberio-MacBook-Air)
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export HISTSIZE=50000
 export HISTFILESIZE=$HISTSIZE
@@ -34,7 +34,7 @@ export HISTTIMEFORMAT="%b %d "
 export HISTCONTROL="ignoredups:erasedups"
 export TIMEFORMAT='%3Rs'
 export BLOCKSIZE=1000000 #1 Megabyte
-export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --window=-5 --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
+export LESS="--RAW-CONTROL-CHARS --HILITE-UNREAD --quiet --buffers=32768 --quit-if-one-screen --prompt=?eEND:%pb\\%. ?f%F:Stdin.\\: page %d of %D, line %lb of %L"
 export PAGER="less"
 #  shellcheck disable=SC2155 # not using exit code of subshell
 export GPG_TTY=$(tty)

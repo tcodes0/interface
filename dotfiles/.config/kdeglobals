@@ -44,43 +44,6 @@ ForegroundVisited=127,140,141
 BackgroundAlternate=17,18,22
 BackgroundNormal=17,18,22
 DecorationFocus=55,67,80
-DecorationHover[$d]
-ForegroundActive[$d]
-ForegroundInactive[$d]
-ForegroundLink[$d]
-ForegroundNegative[$d]
-ForegroundNeutral[$d]
-ForegroundNormal[$d]
-ForegroundPositive[$d]
-ForegroundVisited[$d]
-
-[Colors:Header]
-BackgroundAlternate[$d]
-BackgroundNormal[$d]
-DecorationFocus[$d]
-DecorationHover[$d]
-ForegroundActive[$d]
-ForegroundInactive[$d]
-ForegroundLink[$d]
-ForegroundNegative[$d]
-ForegroundNeutral[$d]
-ForegroundNormal[$d]
-ForegroundPositive[$d]
-ForegroundVisited[$d]
-
-[Colors:Header][Inactive]
-BackgroundAlternate[$d]
-BackgroundNormal[$d]
-DecorationFocus[$d]
-DecorationHover[$d]
-ForegroundActive[$d]
-ForegroundInactive[$d]
-ForegroundLink[$d]
-ForegroundNegative[$d]
-ForegroundNeutral[$d]
-ForegroundNormal[$d]
-ForegroundPositive[$d]
-ForegroundVisited[$d]
 
 [Colors:Selection]
 BackgroundAlternate=60,120,255
@@ -139,41 +102,9 @@ ForegroundPositive=156,83,198
 ForegroundVisited=127,140,141
 
 [DesktopIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=48
 
 [DialogIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=32
 
 [DirSelect Dialog]
@@ -203,6 +134,9 @@ smallestReadableFont=DejaVu Sans,9,-1,5,50,0,0,0,0,0,Book
 toolBarFont=DejaVu Sans,10,-1,5,50,0,0,0,0,0,Book
 widgetStyle=Breeze
 
+[Icons]
+Theme=breeze-dark
+
 [KDE]
 AnimationDurationFactor=0.125
 ColorScheme=Breeze
@@ -222,9 +156,6 @@ Allow Expansion=false
 Automatically select filename extension=true
 Breadcrumb Navigation=false
 Decoration position=0
-LocationCombo Completionmode=5
-PathCombo Completionmode=5
-Show Bookmarks=false
 Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
@@ -247,41 +178,9 @@ XwaylandClientsScale=false
 Dialog Size=1505,1115
 
 [MainToolbarIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=22
 
 [PanelIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=48
 
 [PreviewSettings]
@@ -300,24 +199,9 @@ ForwardWord=Alt+Right
 GotoLine=
 Help=
 SelectAll=
+WhatsThis=
 
 [SmallIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=22
 
 [Toolbar style]
@@ -325,22 +209,6 @@ ToolButtonStyle=TextBesideIcon
 ToolButtonStyleOtherToolbars=TextBesideIcon
 
 [ToolbarIcons]
-ActiveColor[$d]
-ActiveColor2[$d]
-ActiveEffect[$d]
-ActiveSemiTransparent[$d]
-ActiveValue[$d]
-Animated[$d]
-DefaultColor[$d]
-DefaultColor2[$d]
-DefaultEffect[$d]
-DefaultSemiTransparent[$d]
-DefaultValue[$d]
-DisabledColor[$d]
-DisabledColor2[$d]
-DisabledEffect[$d]
-DisabledSemiTransparent[$d]
-DisabledValue[$d]
 Size=22
 
 [WM]

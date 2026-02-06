@@ -240,11 +240,10 @@ alias chore-="lg chore -"
 
 # jujutsu
 alias jnm="jj new main"
-alias jgp="jj git push --allow-new"
+alias jgp="jj git push"
 alias jn="jj new"
 
 # general
-
 alias la='ls -A'
 alias ll='ls -lSAi'
 alias lt='ls -ltAi'
@@ -317,3 +316,5 @@ alias apg="apg -M SNCL"
 alias pwgen="apg"
 alias cd-="cd -"
 alias hexdump="hexdump -v -e '1/1 \"%02x \"'"
+alias urldecode="python3 -c \"import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))\""
+alias unixnow="date +%s"

@@ -31,9 +31,9 @@ make_ps1() {
   local spacer=' '
 
   if is_me; then
-    decorations=$SECONDARY_COLOR"~>"$spacer$END
+    decorations="~>"$spacer
   else
-    decorations=$SECONDARY_COLOR"#>"$spacer$END
+    decorations="#>"$spacer
   fi
 
   local horizontal_line="\n"

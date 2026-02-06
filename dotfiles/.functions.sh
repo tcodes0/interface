@@ -425,3 +425,75 @@ jjb-() {
 
   __jj_bookmark_set "$1" @- --allow-backwards
 }
+
+# jj rebase --source $1 --destination $2
+jjrb() {
+  if [[ $# != 2 ]]; then
+    echo "jj rebase --source \$1 --destination \$2"
+    return
+  fi
+
+  jj rebase --source "$1" --destination "$2"
+}
+
+# jj new <ref>@origin
+jno() {
+  if [[ $# != 1 ]]; then
+    echo "jj new <ref>@origin"
+    echo "runs git fetch"
+    echo "adds '@origin' to your ref, then runs jj new"
+    echo "runs jj bookmark track <ref>@origin"
+    echo "runs jj bookmark <ref> @-"
+    return
+  fi
+
+  git fetch --all --prune
+
+  local refAt="$1@origin"
+
+  jj new "$refAt"
+  jj bookmark track "$refAt"
+  __jj_bookmark_set "$1" @- --allow-backwards
+}
+
+__npc() {
+  local branch=$1 backwards_flag="$2" today_date=$(date +"%b-%d" | tr '[:upper:]' '[:lower:]')
+
+  if [ "$backwards_flag" == "-" ]; then
+    jjb- "pc-$1-$today_date"
+  else
+    jjb "pc-$1-$today_date"
+  fi
+}
+
+# new PC ticket bookmark on @
+npc() {
+  if [[ $# != 1 ]]; then
+    echo "runs jj bookmark set pc-<ticket number> @"
+    echo "sufixes with today's date"
+    return
+  fi
+
+  __npc "$1"
+}
+
+# new PC ticket bookmark on @-
+npc-() {
+  if [[ $# != 1 ]]; then
+    echo "runs jj bookmark set pc-<ticket number> @-"
+    echo "sufixes with today's date"
+    return
+  fi
+
+  __npc "$1" -
+}
+
+#url decode and json format
+urldecode_json() {
+  if [ ! "$1" ]; then
+    echo "urldecode_json '%7B%22foo%22%3A+%22bar%22%7D'"
+    return
+  fi
+
+  python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$1" | jq
+}

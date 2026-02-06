@@ -74,20 +74,25 @@ migrate_postgres() {
   # mv and mkdir will fail here if directories exist
   sudo mv /var/lib/postgres/data /var/lib/postgres/olddata
   sudo mkdir /var/lib/postgres/data /var/lib/postgres/tmp
-  sudo chown postgres:postgres /var/lib/postgres/data /var/lib/postgres/tmp
 
-  cd /var/lib/postgres/tmp
+  # todo: this may be broken because my user cant access /var/lib/postgres, it may be possible to pass --dir args to commands
+  # note: needs testing
+sudo -u postgres bash <<'EOF'
+  cd /var/lib/postgres/tmp || exit 1
   sudo -u postgres initdb "${initdb_args[@]}"
   sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
-  cd -
+EOF
+
+  sudo chown postgres:postgres /var/lib/postgres/data /var/lib/postgres/tmp
 }
 
 refresh_collations() {
   local dbs=(comms comms_test hub hub_test member member_test vacation postgres)
 
+  log $LINENO collation update on "${dbs[*]}"
+
   for db in "${dbs[@]}"; do
-    log $LINENO collation update "$db"
-    psql -U postgres -c "alter database $db refresh collation version;" >/dev/null
+    psql -U postgres -c "alter database $db refresh collation version;" >/dev/null || log $LINENO "refresh failed on $db, ignoring"
   done
 }
 
