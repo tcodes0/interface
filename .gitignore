@@ -11,3 +11,4 @@ bin/forex
 bin/presentvalue
 dotfiles/**/.uuid
 **/.DS_Store
+dotfiles/.config/jj/repos

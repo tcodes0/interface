@@ -242,6 +242,7 @@ alias chore-="lg chore -"
 alias jnm="jj new main"
 alias jgp="jj git push"
 alias jn="jj new"
+alias gss="jss"
 
 # general
 alias la='ls -A'

@@ -1,10 +1,10 @@
 [Unit]
-Description=Firefox music sleep fix service
+Description=Inhibit sleep if firefox is playing music or other apps are running
 Wants=network-online.target
 After=network.target network-online.target
 
 [Service]
-ExecStart=%h/bin/firefox-music-sleep-fix
+ExecStart=%h/bin/app-inhibit-sleep pacman yay
 Environment="BASH_ENV=$HOME/.bash_env"
 Restart=always
 Type=simple
