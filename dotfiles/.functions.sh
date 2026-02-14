@@ -131,25 +131,31 @@ yad() {
 
 #- - - - - - - - - - -
 
+# when there's no repo, call ls instead
 jss() {
-  if command jj status 2>/dev/null 1>&2; then
+  if ! command jj root &>/dev/null; then
+    _git_gss "$@"
+    return $?
+  fi
+
+  if command jj root &>/dev/null; then
     command jj status
   else
     warn $LINENO "not a jj root"
     ls
   fi
+
 }
 
-# fix calling git status when there's no repo, call ls instead
-gss() {
-  jss
+#- - - - - - - - - - -
 
-  # if command git status -s 2>/dev/null 1>&2; then
-  #   command git status -s
-  # else
-  #   warn $LINENO "not a git repo"
-  #   ls
-  # fi
+_git_gss() {
+  if command git status -s 2>/dev/null 1>&2; then
+    command git status -s
+  else
+    warn $LINENO "not a git repo"
+    ls
+  fi
 }
 
 #- - - - - - - - - - -
@@ -164,7 +170,7 @@ grbonto() {
 
 #- - - - - - - - - - -
 
-gcom() {
+_git_gcom() {
   if ! git fetch --all --prune; then
     return
   fi
@@ -184,6 +190,17 @@ gcom() {
   elif [[ "$checkout" =~ 'did not match any file' ]]; then
     log $LINENO "branch $branch does not exist, checkout manually"
   fi
+}
+
+#----------------
+
+gcom() {
+  if ! command jj root &>/dev/null; then
+    _git_gcom "$@"
+    return $?
+  fi
+
+  jnm
 }
 
 #----------------
@@ -368,34 +385,6 @@ jj_prompt() {
 
 #- - - - - - - - - - -
 
-# Track recent bookmarks per repo using a global var.
-# track_jj_bookmarks() {
-#   local repo="$1" current_bookmark="$2"
-
-#   if [[ "$current_bookmark" == "main" || "$current_bookmark" == "master" ]]; then
-#     return
-#   fi
-
-#   if [[ "${JJ_RECENT_BOOKMARK_MAP[$repo]+set}" == "" ]]; then
-#     JJ_RECENT_BOOKMARK_MAP[$repo]=""
-#   fi
-
-#   local -a bookmarks=()
-#   read -ra bookmarks <<<"${JJ_RECENT_BOOKMARK_MAP[$repo]}"
-
-#   if [[ "${bookmarks[0]}" != "$current_bookmark" ]]; then
-#     bookmarks=("$current_bookmark" "${bookmarks[@]}")
-#   fi
-
-#   if [ "${#bookmarks[@]}" -gt 7 ]; then
-#     bookmarks=("${bookmarks[@]:0:7}")
-#   fi
-
-#   JJ_RECENT_BOOKMARK_MAP["$repo"]="${bookmarks[*]}"
-# }
-
-#- - - - - - - - - - -
-
 # jj bookmark set private
 # $1 - bookmark name
 # $2 - revision
@@ -403,6 +392,8 @@ jj_prompt() {
 __jj_bookmark_set() {
   jj bookmark set "$1" --revision "$2" "${@:3}"
 }
+
+#----------------
 
 # jj bookmark set on @
 jjb() {
@@ -415,6 +406,8 @@ jjb() {
   __jj_bookmark_set "$1" @
 }
 
+#----------------
+
 # jj bookmark set on @-
 jjb-() {
   if [[ $# == 0 ]]; then
@@ -426,6 +419,8 @@ jjb-() {
   __jj_bookmark_set "$1" @- --allow-backwards
 }
 
+#----------------
+
 # jj rebase --source $1 --destination $2
 jjrb() {
   if [[ $# != 2 ]]; then
@@ -435,6 +430,8 @@ jjrb() {
 
   jj rebase --source "$1" --destination "$2"
 }
+
+#----------------
 
 # jj new <ref>@origin
 jno() {
@@ -456,6 +453,26 @@ jno() {
   __jj_bookmark_set "$1" @- --allow-backwards
 }
 
+#----------------
+
+# todo: remove
+unalias jnm
+
+jnm() {
+  if ! command jj root &>/dev/null; then
+    _git_gcom
+    return $?
+  fi
+
+  if ! git fetch --all --prune; then
+    return
+  fi
+
+  jj new main
+}
+
+#----------------
+
 __npc() {
   local branch=$1 backwards_flag="$2" today_date=$(date +"%b-%d" | tr '[:upper:]' '[:lower:]')
 
@@ -465,6 +482,8 @@ __npc() {
     jjb "pc-$1-$today_date"
   fi
 }
+
+#----------------
 
 # new PC ticket bookmark on @
 npc() {
@@ -477,6 +496,8 @@ npc() {
   __npc "$1"
 }
 
+#----------------
+
 # new PC ticket bookmark on @-
 npc-() {
   if [[ $# != 1 ]]; then
@@ -487,6 +508,8 @@ npc-() {
 
   __npc "$1" -
 }
+
+#----------------
 
 #url decode and json format
 urldecode_json() {

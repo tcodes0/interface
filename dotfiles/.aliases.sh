@@ -239,9 +239,9 @@ alias misc-="lg misc -"
 alias chore-="lg chore -"
 
 # jujutsu
-alias jnm="jj new main"
 alias jgp="jj git push"
 alias jn="jj new"
+alias gss="jss"
 
 # general
 alias la='ls -A'
@@ -318,3 +318,4 @@ alias cd-="cd -"
 alias hexdump="hexdump -v -e '1/1 \"%02x \"'"
 alias urldecode="python3 -c \"import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))\""
 alias unixnow="date +%s"
+alias gmt="go mod tidy"
