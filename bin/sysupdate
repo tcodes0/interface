@@ -115,7 +115,7 @@ postgres_up() {
 }
 
 system_up() {
-  mise_install_globals
+  mise_update_globals
 
   # fix some install errors
   chmod -R u+w,u+r "$HOME/.cache/yay"
