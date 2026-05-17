@@ -15,3 +15,7 @@ Mise accumulates old versions over time (`go`, `node`, `npm`, etc). There is cur
 - Run `mise uninstall <tool>@<version>` for everything outside the keep set
 - Policy should be configurable per tool (some tools like `go` may want only 1, `node` may want 2)
 - Dry-run mode to preview what would be removed before committing
+
+## Notes
+
+- use ollama?
