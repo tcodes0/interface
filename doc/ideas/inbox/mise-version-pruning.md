@@ -19,3 +19,4 @@ Mise accumulates old versions over time (`go`, `node`, `npm`, etc). There is cur
 ## Notes
 
 - use ollama?
+- have a centralized way to make scripts read the current ollama model to be used, as this will change over time
