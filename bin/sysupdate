@@ -241,7 +241,7 @@ mise_root_update() {
 
 cleanup_packages() {
   # 19GB of build dependencies of llama.cpp
-  yay --remove --recursive --recursive rocm-hip-sdk
+  yay --remove --recursive --recursive rocm-hip-sdk --noconfirm
 }
 
 ### script ###
