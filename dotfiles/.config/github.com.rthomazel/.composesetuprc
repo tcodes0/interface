@@ -4,6 +4,7 @@
 
 client:          toolchain commit_signing env_file eleanor_node_download
 comms:           toolchain commit_signing env_file eleanor_go_download
+feature-flag:    toolchain commit_signing env_file eleanor_go_download
 compose-files:   toolchain commit_signing env_file run_permissions
 go:              toolchain commit_signing go_download run_permissions
 go-athenahealth: toolchain commit_signing go_download

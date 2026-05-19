@@ -2,6 +2,8 @@
 
 # minor
 
+The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help. 
+
 ## memory
 
 Memory is kinda wasteful, It runs on every turn but it only saves things that I specifically say should be saved. Use custom memory server.
