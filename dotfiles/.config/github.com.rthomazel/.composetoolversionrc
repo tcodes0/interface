@@ -1,0 +1,27 @@
+# compose-tool-versions RC
+# format: project: tool1 tool2 ...
+# tool names match filenames under src/compose-tool-versions/
+
+# go backends
+server:           golang tbls oxfmt gh
+comms:            golang tbls oxfmt gh
+scheduling:       golang oxfmt gh
+feature-flag:     golang oxfmt gh
+member-server:    golang oxfmt gh
+go-common:        golang oxfmt gh
+go-athenahealth:  golang oxfmt gh
+go:               golang oxfmt gh
+jail-mcp:         golang oxfmt gh
+feature-flag:     golang oxfmt gh
+
+# mixed / infra
+compose-files:        golang oxfmt gh
+programming-problems: golang oxfmt gh
+
+# shell / dotfiles
+interface:        golang oxfmt shellcheck shfmt gh
+
+# frontends
+client:           nodejs yarn-1.22 gh
+shared:           nodejs yarn-1.22 gh
+member-client:    nodejs-22 yarn-1.22 gh

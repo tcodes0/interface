@@ -2,7 +2,7 @@
 
 # minor
 
-The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help. 
+The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help.
 
 ## memory
 
@@ -40,6 +40,14 @@ when doing tool calls:
 ```
 Something went wrong. Here's the specific error message we encountered: An error occurred while processing the request: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.110: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01Rj8zcxzCXyNzLSnFu47vyz. Each `tool_use` block must have a corresponding `tool_result` block in the next message."},"request_id":"req_011Cb6gJGips4XtKDYu5t8Qd"} Troubleshooting URL: https://docs.langchain.com/oss/javascript/langchain/errors/INVALID_TOOL_RESULTS/
 ```
+
+## Stale input text
+
+Even with the patches, this is still happening. After sending a message, the model will take a couple seconds to reply. The screen will apparently glitch and during that time, the message is both in the conversation and in the input.
+I wonder if some type of definitive clear on the draft on send button would fix it.
+
+Also, I noticed that coming back to a chat from another chat might show the input still populated by a message that was sent and replied to by the model. My intuition here is that there's just something out of sync in the current code.
+You may want to just hammer it down whenever you send a message. Any draft or local storage completely cleared. 
 
 # personal preferences, complex, other
 
