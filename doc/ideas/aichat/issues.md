@@ -47,7 +47,9 @@ Even with the patches, this is still happening. After sending a message, the mod
 I wonder if some type of definitive clear on the draft on send button would fix it.
 
 Also, I noticed that coming back to a chat from another chat might show the input still populated by a message that was sent and replied to by the model. My intuition here is that there's just something out of sync in the current code.
-You may want to just hammer it down whenever you send a message. Any draft or local storage completely cleared. 
+You may want to just hammer it down whenever you send a message. Any draft or local storage completely cleared.
+
+I also noticed that sent messages from another chat appeared in a totally different chat on this glitch. 
 
 # personal preferences, complex, other
 
