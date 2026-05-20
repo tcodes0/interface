@@ -30,11 +30,9 @@ I also noticed that sent messages from another chat appeared in a totally differ
 Memory is kinda wasteful, It runs on every turn but it only saves things that I specifically say should be saved. Use custom memory server.
 Models keep talking/thinking about memory injected into chat, needs some prompting to guide them. can be confusing for user if model talks, overall suboptimal.
 
-After a memory is deleted the row stays in the chat.
+Memory keeps logging in server: timeout after 3 seconds. value might be too low or model too slow
 
-A memory row in chat is created with title and content equal to "placeholder"
-
-Memory keeps logging in server: timeout after 3 seconds. value might be too low.
+We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo. 
 
 ### default context is too low
 
