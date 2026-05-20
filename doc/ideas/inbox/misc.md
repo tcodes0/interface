@@ -18,6 +18,7 @@
 - [ ] copy the good bits (like the white space linter) from go repo
 - [-] try busting claude desktop cache to see if mcp server bug is fixed
 - [x] mise root warnings
+- [x] mise no versions set for <tool> It's some type of mismatch between the local requested version and the global version. 
 - [ ] get cspell config looked at
 - [ ] refine jj shell prompt. if the first detected branch = main, omit the second. any ideas worth adding to the prompt
 - [ ] update tests to use Expecter struct
@@ -38,4 +39,4 @@
 - [ ] review obra/superpowers skills, already cloned
 - [x] librepatches simple git patches to fix annoying quirks of the libre UI. Apply diff on top of images to minimize maintenance and avoid a fork.
 - [ ] diff-to-html: a skill/tool/script that receives a unified diff as input and renders it as formatted HTML (syntax-highlighted, red/green lines), so it can be dropped directly into an artifact
-- [ ] jail mcp: Start collecting data on which tools are called with which arguments and dump it on an SQLite file for analysis later. do clever statistics with it. 
+- [ ] jail mcp: Start collecting data on which tools are called with which arguments and dump it on an SQLite file for analysis later. do clever statistics with it.
