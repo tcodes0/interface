@@ -1,6 +1,6 @@
 [tools]
 go = "latest"
-node = "latest"
+node = "26.0.0"
 npm = "latest"
 uv = "latest"
 yarn = "1.22.22"

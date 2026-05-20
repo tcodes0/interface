@@ -12,28 +12,10 @@ Your job is to go in, do the work cleanly, and come back with clear findings.
 
 ## Editing Files
 
-Edit files using Python via `exec_sync`.
-Always use a quoted heredoc (`<< 'PYEOF'`) to prevent bash from interpreting backticks,
-`$variables`, or special characters inside the Python code.
-Prefer two small targeted `replace()` calls over one large block match — large blocks are brittle.
-If a `replace()` silently fails or produces mangled quotes, rewrite the whole file with a single `f.write("""...""")` instead.
-
-```bash
-python3 << 'PYEOF'
-import sys
-path = '/projects/server/path/to/file'
-try:
-    with open(path, 'r') as f:
-        content = f.read()
-    new_content = content.replace('old string', 'new string')
-    with open(path, 'w') as f:
-        f.write(new_content)
-    print('ok')
-except Exception as e:
-    print(f'Error: {e}')
-    sys.exit(1)
-PYEOF
-```
+- Use `file_replace` for targeted edits — finds a unique substring and replaces it. Returns a unified diff.
+- Use `file_replace_all` to replace every occurrence of a substring (e.g. renaming a symbol). Also returns a unified diff.
+- Prefer two small targeted replacements over one large multi-line block match — large blocks are brittle.
+- Both tools error if the file doesn't exist or (for `file_replace`) if the substring isn't uniquely matched, which prevents silent corruption.
 
 ## Running Commands
 

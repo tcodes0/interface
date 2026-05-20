@@ -4,21 +4,22 @@
 # arch_ddd, misc_go, misc_db_* have no ## heading -- list them right after their parent section.
 
 # TypeScript projects
-client:          role build_ts style_ts commits misc
-member-client:   role build_ts style_ts commits misc
-shared:          role build_ts style_ts commits misc
+client:          role commits build_ts style_ts misc
+member-client:   role commits build_ts style_ts misc
+shared:          role commits build_ts style_ts misc
 
 # Go projects
-comms:           role build_go arch arch_ddd style_gofumpt commits agent_setup misc misc_go misc_db_schema misc_db_migrations package_docs
-go:              role build_go arch style_gofumpt commits agent_setup misc misc_go package_docs
-go-athenahealth: role build_go style_gofumpt commits misc misc_go package_docs
-go-common:       role arch arch_ddd style_gofumpt commits agent_setup misc misc_go package_docs
-member-server:   role build_go arch arch_ddd style_gofumpt commits agent_setup misc misc_go package_docs
-scheduling:      role build_go arch style_gofumpt commits agent_setup misc misc_go misc_db_migrations package_docs
-server:          role build_go arch arch_ddd style_gofumpt commits agent_setup one_time_jobs misc misc_go misc_db_schema misc_db_migrations misc_db_activity package_docs
+comms:           role commits agent_setup_go style_gofumpt package_docs build_go arch arch_ddd misc misc_go misc_db_schema misc_db_migrations
+feature-flag:    role commits agent_setup_go style_gofumpt package_docs build_go arch arch_ddd misc misc_go misc_db_migrations
+go:              role commits agent_setup_go style_gofumpt package_docs build_go arch misc misc_go
+go-athenahealth: role commits agent_setup_go style_gofumpt package_docs build_go misc misc_go
+member-server:   role commits agent_setup_go style_gofumpt package_docs build_go arch arch_ddd misc misc_go
+scheduling:      role commits agent_setup_go style_gofumpt package_docs build_go arch misc misc_go misc_db_migrations
+server:          role commits agent_setup_go style_gofumpt package_docs build_go arch arch_ddd one_time_jobs misc misc_go misc_db_schema misc_db_migrations misc_db_activity
+go-common:       role commits agent_setup_go style_gofumpt package_docs arch arch_ddd misc misc_go
 
 # Other
-compose-files:   role style_shell commits
+compose-files:   role commits style_shell
 
 # Unmanaged projects (AGENTS.md too unique for common fragments):
 # interface         -- shell-specific role and style

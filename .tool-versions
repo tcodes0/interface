@@ -1,6 +1,5 @@
-golang     1.26.3
-nodejs 25.8.1
+golang 1.26.3
+oxfmt latest
 shellcheck 0.11.0
 shfmt      3.13.1
-gh         latest
-oxfmt      latest
+gh latest

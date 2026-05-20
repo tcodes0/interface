@@ -4,30 +4,12 @@ Use exec_sync for most file tasks (cat, find, grep). This is the only way to int
 Use exec_background for slow commands; poll with the status tool. You can do other work while waiting.
 Go projects may have private dependencies, go mod download without setup will fail — the setup tool runs bin/setup to set GOPRIVATE.
 
-Editing files via exec_sync:
+Editing files:
 
-- Use Python via exec_sync.
-- Always use a quoted heredoc (<< 'PYEOF') to prevent bash from interpreting backticks, $variables, or special characters inside the Python code.
-- Prefer two small targeted replaces over one large multi-line block match — large blocks are brittle.
-- When file content contains shell single quotes (e.g. `grep -q '^pattern'`), chained `replace()` calls can corrupt the quoting. If a replace silently fails or produces doubled quotes like `''^pattern'`, rewrite the whole file with a single `f.write("""...""")` instead.
-
-```bash
-python3 << 'PYEOF'
-import sys
-path = '/projects/server/path/to/file'
-try:
-    with open(path, 'r') as f:
-        content = f.read()
-    # Use content.replace or re.sub here
-    new_content = content.replace('old', 'new')
-    with open(path, 'w') as f:
-        f.write(new_content)
-    print('ok')
-except Exception as e:
-    print(f'Error: {e}')
-    sys.exit(1)
-PYEOF
-```
+- Use `file_replace` for targeted edits — finds a unique substring and replaces it. Returns a unified diff.
+- Use `file_replace_all` to replace every occurrence of a substring (e.g. renaming a symbol). Also returns a unified diff.
+- Prefer two small targeted replacements over one large multi-line block match — large blocks are brittle.
+- Both tools error if the file doesn't exist or (for `file_replace`) if the substring isn't uniquely matched, which prevents silent corruption.
 
 # Information
 
@@ -61,7 +43,7 @@ Reuse an existing worktree if it's on the right branch. Use plain git commits in
 
 > **Never push directly to `main`** (e.g. `git push origin HEAD:main`). Always go through a PR.
 
-**When work is done:** clean up the worktree after the PR is open.
+**When work is done:** clean up the worktree after the PR is **merged**.
 
 ```bash
 git -C /projects/<repo> worktree remove /projects/scratchpad/<repo>-<name>
@@ -185,6 +167,37 @@ printf 'github.com:\n    oauth_token: %s\n    user: rthomazel\n    git_protocol:
 | commit                                | push                                     |
 | thom leaves review comments in github | fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
 | github comments are addressed         | resolve each thread via GraphQL `resolveReviewThread` mutation                                       |
+
+> **GitHub thread resolution:** The comments API (`/pulls/{n}/comments`) returns comment node IDs prefixed `PRRC_`. The `resolveReviewThread` mutation requires the **thread** node ID prefixed `PRRT_`. Get thread IDs via GraphQL: `{ repository(owner, name) { pullRequest(number) { reviewThreads(first: 10) { nodes { id isResolved } } } } }`
+
+# System Prompt
+
+This file is the source of truth for this agent's system prompt.
+It lives at `/projects/interface/doc/prompts/agent-merlin.md`.
+
+Whenever this file is updated, sync the change to the LibreChat MongoDB agent record:
+
+```bash
+# 1. write update script (use /root, not /tmp — persists across exec_sync calls)
+python3 << 'EOF'
+import json
+path = '/projects/interface/doc/prompts/agent-merlin.md'
+with open(path) as f:
+    content = f.read()
+with open('/root/update_agent.js', 'w') as f:
+    f.write('db.agents.updateOne({name: /merlin/i}, {$set: {instructions: ' + json.dumps(content) + '}})')
+EOF
+
+# 2. apply
+mongosh --host mongodb --port 27017 --quiet LibreChat /root/update_agent.js
+
+# 3. verify
+mongosh --host mongodb --port 27017 --quiet LibreChat   --eval 'JSON.stringify(db.agents.findOne({name: /merlin/i}).instructions.slice(-200))'
+```
+
+MongoDB is reachable at `mongodb:27017` from inside the jail container (same Docker network, no auth).
+Memories collection: `memoryentries`.
+Agents collection: `agents`.
 
 # Final word
 

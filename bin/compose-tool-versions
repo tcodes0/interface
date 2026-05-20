@@ -1,0 +1,140 @@
+#! /usr/bin/env bash
+# Copyright 2025-present R. Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+shopt -s globstar
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PARTS_DIR="$SCRIPT_DIR/../src/compose-tool-versions"
+PROJECTS_DIR="${PROJECTS_DIR:-$(cd "$SCRIPT_DIR/../Desktop" && pwd)}"
+RC_DEFAULT="$HOME/.config/github.com.rthomazel/.composetoolversionrc"
+
+#----------------#
+
+declare -A TOOLS
+
+load_rc() {
+  local rc_file=$1
+  local line project tools
+  if [[ ! -f "$rc_file" ]]; then
+    echo "error: RC file not found: $rc_file" >&2
+    return 1
+  fi
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    project="${line%%:*}"
+    tools="${line#*:}"
+    tools="${tools#"${tools%%[^ ]*}"}"
+    TOOLS["$project"]="$tools"
+  done <"$rc_file"
+}
+
+#----------------#
+
+assemble() {
+  local project=$1
+  local tools="${TOOLS[$project]}"
+  local tool
+
+  for tool in $tools; do
+    cat "$PARTS_DIR/$tool"
+  done
+}
+
+check_or_commit() {
+  local project=$1
+  local commit=$2
+  local target="$PROJECTS_DIR/$project/.tool-versions"
+  local tmp
+  tmp=$(mktemp /tmp/compose-tool-versions.XXXXXX)
+
+  assemble "$project" >"$tmp"
+
+  if [[ ! -f "$target" ]]; then
+    if [[ "$commit" == "true" ]]; then
+      cp "$tmp" "$target"
+      echo "$project: created"
+    else
+      echo "$project: .tool-versions not found at $target" >&2
+      rm "$tmp"
+      return 1
+    fi
+    rm "$tmp"
+    return 0
+  fi
+
+  if diff -q "$target" "$tmp" >/dev/null 2>&1; then
+    rm "$tmp"
+    return 0
+  fi
+
+  if [[ "$commit" == "true" ]]; then
+    cp "$tmp" "$target"
+    echo "$project: updated"
+  else
+    echo "$project: drift detected, review: $tmp"
+    return 1
+  fi
+
+  rm "$tmp"
+}
+
+usage() {
+  cat <<'USAGE'
+Usage: compose-tool-versions [OPTIONS] [PROJECT...]
+
+Assembles .tool-versions for one or more projects from canonical tool fragments
+and checks for drift against the current file on disk.
+
+Arguments:
+  PROJECT      One or more project names to check (default: all projects).
+               See .composetoolversionrc for the full project list.
+
+Options:
+  --commit     Write the assembled .tool-versions to <project>/.tool-versions.
+               Default (no flag): check-only — reports drift and exits non-zero.
+  --rc=<path>  RC file to load (default: ~/.config/github.com.rthomazel/.composetoolversionrc).
+  -h, --help   Print this help text and exit.
+USAGE
+}
+
+main() {
+  local rc="$RC_DEFAULT"
+  local commit=false
+  local projects=()
+  local exit_code=0
+  local arg
+
+  for arg in "$@"; do
+    case $arg in
+    --commit) commit=true ;;
+    --rc=*) rc="${arg#--rc=}" ;;
+    -h | --help)
+      usage
+      return 0
+      ;;
+    *) projects+=("$arg") ;;
+    esac
+  done
+
+  load_rc "$rc"
+
+  if [[ ${#projects[@]} -eq 0 ]]; then
+    mapfile -t projects < <(printf '%s\n' "${!TOOLS[@]}" | sort)
+  fi
+
+  for project in "${projects[@]}"; do
+    if [[ -z "${TOOLS[$project]+_}" ]]; then
+      echo "error: unknown project '$project'" >&2
+      exit_code=1
+      continue
+    fi
+    check_or_commit "$project" "$commit" || exit_code=1
+  done
+
+  return $exit_code
+}
+
+main "$@"

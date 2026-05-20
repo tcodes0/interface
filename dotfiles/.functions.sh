@@ -589,22 +589,23 @@ lg() {
 #----------------
 
 jj_bookmark0() {
-  read -ra bookmark _ < <(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --no-graph)
-  printf "%s" "${bookmark[0]}"
+  read -ra bookmark _ < <(jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color=never)
+  printf "%s" "${bookmark[0]/\*/}"
 }
 
 #----------------
 
 # jj "git pull"
-# JJ git fetch changes the bookmark to the most current one. We want to stay on the current bookmark.
-# So after fetch we switch back.
+# Read the bookmark via git before any jj command fires, to avoid the auto-import
+# race where jj log advances the remote bookmark past @ and the revset misses it.
 jgl() {
   if ! command jj root &>/dev/null; then
     git pull
     return $?
   fi
 
-  local b=$(jj_bookmark0)
+  local b
+  b=$(git symbolic-ref --short HEAD 2>/dev/null)
 
   jj git fetch
   jj new "$b"
