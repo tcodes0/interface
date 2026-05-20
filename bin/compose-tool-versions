@@ -16,73 +16,73 @@ RC_DEFAULT="$HOME/.config/github.com.rthomazel/.composetoolversionrc"
 declare -A TOOLS
 
 load_rc() {
-	local rc_file=$1
-	local line project tools
-	if [[ ! -f "$rc_file" ]]; then
-		echo "error: RC file not found: $rc_file" >&2
-		return 1
-	fi
-	while IFS= read -r line || [[ -n "$line" ]]; do
-		[[ -z "$line" || "$line" == \#* ]] && continue
-		project="${line%%:*}"
-		tools="${line#*:}"
-		tools="${tools#"${tools%%[^ ]*}"}"
-		TOOLS["$project"]="$tools"
-	done <"$rc_file"
+  local rc_file=$1
+  local line project tools
+  if [[ ! -f "$rc_file" ]]; then
+    echo "error: RC file not found: $rc_file" >&2
+    return 1
+  fi
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    project="${line%%:*}"
+    tools="${line#*:}"
+    tools="${tools#"${tools%%[^ ]*}"}"
+    TOOLS["$project"]="$tools"
+  done <"$rc_file"
 }
 
 #----------------#
 
 assemble() {
-	local project=$1
-	local tools="${TOOLS[$project]}"
-	local tool
+  local project=$1
+  local tools="${TOOLS[$project]}"
+  local tool
 
-	for tool in $tools; do
-		cat "$PARTS_DIR/$tool"
-	done
+  for tool in $tools; do
+    cat "$PARTS_DIR/$tool"
+  done
 }
 
 check_or_commit() {
-	local project=$1
-	local commit=$2
-	local target="$PROJECTS_DIR/$project/.tool-versions"
-	local tmp
-	tmp=$(mktemp /tmp/compose-tool-versions.XXXXXX)
+  local project=$1
+  local commit=$2
+  local target="$PROJECTS_DIR/$project/.tool-versions"
+  local tmp
+  tmp=$(mktemp /tmp/compose-tool-versions.XXXXXX)
 
-	assemble "$project" >"$tmp"
+  assemble "$project" >"$tmp"
 
-	if [[ ! -f "$target" ]]; then
-		if [[ "$commit" == "true" ]]; then
-			cp "$tmp" "$target"
-			echo "$project: created"
-		else
-			echo "$project: .tool-versions not found at $target" >&2
-			rm "$tmp"
-			return 1
-		fi
-		rm "$tmp"
-		return 0
-	fi
+  if [[ ! -f "$target" ]]; then
+    if [[ "$commit" == "true" ]]; then
+      cp "$tmp" "$target"
+      echo "$project: created"
+    else
+      echo "$project: .tool-versions not found at $target" >&2
+      rm "$tmp"
+      return 1
+    fi
+    rm "$tmp"
+    return 0
+  fi
 
-	if diff -q "$target" "$tmp" >/dev/null 2>&1; then
-		rm "$tmp"
-		return 0
-	fi
+  if diff -q "$target" "$tmp" >/dev/null 2>&1; then
+    rm "$tmp"
+    return 0
+  fi
 
-	if [[ "$commit" == "true" ]]; then
-		cp "$tmp" "$target"
-		echo "$project: updated"
-	else
-		echo "$project: drift detected, review: $tmp"
-		return 1
-	fi
+  if [[ "$commit" == "true" ]]; then
+    cp "$tmp" "$target"
+    echo "$project: updated"
+  else
+    echo "$project: drift detected, review: $tmp"
+    return 1
+  fi
 
-	rm "$tmp"
+  rm "$tmp"
 }
 
 usage() {
-	cat <<'USAGE'
+  cat <<'USAGE'
 Usage: compose-tool-versions [OPTIONS] [PROJECT...]
 
 Assembles .tool-versions for one or more projects from canonical tool fragments
@@ -101,40 +101,40 @@ USAGE
 }
 
 main() {
-	local rc="$RC_DEFAULT"
-	local commit=false
-	local projects=()
-	local exit_code=0
-	local arg
+  local rc="$RC_DEFAULT"
+  local commit=false
+  local projects=()
+  local exit_code=0
+  local arg
 
-	for arg in "$@"; do
-		case $arg in
-		--commit) commit=true ;;
-		--rc=*) rc="${arg#--rc=}" ;;
-		-h | --help)
-			usage
-			return 0
-			;;
-		*) projects+=("$arg") ;;
-		esac
-	done
+  for arg in "$@"; do
+    case $arg in
+    --commit) commit=true ;;
+    --rc=*) rc="${arg#--rc=}" ;;
+    -h | --help)
+      usage
+      return 0
+      ;;
+    *) projects+=("$arg") ;;
+    esac
+  done
 
-	load_rc "$rc"
+  load_rc "$rc"
 
-	if [[ ${#projects[@]} -eq 0 ]]; then
-		mapfile -t projects < <(printf '%s\n' "${!TOOLS[@]}" | sort)
-	fi
+  if [[ ${#projects[@]} -eq 0 ]]; then
+    mapfile -t projects < <(printf '%s\n' "${!TOOLS[@]}" | sort)
+  fi
 
-	for project in "${projects[@]}"; do
-		if [[ -z "${TOOLS[$project]+_}" ]]; then
-			echo "error: unknown project '$project'" >&2
-			exit_code=1
-			continue
-		fi
-		check_or_commit "$project" "$commit" || exit_code=1
-	done
+  for project in "${projects[@]}"; do
+    if [[ -z "${TOOLS[$project]+_}" ]]; then
+      echo "error: unknown project '$project'" >&2
+      exit_code=1
+      continue
+    fi
+    check_or_commit "$project" "$commit" || exit_code=1
+  done
 
-	return $exit_code
+  return $exit_code
 }
 
 main "$@"
