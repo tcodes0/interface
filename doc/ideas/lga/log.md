@@ -38,8 +38,12 @@ I'm starting to think that I could just have a GitHub skill, a set of markdown i
 github
 
 - [x] signed commits
-- [ ] branches, open PR
-- [ ] conventional commits and PR titles
-- [ ] no tokens in context
-- [ ] works with review comments, reads, closes after implementing
-- [ ] tested workflows
+- [x] branches, open PR
+- [x] conventional commits and PR titles
+- [ ] no tokens in context: Token is used to authenticate the GH CLI. It's currently injected through the jail environment. The model should not have access to tokens at all.
+- [x] works with review comments, reads, closes after implementing
+- [x] tested workflows
+- [x] worktrees: are really important so my local doesn't conflict with the local agent. There is still a source of conflict because a work tree is tied to a branch that can only be checked out in a single work tree at any given time.
+- [ ] worktree: better cleaning up of work trees after the PR is merged.
+- [ ] look into skills, the current solution uses only prompting and librechat's agent design. a skill might be a way of formalizing what we've built so far.
+- [ ] repo clone: might be a way to build a fully separate repo, might simplify worktrees. and clean up. And there's no risk of conflict because it's a separate clone.
