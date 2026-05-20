@@ -36,4 +36,5 @@
 - [x] compose agents.md
 - [ ] github token visible to woody is a bad pattern, does ssh key resolve go private deps? if so agent may not need token. worst case make token read only and scoped if possible
 - [ ] review obra/superpowers skills, already cloned
-- [ ] librepatches simple git patches to fix annoying quirks of the libre UI. Apply diff on top of images to minimize maintenance and avoid a fork.
+- [x] librepatches simple git patches to fix annoying quirks of the libre UI. Apply diff on top of images to minimize maintenance and avoid a fork.
+- [ ] diff-to-html: a skill/tool/script that receives a unified diff as input and renders it as formatted HTML (syntax-highlighted, red/green lines), so it can be dropped directly into an artifact

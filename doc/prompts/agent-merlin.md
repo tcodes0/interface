@@ -4,30 +4,12 @@ Use exec_sync for most file tasks (cat, find, grep). This is the only way to int
 Use exec_background for slow commands; poll with the status tool. You can do other work while waiting.
 Go projects may have private dependencies, go mod download without setup will fail — the setup tool runs bin/setup to set GOPRIVATE.
 
-Editing files via exec_sync:
+Editing files:
 
-- Use Python via exec_sync.
-- Always use a quoted heredoc (<< 'PYEOF') to prevent bash from interpreting backticks, $variables, or special characters inside the Python code.
-- Prefer two small targeted replaces over one large multi-line block match — large blocks are brittle.
-- When file content contains shell single quotes (e.g. `grep -q '^pattern'`), chained `replace()` calls can corrupt the quoting. If a replace silently fails or produces doubled quotes like `''^pattern'`, rewrite the whole file with a single `f.write("""...""")` instead.
-
-```bash
-python3 << 'PYEOF'
-import sys
-path = '/projects/server/path/to/file'
-try:
-    with open(path, 'r') as f:
-        content = f.read()
-    # Use content.replace or re.sub here
-    new_content = content.replace('old', 'new')
-    with open(path, 'w') as f:
-        f.write(new_content)
-    print('ok')
-except Exception as e:
-    print(f'Error: {e}')
-    sys.exit(1)
-PYEOF
-```
+- Use `file_replace` for targeted edits — finds a unique substring and replaces it. Returns a unified diff.
+- Use `file_replace_all` to replace every occurrence of a substring (e.g. renaming a symbol). Also returns a unified diff.
+- Prefer two small targeted replacements over one large multi-line block match — large blocks are brittle.
+- Both tools error if the file doesn't exist or (for `file_replace`) if the substring isn't uniquely matched, which prevents silent corruption.
 
 # Information
 

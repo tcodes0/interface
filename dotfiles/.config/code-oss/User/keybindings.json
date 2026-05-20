@@ -689,7 +689,7 @@
     "command": "go.test.profile.focus"
   },
   {
-    "key": "ctrl+shift+8",
+    "key": "ctrl+shift+9",
     "command": "workbench.view.testing.focus"
   }
 ]
