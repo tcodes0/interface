@@ -2,6 +2,27 @@
 
 ## needs patch
 
+### Multiple fast tool calls render wrong
+
+Tool calls in quick succession render a flashing tool icon with parameters and no output.
+If there are many tool calls, one per second for example, they pile up and they all seem to be in progress.
+However, if the command resolves instantaneously It makes me wonder if DUI is failing to "close" a command and display output.
+causing the flashing road to be stuck in progress.
+
+## patched and testing
+
+### minor -- patch needs updates
+
+The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help.
+I noticed that the blanks are underneath the text that groups chat by how long ago they were created. "Previous X days".
+
+### summarization
+
+The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.
+This happens when changing chats. If the current chat hits the summarization, a summarization book icon correctly shows, but changing to another chat and changing back hides the icon, and the chat appears stuck.
+
+## disregard, needs scope
+
 ### memory injection is confusing
 
 The text below is model thoughts and output.
@@ -20,24 +41,6 @@ Looks like you may have accidentally sent your memory context without a message 
 
 Did the docker compose restart api work? Are the RAG file upload options showing up now in LibreChat?
 
-### files management modal
-
-The model is cut off in the top and in the bottom by a semi-transparent black element.
-Also, it doesn't render elements all the way to the end of the page, which is a waste of space.
-it seems to only render 10 elements.
-
-### minor -- patch needs updates
-
-The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help.
-I noticed that the blanks are underneath the text that groups chat by how long ago they were created. "Previous X days".
-
-## patched and testing
-
-### summarization
-
-The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.
-This happens when changing chats. If the current chat hits the summarization, a summarization book icon correctly shows, but changing to another chat and changing back hides the icon, and the chat appears stuck.
-
 ### Stale input text
 
 Even with the patches, this is still happening. After sending a message, the model will take a couple seconds to reply. The screen will apparently glitch and during that time, the message is both in the conversation and in the input.
@@ -48,7 +51,7 @@ You may want to just hammer it down whenever you send a message. Any draft or lo
 
 I also noticed that sent messages from another chat appeared in a totally different chat on this glitch.
 
-## disregard, needs scope
+Update. Current patch seems really good. I still see the input stale after submitting But I think I saw that reproducing in other websites, which would point to a browser bug.
 
 ### memory
 
