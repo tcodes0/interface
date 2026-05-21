@@ -4,14 +4,60 @@
 
 ## patched and testing
 
-### minor
+### OLED dark theme — patch 018
+
+Replaces the entire `.dark { }` block in `style.css`. True-black surfaces
+(`--surface-primary`, `--surface-chat`, `--header-primary` all `#000000`) with a
+subtle elevation scale up to `#141414` for tertiary cards. Warning/destructive/action
+colors desaturated — amber → `#c49240`, red → `#a85050`, green → `#2a6b52` — so they
+read clearly against near-black without screaming. Shadcn/Radix HSL tokens updated to
+match (`--background: 0 0% 0%`, etc).
+
+### Multiple fast tool calls render wrong — patch 016
+
+Tool calls in quick succession render a flashing tool icon with parameters and no output.
+Root cause: `ToolCall.tsx` drove the spin/shimmer purely from the `useProgress` timer, which
+lags reality by up to 400 ms.  Fix: derive `isDone = progress >= 1 || !!output` and use it
+for the `isAnimating` flag and the `progress` prop passed to `ProgressText`.  As soon as the
+output field is non-empty the UI flips to the finished state immediately.
+
+### Last thought always open — patch 017
+
+The last thought (THINK content part) in the latest AI message now auto-opens.
+Intermediate thoughts (followed by another THINK or TEXT block) and thoughts in older turns
+auto-close.  Thoughts followed by tool calls stay open (reasoning continuation).
+User clicks are respected: once the user has toggled a thought the manual state is used;
+when a new turn arrives the override resets so the auto-close takes effect.
+
+### minor -- patch needs updates
 
 The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help.
+I noticed that the blanks are underneath the text that groups chat by how long ago they were created. "Previous X days".
 
 ### summarization
 
 The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.
 This happens when changing chats. If the current chat hits the summarization, a summarization book icon correctly shows, but changing to another chat and changing back hides the icon, and the chat appears stuck.
+
+## disregard, needs scope
+
+### memory injection is confusing
+
+The text below is model thoughts and output.
+
+```thoughts
+The user is asking about adding a health check to make the setup more resilient. They shared their runtime context/memories which I should not comment on. Let me focus on the task.
+
+The user asked "Want me to do that as a follow-up commit to the PR, or a separate one?" and they seem to want me to go ahead with it. But wait - they didn't explicitly say yes. Let me re-read.
+
+Actually, looking at this message again - the user just pasted their memory context. There's no actual message asking me to do anything. This appears to be the system injecting memories into the conversation. The user's last actual question was asking whether to add health checks to the PR or as a separate commit.
+
+I'm not sure if the user's message is just the memory context being injected, or if they accidentally sent it without additional text. I should clarify whether the restart worked and confirm they want me to proceed with adding the health check.
+```
+
+Looks like you may have accidentally sent your memory context without a message body, Thom. No worries!
+
+Did the docker compose restart api work? Are the RAG file upload options showing up now in LibreChat?
 
 ### Stale input text
 
@@ -23,7 +69,7 @@ You may want to just hammer it down whenever you send a message. Any draft or lo
 
 I also noticed that sent messages from another chat appeared in a totally different chat on this glitch.
 
-## disregard, needs scope
+Update. Current patch seems really good. I still see the input stale after submitting But I think I saw that reproducing in other websites, which would point to a browser bug.
 
 ### memory
 
@@ -32,7 +78,7 @@ Models keep talking/thinking about memory injected into chat, needs some prompti
 
 Memory keeps logging in server: timeout after 3 seconds. value might be too low or model too slow
 
-We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo. 
+We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo.
 
 ### default context is too low
 
