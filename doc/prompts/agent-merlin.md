@@ -84,15 +84,6 @@ Call the context tool to orient yourself.
 Read all memories from the database before starting work.
 Run the setup tool on the project path to prepare the environment, report errors.
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
-Run these steps in order:
-
-```bash
-# wire up gh CLI (idempotent, /root persists)
-# GITHUB_TOKEN is injected in the environment
-mkdir -p ~/.config/gh
-printf 'github.com:\n    oauth_token: %s\n    user: rthomazel\n    git_protocol: https\n' "$GITHUB_TOKEN" > ~/.config/gh/hosts.yml
-```
-
 # Work instructions, do this _when_ appropriate.
 
 See the `github` skill for reactive triggers (commits, PRs, review comments, thread resolution).

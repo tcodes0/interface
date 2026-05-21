@@ -6,18 +6,38 @@ always-apply: true
 
 # GitHub & VCS Workflow
 
-## Working Copy Rules
+## Clone Workflow
 
-Repos may be managed by Jujutsu. Git is always in detached HEAD. **Never use `git commit`, `git checkout`, or `git branch` directly on the main working copy.**
+Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit or push from those paths.**
 
-Instead, create a git worktree in scratchpad and work there:
+For any change, clone to scratchpad:
 
 ```bash
-git -C /projects/<repo> worktree list   # check for existing worktrees first
-git -C /projects/<repo> worktree add /projects/scratchpad/<repo>-<name-mmm-dd> -b <name-mmm-dd>
+git clone git@github.com:rthomazel/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
+cd /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git checkout -b <branch-name>
 ```
 
-Reuse an existing worktree if it's on the right branch. Use plain git commits in the worktree.
+### Repo Catalog
+
+| Mount                | Clone URL                                                      |
+| -------------------- | --------------------------------------------------- |
+| server               | `git@github.com:eleanorhealth/hub-server.git`                  |
+| member-server        | `git@github.com:eleanorhealth/member-server.git`               |
+| interface            | `git@github.com:rthomazel/interface.git`            |
+| client               | `git@github.com:eleanorhealth/hub-client.git`                  |
+| comms                | `git@github.com:eleanorhealth/comms.git`                       |
+| go                   | `git@github.com:tcodes0/go.git`                                |
+| go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`             |
+| go-common            | `git@github.com:eleanorhealth/go-common.git`                   |
+| jail-mcp             | `git@github.com:rthomazel/jail-mcp.git`             |
+| member-client        | `git@github.com:eleanorhealth/member-client.git`               |
+| scheduling           | `git@github.com:eleanorhealth/scheduling.git`                  |
+| shared               | `git@github.com:eleanorhealth/frontend-shared.git`             |
+| compose-files        | `git@github.com:rthomazel/compose-files.git`        |
+| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`                |
+| programming-problems | `git@github.com:rthomazel/programming-problems.git` |
+| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`              |
 
 ## Pushing & PRs
 
@@ -26,12 +46,12 @@ Reuse an existing worktree if it's on the right branch. Use plain git commits in
 1. `git push origin <branch>`
 2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
 
-> **Never push directly to `main`** (e.g. `git push origin HEAD:main`). Always go through a PR.
+> **Never push directly to `main`**. Always go through a PR.
 
-**When work is done:** clean up the worktree after the PR is **merged**.
+**After the PR is merged:** delete the clone.
 
 ```bash
-git -C /projects/<repo> worktree remove /projects/scratchpad/<repo>-<name>
+rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
 ## Reactive Triggers
