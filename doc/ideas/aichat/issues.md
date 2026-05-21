@@ -2,11 +2,36 @@
 
 ## needs patch
 
-## patched and testing
+### memory injection is confusing
 
-### minor
+The text below is model thoughts and output.
+
+```thoughts
+The user is asking about adding a health check to make the setup more resilient. They shared their runtime context/memories which I should not comment on. Let me focus on the task.
+
+The user asked "Want me to do that as a follow-up commit to the PR, or a separate one?" and they seem to want me to go ahead with it. But wait - they didn't explicitly say yes. Let me re-read.
+
+Actually, looking at this message again - the user just pasted their memory context. There's no actual message asking me to do anything. This appears to be the system injecting memories into the conversation. The user's last actual question was asking whether to add health checks to the PR or as a separate commit.
+
+I'm not sure if the user's message is just the memory context being injected, or if they accidentally sent it without additional text. I should clarify whether the restart worked and confirm they want me to proceed with adding the health check.
+```
+
+Looks like you may have accidentally sent your memory context without a message body, Thom. No worries!
+
+Did the docker compose restart api work? Are the RAG file upload options showing up now in LibreChat?
+
+### files management modal
+
+The model is cut off in the top and in the bottom by a semi-transparent black element.
+Also, it doesn't render elements all the way to the end of the page, which is a waste of space.
+it seems to only render 10 elements.
+
+### minor -- patch needs updates
 
 The chat history tab will sometimes, randomly show blank entries that look like spaces. It goes away by itself. Reloading seems to help.
+I noticed that the blanks are underneath the text that groups chat by how long ago they were created. "Previous X days".
+
+## patched and testing
 
 ### summarization
 
@@ -32,7 +57,7 @@ Models keep talking/thinking about memory injected into chat, needs some prompti
 
 Memory keeps logging in server: timeout after 3 seconds. value might be too low or model too slow
 
-We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo. 
+We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo.
 
 ### default context is too low
 
