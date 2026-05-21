@@ -1,11 +1,13 @@
 ---
 name: ai-chat-skills
-description: Use when creating, inspecting, repairing, or inserting LibreChat agent skills directly into MongoDB — including schema layout, ACL requirements, and the always-apply body sync rule.
+description: Use when creating, inspecting, repairing, or inserting LibreChat agent skills directly into the database — including schema layout, ACL requirements, and the always-apply body sync rule.
 ---
 
-# LibreChat Skills — MongoDB Management
+# LibreChat Skills — Database Management
 
 For connection details and known IDs, see the `ai-chat` skill.
+
+> Skill inserts embed body content — use pymongo heredoc. For reads, ACL entries, and repairs use mongosh directly.
 
 ## Schema: `skills` Collection
 

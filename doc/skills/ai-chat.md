@@ -6,10 +6,22 @@ always-apply: true
 
 # LibreChat Instance Reference
 
-## MongoDB
+## Database
+
+**Reads / inspection:** use `mongosh`
 
 ```bash
 mongosh mongodb:27017/LibreChat --quiet
+```
+
+**Writes that embed file content:** use pymongo via single-quoted heredoc — `$set` and regex literals are mangled by bash expansion in all mongosh CLI modes
+
+```bash
+PYTHONPATH=/root/pylib python3 << 'PYEOF'
+from pymongo import MongoClient
+db = MongoClient('mongodb', 27017)['LibreChat']
+# ... your write here
+PYEOF
 ```
 
 No authentication. Key collections:
@@ -33,11 +45,15 @@ No authentication. Key collections:
 
 Source files live at `/projects/interface/doc/prompts/agent-*.md`. Skill definitions live at `/projects/interface/doc/skills/*.md`.
 
-Sync a prompt file to its MongoDB agent record after editing:
+Sync a prompt file to its agent database record after editing:
 
 ```bash
-mongosh mongodb:27017/LibreChat --quiet --eval \
-  'db.agents.updateOne({name:/<agent-name>/i},{$set:{instructions:cat("/projects/interface/doc/prompts/agent-<name>.md")}})'
+PYTHONPATH=/root/pylib python3 << 'PYEOF'
+from pymongo import MongoClient
+content = open('/projects/interface/doc/prompts/agent-<name>.md').read()
+MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
+    {'name': {'$regex': '<agent-name>', '$options': 'i'}}, {'$set': {'instructions': content}})
+PYEOF
 ```
 
 ## Environment
