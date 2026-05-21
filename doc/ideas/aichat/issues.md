@@ -4,6 +4,15 @@
 
 ## patched and testing
 
+### OLED dark theme — patch 018
+
+Replaces the entire `.dark { }` block in `style.css`. True-black surfaces
+(`--surface-primary`, `--surface-chat`, `--header-primary` all `#000000`) with a
+subtle elevation scale up to `#141414` for tertiary cards. Warning/destructive/action
+colors desaturated — amber → `#c49240`, red → `#a85050`, green → `#2a6b52` — so they
+read clearly against near-black without screaming. Shadcn/Radix HSL tokens updated to
+match (`--background: 0 0% 0%`, etc).
+
 ### Multiple fast tool calls render wrong — patch 016
 
 Tool calls in quick succession render a flashing tool icon with parameters and no output.
