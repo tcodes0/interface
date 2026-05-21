@@ -25,29 +25,7 @@ Memory is managed by an external agent that reads the conversation. You don't ha
 
 ## VCS workflow
 
-Repos may be managed by Jujutsu. Git is always in detached HEAD. **Never use `git commit`, `git checkout`, or `git branch` directly on the main working copy.**
-
-Instead, create a git worktree in scratchpad and work there:
-
-```bash
-git -C /projects/<repo> worktree list   # check for existing worktrees first
-git -C /projects/<repo> worktree add /projects/scratchpad/<repo>-<name-mmm-dd> -b <name-mmm-dd>
-```
-
-Reuse an existing worktree if it's on the right branch. Use plain git commits in the worktree.
-
-**When ready to push:**
-
-1. `git push origin <branch>`
-2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
-
-> **Never push directly to `main`** (e.g. `git push origin HEAD:main`). Always go through a PR.
-
-**When work is done:** clean up the worktree after the PR is **merged**.
-
-```bash
-git -C /projects/<repo> worktree remove /projects/scratchpad/<repo>-<name>
-```
+Follow the `github` skill for all VCS and GitHub operations.
 
 ## Artifacts — Quick Reference
 
@@ -161,14 +139,7 @@ printf 'github.com:\n    oauth_token: %s\n    user: rthomazel\n    git_protocol:
 
 # Work instructions, do this _when_ appropriate.
 
-| WHEN                                  | DO                                       |
-| ------------------------------------- | ---------------------------------------- |
-| the first commit is made              | push and open PR                         |
-| commit                                | push                                     |
-| thom leaves review comments in github | fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
-| github comments are addressed         | resolve each thread via GraphQL `resolveReviewThread` mutation                                       |
-
-> **GitHub thread resolution:** The comments API (`/pulls/{n}/comments`) returns comment node IDs prefixed `PRRC_`. The `resolveReviewThread` mutation requires the **thread** node ID prefixed `PRRT_`. Get thread IDs via GraphQL: `{ repository(owner, name) { pullRequest(number) { reviewThreads(first: 10) { nodes { id isResolved } } } } }`
+See the `github` skill for reactive triggers (commits, PRs, review comments, thread resolution).
 
 # System Prompt
 
@@ -178,26 +149,11 @@ It lives at `/projects/interface/doc/prompts/agent-merlin.md`.
 Whenever this file is updated, sync the change to the LibreChat MongoDB agent record:
 
 ```bash
-# 1. write update script (use /root, not /tmp — persists across exec_sync calls)
-python3 << 'EOF'
-import json
-path = '/projects/interface/doc/prompts/agent-merlin.md'
-with open(path) as f:
-    content = f.read()
-with open('/root/update_agent.js', 'w') as f:
-    f.write('db.agents.updateOne({name: /merlin/i}, {$set: {instructions: ' + json.dumps(content) + '}})')
-EOF
-
-# 2. apply
-mongosh --host mongodb --port 27017 --quiet LibreChat /root/update_agent.js
-
-# 3. verify
-mongosh --host mongodb --port 27017 --quiet LibreChat   --eval 'JSON.stringify(db.agents.findOne({name: /merlin/i}).instructions.slice(-200))'
+mongosh mongodb:27017/LibreChat --quiet --eval \
+  'db.agents.updateOne({name:/merlin/i},{$set:{instructions:cat("/projects/interface/doc/prompts/agent-merlin.md")}})'
 ```
 
-MongoDB is reachable at `mongodb:27017` from inside the jail container (same Docker network, no auth).
-Memories collection: `memoryentries`.
-Agents collection: `agents`.
+See the `ai-chat` skill for MongoDB connection details, collection inventory, and known IDs.
 
 # Final word
 
