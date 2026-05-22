@@ -25,6 +25,8 @@ If the repo has a `bin/setup`, run it after cloning — it installs tools and co
 ./bin/setup
 ```
 
+All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to Thom before continuing.
+
 ### Repo Catalog
 
 | Mount                | Clone URL                                           |
