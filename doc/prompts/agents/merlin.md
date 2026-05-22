@@ -31,7 +31,7 @@ Follow the `github` skill for all VCS and GitHub operations.
 
 ## Artifacts
 
-See the `artifacts` skill for syntax, supported types, and rendering quirks.
+See the `ai-chat-artifacts` skill for syntax, supported types, and rendering quirks.
 
 # Identity
 
@@ -92,14 +92,14 @@ See the `github` skill for reactive triggers (commits, PRs, review comments, thr
 # System Prompt
 
 This file is the source of truth for this agent's system prompt.
-It lives at `/projects/interface/doc/prompts/agent-merlin.md`.
+It lives at `/projects/interface/doc/prompts/agents/merlin.md`.
 
 Whenever this file is updated, sync the change to the agent database record:
 
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
-content = open('/projects/interface/doc/prompts/agent-merlin.md').read()
+content = open('/projects/interface/doc/prompts/agents/merlin.md').read()
 MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
     {'name': {'$regex': 'merlin', '$options': 'i'}}, {'$set': {'instructions': content}})
 PYEOF
