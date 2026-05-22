@@ -57,10 +57,8 @@ It's a security gap, marginally better than before.
 
 ### Layer 1 — LiteLLM (everything downstream depends on this)
 
-- [ ] **VPS deployment** — provision persistent compute; prerequisite for running LiteLLM and 24/7 agent tasks. some experience with this using fly.io.
-- [ ] **LiteLLM** -- deploy liteLLM to cluster, config api keys google anthropic and openAI + ollama to use it, update interface
-  - consider if there's benefit in turning local machine into a node in liteLLM, use with some api fallback when offline.
-- [ ] **MCP gateway** — connect MCPs into liteLLM, expose a single MCP endpoint to all clients
+- [ ] **VPS deployment** — provision persistent compute; prerequisite for running LiteLLM and 24/7 agent tasks; some experience with this using fly.io
+- [ ] **LiteLLM** — deploy LiteLLM to VPS, configure Anthropic API key; point LibreChat at LiteLLM instead of direct API calls
 - [ ] **GitHub webhook bridge** — two-part design to avoid UI coupling:
   - **Bridge** — receives GitHub events (PR comments, review requests, CI pass/fail), normalizes them into a generic UI-agnostic event schema; knows nothing about LibreChat
   - **UI adapter** — thin server that consumes normalized events and calls the current UI's conversation injection API; swapping UI means replacing only this adapter
@@ -69,6 +67,8 @@ It's a security gap, marginally better than before.
 - [ ] **Hardware provider exploration** — evaluate GPU cloud providers (RunPod, Lambda, vast.ai) for running open models with custom parameters (context length, KV cache quant, llama.cpp flags); compare cost/performance; once a provider and model are validated, it becomes primary and Anthropic API is demoted to fallback
 - [ ] **Spot instance routing** — cloud GPU provider (RunPod or equivalent) as primary once validated; Anthropic API always present in LiteLLM as fallback, never removed
   - Runpod serverless is more efficient than having hardware sitting idle or underused because when the endpoint is not working there's no cost
+- [ ] **MCP gateway** — connect MCPs into LiteLLM, expose a single MCP endpoint to all clients
+- [ ] **Local node** — connect local machine to VPS via Tailscale so the local GPU becomes an inference node; LiteLLM routes to local Ollama when online, falls back to cloud; evaluate after hardware provider is validated
 - [ ] **Observability** — Grafana + Prometheus frontend
 
 ### Layer 2 — Depends on LiteLLM
