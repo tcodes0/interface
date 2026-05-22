@@ -57,7 +57,7 @@ Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 > **Never push directly to `main`**. Always go through a PR.
 
-> **Never force push** (`--force` or `--force-with-lease`) to a branch. If a push is rejected, investigate why rather than forcing.
+> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, but never on `main`.
 
 **After the PR is merged:** delete the clone.
 
