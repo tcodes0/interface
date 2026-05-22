@@ -19,7 +19,7 @@ LGA is a decoupled AI engineering workstation built to exceed the limitations of
 | Web/mobile UI      | LibreChat (self-hosted Docker) | ✅ Running          |
 | Shell MCP          | jail-mcp (no container)        | ⬜ Not deployed     |
 | Local inference    | Ollama + custom modelfiles     | ✅ Running          |
-| Network            | Tailscale private mesh         | ✅ Running          |
+| Network            | Tailscale private mesh         | ⬜ Not deployed     |
 | Routing proxy      | LiteLLM                        | ⬜ Not built        |
 | VPS (project host) | Hetzner CX22                   | ⬜ Not provisioned  |
 | Inference provider | RunPod / Lambda / vast.ai      | ⬜ Under evaluation |
@@ -48,7 +48,7 @@ Dependencies flow top to bottom. Do not build lower layers before upper ones are
 - [-] **Hybrid Sync** — open Aider/Tmux alongside the web UI on the same directory, verify real-time file change syncing
 - [x] **Artifacts** — toggle on in settings for clean diff overlays on mobile
 - [-] **Prompts** — update system prompts to mandate mobile-first summaries (logic bullets + file lists)
-- [x] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
+- [*] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
 - [x] **Memory** — Use skills, prompting or the shell to have some type of memory feature while keeping the Libre feature disabled in UI.
 
 \*Github token is being injected by the entry point script into the GH config file.
@@ -58,13 +58,14 @@ It's a security gap, marginally better than before.
 ### Layer 1 — VPS + LiteLLM (everything downstream depends on this)
 
 - [x] **LGA** — Move the project from compose files to LGA. migrate databases.
-- [ ] **VPS deployment** — Hetzner CX22; cloud-primary: LibreChat, MongoDB, SearXNG all run here; single source of truth accessible from any device via Tailscale; deploy using `compose.vps.yml` (drops meilisearch, rag_api, vectordb, mcpjail, mcppostgres); upsize to CX32 if needed
+- [ ] **VPS deployment** — Hetzner CX22; cloud-primary: LibreChat, MongoDB, SearXNG all run here; single source of truth accessible from any device via Tailscale; upsize to CX32 if needed
 - [ ] **LiteLLM** — deploy LiteLLM to VPS, configure Anthropic API key; point LibreChat at LiteLLM instead of direct API calls
 - [ ] **GitHub webhook bridge** — two-part design to avoid UI coupling:
   - **Bridge** — receives GitHub events (PR comments, review requests, CI pass/fail), normalizes them into a generic UI-agnostic event schema; knows nothing about LibreChat
   - **UI adapter** — thin server that consumes normalized events and calls the current UI's conversation injection API; swapping UI means replacing only this adapter
   - Optional per-event opt-in and toggle per chat/PR so it does not become noisy; terminal adapter is a trivial fallback
   - Injection doesn't work or requires contributing to the current ui, we can always build an MCP server and ask the model to pull the events.
+- [ ] **Telegram bot adapter** — thin microservice connecting Telegram to the LibreChat conversation API; async push notifications for task completion, GitHub events, and quick follow-ups from phone; part of the webhook bridge adapter family; viable because MongoDB and state live on VPS
 - [ ] **Hardware provider exploration** — evaluate GPU cloud providers (RunPod, Lambda, vast.ai) for running open models with custom parameters (context length, KV cache quant, llama.cpp flags); compare cost/performance; once a provider and model are validated, it becomes primary and Anthropic API is demoted to fallback
 - [ ] **Spot instance routing** — cloud GPU provider (RunPod or equivalent) as primary once validated; Anthropic API always present in LiteLLM as fallback, never removed
   - Runpod serverless is more efficient than having hardware sitting idle or underused because when the endpoint is not working there's no cost
@@ -87,7 +88,6 @@ It's a security gap, marginally better than before.
 - [ ] **Repo Isolation** — dedicated LibreChat agents per Go repo with architectural system prompts
 - [ ] **Reference doc uploads** — add STYLE_GUIDE.go and ARCHITECTURE.md to Agent Files for constant context
 - [ ] **llama.cpp investigation** — KV cache offloading (unsupported in Ollama); test on weak hardware, compare performance
-- [ ] **Telegram bot adapter** — thin microservice connecting Telegram to the LibreChat conversation API; async push notifications for task completion, GitHub events, and quick follow-ups from phone; part of the webhook bridge adapter family; viable because MongoDB and state live on VPS
 
 ---
 
