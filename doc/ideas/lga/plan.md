@@ -19,9 +19,9 @@ LGA is a decoupled AI engineering workstation built to exceed the limitations of
 | Web/mobile UI       | LibreChat (self-hosted Docker) | ✅ Running           |
 | Shell MCP           | jail-mcp (no container)        | ⬜ Not deployed      |
 | Local inference     | Ollama + custom modelfiles     | ✅ Running           |
-| Network             | Tailscale private mesh         | ⬜ Not deployed      |
+| Network             | Tailscale private mesh         | ✅ Running           |
 | Routing proxy       | LiteLLM                        | ⬜ Not built         |
-| VPS (project host)  | AWS / DO / Hetzner             | ⬜ Not provisioned   |
+| VPS (project host)  | Hetzner CX22                   | ⬜ Not provisioned   |
 | Inference provider  | RunPod / Lambda / vast.ai      | ⬜ Under evaluation  |
 | Inference fallback  | Anthropic API                  | ✅ Key available     |
 
@@ -48,23 +48,22 @@ Dependencies flow top to bottom. Do not build lower layers before upper ones are
 - [-] **Hybrid Sync** — open Aider/Tmux alongside the web UI on the same directory, verify real-time file change syncing
 - [x] **Artifacts** — toggle on in settings for clean diff overlays on mobile
 - [-] **Prompts** — update system prompts to mandate mobile-first summaries (logic bullets + file lists)
-- [ ] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
-- [ ] **Memory** — Use skills, prompting or the shell to have some type of memory feature while keeping the Libre feature disabled in UI.
+- [x] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
+- [x] **Memory** — Use skills, prompting or the shell to have some type of memory feature while keeping the Libre feature disabled in UI.
 
-### Layer 1 — LiteLLM (everything downstream depends on this)
+### Layer 1 — VPS + LiteLLM (everything downstream depends on this)
 
-- [ ] **VPS deployment** — provision persistent compute; prerequisite for running LiteLLM and 24/7 agent tasks. some experience with this using fly.io.
-- [ ] **LiteLLM** -- deploy liteLLM to cluster, config api keys google anthropic and openAI + ollama to use it, update interface
-  - consider if there's benefit in turning local machine into a node in liteLLM, use with some api fallback when offline.
-- [ ] **MCP gateway** — connect MCPs into liteLLM, expose a single MCP endpoint to all clients
+- [ ] **VPS deployment** — Hetzner CX22; cloud-primary: LibreChat, MongoDB, SearXNG all run here; single source of truth accessible from any device via Tailscale; deploy using `compose.vps.yml` (drops meilisearch, rag_api, vectordb, mcpjail, mcppostgres); upsize to CX32 if needed
+- [ ] **LiteLLM** — deploy to VPS, configure Anthropic API key; point LibreChat at LiteLLM instead of direct API calls
 - [ ] **GitHub webhook bridge** — two-part design to avoid UI coupling:
   - **Bridge** — receives GitHub events (PR comments, review requests, CI pass/fail), normalizes them into a generic UI-agnostic event schema; knows nothing about LibreChat
   - **UI adapter** — thin server that consumes normalized events and calls the current UI's conversation injection API; swapping UI means replacing only this adapter
   - Optional per-event opt-in and toggle per chat/PR so it does not become noisy; terminal adapter is a trivial fallback
-  - Injection doesn't work or requires contributing to the current ui, we can always build an MCP server and ask the model to pull the events.
+  - If injection doesn't work, build an MCP server and let the model pull events instead
 - [ ] **Hardware provider exploration** — evaluate GPU cloud providers (RunPod, Lambda, vast.ai) for running open models with custom parameters (context length, KV cache quant, llama.cpp flags); compare cost/performance; once a provider and model are validated, it becomes primary and Anthropic API is demoted to fallback
-- [ ] **Spot instance routing** — cloud GPU provider (RunPod or equivalent) as primary once validated; Anthropic API always present in LiteLLM as fallback, never removed
-  - Runpod serverless is more efficient than having hardware sitting idle or underused because when the endpoint is not working there's no cost
+- [ ] **Spot instance routing** — cloud GPU provider (RunPod or equivalent) as primary once validated; Anthropic API always present in LiteLLM as fallback, never removed; RunPod serverless preferred — no cost when idle
+- [ ] **MCP gateway** — connect MCPs into LiteLLM, expose a single MCP endpoint to all clients
+- [ ] **Local node** — connect local machine to VPS via Tailscale so the local GPU becomes an inference node; LiteLLM routes to local Ollama when online, falls back to cloud; evaluate after hardware provider is validated
 - [ ] **Observability** — Grafana + Prometheus frontend
 
 ### Layer 2 — Depends on LiteLLM
@@ -82,6 +81,7 @@ Dependencies flow top to bottom. Do not build lower layers before upper ones are
 - [ ] **Repo Isolation** — dedicated LibreChat agents per Go repo with architectural system prompts
 - [ ] **Reference doc uploads** — add STYLE_GUIDE.go and ARCHITECTURE.md to Agent Files for constant context
 - [ ] **llama.cpp investigation** — KV cache offloading (unsupported in Ollama); test on weak hardware, compare performance
+- [ ] **Telegram bot adapter** — thin microservice connecting Telegram to the LibreChat conversation API; async push notifications for task completion, GitHub events, and quick follow-ups from phone; part of the webhook bridge adapter family; viable because MongoDB and state live on VPS
 
 ---
 
@@ -124,3 +124,4 @@ Connect local machine to VPS via Tailscale so the local GPU becomes a node in th
 - **LiteLLM as the hub** — all routing, cost arbitrage, and embedding goes through one proxy; simplifies everything downstream
 - **LibreChat native features first** — explore what's built-in before building parallel systems that duplicate it; but do not depend on LibreChat-specific internals for anything that needs to survive a UI swap
 - **Terminal workflow as secondary** — MCP tools are CLI-invokable by nature so terminal access largely comes for free; not a primary investment but a natural fallback
+- **Cloud-primary LibreChat** — LibreChat, MongoDB, and all stateful services run on the VPS; single source of truth; accessible from any device via Tailscale; local instance is a dev/test bed only; eliminates state sync problems entirely
