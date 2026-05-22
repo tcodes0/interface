@@ -110,7 +110,7 @@ push() {
     GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
   fi
 
-  debug $LINENO "$(basename "$PWD") matches .pushreposrc"
+  debug $LINENO "$(basename "$PWD") matches .pushrc"
 
   if ! git_do push >/dev/null 2>&1; then
     debug $LINENO set upstream to origin/"$GIT_BRANCH"

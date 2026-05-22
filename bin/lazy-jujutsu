@@ -92,7 +92,7 @@ push() {
     return
   fi
 
-  debug $LINENO "$(basename "$PWD") matches .pushreposrc"
+  debug $LINENO "$(basename "$PWD") matches .pushrc"
 
   command jj git push --quiet
 }

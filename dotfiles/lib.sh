@@ -171,10 +171,10 @@ is_me() {
   [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
 }
 
-# Description: Reports whether the current repo's basename is listed in .pushreposrc
+# Description: Reports whether the current repo's basename is listed in .pushrc
 # Example    : if in_push_repos; then echo "will push"; fi
 in_push_repos() {
-  local rc="$HOME/.config/github.com.rthomazel/.pushreposrc"
+  local rc="$HOME/.config/github.com.rthomazel/.pushrc"
   local base line
   base="$(basename "$PWD")"
   [[ -f "$rc" ]] || return 1
