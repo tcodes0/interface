@@ -57,6 +57,7 @@ It's a security gap, marginally better than before.
 
 ### Layer 1 — LiteLLM (everything downstream depends on this)
 
+- [x] **LGA** — Move the project from compose files to LGA. migrate databases.
 - [ ] **VPS deployment** — provision persistent compute; prerequisite for running LiteLLM and 24/7 agent tasks; some experience with this using fly.io
 - [ ] **LiteLLM** — deploy LiteLLM to VPS, configure Anthropic API key; point LibreChat at LiteLLM instead of direct API calls
 - [ ] **GitHub webhook bridge** — two-part design to avoid UI coupling:
