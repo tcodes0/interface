@@ -19,11 +19,13 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-If the repo has a `bin/setup`, run it after cloning — it installs tools and configures GPG signing::
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to Thom.
 
-```bash
-./bin/setup
 ```
+setup(["path/to/clone"])
+```
+
+Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 ### Repo Catalog
 
@@ -54,6 +56,8 @@ If the repo has a `bin/setup`, run it after cloning — it installs tools and co
 2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
 
 > **Never push directly to `main`**. Always go through a PR.
+
+> **Never force push** (`--force` or `--force-with-lease`) to a branch. If a push is rejected, investigate why rather than forcing.
 
 **After the PR is merged:** delete the clone.
 
