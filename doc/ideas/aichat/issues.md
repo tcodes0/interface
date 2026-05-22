@@ -4,21 +4,16 @@
 
 ## patched and testing
 
-### Multiple fast tool calls render wrong — patch 016
+### Last thought always open — patch 017 v2
 
-Tool calls in quick succession render a flashing tool icon with parameters and no output.
-Root cause: `ToolCall.tsx` drove the spin/shimmer purely from the `useProgress` timer, which
-lags reality by up to 400 ms. Fix: derive `isDone = progress >= 1 || !!output` and use it
-for the `isAnimating` flag and the `progress` prop passed to `ProgressText`. As soon as the
-output field is non-empty the UI flips to the finished state immediately.
+v1 kept thoughts open when followed by a tool call (`nextType === TOOL_CALL`). This caused
+EVERY thought in a reasoning chain (THINK -> TOOL_CALL -> THINK -> ...) to auto-open since
+each intermediate thought is followed by a tool call.
 
-### Last thought always open — patch 017
-
-The last thought (THINK content part) in the latest AI message now auto-opens.
-Intermediate thoughts (followed by another THINK or TEXT block) and thoughts in older turns
-auto-close. Thoughts followed by tool calls stay open (reasoning continuation).
-User clicks are respected: once the user has toggled a thought the manual state is used;
-when a new turn arrives the override resets so the auto-close takes effect.
+v2 fix: `isLastActiveThought = isLatestMessage && isLast` with no `nextType` exception.
+Only the absolute last content part of the latest AI message auto-opens.
+Anything after the thought (tool call, text, another thought) closes it.
+User toggle and reset-on-new-turn behaviour unchanged.
 
 ### minor -- patch needs updates
 
