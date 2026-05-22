@@ -19,11 +19,13 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-If the repo has a `bin/setup`, run it after cloning — it installs tools and configures GPG signing::
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to Thom.
 
-```bash
-./bin/setup
 ```
+setup(["path/to/clone"])
+```
+
+Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to Thom before continuing.
 
@@ -56,6 +58,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
 
 > **Never push directly to `main`**. Always go through a PR.
+
+> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, but never on `main`.
 
 **After the PR is merged:** delete the clone.
 

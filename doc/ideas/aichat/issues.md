@@ -20,7 +20,7 @@ each intermediate thought is followed by a tool call.
 v2 fix: `isLastActiveThought = isLatestMessage && isLast` with no `nextType` exception.
 Only the absolute last content part of the latest AI message auto-opens.
 Anything after the thought (tool call, text, another thought) closes it.
-User toggle and reset-on-new-turn behaviour unchanged.
+User toggle and reset-on-new-turn behavior unchanged.
 
 ### minor -- patch needs updates
 
@@ -34,24 +34,6 @@ This happens when changing chats. If the current chat hits the summarization, a 
 
 ## disregard, needs scope
 
-### memory injection is confusing
-
-The text below is model thoughts and output.
-
-```thoughts
-The user is asking about adding a health check to make the setup more resilient. They shared their runtime context/memories which I should not comment on. Let me focus on the task.
-
-The user asked "Want me to do that as a follow-up commit to the PR, or a separate one?" and they seem to want me to go ahead with it. But wait - they didn't explicitly say yes. Let me re-read.
-
-Actually, looking at this message again - the user just pasted their memory context. There's no actual message asking me to do anything. This appears to be the system injecting memories into the conversation. The user's last actual question was asking whether to add health checks to the PR or as a separate commit.
-
-I'm not sure if the user's message is just the memory context being injected, or if they accidentally sent it without additional text. I should clarify whether the restart worked and confirm they want me to proceed with adding the health check.
-```
-
-Looks like you may have accidentally sent your memory context without a message body, Thom. No worries!
-
-Did the docker compose restart api work? Are the RAG file upload options showing up now in LibreChat?
-
 ### Stale input text
 
 Even with the patches, this is still happening. After sending a message, the model will take a couple seconds to reply. The screen will apparently glitch and during that time, the message is both in the conversation and in the input.
@@ -63,15 +45,6 @@ You may want to just hammer it down whenever you send a message. Any draft or lo
 I also noticed that sent messages from another chat appeared in a totally different chat on this glitch.
 
 Update. Current patch seems really good. I still see the input stale after submitting But I think I saw that reproducing in other websites, which would point to a browser bug.
-
-### memory
-
-Memory is kinda wasteful, It runs on every turn but it only saves things that I specifically say should be saved. Use custom memory server.
-Models keep talking/thinking about memory injected into chat, needs some prompting to guide them. can be confusing for user if model talks, overall suboptimal.
-
-Memory keeps logging in server: timeout after 3 seconds. value might be too low or model too slow
-
-We could bypass Libra's memory feature completely by simply having the model insert memories directly into Mongo.
 
 ### default context is too low
 
@@ -91,22 +64,3 @@ Very strange issue when sending a large message with context files and a big pro
 - cannot send a message while the model is working on the previous message, even though the turn has already progressed to a tool call. This is supported in Cloud Code.
 
 ## not reproducible
-
-### api logs
-
-> this is not happening anymore, disregard for now.
-
-This is likely a regression introduced by the patches.
-
-api-1 | 2026-05-16 18:02:40 error: [api/server/controllers/agents/client.js #sendCompletion] Operation aborted {"type":"error","error":{"details":null,"type":"api_error","message":"Internal server error"},"request_id":"req_011Cb6gn6PkKdjfY1TDgaXWG"}
-api-1 | 2026-05-16 18:02:40 error: [api/server/controllers/agents/client.js #sendCompletion] Unhandled error type {"type":"error","error":{"details":null,"type":"api_error","message":"Internal server error"},"request_id":"req_011Cb6gn6PkKdjfY1TDgaXWG"}
-
-88d205f4-78ad-407e-850c-81b3997a8fea There's a conversation ID that has the bug and any message sent by the model triggers the bug.
-
-### misc
-
-when doing tool calls:
-
-```
-Something went wrong. Here's the specific error message we encountered: An error occurred while processing the request: 400 {"type":"error","error":{"type":"invalid_request_error","message":"messages.110: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01Rj8zcxzCXyNzLSnFu47vyz. Each `tool_use` block must have a corresponding `tool_result` block in the next message."},"request_id":"req_011Cb6gJGips4XtKDYu5t8Qd"} Troubleshooting URL: https://docs.langchain.com/oss/javascript/langchain/errors/INVALID_TOOL_RESULTS/
-```
