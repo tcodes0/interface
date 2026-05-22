@@ -27,6 +27,8 @@ setup(["path/to/clone"])
 
 Only run `./bin/setup` directly if the MCP tool is unavailable.
 
+All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to Thom before continuing.
+
 ### Repo Catalog
 
 | Mount                | Clone URL                                           |

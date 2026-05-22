@@ -4,9 +4,12 @@
 
 ## patched and testing
 
-There is a scrub bar on the right hand side of the chat window. It is meant to allow quick preview and navigation of the chat.
-However, clicking it is challenging because the elements are too small and the click has to be pixel perfect.
-Using this element should be easier.
+### Message nav scrub bar — patch 019
+
+The indicator buttons in `MessageNav.tsx` had a click target of `h-[5px]` (5 px) — pixel-perfect
+clicks required. Fixed by bumping the button to `h-3` (12 px), a 2.4× larger hit area. The visual
+inner span keeps its original dimensions so appearance is unchanged. Column gap tightened from
+`gap-1.5` to `gap-0.5` to compensate for the taller buttons and keep the nav height roughly the same.
 
 ### Last thought always open — patch 017 v2
 
