@@ -51,9 +51,9 @@ Dependencies flow top to bottom. Do not build lower layers before upper ones are
 - [*] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
 - [x] **Memory** — Use skills, prompting or the shell to have some type of memory feature while keeping the Libre feature disabled in UI.
 
-*Github token is being injected by the entry point script into the GH config file.
-  The model doesn't manipulate it, but has permission to read it.
-  It's a security gap, marginally better than before. 
+\*Github token is being injected by the entry point script into the GH config file.
+The model doesn't manipulate it, but has permission to read it.
+It's a security gap, marginally better than before.
 
 ### Layer 1 — LiteLLM (everything downstream depends on this)
 

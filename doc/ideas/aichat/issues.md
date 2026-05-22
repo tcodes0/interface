@@ -8,15 +8,15 @@
 
 Tool calls in quick succession render a flashing tool icon with parameters and no output.
 Root cause: `ToolCall.tsx` drove the spin/shimmer purely from the `useProgress` timer, which
-lags reality by up to 400 ms.  Fix: derive `isDone = progress >= 1 || !!output` and use it
-for the `isAnimating` flag and the `progress` prop passed to `ProgressText`.  As soon as the
+lags reality by up to 400 ms. Fix: derive `isDone = progress >= 1 || !!output` and use it
+for the `isAnimating` flag and the `progress` prop passed to `ProgressText`. As soon as the
 output field is non-empty the UI flips to the finished state immediately.
 
 ### Last thought always open — patch 017
 
 The last thought (THINK content part) in the latest AI message now auto-opens.
 Intermediate thoughts (followed by another THINK or TEXT block) and thoughts in older turns
-auto-close.  Thoughts followed by tool calls stay open (reasoning continuation).
+auto-close. Thoughts followed by tool calls stay open (reasoning continuation).
 User clicks are respected: once the user has toggled a thought the manual state is used;
 when a new turn arrives the override resets so the auto-close takes effect.
 

@@ -18,7 +18,7 @@
 - [ ] copy the good bits (like the white space linter) from go repo
 - [-] try busting claude desktop cache to see if mcp server bug is fixed
 - [x] mise root warnings
-- [x] mise no versions set for <tool> It's some type of mismatch between the local requested version and the global version. 
+- [x] mise no versions set for <tool> It's some type of mismatch between the local requested version and the global version.
 - [ ] get cspell config looked at
 - [ ] refine jj shell prompt. if the first detected branch = main, omit the second. any ideas worth adding to the prompt
 - [ ] update tests to use Expecter struct

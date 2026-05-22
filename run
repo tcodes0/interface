@@ -9,15 +9,16 @@ cmd="${1:-help}"
 case "$cmd" in
 # -- run shfmt on all bash scripts
 format)
-  find bin dotfiles -type f -print0 \
-    | xargs -0 grep -lZE '^#! ?/usr/bin/env bash|^#!/usr/bin/env bash|^#! ?/bin/bash' \
-    | xargs -0 shfmt -i 2 -ln bash -w
+  find bin dotfiles -type f -print0 |
+    xargs -0 grep -lZE '^#! ?/usr/bin/env bash|^#!/usr/bin/env bash|^#! ?/bin/bash' |
+    xargs -0 shfmt -i 2 -ln bash -w
+  find . -type f \( -iname "*.md" -o -iname "*.json" \) -print0 | xargs -0 oxfmt
   ;;
 # -- run shellcheck on all bash scripts
 lint)
-  find bin dotfiles -type f -print0 \
-    | xargs -0 grep -lZE '^#! ?/usr/bin/env bash|^#!/usr/bin/env bash|^#! ?/bin/bash' \
-    | xargs -0 shellcheck -x
+  find bin dotfiles -type f -print0 |
+    xargs -0 grep -lZE '^#! ?/usr/bin/env bash|^#!/usr/bin/env bash|^#! ?/bin/bash' |
+    xargs -0 shellcheck -x
   ;;
 # -- install required dev tools
 setup)
