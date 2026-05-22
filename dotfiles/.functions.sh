@@ -617,6 +617,7 @@ jgl() {
     return 1
   fi
 
+  jj git fetch
   jj new "$JJ_WORKING_BOOKMARK"
 }
 

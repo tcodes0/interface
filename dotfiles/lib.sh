@@ -170,3 +170,17 @@ term_emulator() {
 is_me() {
   [[ "$(whoami)" =~ vacation|thom.ribeiro ]]
 }
+
+# Description: Reports whether the current repo's basename is listed in .pushrc
+# Example    : if in_push_repos; then echo "will push"; fi
+in_push_repos() {
+  local rc="$HOME/.config/github.com.rthomazel/.pushrc"
+  local base line
+  base="$(basename "$PWD")"
+  [[ -f "$rc" ]] || return 1
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    [[ -z "$line" || "$line" == \#* ]] && continue
+    [[ "$line" == "$base" ]] && return 0
+  done <"$rc"
+  return 1
+}
