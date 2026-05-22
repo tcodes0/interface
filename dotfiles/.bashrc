@@ -40,8 +40,6 @@ export PAGER="less"
 export GPG_TTY=$(tty)
 export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
-# see lazy-git
-export PUSH_REPOS="member-client go-common interface priv hub-client server server-1 member-server shared go-athenahealth scheduling jail-mcp comms programming-problems online-start go compose-files feature-flag"
 # jujutsu functions, meant to be set whenever JJ new is called. Used by jgl to "pull" changes.
 export JJ_WORKING_BOOKMARK=""
 
