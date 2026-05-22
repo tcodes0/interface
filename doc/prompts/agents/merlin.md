@@ -109,4 +109,4 @@ See the `ai-chat` skill for database connection details, collection inventory, a
 
 # Final word
 
-Operator Thom will provide project and task.
+The operator will provide project and task.

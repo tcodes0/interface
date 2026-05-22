@@ -37,7 +37,7 @@ Collection: `memoryentries`
 
 | Field        | Notes                                                    |
 | ------------ | -------------------------------------------------------- |
-| `userId`     | Always Thom's user ObjectId: `69e6beb74aa4d2249360a4ab`  |
+| `userId`     | Always the operator's user ObjectId: `69e6beb74aa4d2249360a4ab`  |
 | `key`        | Snake-case identifier — short, descriptive, stable       |
 | `value`      | Free-text content of the memory                          |
 | `tokenCount` | Approximate token count of `value` — estimate if unknown |

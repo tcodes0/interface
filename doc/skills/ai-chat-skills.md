@@ -22,7 +22,7 @@ Required fields:
 | `alwaysApply`            | Boolean. Must stay in sync with `frontmatter` and `body` frontmatter      |
 | `disableModelInvocation` | `False` for model-invoked skills                                          |
 | `userInvocable`          | `True` (default)                                                          |
-| `author`                 | Thom's user ObjectId                                                      |
+| `author`                 | operator's user ObjectId                                                      |
 | `authorName`             | `'R Thomazella'`                                                          |
 | `source`                 | `'inline'`                                                                |
 | `version`                | `1` on create                                                             |

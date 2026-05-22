@@ -19,7 +19,7 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to Thom.
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
 ```
 setup(["path/to/clone"])
@@ -27,7 +27,7 @@ setup(["path/to/clone"])
 
 Only run `./bin/setup` directly if the MCP tool is unavailable.
 
-All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to Thom before continuing.
+All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to the operator before continuing.
 
 ### Repo Catalog
 
@@ -73,7 +73,7 @@ rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 | ------------------------------------- | --------------------------------------------------------------------------------------------------- |
 | The first commit is made              | Push and open PR                                                                                    |
 | A commit is made                      | Push                                                                                                |
-| Thom leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
+| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
 | GitHub comments are addressed         | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
 
 ## Resolving GitHub Review Threads
