@@ -35,14 +35,14 @@ Collection: `memoryentries`
 
 ## Schema
 
-| Field        | Notes                                                    |
-| ------------ | -------------------------------------------------------- |
-| `userId`     | Always Thom's user ObjectId: `69e6beb74aa4d2249360a4ab`  |
-| `key`        | Snake-case identifier — short, descriptive, stable       |
-| `value`      | Free-text content of the memory                          |
-| `tokenCount` | Approximate token count of `value` — estimate if unknown |
-| `updated_at` | Set to `new Date()` on every write                       |
-| `__v`        | `0`                                                      |
+| Field        | Notes                                                           |
+| ------------ | --------------------------------------------------------------- |
+| `userId`     | Always the operator's user ObjectId: `69e6beb74aa4d2249360a4ab` |
+| `key`        | Snake-case identifier — short, descriptive, stable              |
+| `value`      | Free-text content of the memory                                 |
+| `tokenCount` | Approximate token count of `value` — estimate if unknown        |
+| `updated_at` | Set to `new Date()` on every write                              |
+| `__v`        | `0`                                                             |
 
 ## Read All Memories
 
