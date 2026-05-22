@@ -13,31 +13,31 @@ Host repos are mounted read-only at `/projects/<repo>` — use them for reading 
 For any change, clone to scratchpad:
 
 ```bash
-git clone git@github.com:rthomazel/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git clone git@github.com:<org>/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
 cd /projects/scratchpad/<repo>-<purpose-mmm-dd>
 git checkout -b <branch-name>
 ```
 
 ### Repo Catalog
 
-| Mount                | Clone URL                                                      |
+| Mount                | Clone URL                                           |
 | -------------------- | --------------------------------------------------- |
-| server               | `git@github.com:eleanorhealth/hub-server.git`                  |
-| member-server        | `git@github.com:eleanorhealth/member-server.git`               |
+| server               | `git@github.com:eleanorhealth/hub-server.git`       |
+| member-server        | `git@github.com:eleanorhealth/member-server.git`    |
 | interface            | `git@github.com:rthomazel/interface.git`            |
-| client               | `git@github.com:eleanorhealth/hub-client.git`                  |
-| comms                | `git@github.com:eleanorhealth/comms.git`                       |
-| go                   | `git@github.com:tcodes0/go.git`                                |
-| go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`             |
-| go-common            | `git@github.com:eleanorhealth/go-common.git`                   |
+| client               | `git@github.com:eleanorhealth/hub-client.git`       |
+| comms                | `git@github.com:eleanorhealth/comms.git`            |
+| go                   | `git@github.com:tcodes0/go.git`                     |
+| go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`  |
+| go-common            | `git@github.com:eleanorhealth/go-common.git`        |
 | jail-mcp             | `git@github.com:rthomazel/jail-mcp.git`             |
-| member-client        | `git@github.com:eleanorhealth/member-client.git`               |
-| scheduling           | `git@github.com:eleanorhealth/scheduling.git`                  |
-| shared               | `git@github.com:eleanorhealth/frontend-shared.git`             |
+| member-client        | `git@github.com:eleanorhealth/member-client.git`    |
+| scheduling           | `git@github.com:eleanorhealth/scheduling.git`       |
+| shared               | `git@github.com:eleanorhealth/frontend-shared.git`  |
 | compose-files        | `git@github.com:rthomazel/compose-files.git`        |
-| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`                |
+| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` |
-| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`              |
+| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   |
 
 ## Pushing & PRs
 
