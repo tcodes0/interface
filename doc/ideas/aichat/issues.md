@@ -2,11 +2,11 @@
 
 ## needs patch
 
+## patched and testing
+
 There is a scrub bar on the right hand side of the chat window. It is meant to allow quick preview and navigation of the chat.
 However, clicking it is challenging because the elements are too small and the click has to be pixel perfect.
 Using this element should be easier.
-
-## patched and testing
 
 ### Last thought always open — patch 017 v2
 
