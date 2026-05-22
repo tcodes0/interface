@@ -1,5 +1,5 @@
 ---
-name: artifacts
+name: ai-chat-artifacts
 description: Use when presenting substantial, self-contained content — diagrams, HTML pages, React components, markdown documents, SVGs, or when the user mentions an artifact explicitly.
 ---
 
