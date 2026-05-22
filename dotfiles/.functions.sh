@@ -486,6 +486,7 @@ jno() {
   local refAt="$1@origin"
 
   jj new "$refAt"
+  JJ_WORKING_BOOKMARK="$refAt"
   jj bookmark track "$refAt"
   __jj_bookmark_set "$1" @- --allow-backwards
 }
@@ -503,6 +504,15 @@ jnm() {
   fi
 
   jj new main
+  JJ_WORKING_BOOKMARK="main"
+}
+
+#----------------
+
+unalias jn 2>/dev/null
+jn() {
+  jj new "$1"
+  JJ_WORKING_BOOKMARK="$1"
 }
 
 #----------------
@@ -595,20 +605,19 @@ jj_bookmark0() {
 
 #----------------
 
-# jj "git pull"
-# Read the bookmark via git before any jj command fires, to avoid the auto-import
-# race where jj log advances the remote bookmark past @ and the revset misses it.
+# jj "git pull" variable is set by jj new wrappers.
 jgl() {
   if ! command jj root &>/dev/null; then
     git pull
     return $?
   fi
 
-  local b
-  b=$(git symbolic-ref --short HEAD 2>/dev/null)
+  if [ -z "$JJ_WORKING_BOOKMARK" ]; then
+    debug $LINENO "JJ_WORKING_BOOKMARK is not set"
+    return 1
+  fi
 
-  jj git fetch
-  jj new "$b"
+  jj new "$JJ_WORKING_BOOKMARK"
 }
 
 #----------------

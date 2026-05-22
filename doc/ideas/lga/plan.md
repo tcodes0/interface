@@ -31,7 +31,7 @@ LGA is a decoupled AI engineering workstation built to exceed the limitations of
 
 - **Shell MCP** — jail-mcp running directly on the VPS without the Docker wrapper; the container is the jail in LGA, so the wrapper is redundant; jail-mcp is already a shell MCP server, removing the container is all that is needed
 - **Sequential Thinking MCP** — forced structured planning before file modification (`modelcontextprotocol/servers/tree/main/src/sequentialthinking`)
-- **Memory MCP** — LibreChat native memory sufficient for now; robust vector-backed Memory MCP planned in Layer 2
+- **Memory MCP** — LibreChat native memory tested and found insufficient for now; robust vector-backed Memory MCP planned in Layer 2; For now, trying to use a skill or prompting to close the gap.
 - **GitHub** ⭐ — repo management (PRs, commits, branching); high priority, needs quality setup: model doesn't see tokens, well-crafted agent system prompts, tested workflows. Giving the model a token (to do: fix it) and GH works surprisingly well. Maybe this could be some type of skill or a very minimalistic setup.
 
 ---
@@ -43,12 +43,13 @@ Dependencies flow top to bottom. Do not build lower layers before upper ones are
 ### Layer 0 — Validate what exists (no new builds)
 
 - [x] **LibreChat exploration** — agents, native memory, file uploads, RAG config; may eliminate planned build work; specifically investigate conversation/message injection API — known to expose agents via API but injection support is unclear/not present; finding determines how thin or hacky the webhook UI adapter will be, and may accelerate the decision to swap UI
-- [ ] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
 - [x] **Persistence check** — validated; LibreChat architecture handles it natively
-- [ ] **Sequential Thinking MCP** — trigger a complex refactor, force agent to use `thought` tool to map dependencies before coding
+- [x] **Sequential Thinking MCP** — trigger a complex refactor, force agent to use `thought` tool to map dependencies before coding
 - [-] **Hybrid Sync** — open Aider/Tmux alongside the web UI on the same directory, verify real-time file change syncing
-- [ ] **Artifacts** — toggle on in settings for clean diff overlays on mobile
+- [x] **Artifacts** — toggle on in settings for clean diff overlays on mobile
 - [-] **Prompts** — update system prompts to mandate mobile-first summaries (logic bullets + file lists)
+- [ ] **GitHub setup** — scoped tokens, agent system prompts for repo workflows, signed commits configurable by environment variables, end-to-end tested; foundational for everything GitHub-related downstream
+- [ ] **Memory** — Use skills, prompting or the shell to have some type of memory feature while keeping the Libre feature disabled in UI.
 
 ### Layer 1 — LiteLLM (everything downstream depends on this)
 

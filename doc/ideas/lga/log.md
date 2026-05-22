@@ -33,7 +33,8 @@ I'm starting to think that I could just have a GitHub skill, a set of markdown i
 - [x] Fix image uploads
 - [x] Libre artifacts
 - [x] Investigate Sequential Thinking, MCP.
-- [x] Work thru major issues in libre.
+- [x] Work thru major and minor issues in libre using patches.
+- [ ] Memory skill
 
 github
 
