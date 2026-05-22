@@ -4,22 +4,6 @@
 
 ## patched and testing
 
-### Multiple fast tool calls render wrong — patch 016 (needs rework)
-
-Patch 016 added `isDone = progress >= 1 || !!output` to stop the spin/shimmer as soon as
-output arrives. This fixes the single fast tool call case. However:
-
-- When 30+ sequential tool calls are grouped into a `ToolCallGroup`, all show as in-progress
-  until the last one completes, even when expanded to show individual cards.
-- Root cause: `toolCall.progress` and `toolCall.output` fields on the content parts appear to
-  arrive in batch at turn-completion, not streamed per-call. Each individual `ToolCall` card
-  receives `output = null` until the entire batch of results lands, so `isDone` never flips early.
-- `ToolCallGroup.allCompleted` also waits for every call's `hasOutput === true`.
-- The `isDone` frontend fix helps the single-call case but grouped/parallel calls need either
-  per-call streaming from the backend or a different frontend signal.
-- Needs scope: investigate whether LibreChat's agent stream emits individual tool result deltas
-  or only batch-updates the message after all tools in a turn complete.
-
 ### Last thought always open — patch 017 v2
 
 v1 kept thoughts open when followed by a tool call (`nextType === TOOL_CALL`). This caused
