@@ -13,10 +13,19 @@ Host repos are mounted read-only at `/projects/<repo>` — use them for reading 
 For any change, clone to scratchpad:
 
 ```bash
-git clone git@github.com:rthomazel/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git clone git@github.com:<org>/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
 cd /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
+
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to Thom.
+
+```
+setup(["path/to/clone"])
+```
+
+Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 ### Repo Catalog
 
@@ -47,6 +56,8 @@ git checkout -b <branch-name>
 2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
 
 > **Never push directly to `main`**. Always go through a PR.
+
+> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, but never on `main`.
 
 **After the PR is merged:** delete the clone.
 
