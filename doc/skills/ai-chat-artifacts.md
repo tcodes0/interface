@@ -9,15 +9,19 @@ Artifacts are rendered in a separate UI panel. Use them for substantial, self-co
 
 ## Syntax
 
-````html
-:::artifact{identifier="my-id" type="text/html" title="My Title"} ```
+````
+:::artifact{identifier="my-id" type="text/html" title="My Title"}
+```html
 <!-- content here -->
-``` :::
+```
+:::
 ````
 
 - `identifier` — stable kebab-case ID; reuse it when updating an existing artifact
 - `type` — MIME type from the table below
 - `title` — human-readable label shown in the panel
+
+> Use 4 backticks for the outer fence when the artifact body itself contains triple-backtick code blocks.
 
 ## Supported Types
 
@@ -43,6 +47,56 @@ Artifacts are rendered in a separate UI panel. Use them for substantial, self-co
 - Styling via Tailwind only (no arbitrary values)
 - Available: `lucide-react`, `recharts`, `three.js`, `date-fns`, `react-day-picker`, `shadcn/ui`
 - Must use default export, no required props
+
+## Rendering a Diff
+
+Diffs have no styling in `text/markdown` — always use `text/html`. Use a dark background, monospace font, and one `div` per line (not `pre` + `span`) so background colors fill the full line width without spacing issues.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        background: #0f172a;
+        color: #e2e8f0;
+        font-family: monospace;
+        font-size: 13px;
+        padding: 1.5rem;
+        line-height: 1.35;
+      }
+      .add {
+        color: #86efac;
+        background: #14532d44;
+      }
+      .del {
+        color: #fca5a5;
+        background: #7f1d1d44;
+      }
+      .hunk {
+        color: #67e8f9;
+      }
+      .meta {
+        color: #94a3b8;
+      }
+      .ctx {
+        color: #cbd5e1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="meta">--- a/path/to/file</div>
+    <div class="meta">+++ b/path/to/file</div>
+    <div class="hunk">@@ -1,4 +1,4 @@</div>
+    <div class="ctx">unchanged line</div>
+    <div class="del">-removed line</div>
+    <div class="add">+added line</div>
+  </body>
+</html>
+```
+
+Class reference: `.add` green, `.del` red, `.hunk` cyan, `.meta` muted, `.ctx` plain.
 
 ## Quirks
 

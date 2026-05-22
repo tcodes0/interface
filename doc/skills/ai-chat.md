@@ -36,10 +36,10 @@ No authentication. Key collections:
 
 ## Known IDs
 
-| What                    | ID                         |
-| ----------------------- | -------------------------- |
+| What                        | ID                         |
+| --------------------------- | -------------------------- |
 | operator's user `rthomazel` | `69e6beb74aa4d2249360a4ab` |
-| Skills ACL role         | `6a0336a122e01bacd9e152fa` |
+| Skills ACL role             | `6a0336a122e01bacd9e152fa` |
 
 ## Agent System Prompts
 

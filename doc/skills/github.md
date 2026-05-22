@@ -69,12 +69,12 @@ rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 
 ## Reactive Triggers
 
-| WHEN                                  | DO                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| The first commit is made              | Push and open PR                                                                                    |
-| A commit is made                      | Push                                                                                                |
+| WHEN                                      | DO                                                                                                  |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| The first commit is made                  | Push and open PR                                                                                    |
+| A commit is made                          | Push                                                                                                |
 | operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed         | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
 
 ## Resolving GitHub Review Threads
 
