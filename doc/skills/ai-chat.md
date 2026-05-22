@@ -43,14 +43,14 @@ No authentication. Key collections:
 
 ## Agent System Prompts
 
-Source files live at `/projects/interface/doc/prompts/agents/*.md`. Skill definitions live at `/projects/interface/doc/skills/*.md`.
+Source files live at `/projects/interface/doc/agents/*.md`. Skill definitions live at `/projects/interface/doc/skills/*.md`.
 
 Sync a prompt file to its agent database record after editing:
 
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
-content = open('/projects/interface/doc/prompts/agents/<name>.md').read()
+content = open('/projects/interface/doc/agents/<name>.md').read()
 MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
     {'name': {'$regex': '<agent-name>', '$options': 'i'}}, {'$set': {'instructions': content}})
 PYEOF
