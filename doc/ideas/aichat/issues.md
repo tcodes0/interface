@@ -2,6 +2,10 @@
 
 ## needs patch
 
+There is a scrub bar on the right hand side of the chat window. It is meant to allow quick preview and navigation of the chat.
+However, clicking it is challenging because the elements are too small and the click has to be pixel perfect.
+Using this element should be easier.
+
 ## patched and testing
 
 ### Last thought always open — patch 017 v2
@@ -13,7 +17,7 @@ each intermediate thought is followed by a tool call.
 v2 fix: `isLastActiveThought = isLatestMessage && isLast` with no `nextType` exception.
 Only the absolute last content part of the latest AI message auto-opens.
 Anything after the thought (tool call, text, another thought) closes it.
-User toggle and reset-on-new-turn behaviour unchanged.
+User toggle and reset-on-new-turn behavior unchanged.
 
 ### minor -- patch needs updates
 
