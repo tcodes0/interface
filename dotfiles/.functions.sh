@@ -623,6 +623,29 @@ jgl() {
 
 #----------------
 
+# git merge origin/main, handles jj
+gmom() {
+  if ! command jj root &>/dev/null; then
+    git fetch --all --prune && git merge -q origin/main
+    return $?
+  fi
+
+  git fetch --all --prune && git merge -q origin/main
+
+  local b
+  b=$(jj_bookmark0)
+
+  if [ -n "$b" ]; then
+    jb- "$b"
+
+    if in_push_repos; then
+      jj git push --option quiet
+    fi
+  fi
+}
+
+#----------------
+
 # cat and copy to clipboard a prompt file under the prompts directory.
 # If an argument is given, it is used as a prefix to find the prompt file.
 # If no argument is given, lists available prompt files without extensions.

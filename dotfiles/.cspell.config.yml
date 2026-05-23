@@ -93,6 +93,7 @@ words:
   - GIGE
   - GLAN
   - glslang
+  - gmom
   - godotenv
   - gofumpt
   - golangci
