@@ -4,6 +4,31 @@
 
 ## patched and testing
 
+### Search sidebar filtered by matching conversations — patch 020 v2
+
+v1 fixed the blank sidebar by removing the broken title-search param. v2 goes further:
+when a search is active the sidebar now shows **only the conversations that contain a
+matching message**, derived from the same `useMessagesInfiniteQuery` call already made
+by the right-pane `Search.tsx`. React Query deduplicates the request — zero extra
+network cost. Conversations with no matching messages are hidden during search.
+
+Known limitation: archived conversations are excluded because `useConversationsInfiniteQuery`
+does not return them. Full archived support would require a separate fetch.
+
+### Meilisearch bulk sync misses agent messages — patch 021
+
+All agent messages have `text: ""` — their content lives in `content[]` typed parts
+(`type: text`, `type: think`, `type: tool_call`). The per-save Mongoose hook
+(`preprocessObjectForIndex`) already calls `parseTextParts(content)` correctly.
+But `processSyncBatch` (bulk sync path) does `_.pick(doc, attributesToIndex)` —
+`content` is not in `attributesToIndex`, so every agent message was indexed with
+empty text after any bulk re-index (Meilisearch wipe, restart, etc.).
+
+Fix: add `content` to the `.select()` in `syncWithMeili`; in `processSyncBatch`
+apply `parseTextParts(doc.content)` when `text` is empty. `parseTextParts`
+includes TEXT + THINK parts and skips TOOL_CALL by design.
+
+
 ### summarization
 
 The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.
