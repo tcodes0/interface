@@ -10,12 +10,12 @@ Clone URL: `git@github.com:rthomazel/lga.git`
 
 ## Paths
 
-| What | Where |
-| ---- | ----- |
-| Patch files | `images/librechat/patches/NNN-*.diff` |
-| Patching docs | `doc/patching-librechat.md` |
+| What            | Where                                                            |
+| --------------- | ---------------------------------------------------------------- |
+| Patch files     | `images/librechat/patches/NNN-*.diff`                            |
+| Patching docs   | `doc/patching-librechat.md`                                      |
 | TSC environment | `/projects/scratchpad/librechat-tsc` (persistent, do not delete) |
-| Upgrade script | `bin/upgrade-chatui` |
+| Upgrade script  | `bin/upgrade-chatui`                                             |
 
 The TSC environment is a pinned clone of LibreChat at the current `LIBRECHAT_VERSION` (see `compose.yml`) with `node_modules` already installed. Rebuilding it takes ~5 min.
 
