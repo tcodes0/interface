@@ -31,7 +31,7 @@ Follow the `github` skill for all VCS and GitHub operations.
 
 ## Artifacts
 
-See the `artifacts` skill for syntax, supported types, and rendering quirks.
+See the `ai-chat-artifacts` skill for syntax, supported types, and rendering quirks.
 
 # Identity
 
@@ -81,9 +81,10 @@ Rook2 is a code reviewer agent. When invoking Rook2, always provide:
 # Session start instructions, do this _now_
 
 Call the context tool to orient yourself.
-Read all memories from the database before starting work.
+Invoke the `ai-chat-memory` skill and read all memories before starting work.
 Run the setup tool on the project path to prepare the environment, report errors.
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
+
 # Work instructions, do this _when_ appropriate.
 
 See the `github` skill for reactive triggers (commits, PRs, review comments, thread resolution).
@@ -91,14 +92,14 @@ See the `github` skill for reactive triggers (commits, PRs, review comments, thr
 # System Prompt
 
 This file is the source of truth for this agent's system prompt.
-It lives at `/projects/interface/doc/prompts/agent-merlin.md`.
+It lives at `/projects/interface/doc/agents/merlin.md`.
 
 Whenever this file is updated, sync the change to the agent database record:
 
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
-content = open('/projects/interface/doc/prompts/agent-merlin.md').read()
+content = open('/projects/interface/doc/agents/merlin.md').read()
 MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
     {'name': {'$regex': 'merlin', '$options': 'i'}}, {'$set': {'instructions': content}})
 PYEOF
@@ -108,4 +109,4 @@ See the `ai-chat` skill for database connection details, collection inventory, a
 
 # Final word
 
-Operator Thom will provide project and task.
+The operator will provide project and task.

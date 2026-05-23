@@ -9,6 +9,38 @@ For connection details and known IDs, see the `ai-chat` skill.
 
 > Skill inserts embed body content — use pymongo heredoc. For reads, ACL entries, and repairs use mongosh directly.
 
+## SKILL.md Format
+
+Every skill is a Markdown file with a YAML frontmatter block at the top:
+
+```markdown
+---
+name: my-skill
+description: Use when the user asks to do X or mentions Y.
+always-apply: false
+user-invocable: true
+disable-model-invocation: false
+allowed-tools: ["execute_code"]
+---
+
+# Skill Title
+
+Instruction body here — procedures, rules, examples, references.
+```
+
+### Frontmatter Fields
+
+| Key                        | Type     | Description                                                                                   |
+| -------------------------- | -------- | --------------------------------------------------------------------------------------------- |
+| `name`                     | String   | Kebab-case identifier. `^[a-z0-9][a-z0-9-]*$`. Stable — renaming breaks references.           |
+| `description`              | String   | **Primary trigger signal.** Write as "Use when [specific situation]". Vague = under-triggers. |
+| `always-apply`             | Boolean  | Auto-prime into every turn. Default: `false`.                                                 |
+| `user-invocable`           | Boolean  | Show in `$` popover. Default: `true`. Set `false` for model-only skills.                      |
+| `disable-model-invocation` | Boolean  | Exclude from model catalog. Manual `$` still works. Default: `false`.                         |
+| `allowed-tools`            | String[] | Tools temporarily added to the agent's effective set when skill is active.                    |
+
+Only `name` and `description` are required. Omit optional fields rather than setting them to defaults.
+
 ## Schema: `skills` Collection
 
 Required fields:
@@ -22,7 +54,7 @@ Required fields:
 | `alwaysApply`            | Boolean. Must stay in sync with `frontmatter` and `body` frontmatter      |
 | `disableModelInvocation` | `False` for model-invoked skills                                          |
 | `userInvocable`          | `True` (default)                                                          |
-| `author`                 | Thom's user ObjectId                                                      |
+| `author`                 | operator's user ObjectId                                                  |
 | `authorName`             | `'R Thomazella'`                                                          |
 | `source`                 | `'inline'`                                                                |
 | `version`                | `1` on create                                                             |

@@ -101,7 +101,7 @@ commit() {
 }
 
 push() {
-  if [ ! "${PUSH_REPOS:-}" ]; then
+  if ! in_push_repos; then
     return
   fi
 
@@ -110,12 +110,7 @@ push() {
     GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
   fi
 
-  base_pwd="$(basename "$PWD")"
-  if [[ ! $PUSH_REPOS =~ .*[[:blank:]]*${base_pwd}[[:blank:]]*.* ]]; then
-    return
-  fi
-
-  debug $LINENO "$base_pwd matches \$PUSH_REPOS"
+  debug $LINENO "$(basename "$PWD") matches .pushrc"
 
   if ! git_do push >/dev/null 2>&1; then
     debug $LINENO set upstream to origin/"$GIT_BRANCH"

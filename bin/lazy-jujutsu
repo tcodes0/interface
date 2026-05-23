@@ -88,16 +88,11 @@ commit() {
 }
 
 push() {
-  if [ ! "${PUSH_REPOS:-}" ]; then
+  if ! in_push_repos; then
     return
   fi
 
-  base_pwd="$(basename "$PWD")"
-  if [[ ! $PUSH_REPOS =~ .*[[:blank:]]*${base_pwd}[[:blank:]]*.* ]]; then
-    return
-  fi
-
-  debug $LINENO "$base_pwd matches \$PUSH_REPOS"
+  debug $LINENO "$(basename "$PWD") matches .pushrc"
 
   command jj git push --quiet
 }

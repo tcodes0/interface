@@ -19,11 +19,15 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-If the repo has a `bin/setup`, run it after cloning — it installs tools and configures GPG signing::
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
-```bash
-./bin/setup
 ```
+setup(["path/to/clone"])
+```
+
+Only run `./bin/setup` directly if the MCP tool is unavailable.
+
+All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to the operator before continuing.
 
 ### Repo Catalog
 
@@ -42,6 +46,7 @@ If the repo has a `bin/setup`, run it after cloning — it installs tools and co
 | scheduling           | `git@github.com:eleanorhealth/scheduling.git`       |
 | shared               | `git@github.com:eleanorhealth/frontend-shared.git`  |
 | compose-files        | `git@github.com:rthomazel/compose-files.git`        |
+| lga                  | `git@github.com:rthomazel/lga.git`                  |
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   |
@@ -55,6 +60,8 @@ If the repo has a `bin/setup`, run it after cloning — it installs tools and co
 
 > **Never push directly to `main`**. Always go through a PR.
 
+> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, but never on `main`.
+
 **After the PR is merged:** delete the clone.
 
 ```bash
@@ -63,12 +70,12 @@ rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 
 ## Reactive Triggers
 
-| WHEN                                  | DO                                                                                                  |
-| ------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| The first commit is made              | Push and open PR                                                                                    |
-| A commit is made                      | Push                                                                                                |
-| Thom leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed         | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
+| WHEN                                      | DO                                                                                                  |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| The first commit is made                  | Push and open PR                                                                                    |
+| A commit is made                          | Push                                                                                                |
+| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
 
 ## Resolving GitHub Review Threads
 
