@@ -4,16 +4,20 @@
 
 ## patched and testing
 
-### Search sidebar filtered by matching conversations — patch 020 v2
+### Search sidebar shows matching conversations incl. archived — patch 020 v3
 
-v1 fixed the blank sidebar by removing the broken title-search param. v2 goes further:
-when a search is active the sidebar now shows **only the conversations that contain a
-matching message**, derived from the same `useMessagesInfiniteQuery` call already made
-by the right-pane `Search.tsx`. React Query deduplicates the request — zero extra
-network cost. Conversations with no matching messages are hidden during search.
+v1 fixed the blank sidebar. v2 filtered to conversations with matching messages.
+v3 adds archived conversations to the mix:
 
-Known limitation: archived conversations are excluded because `useConversationsInfiniteQuery`
-does not return them. Full archived support would require a separate fetch.
+- `ConversationsSection` fires a second `useConversationsInfiniteQuery({ isArchived: true })`
+  only while search is active — zero cost in normal use.
+- Both lists are merged and filtered by the matching `conversationId` set from
+  `useMessagesInfiniteQuery` (React Query deduplicates that call with `Search.tsx`).
+- `Convo.tsx`: when `conversation.isArchived === true`, the endpoint/model icon is
+  replaced with a `<Archive>` lucide icon so archived rows are visually distinct.
+
+Known limitation: the sidebar only loads one page of archived conversations. Deep
+archives with hundreds of entries may miss results beyond page 1.
 
 ### Meilisearch bulk sync misses agent messages — patch 021
 
