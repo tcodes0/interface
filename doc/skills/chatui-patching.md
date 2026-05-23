@@ -1,5 +1,5 @@
 ---
-name: lga-patching
+name: chatui-patching
 description: Use when writing, fixing, or validating LibreChat patches for the LGA project, or when working on files under images/librechat/patches/.
 ---
 
