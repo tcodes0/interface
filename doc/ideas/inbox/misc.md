@@ -40,3 +40,4 @@
 - [x] librepatches simple git patches to fix annoying quirks of the libre UI. Apply diff on top of images to minimize maintenance and avoid a fork.
 - [ ] diff-to-html: a skill/tool/script that receives a unified diff as input and renders it as formatted HTML (syntax-highlighted, red/green lines), so it can be dropped directly into an artifact
 - [ ] jail mcp: Start collecting data on which tools are called with which arguments and dump it on an SQLite file for analysis later. do clever statistics with it.
+- [ ] refactor interface bash scripts take a look at bash env and lib.sh and make the whole thing less magical.
