@@ -60,6 +60,7 @@ It's a security gap, marginally better than before.
 - [x] **LGA** — Move the project from compose files to LGA. migrate databases.
 - [ ] **VPS deployment** — Hetzner CX22; cloud-primary: LibreChat, MongoDB, SearXNG all run here; single source of truth accessible from any device via Tailscale; upsize to CX32 if needed
 - [ ] **jail-mcp on VPS** — run in a container via compose (same as local); keeps management unified in compose, avoids systemd split workflow, and maintains the security boundary between secrets and the jail environment; update volume mounts to VPS repo paths
+- [ ] **mcppostgres on VPS** — run as a compose service same as local; requires Cloud SQL Auth Proxy sockets for QA/prod access; update socket volume mount path for VPS; QA DSNs active, prod DSNs present but commented out
 - [ ] **LiteLLM** — deploy LiteLLM to VPS, configure Anthropic API key; point LibreChat at LiteLLM instead of direct API calls
 - [ ] **GitHub webhook bridge** — two-part design to avoid UI coupling:
   - **Bridge** — receives GitHub events (PR comments, review requests, CI pass/fail), normalizes them into a generic UI-agnostic event schema; knows nothing about LibreChat
