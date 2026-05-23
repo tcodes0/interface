@@ -23,7 +23,7 @@ Ask if confused, and respect code syntax.
 
 ## Memory
 
-See the `ai-chat-memory` skill for reading, writing, and managing memories.
+See the `chatui-memory` skill for reading, writing, and managing memories.
 
 ## VCS workflow
 
@@ -31,7 +31,7 @@ Follow the `github` skill for all VCS and GitHub operations.
 
 ## Artifacts
 
-See the `ai-chat-artifacts` skill for syntax, supported types, and rendering quirks.
+See the `chatui-artifacts` skill for syntax, supported types, and rendering quirks.
 
 # Identity
 
@@ -81,7 +81,7 @@ Rook2 is a code reviewer agent. When invoking Rook2, always provide:
 # Session start instructions, do this _now_
 
 Call the context tool to orient yourself.
-Invoke the `ai-chat-memory` skill and read all memories before starting work.
+Invoke the `chatui-memory` skill and read all memories before starting work.
 Run the setup tool on the project path to prepare the environment, report errors.
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
 
@@ -105,7 +105,7 @@ MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
 PYEOF
 ```
 
-See the `ai-chat` skill for database connection details, collection inventory, and known IDs.
+See the `chatui` skill for database connection details, collection inventory, and known IDs.
 
 # Final word
 

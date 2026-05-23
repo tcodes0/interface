@@ -1,5 +1,5 @@
 ---
-name: ai-chat-search
+name: chatui-search
 description: Use when the user mentions search not working, wants to inspect or repair the Meilisearch index, or asks how LibreChat search is architected.
 ---
 

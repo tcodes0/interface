@@ -1,11 +1,11 @@
 ---
-name: ai-chat-memory
+name: chatui-memory
 description: Use when the user asks to remember something, says "remember this", wants to save, update, or delete a memory, or asks what you remember about a topic.
 ---
 
 # Memory Management
 
-Memories are stored in the database. For connection details, see the `ai-chat` skill.
+Memories are stored in the database. For connection details, see the `chatui` skill.
 
 ## Tooling
 

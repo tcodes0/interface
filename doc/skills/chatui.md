@@ -1,7 +1,7 @@
 ---
-name: ai-chat
+name: chatui
 description: Use when working with the LibreChat instance — querying or updating the database, managing agent records, or syncing agent system prompts.
-always-apply: true
+always-apply: false
 ---
 
 # LibreChat Instance Reference
