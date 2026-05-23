@@ -4,6 +4,35 @@
 
 ## patched and testing
 
+### Search sidebar shows matching conversations incl. archived — patch 020 v3
+
+v1 fixed the blank sidebar. v2 filtered to conversations with matching messages.
+v3 adds archived conversations to the mix:
+
+- `ConversationsSection` fires a second `useConversationsInfiniteQuery({ isArchived: true })`
+  only while search is active — zero cost in normal use.
+- Both lists are merged and filtered by the matching `conversationId` set from
+  `useMessagesInfiniteQuery` (React Query deduplicates that call with `Search.tsx`).
+- `Convo.tsx`: when `conversation.isArchived === true`, the endpoint/model icon is
+  replaced with a `<Archive>` lucide icon so archived rows are visually distinct.
+
+Known limitation: the sidebar only loads one page of archived conversations. Deep
+archives with hundreds of entries may miss results beyond page 1.
+
+### Meilisearch bulk sync misses agent messages — patch 021
+
+All agent messages have `text: ""` — their content lives in `content[]` typed parts
+(`type: text`, `type: think`, `type: tool_call`). The per-save Mongoose hook
+(`preprocessObjectForIndex`) already calls `parseTextParts(content)` correctly.
+But `processSyncBatch` (bulk sync path) does `_.pick(doc, attributesToIndex)` —
+`content` is not in `attributesToIndex`, so every agent message was indexed with
+empty text after any bulk re-index (Meilisearch wipe, restart, etc.).
+
+Fix: add `content` to the `.select()` in `syncWithMeili`; in `processSyncBatch`
+apply `parseTextParts(doc.content)` when `text` is empty. `parseTextParts`
+includes TEXT + THINK parts and skips TOOL_CALL by design.
+
+
 ### summarization
 
 The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.

@@ -14,14 +14,14 @@ description: Use when the user mentions search not working, wants to inspect or 
 5. Results carry `conversationId`; backend calls `db.getConvosQueried(userId, hits)` to enrich each hit with `title`, `model`, etc.
 6. Right pane renders the enriched message hits via `SearchMessage` components
 
-**The sidebar** (`ConversationsSection`) is independent — it always shows all conversations. It does NOT participate in search filtering (patch 020 removed the broken `search` param that was blanking it).
+**The sidebar** (`ConversationsSection`) is independent — it always shows all conversations. When search is active it shows **only conversations with matching messages** (patch 020 v2), derived from the same message search query — zero extra network cost.
 
 ## Two separate search endpoints
 
 | Endpoint | What it searches | Used by |
 |---|---|---|
 | `GET /api/messages?search=` | Meilisearch `messages` index (full-text) | Search route right pane |
-| `GET /api/convos?search=` | MongoDB title match | Was incorrectly used by sidebar (patch 020 removed) |
+| `GET /api/convos?search=` | MongoDB title match | Not used for sidebar — title search is useless for message content |
 
 Conversation title search is essentially useless for message retrieval — never pass `search` to the convos endpoint for the sidebar.
 
