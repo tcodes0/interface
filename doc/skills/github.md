@@ -46,6 +46,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | scheduling           | `git@github.com:eleanorhealth/scheduling.git`       |
 | shared               | `git@github.com:eleanorhealth/frontend-shared.git`  |
 | compose-files        | `git@github.com:rthomazel/compose-files.git`        |
+| lga                  | `git@github.com:rthomazel/lga.git`                  |
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   |
