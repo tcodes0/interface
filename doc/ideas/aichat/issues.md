@@ -4,6 +4,21 @@
 
 ## patched and testing
 
+### Meilisearch bulk sync misses agent messages — patch 021
+
+All agent messages have `text: ""` — their content lives in `content[]` typed parts
+(`type: text`, `type: think`, `type: tool_call`). The per-save Mongoose hook
+(`preprocessObjectForIndex`) already calls `parseTextParts(content)` correctly.
+But `processSyncBatch` (bulk sync path) does `_.pick(doc, attributesToIndex)` —
+`content` is not in `attributesToIndex`, so every agent message was indexed with
+empty text after any bulk re-index (Meilisearch wipe, restart, etc.).
+
+Fix: add `content` to the `.select()` in `syncWithMeili`; in `processSyncBatch`
+apply `parseTextParts(doc.content)` when `text` is empty. `parseTextParts`
+includes TEXT + THINK parts and skips TOOL_CALL by design.
+
+
+
 ### Search sidebar blank — patch 020
 
 Typing in the "Search Messages" bar blanked the conversation sidebar. Root cause:
