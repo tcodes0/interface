@@ -19,7 +19,6 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-If you notice directories in the scratchpad that seem old or stale, report to operator and offer to cleanup: code is always pushed anyway.
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
 ```
@@ -68,6 +67,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 ```bash
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
+
+If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Reactive Triggers
 
