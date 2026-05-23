@@ -18,19 +18,19 @@ description: Use when the user mentions search not working, wants to inspect or 
 
 ## Two separate search endpoints
 
-| Endpoint | What it searches | Used by |
-|---|---|---|
-| `GET /api/messages?search=` | Meilisearch `messages` index (full-text) | Search route right pane |
-| `GET /api/convos?search=` | MongoDB title match | Not used for sidebar — title search is useless for message content |
+| Endpoint                    | What it searches                         | Used by                                                            |
+| --------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
+| `GET /api/messages?search=` | Meilisearch `messages` index (full-text) | Search route right pane                                            |
+| `GET /api/convos?search=`   | MongoDB title match                      | Not used for sidebar — title search is useless for message content |
 
 Conversation title search is essentially useless for message retrieval — never pass `search` to the convos endpoint for the sidebar.
 
 ## Meilisearch indexes
 
-| Index | Primary key | Filterable | What's in it |
-|---|---|---|---|
-| `messages` | `messageId` | `user` | `messageId`, `conversationId`, `user`, `sender`, `text` |
-| `convos` | `conversationId` | `user` | `conversationId`, `title`, `user`, `tags` |
+| Index      | Primary key      | Filterable | What's in it                                            |
+| ---------- | ---------------- | ---------- | ------------------------------------------------------- |
+| `messages` | `messageId`      | `user`     | `messageId`, `conversationId`, `user`, `sender`, `text` |
+| `convos`   | `conversationId` | `user`     | `conversationId`, `title`, `user`, `tags`               |
 
 ## The content-parts indexing bug (patch 021)
 
@@ -41,6 +41,7 @@ Conversation title search is essentially useless for message retrieval — never
 **Fix (patch 021):** In `syncWithMeili`, add `content` to the `.select()`. In `processSyncBatch`, apply `parseTextParts(doc.content)` when `text` is empty and `content` is present.
 
 **What `parseTextParts` includes by default (`skipReasoning: false`):**
+
 - `type: text` — agent response text ✅
 - `type: think` — reasoning/thoughts ✅
 - `type: tool_call` — skipped (not a text type) ✅
@@ -50,6 +51,7 @@ Conversation title search is essentially useless for message retrieval — never
 The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync code uses `_meiliIndex`, the reset commands use `meiliIndex` because the schema field is aliased) boolean on each MongoDB document tracks whether it has been pushed to Meilisearch.
 
 `indexSync.js` runs at startup and checks `getSyncProgress()` (counts `_meiliIndex: true` vs total). Key thresholds:
+
 - `MEILI_SYNC_THRESHOLD` (default `1000`) — if fewer than this many documents are unindexed, skip bulk sync. Protects against noisy re-syncs on large instances.
 - `MEILI_SYNC_BATCH_SIZE` (default `100`) — documents per batch during `syncWithMeili`
 - `MEILI_SYNC_DELAY_MS` (default `100`) — ms between batches
@@ -59,6 +61,7 @@ The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync 
 Wiping Meilisearch leaves MongoDB `_meiliIndex` flags as `true`. `indexSync` sees "all synced" and does nothing.
 
 **Step 1 — Reset flags in MongoDB:**
+
 ```bash
 mongosh mongodb:27017/LibreChat --quiet --eval '
   db.messages.updateMany({}, { $set: { _meiliIndex: false } });
@@ -68,14 +71,17 @@ mongosh mongodb:27017/LibreChat --quiet --eval '
 ```
 
 **Step 2 — Restart the API** to trigger `indexSync`:
+
 ```bash
 docker compose restart api
 ```
 
 **Step 3 — Watch logs:**
+
 ```bash
 docker compose logs -f api | grep indexSync
 ```
+
 Expect: `Starting message sync (N unindexed)` → `Sync completed successfully`.
 
 > ⚠️ If fewer than `MEILI_SYNC_THRESHOLD` (1000) docs are unindexed after the reset, `indexSync` will still skip. Force a full sync by setting `MEILI_SYNC_THRESHOLD=0` temporarily or by using the manual push below.
