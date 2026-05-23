@@ -4,6 +4,18 @@
 
 ## patched and testing
 
+### Search sidebar blank — patch 020
+
+Typing in the "Search Messages" bar blanked the conversation sidebar. Root cause:
+`ConversationsSection` passed `search.debouncedQuery` to `useConversationsInfiniteQuery`,
+which hits `/api/convos?search=...` — a **title** search. Message-content terms (like
+"push") match no titles and return an empty list. The right-pane `Search` route uses
+`useMessagesInfiniteQuery` (a separate full-text endpoint) and was unaffected.
+
+Fix: removed `search` from the conversations query params. Sidebar now always shows all
+conversations while the right pane handles message search. Also removed the now-unused
+`isSearchLoading` stateful logic, `useState`/`useEffect`, and `isFetching` destructure.
+
 ### Message nav scrub bar — patch 019
 
 The indicator buttons in `MessageNav.tsx` had a click target of `h-[5px]` (5 px) — pixel-perfect
