@@ -15,11 +15,6 @@ trap 'err $LINENO' ERR
 
 cleanup_processes=()
 
-# mise pruning: non-pinned versions to keep per tool after update
-# tools not listed here fall back to mise_keep_default
-mise_keep_default=2
-declare -A mise_keep=([go]=1 [node]=2)
-
 check_dependencies() {
   if [ -z "$BASH_ENV" ]; then
     echo "This script uses functions defined externally."
@@ -245,9 +240,9 @@ mise_root_update() {
 }
 
 # prunes unpinned mise tool versions beyond the keep count
-# usage: mise_prune_versions [dry_run]
 mise_prune_versions() {
-  local dry_run="${1:-}" tool version source keep v i
+  declare -A keep=([node]=2)
+  local tool version source keep v i
   declare -A unpinned
 
   while IFS= read -r line; do
@@ -261,18 +256,16 @@ mise_prune_versions() {
     unpinned["$tool"]+="$version "
   done < <(mise ls)
 
+  local keep_default=1
+
   for tool in "${!unpinned[@]}"; do
-    keep="${mise_keep[$tool]:-$mise_keep_default}"
+    keep="${keep[$tool]:-$keep_default}"
     readarray -t sorted < <(tr ' ' '\n' <<<"${unpinned[$tool]}" | grep -v '^$' | sort -Vr)
 
     for ((i = keep; i < ${#sorted[@]}; i++)); do
       v="${sorted[$i]}"
-      if [[ -n "$dry_run" ]]; then
-        log $LINENO "[dry-run] would remove $tool@$v"
-      else
-        log $LINENO "pruning $tool@$v"
-        mise uninstall "${tool}@${v}"
-      fi
+      log $LINENO "pruning $tool@$v"
+      mise uninstall "${tool}@${v}"
     done
   done
 }
@@ -284,11 +277,6 @@ cleanup_packages() {
 
 ### script ###
 
-dry_run=""
-for arg in "$@"; do
-  [[ "$arg" == "--dry-run" ]] && dry_run=1
-done
-
 check_dependencies
 
 do_snapshot
@@ -299,7 +287,7 @@ pg_update=$(postgres_up)
 
 mise_update_globals
 mise_root_update
-mise_prune_versions "${dry_run}"
+mise_prune_versions
 system_up
 services start postgresql
 refresh_collations
