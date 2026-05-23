@@ -237,6 +237,9 @@ alias test-="lg test -"
 alias misc-="lg misc -"
 alias chore-="lg chore -"
 
+# max lazy
+alias m-="lg misc - misc"
+
 # jujutsu
 alias j="jj"
 alias jgp="jj git push --option quiet"
