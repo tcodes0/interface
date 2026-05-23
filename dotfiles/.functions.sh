@@ -612,13 +612,13 @@ jgl() {
     return $?
   fi
 
-  if [ -z "$JJ_WORKING_BOOKMARK" ]; then
+  if [ -z "${1:-$JJ_WORKING_BOOKMARK}" ]; then
     debug $LINENO "JJ_WORKING_BOOKMARK is not set"
     return 1
   fi
 
   jj git fetch
-  jj new "$JJ_WORKING_BOOKMARK"
+  jj new "${1:-$JJ_WORKING_BOOKMARK}"
 }
 
 #----------------
