@@ -239,6 +239,49 @@ mise_root_update() {
   sudo mise install
 }
 
+# prunes unpinned mise tool versions beyond the keep count
+mise_prune_versions() {
+  # versions to keep per tool; tools not listed use keep_default
+  declare -A keep=([shellcheck]=1 [shfmt]=1)
+  # specific versions to always retain, space-separated; e.g. ([node]="22.14.0")
+  declare -A keep_versions=([node]="22.22.2")
+  local keep_default=0 tool version v i k pinned unpinned_list
+  declare -A unpinned
+
+  unpinned_list=$(mise ls --json | python3 -c '
+import json, sys
+data = json.load(sys.stdin)
+for tool, versions in data.items():
+    for v in versions:
+        if "source" not in v:
+            print(tool, v["version"])
+')
+
+  while IFS= read -r line; do
+    [[ -z "$line" ]] && continue
+    read -r tool version <<<"$line"
+    unpinned["$tool"]+="$version "
+  done <<<"$unpinned_list"
+
+  for tool in "${!unpinned[@]}"; do
+    k="${keep[$tool]:-$keep_default}"
+    pinned="${keep_versions[$tool]:-}"
+    readarray -t sorted < <(tr ' ' '\n' <<<"${unpinned[$tool]}" | grep -v '^$' | sort -Vr)
+
+    for ((i = k; i < ${#sorted[@]}; i++)); do
+      v="${sorted[$i]}"
+      if [[ -n "$pinned" ]]; then
+        # shellcheck disable=SC2086
+        for pv in $pinned; do
+          [[ "$pv" == "$v" ]] && continue 2
+        done
+      fi
+      log $LINENO "pruning $tool@$v"
+      mise uninstall "${tool}@${v}"
+    done
+  done
+}
+
 cleanup_packages() {
   # 19GB of build dependencies of llama.cpp
   yay --remove --recursive --recursive rocm-hip-sdk --noconfirm
@@ -256,6 +299,7 @@ pg_update=$(postgres_up)
 
 mise_update_globals
 mise_root_update
+mise_prune_versions
 system_up
 services start postgresql
 refresh_collations
