@@ -241,29 +241,41 @@ mise_root_update() {
 
 # prunes unpinned mise tool versions beyond the keep count
 mise_prune_versions() {
-  declare -A keep=([node]=2)
-  local tool version source keep v i
+  # versions to keep per tool; tools not listed use keep_default
+  declare -A keep=([node]=1)
+  # specific versions to always retain, space-separated; e.g. ([node]="22.14.0")
+  declare -A keep_versions=()
+  local keep_default=1 tool version v i k pinned unpinned_list
   declare -A unpinned
+
+  unpinned_list=$(mise ls --json | python3 -c '
+import json, sys
+data = json.load(sys.stdin)
+for tool, versions in data.items():
+    for v in versions:
+        if "source" not in v:
+            print(tool, v["version"])
+')
 
   while IFS= read -r line; do
     [[ -z "$line" ]] && continue
-    read -ra cols <<<"$line"
-    tool="${cols[0]}"
-    version="${cols[1]}"
-    source="${cols[2]:-}"
-    # source column is a config file path — version is pinned, skip it
-    [[ "$source" == /* ]] && continue
+    read -r tool version <<<"$line"
     unpinned["$tool"]+="$version "
-  done < <(mise ls)
-
-  local keep_default=1
+  done <<<"$unpinned_list"
 
   for tool in "${!unpinned[@]}"; do
-    keep="${keep[$tool]:-$keep_default}"
+    k="${keep[$tool]:-$keep_default}"
+    pinned="${keep_versions[$tool]:-}"
     readarray -t sorted < <(tr ' ' '\n' <<<"${unpinned[$tool]}" | grep -v '^$' | sort -Vr)
 
-    for ((i = keep; i < ${#sorted[@]}; i++)); do
+    for ((i = k; i < ${#sorted[@]}; i++)); do
       v="${sorted[$i]}"
+      if [[ -n "$pinned" ]]; then
+        # shellcheck disable=SC2086
+        for pv in $pinned; do
+          [[ "$pv" == "$v" ]] && continue 2
+        done
+      fi
       log $LINENO "pruning $tool@$v"
       mise uninstall "${tool}@${v}"
     done
