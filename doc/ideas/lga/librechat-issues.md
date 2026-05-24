@@ -32,7 +32,6 @@ Fix: add `content` to the `.select()` in `syncWithMeili`; in `processSyncBatch`
 apply `parseTextParts(doc.content)` when `text` is empty. `parseTextParts`
 includes TEXT + THINK parts and skips TOOL_CALL by design.
 
-
 ### summarization
 
 The chat appears to be stuck. There is indication of work. The stop button in the input. There is a spinner. But there is no summarization copy visible anywhere.

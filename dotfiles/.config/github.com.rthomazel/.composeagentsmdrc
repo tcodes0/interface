@@ -20,6 +20,7 @@ go-common:       role commits agent_setup_go style_gofumpt package_docs arch arc
 
 # Other
 compose-files:   role commits style_shell
+lga:             role commits
 
 # Unmanaged projects (AGENTS.md too unique for common fragments):
 # interface         -- shell-specific role and style

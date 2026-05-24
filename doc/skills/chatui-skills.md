@@ -1,11 +1,11 @@
 ---
-name: ai-chat-skills
+name: chatui-skills
 description: Use when creating, inspecting, repairing, or inserting LibreChat agent skills directly into the database — including schema layout, ACL requirements, and the always-apply body sync rule.
 ---
 
 # LibreChat Skills — Database Management
 
-For connection details and known IDs, see the `ai-chat` skill.
+For connection details and known IDs, see the `chatui` skill.
 
 > Skill inserts embed body content — use pymongo heredoc. For reads, ACL entries, and repairs use mongosh directly.
 

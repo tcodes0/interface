@@ -162,6 +162,7 @@ sysu() {
 }
 
 #- - - - - - - - - - -
+
 compress() {
   local method="$1" src="$2" out="$3"
 
@@ -220,4 +221,41 @@ compress() {
   fi
 
   msg "done: $out"
+}
+
+#- - - - - - - - - - -
+
+kexec_prompt() {
+  local response base_name=vmlinuz-linux suffix="${1:-}"
+  local kernel_file="/boot/$base_name$suffix" initrd_file="/boot/initramfs-linux$suffix.img"
+  local checksum_file="${kernel_file}.sha256"
+
+  if ! sudo stat "$kernel_file" >/dev/null 2>&1; then
+    warn $LINENO "kernel file not found: $kernel_file"
+    return
+  fi
+
+  if ! sudo stat "$initrd_file" >/dev/null 2>&1; then
+    warn $LINENO "initramfs file not found: $initrd_file"
+    return
+  fi
+
+  if sudo test -f "$checksum_file"; then
+    local current_sum saved_sum
+    current_sum=$(sudo sha256sum "$kernel_file" | awk '{print $1}')
+    saved_sum=$(sudo cat "$checksum_file")
+    if [ "$current_sum" = "$saved_sum" ]; then
+      msgln "kernel $kernel_file unchanged since last kexec, skipping"
+      return
+    fi
+  fi
+
+  msgln "load new kernel vmlinuz-linux-$suffix and switch to it? Beware: btrfs checks may be running. This will be equivalent to a fast reboot. [y/N] (10s timeout)"
+  msgln "kernel: $kernel_file"
+  read -t 10 -r response || true
+  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
+    sudo kexec -l "$kernel_file" --initrd="$initrd_file" --reuse-cmdline
+    sudo sha256sum "$kernel_file" | awk '{print $1}' | sudo tee "$checksum_file" >/dev/null
+    sudo kexec -e
+  fi
 }

@@ -68,6 +68,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
+If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
+
 ## Reactive Triggers
 
 | WHEN                                      | DO                                                                                                  |

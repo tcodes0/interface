@@ -16,6 +16,7 @@ feature-flag:     golang oxfmt gh
 
 # mixed / infra
 compose-files:        golang oxfmt gh
+lga:                  oxfmt gh
 programming-problems: golang oxfmt gh
 
 # shell / dotfiles

@@ -10,10 +10,14 @@
 set -euo pipefail
 shopt -s globstar
 trap 'err $LINENO' ERR
+trap 'cleanup_child_processes' EXIT INT TERM
 
 ### vars and functions ###
 
 cleanup_processes=()
+btrfs_check_pids=()
+btrfs_check_log_files=()
+btrfs_check_devs=()
 
 check_dependencies() {
   if [ -z "$BASH_ENV" ]; then
@@ -65,23 +69,26 @@ migrate_postgres() {
   log $LINENO "manually migrating pg db across major versions..."
   log $LINENO "sudo required"
   sudo true
+  local old_version
 
   old_version="$(sudo -u postgres cat /var/lib/postgres/data/PG_VERSION)"
-  log "old version: $old_version"
+  log $LINENO "old version: $old_version"
 
   # mv and mkdir will fail here if directories exist
   sudo mv /var/lib/postgres/data /var/lib/postgres/olddata
   sudo mkdir /var/lib/postgres/data /var/lib/postgres/tmp
-
-  # todo: this may be broken because my user cant access /var/lib/postgres, it may be possible to pass --dir args to commands
-  # note: needs testing
-  sudo -u postgres bash <<'EOF'
-  cd /var/lib/postgres/tmp || exit 1
-  sudo -u postgres initdb --encoding=UTF8 -D /var/lib/postgres/data
-  sudo -u postgres pg_upgrade -b "/opt/pgsql-${old_version}/bin" -B /usr/bin -d /var/lib/postgres/olddata -D /var/lib/postgres/data
-EOF
-
   sudo chown postgres:postgres /var/lib/postgres/data /var/lib/postgres/tmp
+
+  sudo -u postgres bash <<EOF
+set -e
+cd /var/lib/postgres/tmp
+initdb --encoding=UTF8 -D /var/lib/postgres/data
+pg_upgrade \
+  -b "/opt/pgsql-${old_version}/bin" \
+  -B /usr/bin \
+  -d /var/lib/postgres/olddata \
+  -D /var/lib/postgres/data
+EOF
 }
 
 refresh_collations() {
@@ -160,42 +167,34 @@ btrfs_check() {
   sudo true
 
   for disk in "$@"; do
-    # TODO: unsure this command works
-    if ! sudo bash -c "btrfs check --check-data-csum /dev/disk/by-label/$disk >/dev/null &"; then
-      fatal $LINENO "btrfs check failed. See 'btrfs check --progress /dev/disk/bt-label/$disk'"
+    local dev="/dev/disk/by-label/$disk"
+    local log_file="/tmp/btrfs-check-${disk}.log"
+
+    if sudo findmnt --source "$dev" >/dev/null 2>&1; then
+      fatal $LINENO "device $dev is still mounted, unmount before running btrfs check"
     fi
+
+    msgln "starting btrfs check on $dev, logging to $log_file"
+    sudo btrfs check --check-data-csum "$dev" 2>&1 | sudo tee "$log_file" &
+    btrfs_check_pids+=($!)
+    btrfs_check_log_files+=("$log_file")
+    btrfs_check_devs+=("$dev")
   done
 }
 
-success_message() {
-  msgln "success; consider booting to flashdrive and running 'btrfs check --check-data-csum /dev/disk/by-label/Archlinux'
-    if btrfs checks were started, you can monitor them with pgrep -f 'btrfs check'.
-    You should probably logout and restart SDDM.
-    "
-}
+btrfs_check_wait() {
+  msgln "waiting for all btrfs checks to complete..."
+  for i in "${!btrfs_check_pids[@]}"; do
+    if ! wait "${btrfs_check_pids[$i]}"; then
+      fatal $LINENO "btrfs check failed on ${btrfs_check_devs[$i]} — see ${btrfs_check_log_files[$i]} or run: btrfs check --progress ${btrfs_check_devs[$i]}"
+    fi
+  done
 
-# todo: currently doesn't tell if the kernel was updated or not and always prompts
-kexec_prompt() {
-  local response base_name=vmlinuz-linux suffix="${1:-}"
-  local kernel_file="/boot/$base_name$suffix" initrd_file="/boot/initramfs-linux$suffix.img"
+  msgln "all btrfs checks passed"
 
-  if ! sudo stat "$kernel_file" >/dev/null 2>&1; then
-    warn $LINENO "kernel file not found: $kernel_file"
-    return
-  fi
-
-  if ! sudo stat "$initrd_file" >/dev/null 2>&1; then
-    warn $LINENO "initramfs file not found: $initrd_file"
-    return
-  fi
-
-  msgln "load new kernel vmlinuz-linux-$suffix and switch to it? Beware: btrfs checks may be running. This will be equivalent to a fast reboot. [y/N] (10s timeout)"
-  msgln "kernel: $kernel_file"
-  read -t 10 -r response || true
-  if [ "$response" == "y" ] || [ "$response" == "Y" ]; then
-    sudo kexec -l "$kernel_file" --initrd="$initrd_file" --reuse-cmdline
-    sudo kexec -e
-  fi
+  unset btrfs_check_pids
+  unset btrfs_check_log_files
+  unset btrfs_check_devs
 }
 
 cleanup_child_processes() {
@@ -206,6 +205,7 @@ cleanup_child_processes() {
       fi
     fi
   done
+  unset cleanup_processes
 }
 
 # parses [tools] section of mise config and outputs "use --global" commands for each tool
@@ -289,24 +289,30 @@ cleanup_packages() {
 
 ### script ###
 
-check_dependencies
+main() {
+  check_dependencies
 
-do_snapshot
-services stop postgresql
+  do_snapshot
+  services stop postgresql
 
-btrfs_check Data2TB Data4TB
-pg_update=$(postgres_up)
+  btrfs_check Data2TB Data4TB
 
-mise_update_globals
-mise_root_update
-mise_prune_versions
-system_up
-services start postgresql
-refresh_collations
+  local pg_update
+  pg_update=$(postgres_up)
 
-cleanup "$pg_update"
-cleanup_packages
-kexec_prompt ""
-success_message
+  mise_update_globals
+  mise_root_update
+  mise_prune_versions
+  system_up
+  services start postgresql
+  refresh_collations
 
-cleanup_child_processes
+  cleanup "$pg_update"
+  cleanup_packages
+  btrfs_check_wait
+
+  success_message
+  cleanup_child_processes
+}
+
+main

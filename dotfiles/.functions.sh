@@ -612,13 +612,36 @@ jgl() {
     return $?
   fi
 
-  if [ -z "$JJ_WORKING_BOOKMARK" ]; then
+  if [ -z "${1:-$JJ_WORKING_BOOKMARK}" ]; then
     debug $LINENO "JJ_WORKING_BOOKMARK is not set"
     return 1
   fi
 
   jj git fetch
-  jj new "$JJ_WORKING_BOOKMARK"
+  jj new "${1:-$JJ_WORKING_BOOKMARK}"
+}
+
+#----------------
+
+# git merge origin/main, handles jj
+gmom() {
+  if ! command jj root &>/dev/null; then
+    git fetch --all --prune && git merge -q origin/main
+    return $?
+  fi
+
+  git fetch --all --prune && git merge -q origin/main
+
+  local b
+  b=$(jj_bookmark0)
+
+  if [ -n "$b" ]; then
+    jb- "$b"
+
+    if in_push_repos; then
+      jj git push --option quiet
+    fi
+  fi
 }
 
 #----------------

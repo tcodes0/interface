@@ -42,7 +42,6 @@ assemble() {
   echo
   for part in $parts; do
     cat "$PARTS_DIR/${part}.md"
-    echo
   done
 }
 

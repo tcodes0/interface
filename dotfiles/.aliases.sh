@@ -124,7 +124,6 @@ alias glp='_git_log_prettily'
 alias glum='git pull upstream main'
 alias gm='git merge -q'
 alias gma='git merge --abort'
-alias gmom='git fetch --all --prune && git merge -q origin/main'
 alias gmod='git fetch --all --prune && git merge -q origin/develop'
 alias gmt='git mergetool --no-prompt'
 alias gmtvim='git mergetool --no-prompt --tool=vimdiff'
@@ -238,14 +237,18 @@ alias test-="lg test -"
 alias misc-="lg misc -"
 alias chore-="lg chore -"
 
+# max lazy
+alias m-="lg misc - misc"
+
 # jujutsu
 alias j="jj"
-alias jgp="jj git push"
+alias jgp="jj git push --option quiet"
 alias jgf="jj git fetch"
 alias jsq="jj squash"
 alias jre="jj resolve"
 alias jbf="jj bookmark forget"
 alias jd="jj diff"
+alias jmom="gmom"
 
 # general
 alias la='ls -A'

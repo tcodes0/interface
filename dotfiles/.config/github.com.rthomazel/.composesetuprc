@@ -16,3 +16,4 @@ scheduling:      toolchain commit_signing env_file eleanor_go_download
 server:          toolchain commit_signing env_file eleanor_go_download run_permissions
 shared:          toolchain commit_signing js_install
 interface:       toolchain commit_signing run_permissions
+lga:             toolchain commit_signing env_file run_permissions
