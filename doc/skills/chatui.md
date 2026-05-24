@@ -45,7 +45,7 @@ No authentication. Key collections:
 
 Source files live at `/projects/interface/doc/agents/*.md`. Skill definitions live at `/projects/interface/doc/skills/*.md`.
 
-Sync a prompt file to its agent database record after editing:
+Sync a prompt file to its agent database record after editing. Note: the Python variable here is named `content` for readability — agents use the `instructions` field. **For skills the field is `body`** — see `chatui-skills` for the correct skill sync pattern.
 
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'

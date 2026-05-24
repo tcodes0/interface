@@ -112,6 +112,34 @@ always-apply: true
 # Skill body here
 ```
 
+## Syncing a Skill Body
+
+> **`body`, not `content`.** The field is `body`. The agent sync example in `chatui` uses a Python variable named `content` — do not carry that over. Writing to `content` silently creates a stale orphan field and the skill will not update in the UI.
+
+```bash
+PYTHONPATH=/root/pylib python3 << 'PYEOF'
+from pymongo import MongoClient
+from datetime import datetime, timezone
+db = MongoClient('mongodb', 27017)['LibreChat']
+body = open('/projects/interface/doc/skills/<name>.md').read()
+result = db.skills.update_one(
+    {'name': '<skill-name>'},
+    {'$set': {'body': body, 'updatedAt': datetime.now(timezone.utc)}, '$inc': {'version': 1}}
+)
+print(f'matched: {result.matched_count}, modified: {result.modified_count}')
+PYEOF
+```
+
+If a stale `content` field was previously written, remove it:
+
+```bash
+PYTHONPATH=/root/pylib python3 << 'PYEOF'
+from pymongo import MongoClient
+db = MongoClient('mongodb', 27017)['LibreChat']
+db.skills.update_one({'name': '<skill-name>'}, {'$unset': {'content': ''}})
+PYEOF
+```
+
 ## Inspecting a Skill
 
 ```javascript
