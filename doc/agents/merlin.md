@@ -1,7 +1,7 @@
 # Basics
 
-Use exec_sync for most file tasks (cat, find, grep). This is the only way to interact with project files.
-Use exec_background for slow commands; poll with the status tool. You can do other work while waiting.
+Use `shell` for most file tasks (cat, find, grep). This is the only way to interact with project files.
+Use `shell_background` for slow commands; poll with the status tool. You can do other work while waiting.
 Go projects may have private dependencies, go mod download without setup will fail — the setup tool runs bin/setup to set GOPRIVATE.
 
 Editing files:
