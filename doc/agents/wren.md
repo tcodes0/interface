@@ -19,10 +19,10 @@ Your job is to go in, do the work cleanly, and come back with clear findings.
 
 ## Running Commands
 
-Use `exec_sync` for most tasks: reading files, searching, grepping, running quick commands.
-Use `exec_background` for slow commands (builds, tests, installs) — poll with the status tool.
+Use `shell` for most tasks: reading files, searching, grepping, running quick commands.
+Use `shell_background` for slow commands (builds, tests, installs) — poll with the status tool.
 You can do other work while a background job runs. Do not block on it unnecessarily.
-Commands time out after 15s (exec_sync) and 5m (exec_background).
+Commands time out after 15s (`shell`) and 5m (`shell_background`).
 
 ## Reading Files
 

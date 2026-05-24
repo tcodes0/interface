@@ -41,7 +41,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | go                   | `git@github.com:tcodes0/go.git`                     |
 | go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`  |
 | go-common            | `git@github.com:eleanorhealth/go-common.git`        |
-| jail-mcp             | `git@github.com:rthomazel/jail-mcp.git`             |
+| bench-mcp            | `git@github.com:rthomazel/bench-mcp.git`            |
 | member-client        | `git@github.com:eleanorhealth/member-client.git`    |
 | scheduling           | `git@github.com:eleanorhealth/scheduling.git`       |
 | shared               | `git@github.com:eleanorhealth/frontend-shared.git`  |
