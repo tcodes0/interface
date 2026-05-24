@@ -24,6 +24,6 @@ lga:             role commits
 
 # Unmanaged projects (AGENTS.md too unique for common fragments):
 # interface         -- shell-specific role and style
-# jail-mcp         -- different document structure
+# bench-mcp         -- different document structure
 # programming-problems -- entirely different purpose
 # scratchpad       -- freeform, project-specific

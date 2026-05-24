@@ -11,7 +11,7 @@ member-server
 shared
 go-athenahealth
 scheduling
-jail-mcp
+bench-mcp
 comms
 programming-problems
 online-start
