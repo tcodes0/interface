@@ -69,7 +69,7 @@ Oxfmt is used
 Some projects have `AGENTS.md` files too unique to assemble from common fragments:
 
 - `interface` — shell-specific role and style
-- `jail-mcp` — different document structure
+- `bench-mcp` — different document structure
 - `scratchpad` — project-specific freeform
 - `programming-problems` — entirely different purpose
 
