@@ -8,7 +8,7 @@ always-apply: true
 
 ## Clone Workflow
 
-Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit or push from those paths.**
+Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit, edit or push from those paths.**
 
 For any change, clone to scratchpad:
 
