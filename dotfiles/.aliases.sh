@@ -242,7 +242,7 @@ alias m-="lg misc - misc"
 
 # jujutsu
 alias j="jj"
-alias jgp="jj git push --option quiet"
+alias jgp="jj git push --quiet"
 alias jgf="jj git fetch"
 alias jsq="jj squash"
 alias jre="jj resolve"

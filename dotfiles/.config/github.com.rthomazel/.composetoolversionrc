@@ -11,7 +11,7 @@ member-server:    golang oxfmt gh
 go-common:        golang oxfmt gh
 go-athenahealth:  golang oxfmt gh
 go:               golang oxfmt gh
-jail-mcp:         golang oxfmt gh
+bench-mcp:        golang oxfmt gh
 feature-flag:     golang oxfmt gh
 
 # mixed / infra

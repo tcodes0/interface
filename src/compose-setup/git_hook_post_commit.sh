@@ -1,0 +1,22 @@
+# shellcheck shell=bash
+# Installs a post-commit git hook that prints agent reminders after each commit.
+git_hook_post_commit() {
+  local script_dir hooks_dir
+  script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+  hooks_dir="$script_dir/../.git/hooks"
+
+  if [[ ! -d "$hooks_dir" ]]; then
+    echo "bin/setup: .git/hooks not found, skipping hook install" >&2
+    return 0
+  fi
+
+  cat >"$hooks_dir/post-commit" <<'HOOK'
+#!/usr/bin/env bash
+# post-commit — agent reminders
+
+printf 'reminder: Refer to project instructions on what needs to happen on commit.\n'
+HOOK
+
+  chmod +x "$hooks_dir/post-commit"
+  echo "bin/setup: post-commit hook installed"
+}
