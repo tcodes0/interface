@@ -103,7 +103,7 @@ Every patch must print `CLEAN`. A `FAILED` means the patch itself or its hunk he
 
 ### 2 — TSC check on touched files
 
-Filter by the filename(s) you changed — ~152 pre-existing upstream errors exist in unrelated files; ignore those.
+Filter by the filename(s) you changed — ~176 pre-existing upstream errors exist in unrelated files; ignore those.
 
 ```bash
 cd /projects/scratchpad/librechat-tsc
@@ -113,6 +113,8 @@ npx tsc --noEmit -p client/tsconfig.json 2>&1 | grep 'error TS' | grep -E 'File1
 No output = clean. Any output means the patch introduces a type error.
 
 ## Writing a New Patch
+
+Reset to clean upstream first, discard changes in the worktree from previous sessions.
 
 ### 1. Reset and save the original
 
