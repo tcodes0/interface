@@ -19,17 +19,18 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 20
+largest number: 21
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
-- [ ] **[05] [HGH] [2]** [auth-injection-mcp.md](./auth-injection-mcp.md)
+- [ ] **[21] [MED] [3]** keys v2: GCP — add `google_service_account` secret type (service account JSON → JWT → token exchange → cached bearer with refresh); unlocks BigQuery, GCS, Drive, Sheets, Pub/Sub, Vertex AI, Cloud Logging in a single implementation
+- [ ] **[05] [HGH] [3]** [auth-injection-mcp.md](./auth-injection-mcp.md) renamed to `keys`; config-driven named tools, one per API; static bearer/header injection; v1 targets GitHub + Datadog
 - [ ] **[08] [HGH] [13]** [stt-server.md](./stt-server.md)
-- [ ] **[06] [MED] [1]** [datadog-logs-mcp.md](./datadog-logs-mcp.md) can be implemented by [05]
+- [ ] **[06] [MED] [1]** [datadog-logs-mcp.md](./datadog-logs-mcp.md) implemented by keys [05]; no separate server needed
 - [ ] **[01] [MED] [2]** review obra/superpowers skills, already cloned
-- [ ] **[09] [MED] [2]** [bigquery-mcp.md](./bigquery-mcp.md) can be implemented by [05]
+- [ ] **[09] [MED] [2]** [bigquery-mcp.md](./bigquery-mcp.md) implemented by keys v2 [21]; requires `google_service_account` secret type
 - [ ] **[02] [LOW] [2]** diff-to-html: a skill/tool/script that receives a unified diff as input and renders it as formatted HTML (syntax-highlighted, red/green lines), so it can be dropped directly into an artifact
 - [ ] **[03] [LOW] [3]** refactor interface bash scripts take a look at bash env and lib.sh and make the whole thing less magical. see [open-questions.md](./open-questions.md)
 - [ ] **[04] [LOW] [2]** [code-review-agent.md](./code-review-agent.md)
@@ -39,7 +40,7 @@ largest number: 20
 #### april 2026
 
 - [ ] **[11] [MED] [1]** copy the good bits (like the white space linter) from go repo
-- [ ] **[12] [LOW] [2]** review and write in go https://github.com/twn39/pgsql-mcp-server/blob/main/src/pgsql_mcp_server/app.py improve flags config and permissions
+- [ ] **[12] [LOW] [2]** review and write in go https://github.com/twn39/pgsql-mcp-server/blob/main/src/pgsql_mcp_server/app.py improve flags config and permissions — separate MCP server; Postgres is a wire protocol, not HTTP; credential model (DSN, SSL) and tool surface (`query`, `explain`, `list_tables`) are both different from keys; only shared concern is keeping credentials off the model
 - [ ] **[13] [LOW] [2]** git pull cronjob
 - [ ] **[14] [LOW] [2]** update tests to use Expecter struct
 - [ ] **[15] [LOW] [2]** refine jj shell prompt. if the first detected branch = main, omit the second. any ideas worth adding to the prompt
