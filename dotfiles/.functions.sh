@@ -598,27 +598,67 @@ lg() {
 
 #----------------
 
+__jj_bookmarks() {
+  jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color=never
+}
+
+#----------------
+
+# get the first bookmark in the current branch's history that is not main or master, or the second if the first is main or master. If neither exists, returns empty string.
 jj_bookmark0() {
-  read -ra bookmark _ < <(jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color=never)
-  printf "%s" "${bookmark[0]/\*/}"
+  local candidate bookmarks=()
+  read -ra bookmarks < <(__jj_bookmarks)
+  local first="${bookmarks[0]/\*/}"
+
+  if [[ ! "$first" =~ ^(main|master)$ ]]; then
+    candidate="$first"
+  elif [ -n "${bookmarks[1]/\*/}" ]; then
+    candidate="${bookmarks[1]/\*/}"
+  fi
+
+  if [ -n "$candidate" ]; then
+    printf "%s" "$candidate"
+  else
+    debug $LINENO "jj_bookmark0 empty, bookmarks: ${bookmarks[*]}"
+  fi
+}
+
+#----------------
+
+# returns a bookmark to work with, with side effect of setting JJ_WORKING_BOOKMARK if it was not already set.
+__jj_working_bookmark_side_effect() {
+  local bookmark="${1:-$JJ_WORKING_BOOKMARK}"
+
+  if [ -z "$bookmark" ]; then
+    bookmark=$(jj_bookmark0)
+  fi
+
+  if [ -z "$bookmark" ]; then
+    warn $LINENO "empty bookmark ref, JJ_WORKING_BOOKMARK: '$JJ_WORKING_BOOKMARK', bookmarks: $(__jj_bookmarks)"
+    return 1
+  fi
+
+  if [ -z "$JJ_WORKING_BOOKMARK" ]; then
+    JJ_WORKING_BOOKMARK="$bookmark"
+  fi
+
+  printf "%s" "$bookmark"
 }
 
 #----------------
 
 # jj "git pull" variable is set by jj new wrappers.
-jgl() {
+jl() {
   if ! command jj root &>/dev/null; then
     git pull
-    return $?
+    return
   fi
 
-  if [ -z "${1:-$JJ_WORKING_BOOKMARK}" ]; then
-    debug $LINENO "JJ_WORKING_BOOKMARK is not set"
-    return 1
-  fi
+  local bookmark
+  bookmark=$(__jj_working_bookmark_side_effect) || return
 
   jj git fetch
-  jj new "${1:-$JJ_WORKING_BOOKMARK}"
+  jj new "${bookmark}@origin"
 }
 
 #----------------

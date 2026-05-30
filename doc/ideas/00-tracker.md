@@ -25,16 +25,16 @@ largest number: 20
 
 ## current
 
-- [ ] **[05] [HGH] [2]** [auth-injection-mcp.md](../auth-injection-mcp.md)
-- [ ] **[08] [HGH] [13]** [stt-server.md](../stt-server.md)
-- [ ] **[06] [MED] [1]** [datadog-logs-mcp.md](../datadog-logs-mcp.md) can be implemented by [05]
+- [ ] **[05] [HGH] [2]** [auth-injection-mcp.md](./auth-injection-mcp.md)
+- [ ] **[08] [HGH] [13]** [stt-server.md](./stt-server.md)
+- [ ] **[06] [MED] [1]** [datadog-logs-mcp.md](./datadog-logs-mcp.md) can be implemented by [05]
 - [ ] **[01] [MED] [2]** review obra/superpowers skills, already cloned
-- [ ] **[09] [MED] [2]** [bigquery-mcp.md](../bigquery-mcp.md) can be implemented by [05]
+- [ ] **[09] [MED] [2]** [bigquery-mcp.md](./bigquery-mcp.md) can be implemented by [05]
 - [ ] **[02] [LOW] [2]** diff-to-html: a skill/tool/script that receives a unified diff as input and renders it as formatted HTML (syntax-highlighted, red/green lines), so it can be dropped directly into an artifact
-- [ ] **[03] [LOW] [3]** refactor interface bash scripts take a look at bash env and lib.sh and make the whole thing less magical. see [open-questions.md](../open-questions.md)
-- [ ] **[04] [LOW] [2]** [code-review-agent.md](../code-review-agent.md)
-- [ ] **[07] [LOW] []** [google-drive-unify.md](../google-drive-unify.md)
-- [ ] **[10] [LOW] [1]** [tmp-dir-in-context.md](../tmp-dir-in-context.md)
+- [ ] **[03] [LOW] [3]** refactor interface bash scripts take a look at bash env and lib.sh and make the whole thing less magical. see [open-questions.md](./open-questions.md)
+- [ ] **[04] [LOW] [2]** [code-review-agent.md](./code-review-agent.md)
+- [ ] **[07] [LOW] []** [google-drive-unify.md](./google-drive-unify.md)
+- [ ] **[10] [LOW] [1]** [tmp-dir-in-context.md](./tmp-dir-in-context.md)
 
 #### april 2026
 
@@ -55,9 +55,9 @@ largest number: 20
 
 > newer on top
 
-- [x] [git-workflow-clone-docs.md](../git-workflow-clone-docs.md)
-- [x] [mise-version-pruning.md](../mise-version-pruning.md)
-- [x] [unlock.md](../unlock.md)
+- [x] [git-workflow-clone-docs.md](./git-workflow-clone-docs.md)
+- [x] [mise-version-pruning.md](./mise-version-pruning.md)
+- [x] [unlock.md](./unlock.md)
 - [x] **[LOW]** jail mcp: Start collecting data on which tools are called with which arguments and dump it on an SQLite file for analysis later. do clever statistics with it.
 - [x] **[LOW]** secret server needs a backup routine to my google drive or something
 - [x] librepatches simple git patches to fix annoying quirks of the libre UI. Apply diff on top of images to minimize maintenance and avoid a fork.
@@ -91,6 +91,6 @@ largest number: 20
 
 ## wont do
 
-- [-] [librechat-mongo-mcp.md](../librechat-mongo-mcp.md)
+- [-] [librechat-mongo-mcp.md](./librechat-mongo-mcp.md)
 - [-] try busting claude desktop cache to see if mcp server bug is fixed
 - [-] **[LOW]** mise no versions set for <tool> It's some type of mismatch between the local requested version and the global version.
