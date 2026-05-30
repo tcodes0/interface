@@ -118,6 +118,7 @@ words:
   - HPET
   - IGPU
   - IMEI
+  - infrc
   - initdb
   - insuranceid
   - iokit
@@ -125,6 +126,7 @@ words:
   - IPIC
   - iterm
   - jailmcphttp
+  - jjbookmarksrc
   - jrb
   - kaue
   - kazuo

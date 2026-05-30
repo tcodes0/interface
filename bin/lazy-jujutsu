@@ -67,20 +67,11 @@ commit() {
   command commitlint --config "$commit_cfg" <<<"$commit_msg"
   command cspell --no-color --config "$cspell_cfg" stdin 2>/dev/null <<<"$commit_msg"
 
-  local output
+  local bookmark
+  bookmark=$(jj_bookmark0) || return 1
 
-  output=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=never --no-graph)
-  read -ra bookmarks <<<"$output"
-
-  # * might be suffixed to indicate changes not pushed
-  bookmarks[0]=${bookmarks[0]/\*/}
-
-  if [ ! "${bookmarks[0]}" ]; then
-    warn $LINENO "no bookmark found, push might fail"
-  fi
-
-  if [[ "${bookmarks[0]}" != "main" && "${bookmarks[0]}" != "master" ]]; then
-    jj bookmark set "${bookmarks[0]}" --revision=@
+  if [ -n "$bookmark" ]; then
+    jj bookmark set "$bookmark" --revision=@
   fi
 
   command jj commit --quiet --message "$commit_msg"
