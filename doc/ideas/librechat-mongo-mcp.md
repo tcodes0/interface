@@ -1,3 +1,5 @@
+This is not needed because the database has no password by default so it can be accessed freely by agents.
+
 # LibreChat MongoDB MCP Server
 
 Expose the LibreChat MongoDB database to LibreChat agents via an MCP server, so agents can read and update the database themselves as they work.

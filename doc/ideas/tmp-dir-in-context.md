@@ -1,3 +1,5 @@
+This might be as simple as adding the slash temp directory to the context call as a hint. 
+
 # tmp dir — expose /tmp in context output
 
 In the Dockerfile, explicitly create a `/tmp` directory and ensure it survives
