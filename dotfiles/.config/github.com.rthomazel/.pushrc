@@ -11,6 +11,9 @@ shared
 go-athenahealth
 scheduling
 mcp
+mcp/bench
+mcp/postgres
+mcp/keys
 comms
 programming-problems
 online-start
