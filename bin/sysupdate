@@ -304,7 +304,7 @@ main() {
   mise_root_update
   mise_prune_versions
   system_up
-  services start postgresql
+  services start postgresql || err $LINENO "failed to start postgresql"
   refresh_collations
 
   cleanup "$pg_update"
