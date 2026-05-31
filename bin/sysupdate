@@ -242,7 +242,7 @@ mise_root_update() {
 # prunes unpinned mise tool versions beyond the keep count
 mise_prune_versions() {
   # versions to keep per tool; tools not listed use keep_default
-  declare -A keep=([shellcheck]=1 [shfmt]=1)
+  declare -A keep=([shellcheck]=1 [shfmt]=1 [oxfmt]=1 [gh]=1)
   # specific versions to always retain, space-separated; e.g. ([node]="22.14.0")
   declare -A keep_versions=([node]="22.22.2")
   local keep_default=0 tool version v i k pinned unpinned_list

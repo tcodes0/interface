@@ -9,7 +9,9 @@ compose-files:   toolchain commit_signing env_file run_permissions
 go:              toolchain commit_signing go_download run_permissions
 go-athenahealth: toolchain commit_signing go_download
 go-common:       toolchain commit_signing env_file eleanor_go_download
-bench-mcp:       toolchain commit_signing run_permissions git_hook_post_commit
+mcp/bench:       toolchain commit_signing run_permissions git_hook_post_commit
+mcp/keys:        toolchain commit_signing run_permissions git_hook_post_commit
+mcp/postgres:    toolchain commit_signing run_permissions git_hook_post_commit
 member-client:   toolchain commit_signing env_file eleanor_node_download
 member-server:   toolchain commit_signing env_file eleanor_go_download
 scheduling:      toolchain commit_signing env_file eleanor_go_download
