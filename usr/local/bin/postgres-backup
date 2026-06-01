@@ -21,4 +21,6 @@ pg_dumpall --file="$backup_dir/backup-$timestamp.sql"
 # keep newest 10 only
 # shellcheck disable=SC2207
 old_backups=($(find "$backup_dir" -maxdepth 1 -name 'backup-*.sql' | sort -r | tail -n +11))
-((${#old_backups[@]} > 0)) && rm -f "${old_backups[@]}"
+if ((${#old_backups[@]} > 0)); then
+    rm -f "${old_backups[@]}"
+fi
