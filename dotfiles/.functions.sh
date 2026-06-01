@@ -501,6 +501,21 @@ jnm() {
 
 #----------------
 
+jnd() {
+  if ! command jj root &>/dev/null; then
+    _git_gcom
+    return $?
+  fi
+
+  if ! jj git fetch; then
+    return
+  fi
+
+  jj new dev
+}
+
+#----------------
+
 jn() {
   if [ -z "$1" ]; then
     err $LINENO "Usage: jn <bookmark or ref>"
