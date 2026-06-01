@@ -1,5 +1,5 @@
 There are other storage providers that have free tiers available that could be used instead.
-potentially with easier authentication than Google. 
+potentially with easier authentication than Google.
 
 # Unify local docs and pictures into Google Drive
 

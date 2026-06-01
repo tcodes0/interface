@@ -30,4 +30,4 @@ If the idea is fairly complete as a one liner, you can add it straight to the tr
 If you think a markdown file is appropriate, create one in the inbox directory.
 After creating a file for the idea, add it to the tracker using markdown links.
 Some information, such as importance and points, may not be provided by the operator. In that case it's okay to fill them in.
-Ideas can be pushed straight to the Dev branch without a PR. 
+Ideas can be pushed straight to the Dev branch without a PR.

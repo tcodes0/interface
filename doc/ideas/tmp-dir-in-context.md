@@ -1,4 +1,4 @@
-This might be as simple as adding the slash temp directory to the context call as a hint. 
+This might be as simple as adding the slash temp directory to the context call as a hint.
 
 # tmp dir — expose /tmp in context output
 
