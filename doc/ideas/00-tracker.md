@@ -25,6 +25,7 @@ largest number: 21
 
 ## current
 
+- [ ] **[22] [MED] [2]** filer refactor: add a `copy` command alongside the existing link command; use it for `etc/` installs so systemd units and other files land directly in `/etc` — avoids timer/service failures caused by BTRFS `home-vacation` subvolume not being mounted early enough at boot
 - [ ] **[21] [MED] [3]** keys v2: GCP — add `google_service_account` secret type (service account JSON → JWT → token exchange → cached bearer with refresh); unlocks BigQuery, GCS, Drive, Sheets, Pub/Sub, Vertex AI, Cloud Logging in a single implementation
 - [ ] **[08] [HGH] [13]** [stt-server.md](./stt-server.md)
 - [ ] **[01] [MED] [2]** review obra/superpowers skills, already cloned
