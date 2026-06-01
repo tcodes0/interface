@@ -5,6 +5,8 @@
 # at https://opensource.org/license/BSD-3-clause.
 
 set -euo pipefail
+# this script must live outside home directories — it runs as the postgres user,
+# which cannot access paths under /home/vacation. install to /usr/local/bin.
 
 ### vars ###
 
