@@ -1,0 +1,11 @@
+[Unit]
+Description=Weekly Postgres backup timer
+After=time-set.target home-vacation.mount
+Wants=time-set.target home-vacation.mount
+
+[Timer]
+OnCalendar=weekly
+Persistent=true
+
+[Install]
+WantedBy=timers.target
