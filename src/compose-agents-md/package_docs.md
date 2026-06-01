@@ -1,6 +1,6 @@
 ## Package Documentation
 
-Every Go package under `internal/` and `pkg/` has a `doc.go` file with a package-level comment:
+Every Go package contained by a directory should have a `doc.go` file with a package-level comment:
 
 ```go
 // Package foobar <brief description of this package>

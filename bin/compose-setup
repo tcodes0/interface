@@ -79,6 +79,7 @@ check_or_commit() {
   fi
 
   if [[ "$commit" == "true" ]]; then
+    mkdir -p "$(dirname "$target")"
     cp "$tmp" "$target"
     chmod +x "$target"
     echo "$project: updated"

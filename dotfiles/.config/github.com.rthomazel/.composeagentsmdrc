@@ -21,9 +21,11 @@ go-common:       role commits agent_setup_go style_gofumpt package_docs arch arc
 # Other
 compose-files:   role commits style_shell
 lga:             role commits
+mcp/bench:       role commits agent_setup_go style_gofumpt package_docs build_go misc misc_go
+mcp/keys:        role commits agent_setup_go style_gofumpt package_docs build_go misc misc_go
+mcp/postgres:    role commits agent_setup_go style_gofumpt package_docs build_go misc misc_go
 
 # Unmanaged projects (AGENTS.md too unique for common fragments):
 # interface         -- shell-specific role and style
-# bench-mcp         -- different document structure
 # programming-problems -- entirely different purpose
 # scratchpad       -- freeform, project-specific

@@ -83,6 +83,8 @@ Timer units depend on `home-vacation.mount` — symlink targets resolve through 
 | `btrfs-scrub@.service`    | Template unit; `%i` = volume name (Archlinux/Data2TB/Data4TB). Nice=19, IO idle priority. 30min timeout. |
 | `btrfs-scrub@.timer`      | Monthly, randomized by up to 1 week                                                                      |
 | `memreserver.service`     | Runs before sleep (`Before=sleep.target`). Frees RAM so GPU VRAM can be evacuated on suspend.            |
+| `postgres-backup.service` | Runs `/usr/local/bin/postgres-backup` as the `postgres` user. Dumps all databases, keeps newest 10.      |
+| `postgres-backup.timer`   | Triggers weekly, persistent                                                                              |
 
 ## Network
 

@@ -8,7 +8,7 @@ always-apply: true
 
 ## Clone Workflow
 
-Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit or push from those paths.**
+Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit, edit or push from those paths.**
 
 For any change, clone to scratchpad:
 
@@ -31,36 +31,36 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 
 ### Repo Catalog
 
-| Mount                | Clone URL                                           |
-| -------------------- | --------------------------------------------------- |
-| server               | `git@github.com:eleanorhealth/hub-server.git`       |
-| member-server        | `git@github.com:eleanorhealth/member-server.git`    |
-| interface            | `git@github.com:rthomazel/interface.git`            |
-| client               | `git@github.com:eleanorhealth/hub-client.git`       |
-| comms                | `git@github.com:eleanorhealth/comms.git`            |
-| go                   | `git@github.com:tcodes0/go.git`                     |
-| go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`  |
-| go-common            | `git@github.com:eleanorhealth/go-common.git`        |
-| bench-mcp            | `git@github.com:rthomazel/bench-mcp.git`            |
-| member-client        | `git@github.com:eleanorhealth/member-client.git`    |
-| scheduling           | `git@github.com:eleanorhealth/scheduling.git`       |
-| shared               | `git@github.com:eleanorhealth/frontend-shared.git`  |
-| compose-files        | `git@github.com:rthomazel/compose-files.git`        |
-| lga                  | `git@github.com:rthomazel/lga.git`                  |
-| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     |
-| programming-problems | `git@github.com:rthomazel/programming-problems.git` |
-| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   |
+| Mount                | Clone URL                                           | Default branch |
+| -------------------- | --------------------------------------------------- | -------------- |
+| server               | `git@github.com:eleanorhealth/hub-server.git`       | main           |
+| member-server        | `git@github.com:eleanorhealth/member-server.git`    | main           |
+| interface            | `git@github.com:rthomazel/interface.git`            | dev            |
+| client               | `git@github.com:eleanorhealth/hub-client.git`       | main           |
+| comms                | `git@github.com:eleanorhealth/comms.git`            | main           |
+| go                   | `git@github.com:tcodes0/go.git`                     | main           |
+| go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`  | main           |
+| go-common            | `git@github.com:eleanorhealth/go-common.git`        | main           |
+| mcp                  | `git@github.com:rthomazel/mcp.git`                  | main           |
+| member-client        | `git@github.com:eleanorhealth/member-client.git`    | main           |
+| scheduling           | `git@github.com:eleanorhealth/scheduling.git`       | main           |
+| shared               | `git@github.com:eleanorhealth/frontend-shared.git`  | main           |
+| compose-files        | `git@github.com:rthomazel/compose-files.git`        | main           |
+| lga                  | `git@github.com:rthomazel/lga.git`                  | dev            |
+| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
+| programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
+| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
 
 ## Pushing & PRs
 
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. `gh pr create --head <branch> --base main --title "type(scope): message" --body "..."`
+2. `gh pr create --head <branch> --base <default branch> --title "type(scope): message" --body "..."`
 
 > **Never push directly to `main`**. Always go through a PR.
 
-> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, but never on `main`.
+> **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, only.
 
 **After the PR is merged:** delete the clone.
 
@@ -70,14 +70,20 @@ rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
+## Dev branch
+
+Some repositories that are being actively developed or have many small changes adopt a dev branch as default.
+For features or blocks of work use a PR targeting dev.
+For hotfixes and small things, commit to dev directly.
+
 ## Reactive Triggers
 
-| WHEN                                      | DO                                                                                                  |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------- |
-| The first commit is made                  | Push and open PR                                                                                    |
-| A commit is made                          | Push                                                                                                |
-| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/rthomazel/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                      |
+| WHEN                                      | DO                                                                                              |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| The first commit is made                  | Push and open PR                                                                                |
+| A commit is made                          | Push                                                                                            |
+| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                  |
 
 ## Resolving GitHub Review Threads
 
@@ -87,7 +93,7 @@ Get thread IDs via GraphQL:
 
 ```graphql
 {
-  repository(owner: "rthomazel", name: "<repo>") {
+  repository(owner: "<org>", name: "<repo>") {
     pullRequest(number: <n>) {
       reviewThreads(first: 10) {
         nodes { id isResolved }

@@ -1,0 +1,26 @@
+#! /usr/bin/env bash
+# Copyright 2024-present R. Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+
+set -euo pipefail
+# this script must live outside home directories — it runs as the postgres user,
+# which cannot access paths under /home/vacation. install to /usr/local/bin.
+
+### vars ###
+
+backup_dir=/var/lib/postgres/backups
+timestamp=$(date +%Y%m%d_%H%M%S)
+
+### script ###
+
+mkdir -p "$backup_dir"
+pg_dumpall --file="$backup_dir/backup-$timestamp.sql"
+
+# keep newest 10 only
+# shellcheck disable=SC2207
+old_backups=($(find "$backup_dir" -maxdepth 1 -name 'backup-*.sql' | sort -r | tail -n +11))
+if ((${#old_backups[@]} > 0)); then
+    rm -f "${old_backups[@]}"
+fi

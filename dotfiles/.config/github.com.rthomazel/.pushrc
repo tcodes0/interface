@@ -6,12 +6,14 @@ interface
 priv
 hub-client
 server
-server-1
 member-server
 shared
 go-athenahealth
 scheduling
-bench-mcp
+mcp
+mcp/bench
+mcp/postgres
+mcp/keys
 comms
 programming-problems
 online-start

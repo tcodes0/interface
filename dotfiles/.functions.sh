@@ -363,14 +363,13 @@ vcs_prompt() {
 #- - - - - - - - - - -
 
 jj_prompt() {
-  local change_id description change_id_parent description_parent jj_bookmarks=() temp temp2
+  local change_id description change_id_parent description_parent jj_bookmarks=() temp
 
   temp=$(command jj log --color=always --no-graph --limit 1 --template 'change_id.shortest()  ++" desc:"++ description ++" "++ parents.map(|c| c.change_id().shortest() ++" desc:"++ c.description()) ++" "++ description ++ "\n"')
   read -r change_id description change_id_parent description_parent <<<"$temp"
 
   # color=always produces strings unsuitable for anything but display, they contain escape sequences
-  temp2=$(jj log --revisions 'ancestors(@) & bookmarks()' --template 'bookmarks ++ " "' --color=always --no-graph)
-  read -ra jj_bookmarks <<<"$temp2"
+  read -ra jj_bookmarks < <(__jj_bookmarks always)
 
   # remove prefix to erase empty descriptions
   description=${description/desc:/}
@@ -378,12 +377,6 @@ jj_prompt() {
   # set empty if second parent bookmark is main or master
   jj_bookmarks[1]=${jj_bookmarks[1]/main/}
   jj_bookmarks[1]=${jj_bookmarks[1]/master/}
-
-  # local repo_root
-
-  # if repo_root=$(command jj root 2>/dev/null); then
-  #   track_jj_bookmarks "$repo_root" "${jj_bookmarks[0]}"
-  # fi
 
   local light_black="\\[\\e[33;90m\\]" green="\\[\\e[33;32m\\]"
   local format="${jj_bookmarks[0]} ${jj_bookmarks[1]} $green@$END$change_id $description $green@-$END$change_id_parent $light_black$description_parent$END"
@@ -481,12 +474,12 @@ jno() {
     return
   fi
 
-  git fetch --all --prune
+  jj git fetch
 
   local refAt="$1@origin"
 
   jj new "$refAt"
-  JJ_WORKING_BOOKMARK="$refAt"
+  jj_working_bookmark_set "$refAt"
   jj bookmark track "$refAt"
   __jj_bookmark_set "$1" @- --allow-backwards
 }
@@ -499,20 +492,23 @@ jnm() {
     return $?
   fi
 
-  if ! git fetch --all --prune; then
+  if ! jj git fetch; then
     return
   fi
 
   jj new main
-  JJ_WORKING_BOOKMARK="main"
 }
 
 #----------------
 
-unalias jn 2>/dev/null
 jn() {
+  if [ -z "$1" ]; then
+    err $LINENO "Usage: jn <bookmark or ref>"
+    return 1
+  fi
+
   jj new "$1"
-  JJ_WORKING_BOOKMARK="$1"
+  jj_working_bookmark_set "$1"
 }
 
 #----------------
@@ -598,27 +594,107 @@ lg() {
 
 #----------------
 
+__jj_bookmarks() {
+  jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color="${1:-never}"
+}
+
+#----------------
+
+# get the first bookmark in the current branch's history that is not main or master, or the second if the first is main or master. If neither exists, returns empty string.
 jj_bookmark0() {
-  read -ra bookmark _ < <(jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color=never)
-  printf "%s" "${bookmark[0]/\*/}"
+  local candidate bookmarks=()
+  read -ra bookmarks < <(__jj_bookmarks)
+  local first="${bookmarks[0]/\*/}"
+
+  if [[ ! "$first" =~ ^(main|master)$ ]]; then
+    candidate="$first"
+  elif [ -n "${bookmarks[1]/\*/}" ]; then
+    candidate="${bookmarks[1]/\*/}"
+  fi
+
+  if [ -n "$candidate" ]; then
+    printf "%s" "$candidate"
+  else
+    warn $LINENO "jj_bookmark0 empty, bookmarks: ${bookmarks[*]}"
+  fi
+}
+
+#----------------
+
+__jj_basename() {
+  local root
+  root=$(jj root 2>/dev/null) || return 1
+  basename "$root"
+}
+
+#----------------
+
+jj_working_bookmark_get() {
+  local JJ_WORKING_BOOKMARK_CONFIG_FILE="$HOME/.config/github.com.rthomazel/.jjbookmarksrc"
+  local project cached
+  project=$(__jj_basename) || {
+    warn $LINENO "failed to get jj project root"
+    return 1
+  }
+
+  if [ -f "$JJ_WORKING_BOOKMARK_CONFIG_FILE" ]; then
+    cached=$(awk -v key="$project" '$1 == key { print $2; exit }' "$JJ_WORKING_BOOKMARK_CONFIG_FILE")
+  fi
+
+  if [ -n "$cached" ]; then
+    printf "%s" "$cached"
+    return
+  fi
+
+  local bookmark
+  bookmark=$(jj_bookmark0)
+
+  if [ -z "$bookmark" ]; then
+    warn $LINENO "empty bookmark ref, bookmarks: $(__jj_bookmarks)"
+    return 1
+  fi
+
+  printf "%s" "$bookmark"
+}
+
+#----------------
+
+jj_working_bookmark_set() {
+  local JJ_WORKING_BOOKMARK_CONFIG_FILE="$HOME/.config/github.com.rthomazel/.jjbookmarksrc"
+  local bookmark="$1" project
+  project=$(__jj_basename) || {
+    warn $LINENO "failed to get jj project root"
+    return 1
+  }
+
+  mkdir -p "$(dirname "$JJ_WORKING_BOOKMARK_CONFIG_FILE")"
+  touch "$JJ_WORKING_BOOKMARK_CONFIG_FILE"
+
+  if grep -q "^${project}[[:space:]]" "$JJ_WORKING_BOOKMARK_CONFIG_FILE"; then
+    sed -i "s|^${project}[[:space:]].*|${project}\t${bookmark}|" "$JJ_WORKING_BOOKMARK_CONFIG_FILE"
+  else
+    printf "%s\t%s\n" "$project" "$bookmark" >>"$JJ_WORKING_BOOKMARK_CONFIG_FILE"
+  fi
 }
 
 #----------------
 
 # jj "git pull" variable is set by jj new wrappers.
-jgl() {
+jl() {
   if ! command jj root &>/dev/null; then
     git pull
-    return $?
+    return
   fi
 
-  if [ -z "${1:-$JJ_WORKING_BOOKMARK}" ]; then
-    debug $LINENO "JJ_WORKING_BOOKMARK is not set"
-    return 1
+  local bookmark=${1:-}
+
+  if [ -z "$bookmark" ]; then
+    bookmark=$(jj_working_bookmark_get) || return 1
   fi
 
+  jj_working_bookmark_set "$bookmark"
   jj git fetch
-  jj new "${1:-$JJ_WORKING_BOOKMARK}"
+  jj new "${bookmark}@origin"
 }
 
 #----------------

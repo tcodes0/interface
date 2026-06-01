@@ -1,0 +1,10 @@
+[Unit]
+Description=Weekly Postgres full backup
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/postgres-backup
+User=postgres
+Group=postgres
+StandardOutput=journal
+StandardError=journal

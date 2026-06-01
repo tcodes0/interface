@@ -66,6 +66,10 @@
   //
   // - - - - - - - - FORMATTER & LINTER - - - - - - - - -
   //
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.codeActionsOnSave": {
+    "source.format.oxc": "always"
+  },
   "eslint.run": "onType",
   "eslint.options": {
     "resolvePluginsRelativeTo": "."
@@ -101,6 +105,9 @@
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[markdown]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
   "[dockercompose]": {
@@ -110,7 +117,6 @@
     "editor.defaultFormatter": "redhat.vscode-yaml"
   },
   "[go]": {
-    "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.organizeImports": "explicit"
     }
@@ -161,10 +167,8 @@
   "gopls": {
     "semanticTokens": true,
     "buildFlags": ["-buildvcs=false"],
-
     // Staticcheck: enables many extra linters beyond go vet
     "staticcheck": true,
-
     // Analyses: fine-grained control over individual analyzers
     "analyses": {
       "nilness": true, // detect nil dereferences
@@ -259,7 +263,6 @@
       "shadow": true,
       "slicesdelete": true
     },
-
     // "hints": {
     //   "assignVariableTypes": true,
     //   "parameterNames": true,
@@ -269,10 +272,8 @@
     //   "functionTypeParameters": true,
     //   "rangeVariableTypes": false,
     // },
-
     // Completion options
     "usePlaceholders": true, // fill in param placeholders on completion
-
     // Codelens: inline actionable buttons
     "codelenses": {
       "gc_details": true, // toggle compiler optimization details
@@ -281,10 +282,8 @@
       "vendor": true,
       "generate": true
     },
-
     // Format with gofumpt (stricter than gofmt) — requires gofumpt installed
     "gofumpt": true,
-
     // Automatically add missing imports and remove unused ones on save
     // (usually controlled by editor settings, but can be forced here)
     "annotations": {
@@ -312,6 +311,7 @@
   "editor.minimap.enabled": false,
   "editor.formatOnType": false,
   "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file",
   "editor.snippetSuggestions": "top",
   "editor.suggest.localityBonus": true,
   "editor.tabCompletion": "on",
