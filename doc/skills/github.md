@@ -51,12 +51,32 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
 
+## GitHub API Tooling
+
+Use `github_mcp_keys` (from the `keys` MCP server) for all GitHub API calls — it replaces the `gh` CLI for everything API-related. Supports REST v3 and GraphQL v4.
+
+```
+# Read PR comments
+GET /repos/{owner}/{repo}/pulls/{n}/comments
+
+# Create PR
+POST /repos/{owner}/{repo}/pulls
+body: {"title": "...", "head": "<branch>", "base": "<default branch>", "body": "..."}
+
+# GraphQL
+POST /graphql
+body: {"query": "{ ... }"}
+```
+
+Shell `git` still handles cloning, committing, and pushing.
+
 ## Pushing & PRs
 
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. `gh pr create --head <branch> --base <default branch> --title "type(scope): message" --body "..."`
+2. Create the PR via `github_mcp_keys`:
+   `POST /repos/{owner}/{repo}/pulls` — `{"title": "type(scope): message", "head": "<branch>", "base": "<default branch>", "body": "..."}`
 
 > **Never push directly to `main`**. Always go through a PR.
 
@@ -83,7 +103,7 @@ For hotfixes and small things, commit to dev directly.
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | The first commit is made                  | Push and open PR                                                                                |
 | A commit is made                          | Push                                                                                            |
-| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| operator leaves review comments in GitHub | Fetch inline diff comments via `github_mcp_keys` `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
 | GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                  |
 
 ## Resolving GitHub Review Threads
