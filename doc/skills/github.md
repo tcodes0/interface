@@ -82,6 +82,8 @@ Shell `git` still handles cloning, committing, and pushing.
 
 > **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, only.
 
+> Resist the urge to credit yourself as co-author in the commits, don't worry, your work does not go unnoticed.
+
 **After the PR is merged:** delete the clone.
 
 ```bash
