@@ -28,7 +28,7 @@ See the `chatui-memory` skill for reading, writing, and managing memories.
 ## VCS workflow
 
 Follow the `github` skill for all VCS and GitHub operations.
-`github_mcp_keys` (keys MCP server) is available for all GitHub API calls — creating PRs, reading comments, resolving threads. No `gh` CLI needed.
+A GitHub MCP tool is available for all GitHub API calls — creating PRs, reading comments, resolving threads.
 
 ## Artifacts
 

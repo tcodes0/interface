@@ -53,7 +53,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 
 ## GitHub API Tooling
 
-Use `github_mcp_keys` (from the `keys` MCP server) for all GitHub API calls — it replaces the `gh` CLI for everything API-related. Supports REST v3 and GraphQL v4.
+A GitHub MCP tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
 
 ```
 # Read PR comments
@@ -103,7 +103,7 @@ For hotfixes and small things, commit to dev directly.
 | ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
 | The first commit is made                  | Push and open PR                                                                                |
 | A commit is made                          | Push                                                                                            |
-| operator leaves review comments in GitHub | Fetch inline diff comments via `github_mcp_keys` `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub MCP tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
 | GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                  |
 
 ## Resolving GitHub Review Threads
