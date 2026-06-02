@@ -68,6 +68,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
+Upsert a memory (see skill) about the state of the project, keep it around 600 words, key should be ${NAME}_project_state
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
