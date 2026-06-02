@@ -28,6 +28,7 @@ See the `chatui-memory` skill for reading, writing, and managing memories.
 ## VCS workflow
 
 Follow the `github` skill for all VCS and GitHub operations.
+A GitHub MCP tool is available for all GitHub API calls — creating PRs, reading comments, resolving threads.
 
 ## Artifacts
 
