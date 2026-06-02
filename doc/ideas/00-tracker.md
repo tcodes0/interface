@@ -19,12 +19,13 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 23
+largest number: 24
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
+- [ ] **[24] [MED] [5]** [mcp-gcp-integration.md](./mcp-gcp-integration.md) integrate GCP (Cloud Build + BigQuery) into API Key MCP; builds on [21] auth layer, subsumes [09] and enables [17]
 - [ ] **[23] [LOW] [3]** cronjob backup of lga/chatui to Google Drive via rclone (same setup as secret server backup)
 - [ ] **[22] [MED] [2]** filer refactor: add a `copy` command alongside the existing link command; use it for `etc/` installs so systemd units and other files land directly in `/etc` — avoids timer/service failures caused by BTRFS `home-vacation` subvolume not being mounted early enough at boot
 - [ ] **[21] [MED] [3]** keys v2: GCP — add `google_service_account` secret type (service account JSON → JWT → token exchange → cached bearer with refresh); unlocks BigQuery, GCS, Drive, Sheets, Pub/Sub, Vertex AI, Cloud Logging in a single implementation
