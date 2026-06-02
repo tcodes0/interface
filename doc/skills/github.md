@@ -75,7 +75,7 @@ Shell `git` still handles cloning, committing, and pushing.
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. Create the PR via `github_mcp_keys`:
+2. Create the PR via the github mcp:
    `POST /repos/{owner}/{repo}/pulls` — `{"title": "type(scope): message", "head": "<branch>", "base": "<default branch>", "body": "..."}`
 
 > **Never push directly to `main`**. Always go through a PR.
