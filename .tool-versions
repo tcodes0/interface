@@ -2,4 +2,3 @@ golang 1.26.3
 oxfmt latest
 shellcheck 0.11.0
 asdf:luizm/asdf-shfmt 3.13.1
-gh latest

@@ -3,28 +3,28 @@
 # tool names match filenames under src/compose-tool-versions/
 
 # go backends
-server:           golang tbls oxfmt gh
-comms:            golang tbls oxfmt gh
-scheduling:       golang oxfmt gh
-feature-flag:     golang oxfmt gh
-member-server:    golang oxfmt gh
-go-common:        golang oxfmt gh
-go-athenahealth:  golang oxfmt gh
-go:               golang oxfmt gh
-mcp/bench:        golang oxfmt gh
-mcp/keys:         golang oxfmt gh
-mcp/postgres:     golang oxfmt gh
-feature-flag:     golang oxfmt gh
+server:           golang tbls oxfmt
+comms:            golang tbls oxfmt
+scheduling:       golang oxfmt
+feature-flag:     golang oxfmt
+member-server:    golang oxfmt
+go-common:        golang oxfmt
+go-athenahealth:  golang oxfmt
+go:               golang oxfmt
+mcp/bench:        golang oxfmt
+mcp/keys:         golang oxfmt
+mcp/postgres:     golang oxfmt
+feature-flag:     golang oxfmt
 
 # mixed / infra
-compose-files:        golang oxfmt gh
-lga:                  oxfmt gh
-programming-problems: golang oxfmt gh
+compose-files:        golang oxfmt
+lga:                  oxfmt
+programming-problems: golang oxfmt
 
 # shell / dotfiles
-interface:        golang oxfmt shellcheck shfmt gh
+interface:        golang oxfmt shellcheck shfmt
 
 # frontends
-client:           nodejs yarn-1.22 gh
-shared:           nodejs yarn-1.22 gh
-member-client:    nodejs-22 yarn-1.22 gh
+client:           nodejs yarn-1.22
+shared:           nodejs yarn-1.22
+member-client:    nodejs-22 yarn-1.22
