@@ -528,6 +528,19 @@ jn() {
 
 #----------------
 
+# todo: remove
+unalias jd 2>/dev/null
+jd() {
+  if [ -z "$1" ]; then
+    err $LINENO "Usage: jd <ref>"
+    return 1
+  fi
+
+  jj diff -r "$1" -r @
+}
+
+#----------------
+
 __npc() {
   local branch=$1 backwards_flag="$2" today_date=$(date +"%b-%d" | tr '[:upper:]' '[:lower:]') prefix=px
 
@@ -677,6 +690,7 @@ jj_working_bookmark_get() {
 jj_working_bookmark_set() {
   local JJ_WORKING_BOOKMARK_CONFIG_FILE="$HOME/.config/github.com.rthomazel/.jjbookmarksrc"
   local bookmark="$1" project
+  bookmark="${bookmark%@origin}"
   project=$(__jj_basename) || {
     warn $LINENO "failed to get jj project root"
     return 1

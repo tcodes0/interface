@@ -247,7 +247,6 @@ alias jgf="jj git fetch"
 alias jsq="jj squash"
 alias jre="jj resolve"
 alias jbf="jj bookmark forget"
-alias jd="jj diff"
 alias jmom="gmom"
 
 # general
