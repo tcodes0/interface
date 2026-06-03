@@ -33,6 +33,19 @@ help_exit() {
   exit 1
 }
 
+encrypt() {
+  local out name recipient="1357rtr@gmail.com"
+
+  while read -r file; do
+    name=$(basename "$file")
+    out="$file.gpg"
+    log $LINENO "encrypting $name"
+
+    gpg --encrypt --recipient "$recipient" --output "$out" "$file" || fatal $LINENO "failed to encrypt $file"
+    shred -u "$file"
+  done < <(find ~/.2fa -maxdepth 1 -type f -not -name "*.gpg")
+}
+
 ### script ###
 
 check_dependencies
@@ -54,7 +67,7 @@ plain_file="$TFA_DIR/$service"
 if [ -f "$gpg_file" ]; then
   secret=$(gpg --quiet --decrypt "$gpg_file")
 elif [ -f "$plain_file" ]; then
-  warn $LINENO "$service is not encrypted — run 2fa-migrate"
+  warn $LINENO "$service is not encrypted"
   secret=$(cat "$plain_file")
 else
   err $LINENO "$service not found"
@@ -67,3 +80,5 @@ code=$(oathtool -b --totp - <<<"$secret" | tr -d '\n')
 
 printf '%s\n' "$code"
 printf '%s' "$code" | wl-copy
+
+encrypt
