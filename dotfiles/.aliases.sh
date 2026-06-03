@@ -304,6 +304,8 @@ alias uuidcp="uuidgen | tr -d '\n' | pbc"
 alias m="make"
 alias n="nano"
 alias kb="kubectl"
+alias kbehqa="kubectl --context gke_ele-qa-436057_us-east1_cluster"
+alias kbehprod="kubectl --context gke_ele-prod-735126_us-east1_cluster"
 alias golint="golangci-lint run --timeout 20s --tests=false"
 alias gen='find . -name "mock_*" -exec rm -f {} \; && godotenv -f .env go generate ./...'
 alias dd='gd status=progress bs=4M'
