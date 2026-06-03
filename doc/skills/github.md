@@ -90,7 +90,7 @@ Shell `git` still handles cloning, committing, and pushing.
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
-Upsert a memory (see skill) about the state of the project, keep it around 600 words, key should be ${NAME}_project_state
+Upsert a memory (see skill) about the state of the project, keep it around 600 words, key should be ${NAME}\_project_state
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
@@ -101,12 +101,12 @@ For hotfixes and small things, commit to dev directly.
 
 ## Reactive Triggers
 
-| WHEN                                      | DO                                                                                              |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| The first commit is made                  | Push and open PR                                                                                |
-| A commit is made                          | Push                                                                                            |
+| WHEN                                      | DO                                                                                                                 |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| The first commit is made                  | Push and open PR                                                                                                   |
+| A commit is made                          | Push                                                                                                               |
 | operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub MCP tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                  |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                                     |
 
 ## Resolving GitHub Review Threads
 

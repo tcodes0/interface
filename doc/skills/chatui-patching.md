@@ -59,13 +59,13 @@ extracts them automatically.
 
 ## Paths
 
-| What                    | Where                                                                        |
-| ----------------------- | ---------------------------------------------------------------------------- |
-| LibreChat patch files   | `images/librechat/danny-avila.librechat/NNN-*.diff`                          |
-| Agents patch files      | `images/librechat/librechat.agents/NNN-*.diff`                               |
-| TSC environment         | `/projects/scratchpad/librechat-tsc` (persistent, do not delete)             |
-| Agents dist in TSC env  | `/projects/scratchpad/librechat-tsc/node_modules/@librechat/agents/dist/cjs` |
-| Upgrade script          | `bin/upgrade-chatui`                                                         |
+| What                   | Where                                                                        |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| LibreChat patch files  | `images/librechat/danny-avila.librechat/NNN-*.diff`                          |
+| Agents patch files     | `images/librechat/librechat.agents/NNN-*.diff`                               |
+| TSC environment        | `/projects/scratchpad/librechat-tsc` (persistent, do not delete)             |
+| Agents dist in TSC env | `/projects/scratchpad/librechat-tsc/node_modules/@librechat/agents/dist/cjs` |
+| Upgrade script         | `bin/upgrade-chatui`                                                         |
 
 ## Persistent TSC Environment
 
