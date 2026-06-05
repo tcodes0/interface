@@ -522,6 +522,7 @@ jn() {
     return 1
   fi
 
+  jj git fetch --quiet
   jj new "$1"
   jj_working_bookmark_set "$1"
 }
