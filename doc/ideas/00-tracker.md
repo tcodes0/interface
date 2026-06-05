@@ -19,12 +19,13 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 24
+largest number: 25
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
+- [ ] **[25] [MED] [5]** [go-update-reusable-workflow.md](./go-update-reusable-workflow.md) reusable GH Actions workflow for Go dep updates + Go version bumping across Dockerfiles, go.mod, and .tool-versions
 - [ ] **[24] [MED] [5]** [mcp-gcp-integration.md](./mcp-gcp-integration.md) integrate GCP (Cloud Build + BigQuery) into API Key MCP; builds on [21] auth layer, subsumes [09] and enables [17]
 
 ## may 2026
