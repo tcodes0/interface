@@ -19,6 +19,8 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
+Before cloning, check whether a clone for that repo already exists in scratchpad and reuse it if so — avoid redundant re-clones within the same session.
+
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
 ```
@@ -84,7 +86,10 @@ Shell `git` still handles cloning, committing, and pushing.
 
 > Resist the urge to credit yourself as co-author in the commits, don't worry, your work does not go unnoticed.
 
-**After the PR is merged:** delete the clone.
+**When to delete the clone:**
+
+- *PR workflow:* delete after the PR is merged.
+- *Dev-direct workflow:* keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
 
 ```bash
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
