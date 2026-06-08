@@ -226,19 +226,19 @@ run can confirm or falsify the hypothesis.
 **Use a consistent prefix** so logs can be filtered in the browser console:
 
 ```ts
-console.warn('[featureName] handlerName: short description | key:', value, '| other:', other);
+console.warn("[featureName] handlerName: short description | key:", value, "| other:", other);
 ```
 
 The prefix should reflect the feature area, e.g. `[queuedSend]`, `[sidebarTitle]`.
 
 **Log at decision points**, not just entry points:
 
-| Point | What to log |
-|---|---|
-| Enqueue / trigger | The value being acted on + relevant IDs |
-| Guard / early return | Why the guard fired + the mismatched values |
-| State write (e.g. `setConversation`) | `prevState` ID vs incoming event ID |
-| Happy-path execution | Confirmation + reduced context (text preview, count) |
+| Point                                | What to log                                          |
+| ------------------------------------ | ---------------------------------------------------- |
+| Enqueue / trigger                    | The value being acted on + relevant IDs              |
+| Guard / early return                 | Why the guard fired + the mismatched values          |
+| State write (e.g. `setConversation`) | `prevState` ID vs incoming event ID                  |
+| Happy-path execution                 | Confirmation + reduced context (text preview, count) |
 
 **Use `console.warn` for unexpected conditions** (guard fires, ID mismatch) so
 they stand out in the console as orange, not noise.
@@ -255,11 +255,11 @@ being compared.
 setConversation((prevState) => {
   if (prevState?.conversationId != null && prevState.conversationId !== incomingId) {
     console.warn(
-      '[sidebarTitle] setConversation mismatch | prevState.conversationId:',
+      "[sidebarTitle] setConversation mismatch | prevState.conversationId:",
       prevState.conversationId,
-      '!== event.conversationId:',
+      "!== event.conversationId:",
       incomingId,
-      '| paramId (viewing):',
+      "| paramId (viewing):",
       paramId,
     );
   }
