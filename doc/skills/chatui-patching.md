@@ -141,8 +141,24 @@ Reset to clean upstream first, discard changes in the worktree from previous ses
 
 ```bash
 git -C /projects/scratchpad/librechat-tsc checkout -- .
-cp /projects/scratchpad/librechat-tsc/client/src/path/to/File.tsx /tmp/File.orig.tsx
 ```
+
+Capture the baseline **in one atomic command** — write to `/tmp` and verify in the same shell invocation. Each `shell` tool call is a fresh process, so a `cd` or file write from a prior call is not visible if the next call fails partway through.
+
+```bash
+git -C /projects/scratchpad/librechat-tsc checkout -- . && \
+  cp /projects/scratchpad/librechat-tsc/client/src/path/to/File.tsx /tmp/File.orig.tsx && \
+  echo "baseline: $(wc -l < /tmp/File.orig.tsx) lines"
+```
+
+For files extracted from git history (e.g. to generate a diff against a pre-patch state):
+
+```bash
+git -C /projects/scratchpad/librechat-tsc show HEAD:client/src/path/to/File.tsx > /tmp/File.upstream.ts && \
+  echo "upstream: $(wc -l < /tmp/File.upstream.ts) lines"
+```
+
+Always print the line count as confirmation — a silent zero-byte file is the most common failure mode when an intermediate step in a chain fails.
 
 ### 2. Edit the target file
 
