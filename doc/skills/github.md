@@ -95,7 +95,8 @@ Shell `git` still handles cloning, committing, and pushing.
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
-Upsert a memory (see skill) about the state of the project, keep it around 600 words, key should be ${NAME}\_project_state
+Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
+The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate. 
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
