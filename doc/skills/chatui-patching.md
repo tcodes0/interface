@@ -191,6 +191,91 @@ After the diff is on disk, reset the TSC clone and run the full sequence check.
 
 Common cause: a hunk line count is off by one because the added `+` or removed `-` lines don't add up to the number in `@@ -old,n +new,n @@`.
 
+## Diagnostic Logging Patches
+
+When a fix is based on a hypothesis about what caused a bug — especially one that
+could not be directly reproduced — ship the fix with accompanying diagnostic
+`console.log`/`console.warn` statements **in the same patch**, so the next test
+run can confirm or falsify the hypothesis.
+
+### When to add diagnostic logs
+
+- The root cause was inferred from symptoms, not directly observed
+- The fix involves race conditions, cross-component state contamination, or
+  context-switch timing
+- The operator says they will test but cannot reliably reproduce
+
+### How to write the logs
+
+**Use a consistent prefix** so logs can be filtered in the browser console:
+
+```ts
+console.warn('[featureName] handlerName: short description | key:', value, '| other:', other);
+```
+
+The prefix should reflect the feature area, e.g. `[queuedSend]`, `[sidebarTitle]`.
+
+**Log at decision points**, not just entry points:
+
+| Point | What to log |
+|---|---|
+| Enqueue / trigger | The value being acted on + relevant IDs |
+| Guard / early return | Why the guard fired + the mismatched values |
+| State write (e.g. `setConversation`) | `prevState` ID vs incoming event ID |
+| Happy-path execution | Confirmation + reduced context (text preview, count) |
+
+**Use `console.warn` for unexpected conditions** (guard fires, ID mismatch) so
+they stand out in the console as orange, not noise.
+
+**Use `console.log` for expected, informational flow** (enqueue, normal flush).
+
+**Keep log values short** — truncate text previews to 60 chars
+(`str.slice(0, 60)`), include IDs, counts, and the specific values that are
+being compared.
+
+### Example — state contamination
+
+```ts
+setConversation((prevState) => {
+  if (prevState?.conversationId != null && prevState.conversationId !== incomingId) {
+    console.warn(
+      '[sidebarTitle] setConversation mismatch | prevState.conversationId:',
+      prevState.conversationId,
+      '!== event.conversationId:',
+      incomingId,
+      '| paramId (viewing):',
+      paramId,
+    );
+  }
+  return { ...prevState, ...update };
+});
+```
+
+### Naming diagnostic patches
+
+Diagnostic-only patches (no functional change, just logs) use the suffix `logs`
+or `diag` in their name:
+
+```
+NNN-featureName-logs--path-File.diff
+NNN-featureName-diag--path-File.diff
+```
+
+Fix-plus-logs patches (functional fix that also ships logs) name the patch
+after the fix; the logs are implied:
+
+```
+NNN-featureName-fix-description--path-File.diff
+```
+
+### Removing logs
+
+Once the hypothesis is confirmed and the fix is validated, strip the diagnostic
+logs in a follow-up patch (or amend the fix patch). Logs should not survive into
+a stable release — they are scaffolding, not permanent instrumentation.
+
+---
+
 ## Patch Conventions
 
 - Naming: `NNN-short-description--Source-File-ComponentName.diff` (NNN zero-padded)
