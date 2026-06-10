@@ -410,3 +410,5 @@ Without it `node_modules` doesn't exist and the build fails.
 **Build time** is ~10–15 min on first run (network + npm ci + React compile).
 Subsequent rebuilds that don't change patches are fast (git clone is the
 only uncached layer before the patch step).
+
+If you made updates to the skill, remember to push that to database and to interface.
