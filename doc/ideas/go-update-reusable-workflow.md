@@ -17,11 +17,11 @@ just pin a ref.
 
 ### Reusable workflow inputs
 
-| Input              | Type    | Default  | Description                                          |
-| ------------------ | ------- | -------- | ---------------------------------------------------- |
-| `go_version`       | string  | `""`     | Target Go version to bump to (e.g. `1.24.2`). Empty = skip version bump. |
-| `update_deps`      | boolean | `true`   | Run `go get -u ./...` + `go mod tidy`                |
-| `pr_base`          | string  | `main`   | Base branch for the opened PR                        |
+| Input         | Type    | Default | Description                                                              |
+| ------------- | ------- | ------- | ------------------------------------------------------------------------ |
+| `go_version`  | string  | `""`    | Target Go version to bump to (e.g. `1.24.2`). Empty = skip version bump. |
+| `update_deps` | boolean | `true`  | Run `go get -u ./...` + `go mod tidy`                                    |
+| `pr_base`     | string  | `main`  | Base branch for the opened PR                                            |
 
 ### Steps
 

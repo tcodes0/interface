@@ -11,10 +11,10 @@ Use tool for all JotForm API calls.
 
 ## Configuration
 
-| Key              | Value                                    |
-| ---------------- | ---------------------------------------- |
-| Base URL         | `https://eleanorhealth.jotform.com/API`  |
-| Team ID          | `243125834203044`                        |
+| Key      | Value                                   |
+| -------- | --------------------------------------- |
+| Base URL | `https://eleanorhealth.jotform.com/API` |
+| Team ID  | `243125834203044`                       |
 
 ## Critical: Team-Owned Forms
 
@@ -29,12 +29,12 @@ GET /team/243125834203044/form/{FORM_ID}/submissions
 
 ### Endpoint Reference
 
-| Resource                    | Path                                                     | Notes                          |
-| --------------------------- | -------------------------------------------------------- | ------------------------------ |
-| Form metadata               | `GET /form/{FORM_ID}`                                    | Works without team prefix      |
-| Form questions              | `GET /form/{FORM_ID}/questions`                          | Works without team prefix      |
-| Form submissions            | `GET /team/{TEAM_ID}/form/{FORM_ID}/submissions`         | **Team prefix required**       |
-| Single submission           | `GET /team/{TEAM_ID}/submission/{SUBMISSION_ID}`         | **Team prefix required**       |
+| Resource          | Path                                             | Notes                     |
+| ----------------- | ------------------------------------------------ | ------------------------- |
+| Form metadata     | `GET /form/{FORM_ID}`                            | Works without team prefix |
+| Form questions    | `GET /form/{FORM_ID}/questions`                  | Works without team prefix |
+| Form submissions  | `GET /team/{TEAM_ID}/form/{FORM_ID}/submissions` | **Team prefix required**  |
+| Single submission | `GET /team/{TEAM_ID}/submission/{SUBMISSION_ID}` | **Team prefix required**  |
 
 ### Why the team prefix is required
 

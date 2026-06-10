@@ -88,15 +88,15 @@ Shell `git` still handles cloning, committing, and pushing.
 
 **When to delete the clone:**
 
-- *PR workflow:* delete after the PR is merged.
-- *Dev-direct workflow:* keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
+- _PR workflow:_ delete after the PR is merged.
+- _Dev-direct workflow:_ keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
 
 ```bash
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
 Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
-The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate. 
+The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate.
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch

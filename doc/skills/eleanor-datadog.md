@@ -9,9 +9,9 @@ description: Use when investigating member app issues, tracing requests in Datad
 
 Eleanor Health runs two backend services, each with its own database:
 
-| Service | Role | Database |
-| --------------- | ----------------------------------------- | ---------- |
-| `hub-server` | Staff-facing API, patient records | prod_hub |
+| Service         | Role                                     | Database    |
+| --------------- | ---------------------------------------- | ----------- |
+| `hub-server`    | Staff-facing API, patient records        | prod_hub    |
 | `member-server` | Member-facing API, proxies to hub-server | prod_member |
 
 Member app traffic flows: **Member app → member-server → hub-server**.
@@ -60,24 +60,24 @@ env:prod service:(hub-server) @url:*/drug-screens* @userAgent:member-server
 
 ## Key Log Fields
 
-| Field | Meaning |
-| ------------ | ----------------------------------------------------------------------------------------------------------------------- |
-| `userId` | **Staff / hub user** — the human logged into the hub portal. Hub has no concept of members as users; members are patients. |
-| `memberId` | **Patient** — MemberIds refer to patients. |
-| `hubUserId` | Staff user ID, used in member-server logs when a staff member masquerades as a patient |
-| `userAgent` | `member-server` indicates traffic proxied from the member app |
-| `@http.status_code` | HTTP status of the response |
+| Field               | Meaning                                                                                                                    |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `userId`            | **Staff / hub user** — the human logged into the hub portal. Hub has no concept of members as users; members are patients. |
+| `memberId`          | **Patient** — MemberIds refer to patients.                                                                                 |
+| `hubUserId`         | Staff user ID, used in member-server logs when a staff member masquerades as a patient                                     |
+| `userAgent`         | `member-server` indicates traffic proxied from the member app                                                              |
+| `@http.status_code` | HTTP status of the response                                                                                                |
 
 ## Endpoint Reference
 
-| Endpoint | Service | Purpose |
-| -------------------------------- | ------------- | -------------------------------- |
-| `POST /v1/drug-screens` | hub-server | Submit UDS (urine drug screen) |
-| `GET /v3/action-items` | member-server | Member action items |
-| `GET /v1/most-recent-scales` | member-server | Recent scale readings |
-| `GET /v2/onboarding/sections` | member-server | Onboarding state |
-| `GET /v1/past-appointments` | member-server | Past appointment list |
-| `POST /v1/onetime-interactions` | member-server | Record one-time member events |
+| Endpoint                        | Service       | Purpose                        |
+| ------------------------------- | ------------- | ------------------------------ |
+| `POST /v1/drug-screens`         | hub-server    | Submit UDS (urine drug screen) |
+| `GET /v3/action-items`          | member-server | Member action items            |
+| `GET /v1/most-recent-scales`    | member-server | Recent scale readings          |
+| `GET /v2/onboarding/sections`   | member-server | Onboarding state               |
+| `GET /v1/past-appointments`     | member-server | Past appointment list          |
+| `POST /v1/onetime-interactions` | member-server | Record one-time member events  |
 
 ## Investigation Pattern
 
