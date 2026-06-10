@@ -637,8 +637,14 @@ jj_bookmark0() {
 
   if [[ ! "$first" =~ ^(main|master)$ ]]; then
     candidate="$first"
-  elif [ -n "${bookmarks[1]/\*/}" ]; then
+  elif [ -n "${bookmarks[1]:-}" ]; then
     candidate="${bookmarks[1]/\*/}"
+  else
+    jbn
+    read -ra bookmarks < <(__jj_bookmarks)
+    first="${bookmarks[0]/\*/}"
+    [[ ! "$first" =~ ^(main|master)$ ]] && candidate="$first" || candidate="${bookmarks[1]:-}"
+    candidate="${candidate/\*/}"
   fi
 
   if [ -n "$candidate" ]; then
