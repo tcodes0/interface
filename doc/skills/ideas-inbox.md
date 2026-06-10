@@ -16,7 +16,8 @@ You are free to flesh out a bare bones idea given by the operator, just capture 
 
 On the Interface project, this is the tracker file: doc/ideas/00-tracker.md
 This is a file that collects references to all ideas, so they can be numbered, prioritized and sized up.
-The file is organized in sections separated by HTML comments and markdown titles, ideas are organized chronologically.
+The file is organized in sections separated by HTML comments and markdown titles, ideas are organized chronologically in sections.
+Within each section, the ideas are sorted by priority descending and points ascending.
 This is the format for an entry in the tracker:
 
 > - [ ] **[UNIQUE NUMBER] [IMPORTANCE] [POINTS]** [file-if-large](../file-if-large.md) \<description\>

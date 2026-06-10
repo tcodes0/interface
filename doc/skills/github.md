@@ -19,6 +19,8 @@ git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
+Before cloning, check whether a clone for that repo already exists in scratchpad and reuse it if so — avoid redundant re-clones within the same session.
+
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
 ```
@@ -51,23 +53,50 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
 
+## GitHub API Tooling
+
+A GitHub MCP tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
+
+```
+# Read PR comments
+GET /repos/{owner}/{repo}/pulls/{n}/comments
+
+# Create PR
+POST /repos/{owner}/{repo}/pulls
+body: {"title": "...", "head": "<branch>", "base": "<default branch>", "body": "..."}
+
+# GraphQL
+POST /graphql
+body: {"query": "{ ... }"}
+```
+
+Shell `git` still handles cloning, committing, and pushing.
+
 ## Pushing & PRs
 
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. `gh pr create --head <branch> --base <default branch> --title "type(scope): message" --body "..."`
+2. Create the PR via the github mcp:
+   `POST /repos/{owner}/{repo}/pulls` — `{"title": "type(scope): message", "head": "<branch>", "base": "<default branch>", "body": "..."}`
 
 > **Never push directly to `main`**. Always go through a PR.
 
 > **Avoid force pushing.** Prefer adding a new commit over amending and force pushing — amends lose history. Force pushing is acceptable for clean-up amends on your own branch, only.
 
-**After the PR is merged:** delete the clone.
+> Resist the urge to credit yourself as co-author in the commits, don't worry, your work does not go unnoticed.
+
+**When to delete the clone:**
+
+- _PR workflow:_ delete after the PR is merged.
+- _Dev-direct workflow:_ keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
 
 ```bash
 rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
 ```
 
+Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
+The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate.
 If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
@@ -78,12 +107,12 @@ For hotfixes and small things, commit to dev directly.
 
 ## Reactive Triggers
 
-| WHEN                                      | DO                                                                                              |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| The first commit is made                  | Push and open PR                                                                                |
-| A commit is made                          | Push                                                                                            |
-| operator leaves review comments in GitHub | Fetch inline diff comments via `gh api repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                  |
+| WHEN                                      | DO                                                                                                                 |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| The first commit is made                  | Push and open PR                                                                                                   |
+| A commit is made                          | Push                                                                                                               |
+| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub MCP tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                                     |
 
 ## Resolving GitHub Review Threads
 

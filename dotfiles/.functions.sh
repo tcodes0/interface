@@ -501,14 +501,43 @@ jnm() {
 
 #----------------
 
+jnd() {
+  if ! command jj root &>/dev/null; then
+    _git_gcom
+    return $?
+  fi
+
+  if ! jj git fetch; then
+    return
+  fi
+
+  jj new dev
+}
+
+#----------------
+
 jn() {
   if [ -z "$1" ]; then
     err $LINENO "Usage: jn <bookmark or ref>"
     return 1
   fi
 
+  jj git fetch --quiet
   jj new "$1"
   jj_working_bookmark_set "$1"
+}
+
+#----------------
+
+# todo: remove
+unalias jd 2>/dev/null
+jd() {
+  if [ -z "$1" ]; then
+    err $LINENO "Usage: jd <ref>"
+    return 1
+  fi
+
+  jj diff -r "$1" -r @
 }
 
 #----------------
@@ -608,8 +637,14 @@ jj_bookmark0() {
 
   if [[ ! "$first" =~ ^(main|master)$ ]]; then
     candidate="$first"
-  elif [ -n "${bookmarks[1]/\*/}" ]; then
+  elif [ -n "${bookmarks[1]:-}" ]; then
     candidate="${bookmarks[1]/\*/}"
+  else
+    jbn
+    read -ra bookmarks < <(__jj_bookmarks)
+    first="${bookmarks[0]/\*/}"
+    [[ ! "$first" =~ ^(main|master)$ ]] && candidate="$first" || candidate="${bookmarks[1]:-}"
+    candidate="${candidate/\*/}"
   fi
 
   if [ -n "$candidate" ]; then
@@ -662,6 +697,7 @@ jj_working_bookmark_get() {
 jj_working_bookmark_set() {
   local JJ_WORKING_BOOKMARK_CONFIG_FILE="$HOME/.config/github.com.rthomazel/.jjbookmarksrc"
   local bookmark="$1" project
+  bookmark="${bookmark%@origin}"
   project=$(__jj_basename) || {
     warn $LINENO "failed to get jj project root"
     return 1
