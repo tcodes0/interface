@@ -78,3 +78,14 @@ Jira Cloud does **not** support passing a destination sprint when closing — in
    ```
 
 > Note: "Move to top" is not exposed via Jira Cloud API. It's a no-op when only one future sprint exists at creation time.
+
+## Comment Tone Guidelines
+
+When writing comments on IT tickets, match the operator's voice:
+
+- **No exclamation marks** — ever.
+- **Neutral, matter-of-fact tone** — not enthusiastic, not overly formal.
+- **Concise** — say what needs to be said, nothing more.
+- Avoid filler phrases like "Great news", "Happy to help", "Hope this helps", "Thank you for your patience".
+- Greetings are fine ("Hi [name],") but keep them brief.
+- Sign off with a period, not a comma or exclamation mark.
