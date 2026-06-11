@@ -1,9 +1,5 @@
-remove
-
-# remove debian file, it causes .bashrc to be read by scripts causing issues with scp/rsync
-$HOME/.profile
-
 # symlink from dotfiles
+
 link
 
 # CLI editor config
