@@ -1,0 +1,33 @@
+remove
+
+# remove debian file, it causes .bashrc to be read by scripts causing issues with scp/rsync
+$HOME/.profile
+
+# symlink from dotfiles
+link
+
+# CLI editor config
+$HOME/projects/interface/dotfiles/.nanorc
+$HOME/.nanorc
+
+# runs on ssh login, reads bashrc where the code is
+$HOME/projects/interface/dotfiles/.bash_profile
+$HOME/.bash_profile
+
+# symlink from dotfiles/vps
+
+# the entrypoint bash file
+$HOME/projects/interface/vps/dotfiles/.bashrc
+$HOME/.bashrc
+
+$HOME/projects/interface/vps/dotfiles/.gitconfig
+$HOME/.gitconfig
+
+$HOME/projects/interface/vps/dotfiles/.tmux.conf
+$HOME/.tmux.conf
+
+$HOME/projects/interface/vps/dotfiles/.aliases.linux.vps.sh
+$HOME/.aliases.linux.vps.sh
+
+$HOME/projects/interface/vps/dotfiles/.lscolors.sh
+$HOME/.lscolors.sh
