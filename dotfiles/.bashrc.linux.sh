@@ -33,6 +33,3 @@ for file in "$HOME"/.bash_completion.d/*; do
   src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
 
-for file in /usr/share/bash-completion/completions/*; do
-  src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
-done
