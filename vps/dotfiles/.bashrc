@@ -89,3 +89,8 @@ if [ ! "$TMUX" ] && term_emulator; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
+
+# load SSH agent, prompts for passphrase if needed
+if [ -S "$SSH_AUTH_SOCK" ]; then
+  ssh-add -q || true
+fi
