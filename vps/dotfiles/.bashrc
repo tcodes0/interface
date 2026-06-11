@@ -90,7 +90,7 @@ if [ ! "$TMUX" ] && term_emulator; then
   tmux source-file "$HOME/.tmux.conf"
 fi
 
-# load SSH agent, prompts for passphrase if needed
+# load key into SSH agent, if not already loaded and prompts for passphrase if needed
 if [ -S "$SSH_AUTH_SOCK" ]; then
-  ssh-add -q || true
+  ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519.pub | awk '{print $2}')" || ssh-add -q
 fi
