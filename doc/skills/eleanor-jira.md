@@ -79,6 +79,10 @@ Jira Cloud does **not** support passing a destination sprint when closing — in
 
 > Note: "Move to top" is not exposed via Jira Cloud API. It's a no-op when only one future sprint exists at creation time.
 
+### Resolving IT tickets after commenting
+
+JSM has an automation that fires whenever an agent posts a public comment — it auto-moves the ticket to **Waiting for Customer**, undoing any prior transition. Always **post the comment first, then apply the Resolved transition** — never in parallel.
+
 ## Comment Tone Guidelines
 
 When writing comments on IT tickets, match the operator's voice:
