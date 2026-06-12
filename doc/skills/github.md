@@ -8,18 +8,14 @@ always-apply: true
 
 ## Clone Workflow
 
-Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit, edit or push from those paths.**
-
-For any change, clone to scratchpad:
-
 ```bash
-git clone git@github.com:<org>/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
-cd /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git clone git@github.com:<org>/<repo>.git /projects/<repo>-<purpose-mmm-dd>
+cd /projects/<repo>-<purpose-mmm-dd>
 git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-Before cloning, check whether a clone for that repo already exists in scratchpad and reuse it if so — avoid redundant re-clones within the same session.
+Before cloning, check whether a clone for that repo already exists and reuse it if so — avoid redundant re-clones within the same session.
 
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
 
@@ -52,6 +48,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
+
+report missing repo clone URLs and stop.
 
 ## GitHub API Tooling
 
@@ -92,12 +90,12 @@ Shell `git` still handles cloning, committing, and pushing.
 - _Dev-direct workflow:_ keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
 
 ```bash
-rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
+rm -rf /projects/<repo>-<purpose-mmm-dd>
 ```
 
 Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
 The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate.
-If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
+If you notice directories under projects that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
 
