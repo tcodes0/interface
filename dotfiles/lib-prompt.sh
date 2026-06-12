@@ -57,7 +57,6 @@ make_ps1() {
 
   if ! $known_host; then
     current_host="$SECONDARY_COLOR@$host_name$END"
-    decorations=$SECONDARY_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
