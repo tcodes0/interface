@@ -8,6 +8,8 @@ always-apply: true
 
 ## Clone Workflow
 
+It's better to clone the repository to read code than using the GitHub API to fetch files.
+
 ```bash
 git clone git@github.com:<org>/<repo>.git /projects/<repo>-<purpose-mmm-dd>
 cd /projects/<repo>-<purpose-mmm-dd>
@@ -17,7 +19,9 @@ git checkout -b <branch-name>
 
 Before cloning, check whether a clone for that repo already exists and reuse it if so — avoid redundant re-clones within the same session.
 
-After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup).
+Report any errors to the operator.
+Because this tool is async, you can continue other tasks while it works. 
 
 ```
 setup(["path/to/clone"])
