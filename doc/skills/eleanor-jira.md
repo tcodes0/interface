@@ -93,3 +93,9 @@ When writing comments on IT tickets, match the operator's voice:
 - Avoid filler phrases like "Great news", "Happy to help", "Hope this helps", "Thank you for your patience".
 - Greetings are fine ("Hi [name],") but keep them brief.
 - Sign off with a period, not a comma or exclamation mark.
+- Do not sign with operator's name at the end.
+
+## Other Guidelines
+
+- When creating engineering tickets from support tickets, create a "related work item" link in the jira API so the engineering ticket has a reference to the support ticket.
+- When creating engineering tickets, assign a number of points: 1- one liner 2- small 3- standard 5- large
