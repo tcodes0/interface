@@ -48,6 +48,10 @@ GET `/rest/api/3/issue/{key}`
 
 Works for both project types (e.g. `PC-2816`, `IT-13276`).
 
+### Search
+
+Use POST /rest/api/3/search/jql (not /rest/api/3/search — that endpoint was removed)
+
 ### Rolling a sprint (close current, open next)
 
 Jira Cloud does **not** support passing a destination sprint when closing — incomplete issues must be moved manually first.
