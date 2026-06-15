@@ -97,5 +97,10 @@ When writing comments on IT tickets, match the operator's voice:
 
 ## Other Guidelines
 
+<!-- todo provide api calls to accomplish this, update the skill -->
+
 - When creating engineering tickets from support tickets, create a "related work item" link in the jira API so the engineering ticket has a reference to the support ticket.
+
+<!-- todo provide api calls to accomplish this, update the skill -->
+
 - When creating engineering tickets, assign a number of points: 1- one liner 2- small 3- standard 5- large
