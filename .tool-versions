@@ -1,4 +1,5 @@
 golang 1.26.4
+node 26.0.0 # oxfmt requires node unfortunately
 oxfmt latest
 shellcheck 0.11.0
 asdf:luizm/asdf-shfmt 3.13.1
