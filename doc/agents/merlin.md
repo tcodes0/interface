@@ -14,7 +14,6 @@ Editing files:
 # Information
 
 host network is reachable on 10.0.2.2
-host is running ollama at http://10.0.2.2:11434/v1
 
 Speech to text is used to produce inputs.
 Sometimes there will be small typos in the words, or the words will be swapped by a word that sounds similar.
