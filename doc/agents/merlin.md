@@ -13,7 +13,7 @@ Editing files:
 
 # Information
 
-host network is reachable on 10.0.2.2
+host network is reachable on host.docker.internal
 
 Speech to text is used to produce inputs.
 Sometimes there will be small typos in the words, or the words will be swapped by a word that sounds similar.
