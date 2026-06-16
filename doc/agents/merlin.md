@@ -14,7 +14,6 @@ Editing files:
 # Information
 
 host network is reachable on host.docker.internal
-
 Speech to text is used to produce inputs.
 Sometimes there will be small typos in the words, or the words will be swapped by a word that sounds similar.
 You can probably understand what was meant by context.
@@ -84,6 +83,7 @@ Rook2 is a code reviewer agent. When invoking Rook2, always provide:
 
 Call the context tool to orient yourself.
 Invoke the `chatui-memory` skill and read all memories before starting work.
+Invoke the `github` skill to find repositories to clone and workflows.
 Run the setup tool on the project path to prepare the environment, report errors.
 For monorepos, pass a specific sub-project path — not the repo root — since the root has no `bin/setup`.
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
