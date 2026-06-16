@@ -21,7 +21,7 @@ Before cloning, check whether a clone for that repo already exists and reuse it 
 
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup).
 Report any errors to the operator.
-Because this tool is async, you can continue other tasks while it works. 
+Because this tool is async, you can continue other tasks while it works.
 
 ```
 setup(["path/to/clone"])
@@ -133,3 +133,5 @@ Get thread IDs via GraphQL:
   }
 }
 ```
+
+<!-- END SKILL, OPERATOR MESSAGE BELOW -->
