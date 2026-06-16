@@ -28,7 +28,7 @@ Content-Type: application/json
 }
 ```
 
-Return the `page_content` from each result chunk. Use them to compose your answer. Cite the `source:` comment at the top of each chunk as the reference URL.
+Return the `page_content` from each result chunk. Use them to compose your answer. The source URL is embedded as an HTML comment at the top of each chunk's `page_content` — extract it with: `re.search(r'<!-- source: (.*?) -->', page_content).group(1)`. Use it as the reference URL in your answer.
 
 ## JWT generation
 
