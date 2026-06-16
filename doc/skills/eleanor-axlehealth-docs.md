@@ -1,5 +1,5 @@
 ---
-name: axlehealth-docs
+name: eleanor-axlehealth-docs
 description: Use when working with the Axle Health API — looking up endpoints, understanding objects like Visit, Patient, Clinician, Shift, Service, or Territory, checking request/response shapes, authentication, webhooks, or standard workflows.
 always-apply: false
 ---
@@ -14,7 +14,7 @@ When the user asks anything about the Axle Health API, call the `query_axlehealt
 
 ## Tool: query_axlehealth_docs
 
-POST to the RAG API from inside the Docker network:
+POST to the RAG API from inside the Docker network, using the bench:
 
 ```
 POST http://rag_api:8000/query_multiple
