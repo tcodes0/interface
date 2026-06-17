@@ -122,9 +122,10 @@ for p in $(ls /path/to/lga-clone/images/librechat/librechat.agents/*.diff | sort
 done
 ```
 
-### 2 — TSC check on touched files
+### 2 — Syntax / type check on touched files
 
-Filter by the filename(s) you changed — ~176 pre-existing upstream errors exist in unrelated files; ignore those.
+**For `.ts` / `.tsx` files** — filter by the filename(s) you changed.
+~176 pre-existing upstream errors exist in unrelated files; ignore those.
 
 ```bash
 cd /projects/librechat-tsc
@@ -132,6 +133,17 @@ npx tsc --noEmit -p client/tsconfig.json 2>&1 | grep 'error TS' | grep -E 'File1
 ```
 
 No output = clean. Any output means the patch introduces a type error.
+
+**For `.js` files** — run a Node syntax check. Node's parser catches syntax errors
+that would only surface at runtime otherwise. Do not skip this step for JS patches.
+
+```bash
+# node shim requires a global version to be set; pin once per session if needed:
+mise use -g node@lts
+node --check /projects/librechat-tsc/path/to/file.js && echo SYNTAX_OK
+```
+
+A non-zero exit means a parse/syntax error. `SYNTAX_OK` confirms clean.
 
 ## Writing a New Patch
 
@@ -166,7 +178,8 @@ Edit directly in `/projects/librechat-tsc/`.
 
 ### 3. Run mandatory validation (see above)
 
-TSC-check before generating the diff.
+Run the syntax / type check (section above) before generating the diff.
+For `.ts`/`.tsx` files use `npx tsc`. For `.js` files use `node --check`.
 
 ### 4. Generate the diff
 
