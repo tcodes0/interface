@@ -27,3 +27,7 @@ $HOME/.aliases.linux.vps.sh
 
 $HOME/projects/interface/vps/dotfiles/.lscolors.sh
 $HOME/.lscolors.sh
+
+# systemd system services
+$HOME/projects/interface/vps/etc/systemd/system/tailscale-gro.service
+/etc/systemd/system/tailscale-gro.service

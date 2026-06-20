@@ -146,6 +146,7 @@ words:
   - libavif
   - libheif
   - libmp
+  - LITELLM
   - lzma
   - mackup
   - MCFG
