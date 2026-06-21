@@ -107,3 +107,10 @@ if [ ! "$TMUX" ] && term_emulator && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
+
+# same for linux and macos
+if [ ! "$(pgrep ssh-agent)" ]; then
+  eval "$(ssh-agent)" >/dev/null
+elif [[ ! "$SSH_AUTH_SOCK" ]]; then
+  SSH_AUTH_SOCK=$(find "$HOME/.ssh" -type s 2>/dev/null | head -1)
+fi
