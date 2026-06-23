@@ -18,7 +18,6 @@ $HOME/Desktop/scripts-eleanor:\
 $HOME/.local/bin:\
 /opt/rocm/bin"
 
-export SSH_AUTH_SOCK
 export GOPATH=$HOME/go
 export GOBIN=$HOME/go/bin
 
