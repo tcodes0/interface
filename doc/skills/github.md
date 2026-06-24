@@ -1,7 +1,7 @@
 ---
 name: github
 description: Use for all VCS operations — working with git repos, creating branches, committing, opening PRs, handling review comments, and resolving GitHub threads.
-always-apply: true
+always-apply: false
 ---
 
 # GitHub & VCS Workflow
