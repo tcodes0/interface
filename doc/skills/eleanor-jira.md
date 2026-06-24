@@ -12,9 +12,9 @@ Use the jira tool for all operations.
 | Resource            | Value                           |
 | ------------------- | ------------------------------- |
 | Operator account ID | `5f5a8fd086199e007c2727c1`      |
-| PC project ID       | `10022`                         |
-| PC board ID         | `26`                            |
-| PC project type     | Agile                           |
+| SE project ID       | `10022`                         |
+| SE board ID         | `26`                            |
+| SE project type     | Agile                           |
 | IT project ID       | `10030`                         |
 | IT project name     | IT Support                      |
 | IT project type     | Service Desk (no board/sprints) |
@@ -27,7 +27,7 @@ Example progression: … `Jellyfish Sandwich` (J) → `K` → …
 
 ## Project Type Differences
 
-| Feature               | Agile (PC)   | Service Desk (IT)                                                                            |
+| Feature               | Agile (SE)   | Service Desk (IT)                                                                            |
 | --------------------- | ------------ | -------------------------------------------------------------------------------------------- |
 | Boards/sprints        | yes          | no                                                                                           |
 | `description` format  | Plain string | ADF (structured JSON — walk `content` tree to extract text)                                  |
@@ -38,7 +38,7 @@ Example progression: … `Jellyfish Sandwich` (J) → `K` → …
 
 ### Get active sprint issues
 
-1. `GET /rest/agile/1.0/board?projectKeyOrId=PC` → board ID
+1. `GET /rest/agile/1.0/board?projectKeyOrId=SE` → board ID
 2. `GET /rest/agile/1.0/board/{boardId}/sprint?state=active` → sprint ID
 3. `GET /rest/agile/1.0/board/{boardId}/sprint/{sprintId}/issue` → issues
 
@@ -46,7 +46,7 @@ Example progression: … `Jellyfish Sandwich` (J) → `K` → …
 
 GET `/rest/api/3/issue/{key}`
 
-Works for both project types (e.g. `PC-2816`, `IT-13276`).
+Works for both project types (e.g. `SE-2816`, `IT-13276`).
 
 ### Search
 
@@ -66,7 +66,7 @@ Jira Cloud does **not** support passing a destination sprint when closing — in
    Filter for any not in `Done` status category
 4. **Move incomplete issues to new sprint** — `POST /rest/agile/1.0/sprint/{newSprintId}/issue`
    ```json
-   { "issues": ["PC-XXXX", ...] }
+   { "issues": ["SE-XXXX", ...] }
    ```
 5. **Close old sprint** — `POST /rest/agile/1.0/sprint/{oldSprintId}`
    ```json
