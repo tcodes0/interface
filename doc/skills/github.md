@@ -57,7 +57,7 @@ report missing repo clone URLs and stop.
 
 ## GitHub API Tooling
 
-A GitHub MCP tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
+A GitHub tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
 To find it: "api_keys" tool set, "github" tool
 
 ```
@@ -80,7 +80,7 @@ Shell `git` still handles cloning, committing, and pushing.
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. Create the PR via the github mcp:
+2. Create the PR via the github tool:
    `POST /repos/{owner}/{repo}/pulls` — `{"title": "type(scope): message", "head": "<branch>", "base": "<default branch>", "body": "..."}`
 
 > **Never push directly to `main`**. Always go through a PR.
@@ -114,7 +114,7 @@ For hotfixes and small things, commit to dev directly.
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | The first commit is made                  | Push and open PR                                                                                                   |
 | A commit is made                          | Push                                                                                                               |
-| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub MCP tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
 | GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation, push                                               |
 
 ## Resolving GitHub Review Threads
