@@ -18,7 +18,7 @@ git checkout -b <branch-name>
 ```
 
 Before cloning, check whether a clone for that repo already exists and reuse it if so — avoid redundant re-clones within the same session.
-
+**Careful**: Check the branch the existing clone is checked out on, if it's not your branch, you start a new one from main.
 After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup).
 Report any errors to the operator.
 Because this tool is async, you can continue other tasks while it works.
