@@ -17,7 +17,7 @@ When the user asks anything about the Axle Health API, call the `query_axlehealt
 POST to the RAG API from inside the Docker network, using the bench:
 
 ```
-POST http://rag_api:8000/query_multiple
+POST http://rag:8000/query_multiple
 Authorization: Bearer <jwt>
 Content-Type: application/json
 
