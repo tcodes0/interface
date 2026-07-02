@@ -12,7 +12,7 @@ Memories are stored in the database. For connection details, see the `chatui` sk
 All memory operations are simple enough to use mongosh directly:
 
 ```bash
-mongosh mongodb:27017/LibreChat --quiet
+mongosh litellm-db:27017/LibreChat --quiet
 ```
 
 If mongosh is not installed, install it once to `/root/bin` (persists across sessions):
