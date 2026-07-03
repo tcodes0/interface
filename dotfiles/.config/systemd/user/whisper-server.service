@@ -10,7 +10,7 @@ ExecStart=/usr/bin/docker \
     --device=/dev/dri \
     --group-add render \
     --ipc=host \
-    -v /usr/share/whisper.cpp/:/models:ro \
+    -v %h/Desktop/compose-files/whisper/cpp/:/models:ro \
     -p 127.0.0.1:8765:8765 \
     --rm \
     whisper
