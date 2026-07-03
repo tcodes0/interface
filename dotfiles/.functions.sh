@@ -756,6 +756,15 @@ inf() {
   local project
   project=$(basename "$PWD")
 
+  if ! timeout 1 infisical user get token >/dev/null 2>&1; then
+    echo waking up the backend please wait... >&2
+  fi
+
+  if ! timeout 120 bash -c "until infisical user get token > /dev/null 2>&1; do sleep 1; done"; then
+    echo "[ERR] timeout, aborting" >&2
+    exit 1
+  fi
+
   if [[ ! -f "$rc" ]]; then
     infisical "$@"
     return
