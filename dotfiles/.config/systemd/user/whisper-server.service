@@ -5,7 +5,7 @@ Conflicts=whisper-server-cpu.service
 
 [Service]
 ExecStart=/usr/bin/whisper-server \
-    -m /usr/share/whisper.cpp-model-large-v3-turbo-q5_0/ggml-large-v3-turbo-q5_0.bin \
+    -m /usr/share/whisper.cpp/ggml-large-v3-turbo.bin \
     --host 127.0.0.1 --port 8765 \
     --language auto --suppress-nst --no-timestamps --convert
 Restart=on-failure
