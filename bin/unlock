@@ -26,7 +26,7 @@ KEYGRIP_PERSONAL_SUB="E646642A421E45EED65BAC383947EDD6355010AA" # 1357rtr@gmail.
 KEYGRIP_PRO="9945CA56E213041B873D5A27874FCBD529C580D0"          # thomazella9@gmail.com [SC]
 KEYGRIP_PRO_SUB="F28EF2165DDDFEABEF30A620B15846630AEE584D"      # thomazella9@gmail.com [E]
 SSH_KEY="$HOME/.ssh/id_rsa"
-PASS_GPG="$HOME/.pass.gpg"
+SECRETS="$HOME/.pass.gpg"
 GPG_PRESET=$(command -v gpg-preset-passphrase 2>/dev/null || echo /usr/lib/gnupg/gpg-preset-passphrase)
 
 askpass=""
@@ -48,14 +48,13 @@ for dep in gpg ssh-add shred; do
 done
 
 [ -x "$GPG_PRESET" ] || fatal $LINENO "gpg-preset-passphrase not found at $GPG_PRESET"
-[ -f "$PASS_GPG" ] || fatal $LINENO "$PASS_GPG not found"
+[ -f "$SECRETS" ] || fatal $LINENO "$SECRETS not found"
 [ -f "$SSH_KEY" ] || fatal $LINENO "$SSH_KEY not found"
 
 read -rsp "passphrase: " passphrase
 echo
 
-secrets=$(gpg --batch --pinentry-mode loopback --passphrase-fd 3 --decrypt "$PASS_GPG" 3<<<"$passphrase")
-
+secrets=$(gpg --batch --pinentry-mode loopback --passphrase-fd 3 --decrypt "$SECRETS" 3<<<"$passphrase")
 ssh_pw=$(awk '$1=="ssh" {print $2}' <<<"$secrets")
 gpg_pro_pw=$(awk '$1=="gpg" && $2=="pro" {print $3}' <<<"$secrets")
 gpg_pw=$(awk '$1=="gpg" && $2!="pro" {print $2}' <<<"$secrets")

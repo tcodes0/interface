@@ -71,7 +71,7 @@
     "resolvePluginsRelativeTo": "."
   },
   "[shellscript]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format",
+    "editor.defaultFormatter": "mkhl.shfmt",
     "editor.formatOnSave": true
   },
   "[typescriptreact]": {
@@ -113,8 +113,8 @@
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
-  "shellformat.path": "/opt/homebrew/bin/shfmt",
-  "shellformat.flag": "-i 2 -ln bash",
+  "shfmt.executablePath": "/opt/homebrew/bin/shfmt",
+  "shfmt.executableArgs": ["-i", "2", "-ln", "bash"],
   "shellcheck.customArgs": ["-x"],
   //
   // - - - - - - - - JS/TS - - - - - - - - -
