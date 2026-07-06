@@ -2,4 +2,5 @@
 comms: 2e04ddae-2632-4716-a873-aaebee5058fc
 secretserver: 1ba864ea-025b-40d3-aff8-c95091fa3971
 server: 65debbad-4680-419e-8121-5dd5b692ca46
-lga: 59231fe9-fcf6-44cc-91a3-06d30290f002
+#lgalegacy: 59231fe9-fcf6-44cc-91a3-06d30290f002
+lga: 959c0c22-92cd-4a8b-a863-2601f9296dcd

@@ -753,15 +753,17 @@ prompt() {
 
 inf() {
   local rc="$HOME/.config/github.com.rthomazel/.infrc"
-  local project
+  local project SECRETS_HOST=secrets.golang.dev.br
   project=$(basename "$PWD")
 
-  if ! timeout 1 infisical user get token >/dev/null 2>&1; then
-    echo waking up the backend please wait... >&2
+  if ! timeout 2 infisical user get token >/dev/null 2>&1; then
+    echo "[ERR] infisical not logged in, run 'infisical login' first"
+    exit 1
   fi
 
-  if ! timeout 120 bash -c "until infisical user get token > /dev/null 2>&1; do sleep 1; done"; then
-    echo "[ERR] timeout, aborting" >&2
+  echo connecting to "$SECRETS_HOST" please wait...
+  if ! timeout 120 bash -c "until ping -c 1 -W 1 $SECRETS_HOST > /dev/null 2>&1; do sleep 1; done"; then
+    echo "[ERR] $SECRETS_HOST timeout, aborting"
     exit 1
   fi
 
