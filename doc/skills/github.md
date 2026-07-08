@@ -98,6 +98,11 @@ Shell `git` still handles cloning, committing, and pushing.
 rm -rf /projects/<repo>-<purpose-mmm-dd>
 ```
 
+> Warning: A few projects are permanently cloned
+>
+> - lga: This is the live stack where the workstation runs, if removed db crashes and everything crashes.
+> - librechat-tsc: used in the patching workflow (see skill).
+
 Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
 The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate.
 If you notice directories under projects that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
@@ -110,12 +115,12 @@ For hotfixes and small things, commit to dev directly.
 
 ## Reactive Triggers
 
-| WHEN                                      | DO                                                                                                                 |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| The first commit is made                  | Push and open PR                                                                                                   |
-| A commit is made                          | Push                                                                                                               |
+| WHEN                                      | DO                                                                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| The first commit is made                  | Push and open PR                                                                                               |
+| A commit is made                          | Push                                                                                                           |
 | operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation, push                                               |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation, push                                           |
 
 ## Resolving GitHub Review Threads
 
