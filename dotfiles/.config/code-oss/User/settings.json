@@ -133,7 +133,9 @@
   //
   // - - - - - - - - BASH - - - - - - - - -
   //
-  "shellcheck.customArgs": ["-x"],
+  "shellcheck.customArgs": [
+    "-x"
+  ],
   "shellformat.path": "/usr/bin/shfmt",
   "shellformat.flag": "-i 2 -ln bash",
   "shellformat.useEditorConfig": true,
@@ -153,7 +155,9 @@
     "debugAdapter": "dlv-dap"
   },
   "go.testEnvFile": "${workspaceFolder}/.env",
-  "go.testFlags": ["-race"],
+  "go.testFlags": [
+    "-race"
+  ],
   "go.lintTool": "golangci-lint",
   "go.vetOnSave": "off",
   "go.formatTool": "default",
@@ -166,7 +170,9 @@
   "go.inlayHints.rangeVariableTypes": false,
   "gopls": {
     "semanticTokens": true,
-    "buildFlags": ["-buildvcs=false"],
+    "buildFlags": [
+      "-buildvcs=false"
+    ],
     // Staticcheck: enables many extra linters beyond go vet
     "staticcheck": true,
     // Analyses: fine-grained control over individual analyzers
@@ -476,5 +482,13 @@
   "redhat.telemetry.enabled": true,
   "security.workspace.trust.untrustedFiles": "open",
   "explorer.confirmPasteNative": false,
-  "workbench.secondarySideBar.defaultVisibility": "hidden"
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "yaml.disableSchemaDetection": [
+    "**/.github/workflows/*.yml",
+    "**/.github/workflows/*.yaml",
+    "**/.gitea/workflows/*.yml",
+    "**/.gitea/workflows/*.yaml",
+    "**/.forgejo/workflows/*.yml",
+    "**/.forgejo/workflows/*.yaml"
+  ]
 }
