@@ -1,6 +1,5 @@
 [Unit]
-Description=Whisper.cpp inference server (GPU)
-Conflicts=whisper-server-cpu.service
+Description=Whisper speech to text server (GPU)
 
 [Service]
 ExecStart=/usr/bin/docker \
@@ -10,7 +9,7 @@ ExecStart=/usr/bin/docker \
     --device=/dev/dri \
     --group-add render \
     --ipc=host \
-    -v %h/Desktop/compose-files/whisper/cpp/:/models:ro \
+    -v %h/Desktop/compose-files/whisper/models/:/models:ro \
     -p 127.0.0.1:8765:8765 \
     --rm \
     whisper
