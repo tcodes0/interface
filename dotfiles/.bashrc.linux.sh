@@ -25,4 +25,3 @@ export GOBIN=$HOME/go/bin
 for file in "$HOME"/.bash_completion.d/*; do
   src "$file" "$DOTFILES/.bashrc.linux.sh:$LINENO"
 done
-
