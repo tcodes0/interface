@@ -40,8 +40,6 @@ export PAGER="less"
 export GPG_TTY=$(tty)
 export XDG_RUNTIME_DIR
 export WAYLAND_DISPLAY
-# jujutsu functions, meant to be set whenever JJ new is called. Used by jgl to "pull" changes.
-export JJ_WORKING_BOOKMARK=""
 
 # libs
 src_dotfile "lib.sh" "$LINENO"
@@ -100,7 +98,7 @@ fi
 
 # after aliases
 src_dotfile ".functions.sh" "$LINENO"
-src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
+src_dotfile ".functions_env.sh" "$LINENO"
 
 # start tmux on login only if not already in a tmux session,
 # if in a terminal emulator, and if the user is me
@@ -108,3 +106,12 @@ if [ ! "$TMUX" ] && term_emulator && is_me; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
+
+# same for linux and macos
+if [ ! "$(pgrep ssh-agent)" ]; then
+  eval "$(ssh-agent)" >/dev/null
+fi
+
+SSH_AUTH_SOCK=$(find "$HOME/.ssh" -type s 2>/dev/null | head -1)
+
+export SSH_AUTH_SOCK

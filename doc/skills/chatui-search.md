@@ -1,6 +1,6 @@
 ---
 name: chatui-search
-description: Use when the user mentions search not working, wants to inspect or repair the Meilisearch index, or asks how LibreChat search is architected.
+description: Use when the user mentions search not working, wants to inspect or repair the chatsearch index, or asks how LibreChat search is architected.
 ---
 
 # LibreChat Search — Architecture & Ops
@@ -36,7 +36,7 @@ Conversation title search is essentially useless for message retrieval — never
 
 **Problem:** Agent messages store their response in `content[]` typed parts (`type: text`, `type: think`, `type: tool_call`) with `text: ""`. The `mongoMeili` plugin's per-save hook (`preprocessObjectForIndex`) correctly calls `parseTextParts(content)` to extract text. But the bulk sync path (`processSyncBatch`) just does `_.pick(doc, attributesToIndex)` — `content` is not in `attributesToIndex`, so bulk sync always indexed an empty `text` for every agent message.
 
-**Impact:** All historical agent messages (and their thoughts) are invisible to search after any bulk re-index (e.g. after wiping Meilisearch). New messages saved post-startup are fine.
+**Impact:** All historical agent messages (and their thoughts) are invisible to search after any bulk re-index (e.g. after wiping chatsearch). New messages saved post-startup are fine.
 
 **Fix (patch 021):** In `syncWithMeili`, add `content` to the `.select()`. In `processSyncBatch`, apply `parseTextParts(doc.content)` when `text` is empty and `content` is present.
 
@@ -48,7 +48,7 @@ Conversation title search is essentially useless for message retrieval — never
 
 ## Sync mechanism
 
-The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync code uses `_meiliIndex`, the reset commands use `meiliIndex` because the schema field is aliased) boolean on each MongoDB document tracks whether it has been pushed to Meilisearch.
+The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync code uses `_meiliIndex`, the reset commands use `meiliIndex` because the schema field is aliased) boolean on each MongoDB document tracks whether it has been pushed to chatsearch.
 
 `indexSync.js` runs at startup and checks `getSyncProgress()` (counts `_meiliIndex: true` vs total). Key thresholds:
 
@@ -56,9 +56,9 @@ The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync 
 - `MEILI_SYNC_BATCH_SIZE` (default `100`) — documents per batch during `syncWithMeili`
 - `MEILI_SYNC_DELAY_MS` (default `100`) — ms between batches
 
-## When Meilisearch is wiped — recovery procedure
+## When chatsearch is wiped — recovery procedure
 
-Wiping Meilisearch leaves MongoDB `_meiliIndex` flags as `true`. `indexSync` sees "all synced" and does nothing.
+Wiping chatsearch leaves MongoDB `_meiliIndex` flags as `true`. `indexSync` sees "all synced" and does nothing.
 
 **Step 1 — Reset flags in MongoDB:**
 
@@ -98,7 +98,7 @@ from urllib.error import HTTPError
 import json, time
 
 db = MongoClient('mongodb', 27017)['LibreChat']
-MEILI = 'http://meilisearch:7700'
+MEILI = 'http://chatsearch:7700'
 KEY = 'YOUR_MEILI_MASTER_KEY'  # from compose .env
 HEADERS = {'Authorization': f'Bearer {KEY}', 'Content-Type': 'application/json'}
 
@@ -147,15 +147,15 @@ print(f'Pushed: {pushed}')
 # PYEOF
 ```
 
-## Verify Meilisearch state
+## Verify chatsearch state
 
 ```bash
 # Document counts in each index
-curl -s http://meilisearch:7700/indexes/messages/stats \
+curl -s http://chatsearch:7700/indexes/messages/stats \
   -H 'Authorization: Bearer YOUR_KEY' | python3 -c "import sys,json; d=json.load(sys.stdin); print('messages:', d['numberOfDocuments'], 'indexing:', d['isIndexing'])"
 
 # Test a search query
-curl -s http://meilisearch:7700/indexes/messages/search \
+curl -s http://chatsearch:7700/indexes/messages/search \
   -H 'Authorization: Bearer YOUR_KEY' \
   -H 'Content-Type: application/json' \
   -d '{"q": "YOUR_TERM", "filter": "user = \"USER_ID\"", "limit": 5}' | \
@@ -168,11 +168,11 @@ mongosh mongodb:27017/LibreChat --quiet --eval '
 '
 ```
 
-## Known Meilisearch key location
+## Known chatsearch key location
 
 `MEILI_MASTER_KEY` is set in the compose `.env` file (not committed). For the LGA instance it is loaded from the secrets mount — check `compose.yml` env_file reference.
 
-The Meilisearch container is accessible as `meilisearch:7700` from within the jail network (confirmed). No auth needed for `/health`, master key required for all index operations.
+The Meilisearch container is accessible as `chatsearch:7700` from within the jail network (confirmed). No auth needed for `/health`, master key required for all index operations.
 
 ## The FlowStateManager warning
 

@@ -11,13 +11,6 @@ trap 'err $LINENO' ERR
 
 ### vars ###
 
-check_dependencies() {
-  if [ "${BASH_ENV:-}" == "" ]; then
-    echo "BASH_ENV not set"
-    exit 1
-  fi
-}
-
 # keygrips: gpg --with-keygrip --list-secret-keys
 # preset both primary (SC) and subkey (E) per key — GPG uses each for different ops
 # shellcheck disable=SC2034
@@ -26,53 +19,83 @@ KEYGRIP_PERSONAL_SUB="E646642A421E45EED65BAC383947EDD6355010AA" # 1357rtr@gmail.
 KEYGRIP_PRO="9945CA56E213041B873D5A27874FCBD529C580D0"          # thomazella9@gmail.com [SC]
 KEYGRIP_PRO_SUB="F28EF2165DDDFEABEF30A620B15846630AEE584D"      # thomazella9@gmail.com [E]
 SSH_KEY="$HOME/.ssh/id_rsa"
-PASS_GPG="$HOME/.pass.gpg"
-GPG_PRESET=$(command -v gpg-preset-passphrase 2>/dev/null || echo /usr/lib/gnupg/gpg-preset-passphrase)
-
+SECRETS="$HOME/.pass.gpg"
 askpass=""
 pw_file=""
+RAMDISK_MOUNT=""
+SHRED_CMD=(shred -u)
+# gpg-preset-passphrase location: gpgconf knows this on both platforms
+# (Homebrew puts it under .../opt/gnupg/libexec, apt puts it under /usr/lib/gnupg)
+GPG_PRESET=$(command -v gpg-preset-passphrase 2>/dev/null || echo "$(gpgconf --list-dirs libexecdir 2>/dev/null)/gpg-preset-passphrase")
+
+check_dependencies() {
+  if [ "${BASH_ENV:-}" == "" ]; then
+    echo "BASH_ENV not set"
+    exit 1
+  fi
+
+  if macos; then
+    SHRED_CMD=(rm -f)
+  fi
+}
 
 _cleanup() {
-  if [ -f "$askpass" ]; then shred -u "$askpass" 2>/dev/null; fi
-  if [ -f "$pw_file" ]; then shred -u "$pw_file" 2>/dev/null; fi
+  if [ -n "$askpass" ] && [ -f "$askpass" ]; then "${SHRED_CMD[@]}" "$askpass" 2>/dev/null; fi
+  if [ -n "$pw_file" ] && [ -f "$pw_file" ]; then "${SHRED_CMD[@]}" "$pw_file" 2>/dev/null; fi
+  if macos && [ -n "$RAMDISK_MOUNT" ] && [ -d "$RAMDISK_MOUNT" ]; then
+    diskutil eject "$RAMDISK_MOUNT" >/dev/null 2>&1 || true
+  fi
+
   unset passphrase secrets ssh_pw gpg_pw gpg_pro_pw
+}
+
+main() {
+  check_dependencies
+  trap '_cleanup' EXIT
+
+  for dep in gpg ssh-add; do
+    command -v "$dep" >/dev/null || fatal $LINENO "$dep not found"
+  done
+  [ -x "$GPG_PRESET" ] || fatal $LINENO "gpg-preset-passphrase not found at $GPG_PRESET"
+  [ -f "$SECRETS" ] || fatal $LINENO "$SECRETS not found"
+  [ -f "$SSH_KEY" ] || fatal $LINENO "$SSH_KEY not found"
+
+  read -rsp "passphrase: " passphrase
+  echo
+
+  secrets=$(gpg --batch --pinentry-mode loopback --passphrase-fd 3 --decrypt "$SECRETS" 3<<<"$passphrase")
+  ssh_pw=$(awk '$1=="ssh" {print $2}' <<<"$secrets")
+  gpg_pro_pw=$(awk '$1=="gpg" && $2=="pro" {print $3}' <<<"$secrets")
+  gpg_pw=$(awk '$1=="gpg" && $2!="pro" {print $2}' <<<"$secrets")
+
+  # SSH_ASKPASS needs a helper script backed by memory, not disk.
+  # Linux has /dev/shm out of the box; macOS needs an explicit RAM disk.
+  if macos; then
+    RAMDISK_MOUNT="/Volumes/sshkeys_$$"
+    DEVICE=$(hdiutil attach -nomount ram://2048 | awk '{print $1}')
+    diskutil erasevolume HFS+ "sshkeys_$$" "$DEVICE" >/dev/null
+    TMPBASE="$RAMDISK_MOUNT"
+  else
+    TMPBASE="/dev/shm"
+  fi
+
+  pw_file=$(mktemp "$TMPBASE/pw_XXXXXX")
+  askpass=$(mktemp "$TMPBASE/askpass_XXXXXX")
+  chmod 600 "$pw_file"
+  chmod 700 "$askpass"
+  printf '%s' "$ssh_pw" >"$pw_file"
+  printf '#!/bin/bash\ncat "%s"\n' "$pw_file" >"$askpass"
+
+  SSH_ASKPASS="$askpass" SSH_ASKPASS_REQUIRE=force DISPLAY=: ssh-add "$SSH_KEY"
+
+  "$GPG_PRESET" --preset "$KEYGRIP_PERSONAL" <<<"$gpg_pw"
+  "$GPG_PRESET" --preset "$KEYGRIP_PERSONAL_SUB" <<<"$gpg_pw"
+  "$GPG_PRESET" --preset "$KEYGRIP_PRO" <<<"$gpg_pro_pw"
+  "$GPG_PRESET" --preset "$KEYGRIP_PRO_SUB" <<<"$gpg_pro_pw"
+
+  log $LINENO "keys loaded"
 }
 
 ### script ###
 
-check_dependencies
-trap '_cleanup' EXIT
-
-for dep in gpg ssh-add shred; do
-  command -v "$dep" >/dev/null || fatal $LINENO "$dep not found"
-done
-
-[ -x "$GPG_PRESET" ] || fatal $LINENO "gpg-preset-passphrase not found at $GPG_PRESET"
-[ -f "$PASS_GPG" ] || fatal $LINENO "$PASS_GPG not found"
-[ -f "$SSH_KEY" ] || fatal $LINENO "$SSH_KEY not found"
-
-read -rsp "passphrase: " passphrase
-echo
-
-secrets=$(gpg --batch --pinentry-mode loopback --passphrase-fd 3 --decrypt "$PASS_GPG" 3<<<"$passphrase")
-
-ssh_pw=$(awk '$1=="ssh" {print $2}' <<<"$secrets")
-gpg_pro_pw=$(awk '$1=="gpg" && $2=="pro" {print $3}' <<<"$secrets")
-gpg_pw=$(awk '$1=="gpg" && $2!="pro" {print $2}' <<<"$secrets")
-
-# SSH_ASKPASS requires a helper script; /dev/shm is RAM-backed, never hits disk
-pw_file=$(mktemp /dev/shm/pw_XXXXXX)
-askpass=$(mktemp /dev/shm/askpass_XXXXXX)
-chmod 600 "$pw_file"
-chmod 700 "$askpass"
-printf '%s' "$ssh_pw" >"$pw_file"
-printf '#!/bin/bash\ncat "%s"\n' "$pw_file" >"$askpass"
-
-SSH_ASKPASS="$askpass" SSH_ASKPASS_REQUIRE=force DISPLAY=: ssh-add "$SSH_KEY"
-
-"$GPG_PRESET" --preset "$KEYGRIP_PERSONAL" <<<"$gpg_pw"
-"$GPG_PRESET" --preset "$KEYGRIP_PERSONAL_SUB" <<<"$gpg_pw"
-"$GPG_PRESET" --preset "$KEYGRIP_PRO" <<<"$gpg_pro_pw"
-"$GPG_PRESET" --preset "$KEYGRIP_PRO_SUB" <<<"$gpg_pro_pw"
-
-log $LINENO "keys loaded"
+main

@@ -623,39 +623,6 @@ lg() {
 
 #----------------
 
-__jj_bookmarks() {
-  jj log --revisions '::@ & bookmarks()' --template 'bookmarks ++ " "' --no-graph --color="${1:-never}"
-}
-
-#----------------
-
-# get the first bookmark in the current branch's history that is not main or master, or the second if the first is main or master. If neither exists, returns empty string.
-jj_bookmark0() {
-  local candidate bookmarks=()
-  read -ra bookmarks < <(__jj_bookmarks)
-  local first="${bookmarks[0]/\*/}"
-
-  if [[ ! "$first" =~ ^(main|master)$ ]]; then
-    candidate="$first"
-  elif [ -n "${bookmarks[1]:-}" ]; then
-    candidate="${bookmarks[1]/\*/}"
-  else
-    jbn
-    read -ra bookmarks < <(__jj_bookmarks)
-    first="${bookmarks[0]/\*/}"
-    [[ ! "$first" =~ ^(main|master)$ ]] && candidate="$first" || candidate="${bookmarks[1]:-}"
-    candidate="${candidate/\*/}"
-  fi
-
-  if [ -n "$candidate" ]; then
-    printf "%s" "$candidate"
-  else
-    warn $LINENO "jj_bookmark0 empty, bookmarks: ${bookmarks[*]}"
-  fi
-}
-
-#----------------
-
 __jj_basename() {
   local root
   root=$(jj root 2>/dev/null) || return 1
@@ -786,8 +753,19 @@ prompt() {
 
 inf() {
   local rc="$HOME/.config/github.com.rthomazel/.infrc"
-  local project
+  local project SECRETS_HOST=secrets.golang.dev.br
   project=$(basename "$PWD")
+
+  if ! timeout 2 infisical user get token >/dev/null 2>&1; then
+    echo "[ERR] infisical not logged in, run 'infisical login' first"
+    exit 1
+  fi
+
+  echo connecting to "$SECRETS_HOST" please wait...
+  if ! timeout 120 bash -c "until ping -c 1 -W 1 $SECRETS_HOST > /dev/null 2>&1; do sleep 1; done"; then
+    echo "[ERR] $SECRETS_HOST timeout, aborting"
+    exit 1
+  fi
 
   if [[ ! -f "$rc" ]]; then
     infisical "$@"

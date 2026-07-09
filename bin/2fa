@@ -11,14 +11,19 @@ trap 'err $LINENO' ERR
 
 ### vars ###
 
+TFA_DIR="$HOME/.2fa"
+COPY_BIN=wl-copy
+
 check_dependencies() {
   if [ "${BASH_ENV:-}" == "" ]; then
     echo "BASH_ENV not set"
     exit 1
   fi
-}
 
-TFA_DIR="$HOME/.2fa"
+  for dep in gpg oathtool $COPY_BIN; do
+    command -v "$dep" >/dev/null || fatal $LINENO "$dep not found"
+  done
+}
 
 list_services() {
   find "$TFA_DIR" -maxdepth 1 -type f | sort | while read -r f; do
@@ -48,11 +53,11 @@ encrypt() {
 
 ### script ###
 
-check_dependencies
+if macos; then
+  COPY_BIN=pbcopy
+fi
 
-for dep in gpg oathtool wl-copy; do
-  command -v "$dep" >/dev/null || fatal $LINENO "$dep not found"
-done
+check_dependencies
 
 [ -d "$TFA_DIR" ] || fatal $LINENO "$TFA_DIR not found"
 
@@ -79,6 +84,6 @@ fi
 code=$(oathtool -b --totp - <<<"$secret" | tr -d '\n')
 
 printf '%s\n' "$code"
-printf '%s' "$code" | wl-copy
+printf '%s' "$code" | $COPY_BIN
 
 encrypt

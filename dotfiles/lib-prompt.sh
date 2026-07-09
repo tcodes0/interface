@@ -57,7 +57,6 @@ make_ps1() {
 
   if ! $known_host; then
     current_host="$SECONDARY_COLOR@$host_name$END"
-    decorations=$SECONDARY_COLOR"*>"$spacer$END
   fi
 
   case "$1" in
@@ -70,9 +69,3 @@ make_ps1() {
 END=$(tput sgr0)
 MAIN_COLOR="\\[$(rand_256_color)\\]"
 SECONDARY_COLOR="\\[$(rand_256_color)\\]"
-
-# global var used in jj functions
-# if ! declare -p JJ_RECENT_BOOKMARK_MAP &>/dev/null; then
-#   declare -g -A JJ_RECENT_BOOKMARK_MAP=()
-#   export JJ_RECENT_BOOKMARK_MAP
-# fi

@@ -34,7 +34,6 @@ alias ehtoken="gcloud auth print-access-token | wl-copy"
 # others
 
 alias lsblk='lsblk -f'
-alias ssh='ssh-ident'
 alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"

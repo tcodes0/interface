@@ -59,30 +59,30 @@ extracts them automatically.
 
 ## Paths
 
-| What                   | Where                                                                        |
-| ---------------------- | ---------------------------------------------------------------------------- |
-| LibreChat patch files  | `images/librechat/danny-avila.librechat/NNN-*.diff`                          |
-| Agents patch files     | `images/librechat/librechat.agents/NNN-*.diff`                               |
-| TSC environment        | `/projects/scratchpad/librechat-tsc` (persistent, do not delete)             |
-| Agents dist in TSC env | `/projects/scratchpad/librechat-tsc/node_modules/@librechat/agents/dist/cjs` |
-| Upgrade script         | `bin/upgrade-chatui`                                                         |
+| What                   | Where                                                             |
+| ---------------------- | ----------------------------------------------------------------- |
+| LibreChat patch files  | `images/librechat/danny-avila.librechat/NNN-*.diff`               |
+| Agents patch files     | `images/librechat/librechat.agents/NNN-*.diff`                    |
+| TSC environment        | `/projects/librechat-tsc` (persistent, do not delete)             |
+| Agents dist in TSC env | `/projects/librechat-tsc/node_modules/@librechat/agents/dist/cjs` |
+| Upgrade script         | `bin/upgrade-chatui`                                              |
 
 ## Persistent TSC Environment
 
 A LibreChat source clone with `node_modules` and built workspace packages lives at:
 
 ```
-/projects/scratchpad/librechat-tsc
+/projects/librechat-tsc
 ```
 
 This is a **persistent volume** — survives session restarts. Do not delete it.
 Setup takes ~5 min to re-run. If it needs rebuilding:
 
 ```bash
-rm -rf /projects/scratchpad/librechat-tsc
+rm -rf /projects/librechat-tsc
 git clone --depth 1 --branch v0.8.6-rc1 \
-  https://github.com/danny-avila/LibreChat.git /projects/scratchpad/librechat-tsc
-cd /projects/scratchpad/librechat-tsc
+  https://github.com/danny-avila/LibreChat.git /projects/librechat-tsc
+cd /projects/librechat-tsc
 npm ci --no-audit
 npm run build -w packages/data-provider
 npm run build -w packages/client
@@ -103,10 +103,10 @@ Always run both checks before committing.
 Reset the TSC clone, then apply every patch in order:
 
 ```bash
-git -C /projects/scratchpad/librechat-tsc checkout -- .
+git -C /projects/librechat-tsc checkout -- .
 for p in $(ls /path/to/lga-clone/images/librechat/danny-avila.librechat/*.diff | sort); do
   printf '%-70s ' "$(basename $p)"
-  patch -p1 -d /projects/scratchpad/librechat-tsc < $p && echo CLEAN || echo FAILED
+  patch -p1 -d /projects/librechat-tsc < $p && echo CLEAN || echo FAILED
 done
 ```
 
@@ -118,20 +118,32 @@ For agents patches, restore the original file first (agents dist is not tracked 
 # agents patches validate against node_modules — no git reset, restore manually if needed
 for p in $(ls /path/to/lga-clone/images/librechat/librechat.agents/*.diff | sort); do
   printf '%-70s ' "$(basename $p)"
-  patch -p1 -d /projects/scratchpad/librechat-tsc/node_modules/@librechat/agents < $p && echo CLEAN || echo FAILED
+  patch -p1 -d /projects/librechat-tsc/node_modules/@librechat/agents < $p && echo CLEAN || echo FAILED
 done
 ```
 
-### 2 — TSC check on touched files
+### 2 — Syntax / type check on touched files
 
-Filter by the filename(s) you changed — ~176 pre-existing upstream errors exist in unrelated files; ignore those.
+**For `.ts` / `.tsx` files** — filter by the filename(s) you changed.
+~176 pre-existing upstream errors exist in unrelated files; ignore those.
 
 ```bash
-cd /projects/scratchpad/librechat-tsc
+cd /projects/librechat-tsc
 npx tsc --noEmit -p client/tsconfig.json 2>&1 | grep 'error TS' | grep -E 'File1|File2'
 ```
 
 No output = clean. Any output means the patch introduces a type error.
+
+**For `.js` files** — run a Node syntax check. Node's parser catches syntax errors
+that would only surface at runtime otherwise. Do not skip this step for JS patches.
+
+```bash
+# node shim requires a global version to be set; pin once per session if needed:
+mise use -g node@lts
+node --check /projects/librechat-tsc/path/to/file.js && echo SYNTAX_OK
+```
+
+A non-zero exit means a parse/syntax error. `SYNTAX_OK` confirms clean.
 
 ## Writing a New Patch
 
@@ -140,21 +152,21 @@ Reset to clean upstream first, discard changes in the worktree from previous ses
 ### 1. Reset and save the original
 
 ```bash
-git -C /projects/scratchpad/librechat-tsc checkout -- .
+git -C /projects/librechat-tsc checkout -- .
 ```
 
 Capture the baseline **in one atomic command** — write to `/tmp` and verify in the same shell invocation. Each `shell` tool call is a fresh process, so a `cd` or file write from a prior call is not visible if the next call fails partway through.
 
 ```bash
-git -C /projects/scratchpad/librechat-tsc checkout -- . && \
-  cp /projects/scratchpad/librechat-tsc/client/src/path/to/File.tsx /tmp/File.orig.tsx && \
+git -C /projects/librechat-tsc checkout -- . && \
+  cp /projects/librechat-tsc/client/src/path/to/File.tsx /tmp/File.orig.tsx && \
   echo "baseline: $(wc -l < /tmp/File.orig.tsx) lines"
 ```
 
 For files extracted from git history (e.g. to generate a diff against a pre-patch state):
 
 ```bash
-git -C /projects/scratchpad/librechat-tsc show HEAD:client/src/path/to/File.tsx > /tmp/File.upstream.ts && \
+git -C /projects/librechat-tsc show HEAD:client/src/path/to/File.tsx > /tmp/File.upstream.ts && \
   echo "upstream: $(wc -l < /tmp/File.upstream.ts) lines"
 ```
 
@@ -162,11 +174,12 @@ Always print the line count as confirmation — a silent zero-byte file is the m
 
 ### 2. Edit the target file
 
-Edit directly in `/projects/scratchpad/librechat-tsc/`.
+Edit directly in `/projects/librechat-tsc/`.
 
 ### 3. Run mandatory validation (see above)
 
-TSC-check before generating the diff.
+Run the syntax / type check (section above) before generating the diff.
+For `.ts`/`.tsx` files use `npx tsc`. For `.js` files use `node --check`.
 
 ### 4. Generate the diff
 
@@ -177,7 +190,7 @@ diff -u \
   --label a/client/src/path/to/File.tsx \
   --label b/client/src/path/to/File.tsx \
   /tmp/File.orig.tsx \
-  /projects/scratchpad/librechat-tsc/client/src/path/to/File.tsx \
+  /projects/librechat-tsc/client/src/path/to/File.tsx \
   > images/librechat/danny-avila.librechat/NNN-description--path-File.diff
 ```
 
@@ -188,7 +201,7 @@ diff -u \
   --label a/dist/cjs/messages/format.cjs \
   --label b/dist/cjs/messages/format.cjs \
   /tmp/format.orig.cjs \
-  /projects/scratchpad/librechat-tsc/node_modules/@librechat/agents/dist/cjs/messages/format.cjs \
+  /projects/librechat-tsc/node_modules/@librechat/agents/dist/cjs/messages/format.cjs \
   > images/librechat/librechat.agents/NNN-description--dist-cjs-file.diff
 ```
 

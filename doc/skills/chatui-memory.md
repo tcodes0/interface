@@ -5,86 +5,93 @@ description: Use when the user asks to remember something, says "remember this",
 
 # Memory Management
 
-Memories are stored in the database. For connection details, see the `chatui` skill.
+Memories are stored in LiteLLM's `/v1/memory` API (Postgres-backed), not in LibreChat's MongoDB.
+See the `eleanor-litellm` / `chatui` skill for stack context if needed.
 
 ## Tooling
 
-All memory operations are simple enough to use mongosh directly:
+All memory operations go through plain HTTP against the LiteLLM proxy, reachable from the bench
+container at the compose service name:
 
-```bash
-mongosh mongodb:27017/LibreChat --quiet
+```
+http://litellm:4000/v1/memory
 ```
 
-If mongosh is not installed, install it once to `/root/bin` (persists across sessions):
+Auth: `Authorization: Bearer <LITELLM_API_KEY>` — the key lives in
+`/projects/lga/services/librechat/.env` as `LITELLM_API_KEY`. This is a scoped virtual key (not
+the master key); memory entries created with it are automatically scoped to its `user_id`/`team_id`
+— never pass `user_id`/`team_id` explicitly in requests.
 
 ```bash
-VERSION=$(curl -sf https://api.github.com/repos/mongodb-js/mongosh/releases/latest | python3 -c "import sys,json; print(json.load(sys.stdin)['tag_name'].lstrip('v'))")
-curl -fsSL "https://downloads.mongodb.com/compass/mongosh-${VERSION}-linux-x64.tgz" | tar -xz -C /root
-mv /root/mongosh-${VERSION}-linux-x64/bin/mongosh /root/bin/mongosh && chmod +x /root/bin/mongosh
-rm -rf /root/mongosh-${VERSION}-linux-x64
+LITELLM_API_KEY=$(grep LITELLM_API_KEY /projects/lga/services/librechat/.env | cut -d= -f2)
 ```
 
-If you need pymongo instead (e.g. for bulk writes in a script), install it once to `/root/pylib` (persists):
+## Key Naming Convention
+
+Keys are globally unique across all of LiteLLM memory (not per-user namespaced by the API), so we
+impose our own namespace: `<namespace>:<name>`.
+
+- Project-scoped notes: `<project>:<name>` — e.g. `lga:hetzner_network_restrictions`,
+  `server:hub_server_tzdata_import` (namespace = repo catalog name from the `github` skill)
+- Project state snapshots (see "Reactive Triggers" in the `github` skill): `project_state:<project>`
+  — e.g. `project_state:lga`, `project_state:interface`. Note the order: `project_state` is the
+  namespace, the project name is the suffix — not the other way around.
+- Cross-cutting notes not tied to one repo: `general:<name>` — e.g. `general:host_system`,
+  `general:docker_image_avoid_alpine`
+
+## List All Memories
 
 ```bash
-pip3 install pymongo --target /root/pylib -q --break-system-packages
-# use with: PYTHONPATH=/root/pylib python3 << 'PYEOF' ... PYEOF
+curl -s "http://litellm:4000/v1/memory?page_size=100" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}"
 ```
 
-Collection: `memoryentries`
+Filter by namespace using `key_prefix`:
 
-## Schema
+```bash
+curl -s "http://litellm:4000/v1/memory?key_prefix=lga:" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}"
+```
 
-| Field        | Notes                                                           |
-| ------------ | --------------------------------------------------------------- |
-| `userId`     | Always the operator's user ObjectId: `69e6beb74aa4d2249360a4ab` |
-| `key`        | Snake-case identifier — short, descriptive, stable              |
-| `value`      | Free-text content of the memory                                 |
-| `tokenCount` | Approximate token count of `value` — estimate if unknown        |
-| `updated_at` | Set to `new Date()` on every write                              |
-| `__v`        | `0`                                                             |
+## Get a Memory by Key
 
-## Read All Memories
-
-```javascript
-db.memoryentries
-  .find({ userId: ObjectId("69e6beb74aa4d2249360a4ab") }, { key: 1, value: 1, _id: 0 })
-  .toArray();
+```bash
+curl -s "http://litellm:4000/v1/memory/project_state:lga" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}"
 ```
 
 ## Save a New Memory
 
-```javascript
-db.memoryentries.insertOne({
-  userId: ObjectId("69e6beb74aa4d2249360a4ab"),
-  key: "snake_case_key",
-  value: "Memory content here.",
-  tokenCount: 20,
-  updated_at: new Date(),
-  __v: 0,
-});
+```bash
+curl -s -X POST "http://litellm:4000/v1/memory" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"key": "general:my_new_key", "value": "Memory content here."}'
 ```
 
-## Update an Existing Memory
+## Update an Existing Memory (Upsert)
 
-```javascript
-db.memoryentries.updateOne(
-  { userId: ObjectId("69e6beb74aa4d2249360a4ab"), key: "snake_case_key" },
-  { $set: { value: "Updated content.", tokenCount: 25, updated_at: new Date() } },
-);
+Same endpoint pattern, `PUT` instead of `POST` — creates the entry if the key doesn't exist yet:
+
+```bash
+curl -s -X PUT "http://litellm:4000/v1/memory/general:my_new_key" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"value": "Updated content."}'
 ```
 
 ## Delete a Memory
 
-```javascript
-db.memoryentries.deleteOne({
-  userId: ObjectId("69e6beb74aa4d2249360a4ab"),
-  key: "snake_case_key",
-});
+```bash
+curl -s -X DELETE "http://litellm:4000/v1/memory/general:my_new_key" \
+  -H "Authorization: Bearer ${LITELLM_API_KEY}"
 ```
 
-## Key Conventions
+## Conventions
 
-- Use snake_case: `project_preferences`, `go_style_notes`
-- Be specific enough that the key is self-documenting
-- Prefer updating an existing memory over creating a duplicate
+- Prefer updating (upsert) an existing key over creating a near-duplicate — consolidate rather
+  than fork. This especially applies to `project_state:*` entries: one entry per project, not per
+  feature or session. If more than one entry exists for the same project, merge them.
+- Keep `value` as plain text/markdown, free-form.
+- No `metadata`, `tokenCount`, or `updated_at` bookkeeping needed — LiteLLM tracks `created_at`,
+  `updated_at`, `created_by`, `updated_by` automatically per entry.

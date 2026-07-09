@@ -1,27 +1,27 @@
 ---
 name: github
 description: Use for all VCS operations — working with git repos, creating branches, committing, opening PRs, handling review comments, and resolving GitHub threads.
-always-apply: true
+always-apply: false
 ---
 
 # GitHub & VCS Workflow
 
 ## Clone Workflow
 
-Host repos are mounted read-only at `/projects/<repo>` — use them for reading and searching. **Never commit, edit or push from those paths.**
-
-For any change, clone to scratchpad:
+It's better to clone the repository to read code than using the GitHub API to fetch files.
 
 ```bash
-git clone git@github.com:<org>/<repo>.git /projects/scratchpad/<repo>-<purpose-mmm-dd>
-cd /projects/scratchpad/<repo>-<purpose-mmm-dd>
+git clone git@github.com:<org>/<repo>.git /projects/<repo>-<purpose-mmm-dd>
+cd /projects/<repo>-<purpose-mmm-dd>
 git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
 
-Before cloning, check whether a clone for that repo already exists in scratchpad and reuse it if so — avoid redundant re-clones within the same session.
-
-After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup). Report any errors to the operator.
+Before cloning, check whether a clone for that repo already exists and reuse it if so — avoid redundant re-clones within the same session.
+**Careful**: Check the branch the existing clone is checked out on, if it's not your branch, you start a new one from main.
+After cloning, always run the `setup` MCP tool — it installs tool versions and dependencies via mise, and runs `bin/setup` if present (which configures GPG signing and other repo-specific setup).
+Report any errors to the operator.
+Because this tool is async, you can continue other tasks while it works.
 
 ```
 setup(["path/to/clone"])
@@ -53,9 +53,12 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
 
+report missing repo clone URLs and stop.
+
 ## GitHub API Tooling
 
-A GitHub MCP tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
+A GitHub tool is available for all GitHub API calls. Supports REST v3 and GraphQL v4.
+To find it: "api_keys" tool set, "github" tool
 
 ```
 # Read PR comments
@@ -77,7 +80,7 @@ Shell `git` still handles cloning, committing, and pushing.
 **When ready to push:**
 
 1. `git push origin <branch>`
-2. Create the PR via the github mcp:
+2. Create the PR via the github tool:
    `POST /repos/{owner}/{repo}/pulls` — `{"title": "type(scope): message", "head": "<branch>", "base": "<default branch>", "body": "..."}`
 
 > **Never push directly to `main`**. Always go through a PR.
@@ -92,12 +95,17 @@ Shell `git` still handles cloning, committing, and pushing.
 - _Dev-direct workflow:_ keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
 
 ```bash
-rm -rf /projects/scratchpad/<repo>-<purpose-mmm-dd>
+rm -rf /projects/<repo>-<purpose-mmm-dd>
 ```
+
+> Warning: A few projects are permanently cloned
+>
+> - lga: This is the live stack where the workstation runs, if removed db crashes and everything crashes.
+> - librechat-tsc: used in the patching workflow (see skill).
 
 Update if exists or create a memory (see skill) about the state of the project, keep it around 300 words, key should be ${PROJECT_NAME}\_project_state.
 The memory entry is per project, not per feature. If there's more than one entry for the same project, consolidate.
-If you notice directories in the scratchpad that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
+If you notice directories under projects that seem old or stale, report to operator and offer to clean up — code is always pushed anyway.
 
 ## Dev branch
 
@@ -107,12 +115,12 @@ For hotfixes and small things, commit to dev directly.
 
 ## Reactive Triggers
 
-| WHEN                                      | DO                                                                                                                 |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| The first commit is made                  | Push and open PR                                                                                                   |
-| A commit is made                          | Push                                                                                                               |
-| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub MCP tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
-| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation                                                     |
+| WHEN                                      | DO                                                                                                             |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| The first commit is made                  | Push and open PR                                                                                               |
+| A commit is made                          | Push                                                                                                           |
+| operator leaves review comments in GitHub | Fetch inline diff comments via the GitHub tool, `GET /repos/{org}/{repo}/pulls/{n}/comments`, work on each one |
+| GitHub comments are addressed             | Resolve each thread via GraphQL `resolveReviewThread` mutation, push                                           |
 
 ## Resolving GitHub Review Threads
 
@@ -131,3 +139,5 @@ Get thread IDs via GraphQL:
   }
 }
 ```
+
+<!-- END SKILL, OPERATOR MESSAGE BELOW -->
