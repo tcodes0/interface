@@ -21,7 +21,7 @@ description: Use when the user mentions search not working, wants to inspect or 
 | Endpoint                    | What it searches                         | Used by                                                            |
 | --------------------------- | ---------------------------------------- | ------------------------------------------------------------------ |
 | `GET /api/messages?search=` | Meilisearch `messages` index (full-text) | Search route right pane                                            |
-| `GET /api/convos?search=`   | MongoDB title match                      | Not used for sidebar — title search is useless for message content |
+| `GET /api/convos?search=`   | librechat-db title match                 | Not used for sidebar — title search is useless for message content |
 
 Conversation title search is essentially useless for message retrieval — never pass `search` to the convos endpoint for the sidebar.
 
@@ -48,7 +48,7 @@ Conversation title search is essentially useless for message retrieval — never
 
 ## Sync mechanism
 
-The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync code uses `_meiliIndex`, the reset commands use `meiliIndex` because the schema field is aliased) boolean on each MongoDB document tracks whether it has been pushed to chatsearch.
+The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync code uses `_meiliIndex`, the reset commands use `meiliIndex` because the schema field is aliased) boolean on each librechat-db document tracks whether it has been pushed to chatsearch.
 
 `indexSync.js` runs at startup and checks `getSyncProgress()` (counts `_meiliIndex: true` vs total). Key thresholds:
 
@@ -58,12 +58,12 @@ The `_meiliIndex` (or `meiliIndex` in the flag reset context — note: the sync 
 
 ## When chatsearch is wiped — recovery procedure
 
-Wiping chatsearch leaves MongoDB `_meiliIndex` flags as `true`. `indexSync` sees "all synced" and does nothing.
+Wiping chatsearch leaves librechat-db `_meiliIndex` flags as `true`. `indexSync` sees "all synced" and does nothing.
 
-**Step 1 — Reset flags in MongoDB:**
+**Step 1 — Reset flags in librechat-db:**
 
 ```bash
-mongosh mongodb:27017/LibreChat --quiet --eval '
+mongosh librechat-db:27017/LibreChat --quiet --eval '
   db.messages.updateMany({}, { $set: { _meiliIndex: false } });
   db.conversations.updateMany({}, { $set: { _meiliIndex: false } });
   print("reset done");
@@ -97,7 +97,7 @@ from urllib.request import urlopen, Request
 from urllib.error import HTTPError
 import json, time
 
-db = MongoClient('mongodb', 27017)['LibreChat']
+db = MongoClient('librechat-db', 27017)['LibreChat']
 MEILI = 'http://chatsearch:7700'
 KEY = 'YOUR_MEILI_MASTER_KEY'  # from compose .env
 HEADERS = {'Authorization': f'Bearer {KEY}', 'Content-Type': 'application/json'}
@@ -162,7 +162,7 @@ curl -s http://chatsearch:7700/indexes/messages/search \
   python3 -c "import sys,json; d=json.load(sys.stdin); print('hits:', d.get('estimatedTotalHits',0))"
 
 # MongoDB flag counts
-mongosh mongodb:27017/LibreChat --quiet --eval '
+mongosh librechat-db:27017/LibreChat --quiet --eval '
   print("indexed:", db.messages.countDocuments({_meiliIndex:true}));
   print("pending:", db.messages.countDocuments({_meiliIndex:{$ne:true}}));
 '

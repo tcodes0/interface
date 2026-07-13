@@ -103,7 +103,7 @@ Whenever this file is updated, sync the change to the agent database record:
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
 content = open('/projects/interface/doc/agents/merlin.md').read()
-MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
+MongoClient('librechat-db', 27017)['LibreChat'].agents.update_one(
     {'name': {'$regex': 'merlin', '$options': 'i'}}, {'$set': {'instructions': content}})
 PYEOF
 ```
