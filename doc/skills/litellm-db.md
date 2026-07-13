@@ -1,9 +1,9 @@
 ---
-name: eleanor-litellm
+name: litellm-db
 description: Use when querying the LiteLLM proxy database, investigating LLM call logs, spend, latency, or memory entries stored in LiteLLM for the LGA stack.
 ---
 
-# Eleanor LiteLLM
+# LiteLLM Database
 
 ## What LiteLLM Is Here
 
