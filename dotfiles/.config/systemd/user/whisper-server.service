@@ -1,5 +1,7 @@
 [Unit]
 Description=Whisper speech to text server (GPU)
+StartLimitIntervalSec=300
+StartLimitBurst=5
 
 [Service]
 ExecStart=/usr/bin/docker \
@@ -15,6 +17,7 @@ ExecStart=/usr/bin/docker \
     whisper
 Restart=on-failure
 RestartSec=5
+ExecStop=/usr/bin/docker stop whisper-server
 
 [Install]
 WantedBy=default.target

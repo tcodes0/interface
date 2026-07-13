@@ -1,0 +1,19 @@
+[Unit]
+Description=Local LLM
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+ExecStart=%h/Desktop/compose-files/vllm/bin/vllm-helper \
+    --model cyankiwi/Ministral-3-14B-Instruct-2512-AWQ-4bit \
+    --gpu 0.80 \
+    --context 31200 \
+    --name archam5/llm \
+    --kv-quantization auto \
+    --timeout 120
+Restart=on-failure
+RestartSec=5
+ExecStop=/usr/bin/docker stop vllm
+
+[Install]
+WantedBy=default.target

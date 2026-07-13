@@ -210,7 +210,7 @@ Goal: add a new LeetCode exercise for "Contains Duplicate" (given int array, ret
     Verify: go build ./... and go test ./00-contains-duplicate/... from the go/ dir.
 		Run this command in shell.
 
-Run all commands to create the files and run the tests using the shell.
+Run all commands to create the files and run the tests using the shell, implement all the code.
 Stop after tests pass. Do not commit/push/branch. Report each step's outcome briefly.
 ```
 
