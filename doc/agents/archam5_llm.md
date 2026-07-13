@@ -199,21 +199,18 @@ plan a multi-step task from a goal description; it needs the plan handed to it.
 including tool call examples is important.
 
 ```
-Working directory: /projects/programming-problems-wreneval-jul09
-
-Use bench-shell_mcp_litellm for all shell commands, e.g.: {"commands": ["ls go/"], "cwd": "/projects/programming-problems-wreneval-jul09"}
-The error "Please fix your mistakes." indicates an incorrect tool call format, follow the examples above, wrap in JSON.
+Working directory: /projects/programming-problems
 
 Goal: add a new LeetCode exercise for "Contains Duplicate" (given int array, return true if any value appears twice) to this repo, following its existing conventions. Figure out the how yourself:
 
     Look at go/00-remove-element/ to see the file convention (readme.md, main.go, main_test.go, notes.md).
-    Scaffold via ./run new 00-contains-duplicate (cwd /projects/programming-problems-wreneval-jul09).
+    Scaffold via ./run new 00-contains-duplicate (cwd /projects/programming-problems).
     Write go/00-contains-duplicate/readme.md, main.go (func containsDuplicate(nums []int) bool + a main()), and main_test.go (table-driven, 3+ cases) matching that convention.
 		To write use shell and cat, for example.
     Verify: go build ./... and go test ./00-contains-duplicate/... from the go/ dir.
 		Run this command in shell.
 
-
+Run all commands to create the files and run the tests using the shell.
 Stop after tests pass. Do not commit/push/branch. Report each step's outcome briefly.
 ```
 
