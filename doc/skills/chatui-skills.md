@@ -69,7 +69,7 @@ Leave `allowedTools` and `tenantId` absent (not `null`).
 Skills without an `aclentries` document are invisible in the UI.
 
 ```javascript
-// /root/insert_acl.js — run: mongosh mongodb:27017/LibreChat --quiet /root/insert_acl.js
+// /root/insert_acl.js — run: mongosh librechat-db:27017/LibreChat --quiet /root/insert_acl.js
 var skillId = ObjectId("REPLACE_WITH_SKILL_ID");
 var userId = ObjectId("69e6beb74aa4d2249360a4ab");
 var roleId = ObjectId("6a0336a122e01bacd9e152fa");
@@ -120,7 +120,7 @@ always-apply: true
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
 from datetime import datetime, timezone
-db = MongoClient('mongodb', 27017)['LibreChat']
+db = MongoClient('librechat-db', 27017)['LibreChat']
 body = open('/projects/interface/doc/skills/<name>.md').read()
 result = db.skills.update_one(
     {'name': '<skill-name>'},
@@ -135,7 +135,7 @@ If a stale `content` field was previously written, remove it:
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
-db = MongoClient('mongodb', 27017)['LibreChat']
+db = MongoClient('librechat-db', 27017)['LibreChat']
 db.skills.update_one({'name': '<skill-name>'}, {'$unset': {'content': ''}})
 PYEOF
 ```
@@ -143,7 +143,7 @@ PYEOF
 ## Inspecting a Skill
 
 ```javascript
-// mongosh mongodb:27017/LibreChat --quiet
+// mongosh librechat-db:27017/LibreChat --quiet
 db.skills.findOne({ name: "my-skill" }, { name: 1, alwaysApply: 1, frontmatter: 1, version: 1 });
 db.aclentries.findOne({ resourceType: "skill", resourceId: ObjectId("...") });
 ```

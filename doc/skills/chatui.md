@@ -11,7 +11,7 @@ always-apply: false
 **Reads / inspection:** use `mongosh`
 
 ```bash
-mongosh mongodb:27017/LibreChat --quiet
+mongosh librechat-db:27017/LibreChat --quiet
 ```
 
 **Writes that embed file content:** use pymongo via single-quoted heredoc — `$set` and regex literals are mangled by bash expansion in all mongosh CLI modes
@@ -19,7 +19,7 @@ mongosh mongodb:27017/LibreChat --quiet
 ```bash
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
-db = MongoClient('mongodb', 27017)['LibreChat']
+db = MongoClient('librechat-db', 27017)['LibreChat']
 # ... your write here
 PYEOF
 ```
@@ -51,7 +51,7 @@ Sync a prompt file to its agent database record after editing. Note: the Python 
 PYTHONPATH=/root/pylib python3 << 'PYEOF'
 from pymongo import MongoClient
 content = open('/projects/interface/doc/agents/<name>.md').read()
-MongoClient('mongodb', 27017)['LibreChat'].agents.update_one(
+MongoClient('librechat-db', 27017)['LibreChat'].agents.update_one(
     {'name': {'$regex': '<agent-name>', '$options': 'i'}}, {'$set': {'instructions': content}})
 PYEOF
 ```
