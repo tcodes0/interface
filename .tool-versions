@@ -1,4 +1,4 @@
-golang 1.26.4
+golang 1.26.5
 node 26.0.0 # oxfmt requires node unfortunately
 oxfmt latest
 shellcheck 0.11.0
