@@ -21,19 +21,21 @@ Compose service names (see `lga` project state): `litellm` (proxy, port 4000) an
 
 ### Direct DB access (bench shell)
 
-`psql` is not installed in the bench container — use Python + `psycopg2-binary` instead:
+`psql` is not installed in the bench container. Do **not** `pip3 install --break-system-packages` — that pollutes the system Python. Use `uv run --with psycopg2-binary` instead — it resolves the dependency into an ephemeral venv per invocation and leaves the container clean:
 
 ```bash
-pip3 install --break-system-packages psycopg2-binary
+mise use -g uv@latest   # once per session if uv isn't already on PATH
 ```
 
-```python
+```bash
+uv run --with psycopg2-binary python3 -c "
 import psycopg2
 conn = psycopg2.connect('postgresql://litellm@litellm-db:5432/litellm')
 cur = conn.cursor()
 cur.execute('SELECT ...')
 for row in cur.fetchall():
     print(row)
+"
 ```
 
 No password required — trust auth (`POSTGRES_HOST_AUTH_METHOD: trust`, per `lga` project state).
