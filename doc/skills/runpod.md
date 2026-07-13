@@ -126,15 +126,24 @@ POST /v1/endpoints
 }
 ```
 
-Full field-level schema (all required/optional fields, enums for `gpuTypeIds`, `allowedCudaVersions`, `dataCenterIds`, etc.) is always available live via `GET /openapi.json` on `runpod_rest` — pull it fresh rather than trusting a stale copy here, RunPod adds GPU types and fields over time.
+Full field-level schema (all required/optional fields, enums for `gpuTypeIds`, `allowedCudaVersions`, `dataCenterIds`, etc.) is always available live via `GET /openapi.json` on `runpod_rest` — pull it fresh rather than trusting a stale copy here, RunPod adds GPU types and fields over time. GraphQL introspection (`__schema`/`__type`) is disabled in production — REST's `/openapi.json` is the reliable schema source, not GraphQL.
 
 `workersMin: 0` scales to zero between requests (cheapest, cold-start latency on next call). `workersMin: 1`+ keeps a worker always warm (charged continuously at the lower "warm" rate, no cold start).
+
+### Gotchas confirmed against the live schema (2026-07-13)
+
+- **`flashboot` is not on `EndpointCreateInput`** — only on `EndpointUpdateInPlaceInput`/`EndpointUpdateInput`. Create the endpoint first, then `PATCH /v1/endpoints/{id}` with `{"flashboot": true}` if wanted. Setting it in the create body is silently ignored.
+- `EndpointCreateInput` only strictly requires `templateId` — everything else has defaults (`idleTimeout` default 5s, range 1-3600; `scalerType` default `QUEUE_DELAY` with `scalerValue` default 4; `dataCenterIds` defaults to all ~27 regions if omitted).
+- Use `networkVolumeIds` (plural, current — supports multi-region). `networkVolumeId` (singular) still exists but is the legacy field.
+- Billing paths are `/v1/billing/pods` and `/v1/billing/endpoints` (not `/v1/billing`).
+- Container registry auth path is singular: `/v1/containerregistryauth` (not `...auths`), only needed for private images.
+- Account snapshot as of 2026-07-13: zero pods, templates, endpoints, or network volumes — clean slate.
 
 ## Open / In-Progress Model Choices (as of 2026-07-13)
 
 Two-endpoint plan, alternate between them by hand:
 
-- **Ampere 48GB** (`NVIDIA A40` or `NVIDIA RTX A6000`): coding-capable instruct model, 100K+ context, 40+ tok/s target. `Qwen/Qwen3-32B-AWQ` is the current pick (dense, AWQ 4-bit, YaRN to 131072). `QuantTrio/Qwen3-Coder-30B-A3B-Instruct-AWQ` was considered but its own model card warns of significant quality loss at 4-bit — looking for an 8-bit (FP8/GPTQ-int8) variant of that model as a higher-throughput MoE alternative before ruling it out.
+- **Ampere 48GB** (`NVIDIA A40` or `NVIDIA RTX A6000`): coding-capable instruct model, 100K+ context, 40+ tok/s target. **Primary pick:** `QuantTrio/Qwen3-Coder-30B-A3B-Instruct-GPTQ-Int8` (MoE, ~30B total/~3B active, int8 — should avoid the quality loss the AWQ-4bit sibling warns about, and MoE sparsity should comfortably clear 40 tok/s on one 48GB card). Quantizer's example command uses `--tensor-parallel-size 4` and `--enable-expert-parallel`, `--max-model-len 32768` — for our single-GPU target, drop TP to 1, keep expert-parallel, and confirm YaRN extension to 100K+ against the model's actual `config.json` before trusting it. Fallback: `Qwen/Qwen3-32B-AWQ` (dense, AWQ 4-bit, YaRN to 131072) if the int8 MoE doesn't fit VRAM/context math. The AWQ-4bit MoE variant (`QuantTrio/Qwen3-Coder-30B-A3B-Instruct-AWQ`) is ruled out — its own model card warns of significant quality loss at 4-bit.
 - **Blackwell 96GB** (`NVIDIA RTX PRO 6000 Blackwell Workstation Edition`): FP4-quantized model, 200K-300K context target. Candidates: `Firworks/GLM-4.5-Air-nvfp4` (NVFP4, unverified quantizer reputation — check HF likes/downloads before trusting), or `openai/gpt-oss-120b` (native MXFP4, zero third-party-quant trust needed) as the safe fallback. Also check whether a GLM-5-Air-class model with an FP4 checkpoint exists now, given GLM-5/5.2 have since shipped.
 
 Both picks are provisional — verify exact HF repo names, context-length ceilings, and KV-cache fit empirically once a template/endpoint is stood up. Don't trust context-length numbers above without checking the actual model's `config.json`.
