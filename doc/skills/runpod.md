@@ -143,7 +143,21 @@ Full field-level schema (all required/optional fields, enums for `gpuTypeIds`, `
 
 Two-endpoint plan, alternate between them by hand:
 
-- **Ampere 48GB** (`NVIDIA A40` or `NVIDIA RTX A6000`): coding-capable instruct model, 100K+ context, 40+ tok/s target. **Primary pick:** `QuantTrio/Qwen3-Coder-30B-A3B-Instruct-GPTQ-Int8` (MoE, ~30B total/~3B active, int8 — should avoid the quality loss the AWQ-4bit sibling warns about, and MoE sparsity should comfortably clear 40 tok/s on one 48GB card). Quantizer's example command uses `--tensor-parallel-size 4` and `--enable-expert-parallel`, `--max-model-len 32768` — for our single-GPU target, drop TP to 1, keep expert-parallel, and confirm YaRN extension to 100K+ against the model's actual `config.json` before trusting it. Fallback: `Qwen/Qwen3-32B-AWQ` (dense, AWQ 4-bit, YaRN to 131072) if the int8 MoE doesn't fit VRAM/context math. The AWQ-4bit MoE variant (`QuantTrio/Qwen3-Coder-30B-A3B-Instruct-AWQ`) is ruled out — its own model card warns of significant quality loss at 4-bit.
+- **Ampere 48GB** (`NVIDIA A40` or `NVIDIA RTX A6000`): coding-capable instruct model, 100K+ context, 40+ tok/s target. **Primary pick:** `cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit` (MoE, 35B total/~3B active, AWQ 4-bit, ~25GB on disk — leaves ~23GB free for KV cache on a 48GB card). Newer than the Qwen3-Coder-30B-A3B line, scores ~72 on SWE-bench vs ~55 for the older model (operator-supplied benchmark comparison) and natively supports **262144 (256K) context** — no YaRN extension needed, comfortably clears the 100K+ target. Quantizer (`cyankiwi`) previously vetted by operator via prior use, no trust caveat needed. Repo's own suggested launch command (sglang, `--tp-size 8` for a cluster — use `--tensor-parallel-size 1` for our single-GPU target instead) specifies `--reasoning-parser qwen3 --tool-call-parser qwen3_coder`, directly reusable as `REASONING_PARSER`/`TOOL_CALL_PARSER` in worker-vllm.
+
+  ```
+  MODEL_NAME=cyankiwi/Qwen3.6-35B-A3B-AWQ-4bit
+  QUANTIZATION=awq
+  MAX_MODEL_LEN=262144   # native, trim if KV cache doesn't fit at full length
+  KV_CACHE_DTYPE=fp8
+  GPU_MEMORY_UTILIZATION=0.92
+  TENSOR_PARALLEL_SIZE=1
+  ENABLE_AUTO_TOOL_CHOICE=true
+  TOOL_CALL_PARSER=qwen3_coder
+  REASONING_PARSER=qwen3
+  ```
+
+  Fallback: `QuantTrio/Qwen3-Coder-30B-A3B-Instruct-GPTQ-Int8` (older model, int8, 32K native context needing YaRN to reach 100K) if the newer pick doesn't pan out empirically. `Qwen/Qwen3-32B-AWQ` (dense) is the last-resort fallback. `QuantTrio/Qwen3-Coder-30B-A3B-Instruct-AWQ` (4-bit) stays ruled out — its own model card warns of significant quality loss at 4-bit, and the newer/bigger-context cyankiwi pick makes it moot anyway.
 - **Blackwell 96GB** (`NVIDIA RTX PRO 6000 Blackwell Workstation Edition`): FP4-quantized model, 200K-300K context target. Candidates: `Firworks/GLM-4.5-Air-nvfp4` (NVFP4, unverified quantizer reputation — check HF likes/downloads before trusting), or `openai/gpt-oss-120b` (native MXFP4, zero third-party-quant trust needed) as the safe fallback. Also check whether a GLM-5-Air-class model with an FP4 checkpoint exists now, given GLM-5/5.2 have since shipped.
 
 Both picks are provisional — verify exact HF repo names, context-length ceilings, and KV-cache fit empirically once a template/endpoint is stood up. Don't trust context-length numbers above without checking the actual model's `config.json`.
