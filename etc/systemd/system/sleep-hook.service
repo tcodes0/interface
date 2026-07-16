@@ -1,0 +1,16 @@
+[Unit]
+Description=Sleep hooks to start and stop services
+Before=sleep.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+ExecStart=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop llm.service
+ExecStart=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop whisper-server.service
+
+ExecStop=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start llm.service
+ExecStop=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start whisper-server.service
+
+[Install]
+WantedBy=sleep.target

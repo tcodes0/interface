@@ -7,7 +7,7 @@ StartLimitBurst=5
 ExecStart=%h/Desktop/compose-files/vllm/bin/vllm-helper \
     --model cyankiwi/Ministral-3-14B-Instruct-2512-AWQ-4bit \
     --gpu 0.80 \
-    --context 31200 \
+    --context 30000 \
     --name archam5/llm \
     --kv-quantization auto \
     --timeout 120
