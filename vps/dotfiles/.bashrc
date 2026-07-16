@@ -84,8 +84,7 @@ src_file "$VPS_DOTFILES/.aliases.linux.vps.sh" "$LINENO"
 src_file "$VPS_DOTFILES/.lscolors.sh" "$LINENO"
 
 # start tmux on login only if not already in a tmux session,
-# if in a terminal emulator, and if the user is me
-if [ ! "$TMUX" ] && term_emulator; then
+if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
