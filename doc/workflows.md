@@ -102,8 +102,8 @@ Maps volume labels to mount points and runs `btrfs scrub start` (or `cancel`).
 | `ollama`                     | always-on            | `ollama serve` with ROCm (AMD GPU), listens on `0.0.0.0:11434` for Docker bridge access                                                                       |
 | `xkbcomp`                    | on graphical session | Loads custom XKB keymap from `dotfiles/.config/keymap.xkb`                                                                                                    |
 | `xset-rate`                  | on default target    | Sets key repeat: 140ms delay, 70ms interval                                                                                                                   |
-| `whisper-server`             | always-on            | `whisper-server` with model loaded on GPU (ROCm); listens on `127.0.0.1:8765` for dictation inference                                                         |
-| `dictation-shortcut`         | always-on            | Push-to-talk dictation on `KEY_F2` (Keychron Q10); records via `pw-record`, transcribes via `whisper-server`, types via `ydotool`. Requires `whisper-server`. |
+| `whisper`             | always-on            | `whisper` with model loaded on GPU (ROCm); listens on `127.0.0.1:8765` for dictation inference                                                         |
+| `dictation-shortcut`         | always-on            | Push-to-talk dictation on `KEY_F2` (Keychron Q10); records via `pw-record`, transcribes via `whisper`, types via `ydotool`. Requires `whisper`. |
 | `docker` override            | —                    | Sets `DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK=false` so containers can reach host                                                                  |
 
 ## Prompt

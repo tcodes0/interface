@@ -1,7 +1,7 @@
 [Unit]
 Description=Dictation shortcut on key down and key up
-After=whisper-server.service
-Wants=whisper-server.service
+After=whisper.service
+Wants=whisper.service
 
 [Service]
 ExecStart=%h/bin/dictation-keyboard-hook KEY_F2 /dev/input/by-id/usb-Keychron_Keychron_Q10-if02-event-kbd

@@ -6,7 +6,7 @@ StartLimitBurst=5
 [Service]
 ExecStart=/usr/bin/docker \
     run \
-    --name whisper-server \
+    --name whisper \
     --device=/dev/kfd \
     --device=/dev/dri \
     --group-add render \
@@ -17,7 +17,7 @@ ExecStart=/usr/bin/docker \
     whisper
 Restart=on-failure
 RestartSec=5
-ExecStop=/usr/bin/docker stop whisper-server
+ExecStop=/usr/bin/docker stop whisper
 
 [Install]
 WantedBy=default.target
