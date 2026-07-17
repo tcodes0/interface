@@ -52,7 +52,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | lga                  | `git@github.com:rthomazel/lga.git`                  | dev            |
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
-| wiki                 | `https://github.com/rthomazel/rthomazel.wiki.git`   | main           |
+| wiki                 | `git@github.com:rthomazel/rthomazel.wiki.git`       | main           |
+| litellm-pgvector     | `git@github.com:rthomazel/litellm-pgvector.git`     | main           |
 
 report missing repo clone URLs and stop.
 
