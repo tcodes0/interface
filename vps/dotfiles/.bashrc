@@ -17,11 +17,6 @@ src_file() {
   src "$path" ".bashrc:$line"
 }
 
-# Reports whether the shell is in a terminal emulator or console
-term_emulator() {
-  [[ $(tty) =~ /dev/pts ]]
-}
-
 export PATH="\
 /usr/local/sbin:\
 /usr/local/bin:\
@@ -64,6 +59,12 @@ export SSH_AUTH_SOCK
 
 # libs
 src_file "$DOTFILES/lib.sh" "$LINENO"
+
+if [[ $- != *i* ]]; then
+  # skip rest of file if not interactive (ssh script, etc)
+  return
+fi
+
 src_file "$DOTFILES/lib-git-prompt.sh" "$LINENO"
 src_file "$DOTFILES/lib-prompt.sh" "$LINENO"
 
@@ -84,12 +85,12 @@ src_file "$VPS_DOTFILES/.aliases.linux.vps.sh" "$LINENO"
 src_file "$VPS_DOTFILES/.lscolors.sh" "$LINENO"
 
 # start tmux on login only if not already in a tmux session,
-if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
+if [ -z "$TMUX" ]; then
   tmux attach || tmux new-session
   tmux source-file "$HOME/.tmux.conf"
 fi
 
 # load key into SSH agent, if not already loaded and interactive
-if [[ $- == *i* ]] && [ -S "$SSH_AUTH_SOCK" ]; then
+if [ -S "$SSH_AUTH_SOCK" ]; then
   ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519.pub | awk '{print $2}')" || ssh-add -q
 fi
