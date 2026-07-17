@@ -2,32 +2,32 @@
 
 link
 
+# symlink from dotfiles/vps
+
 # CLI editor config
-$HOME/projects/interface/dotfiles/.nanorc
+$HOME/interface/vps/dotfiles/.nanorc
 $HOME/.nanorc
 
 # runs on ssh login, reads bashrc where the code is
-$HOME/projects/interface/dotfiles/.bash_profile
+$HOME/interface/vps/dotfiles/.bash_profile
 $HOME/.bash_profile
 
-# symlink from dotfiles/vps
-
 # the entrypoint bash file
-$HOME/projects/interface/vps/dotfiles/.bashrc
+$HOME/interface/vps/dotfiles/.bashrc
 $HOME/.bashrc
 
-$HOME/projects/interface/vps/dotfiles/.gitconfig
+$HOME/interface/vps/dotfiles/.gitconfig
 $HOME/.gitconfig
 
-$HOME/projects/interface/vps/dotfiles/.tmux.conf
+$HOME/interface/vps/dotfiles/.tmux.conf
 $HOME/.tmux.conf
 
-$HOME/projects/interface/vps/dotfiles/.aliases.linux.vps.sh
+$HOME/interface/vps/dotfiles/.aliases.linux.vps.sh
 $HOME/.aliases.linux.vps.sh
 
-$HOME/projects/interface/vps/dotfiles/.lscolors.sh
+$HOME/interface/vps/dotfiles/.lscolors.sh
 $HOME/.lscolors.sh
 
 # systemd system services
-$HOME/projects/interface/vps/etc/systemd/system/tailscale-gro.service
+$HOME/interface/vps/etc/systemd/system/tailscale-gro.service
 /etc/systemd/system/tailscale-gro.service
