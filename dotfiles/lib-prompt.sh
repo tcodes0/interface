@@ -14,6 +14,10 @@ rand_256_color() {
 }
 
 export_columns() {
+  # tput dependency
+  TERM=${TERM:-xterm-256color}
+  export TERM
+
   if [ ! "$COLUMNS" ]; then
     if command -v tput 2>/dev/null 1>&2; then
       COLUMNS="$(tput cols | tr -d \\n)"

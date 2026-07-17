@@ -89,7 +89,7 @@ if [[ $- == *i* ]] && [ -z "$TMUX" ]; then
   tmux source-file "$HOME/.tmux.conf"
 fi
 
-# load key into SSH agent, if not already loaded and prompts for passphrase if needed
-if [ -S "$SSH_AUTH_SOCK" ]; then
+# load key into SSH agent, if not already loaded and interactive
+if [[ $- == *i* ]] && [ -S "$SSH_AUTH_SOCK" ]; then
   ssh-add -l | grep -q "$(ssh-keygen -lf ~/.ssh/id_ed25519.pub | awk '{print $2}')" || ssh-add -q
 fi
