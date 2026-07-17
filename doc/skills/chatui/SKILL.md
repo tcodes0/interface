@@ -1,7 +1,6 @@
 ---
 name: chatui
 description: Use when working with the LibreChat instance — querying or updating the database, managing agent records, or syncing agent system prompts.
-always-apply: false
 ---
 
 # LibreChat Instance Reference
@@ -40,22 +39,3 @@ No authentication. Key collections:
 | --------------------------- | -------------------------- |
 | operator's user `rthomazel` | `69e6beb74aa4d2249360a4ab` |
 | Skills ACL role             | `6a0336a122e01bacd9e152fa` |
-
-## Agent System Prompts
-
-Source files live at `/projects/interface/doc/agents/*.md`. Skill definitions live at `/projects/interface/doc/skills/*.md`.
-
-Sync a prompt file to its agent database record after editing. Note: the Python variable here is named `content` for readability — agents use the `instructions` field. **For skills the field is `body`** — see `chatui-skills` for the correct skill sync pattern.
-
-```bash
-PYTHONPATH=/root/pylib python3 << 'PYEOF'
-from pymongo import MongoClient
-content = open('/projects/interface/doc/agents/<name>.md').read()
-MongoClient('librechat-db', 27017)['LibreChat'].agents.update_one(
-    {'name': {'$regex': '<agent-name>', '$options': 'i'}}, {'$set': {'instructions': content}})
-PYEOF
-```
-
-## Environment
-
-Call the `context` tool at session start to understand what tools and paths are available in the current environment.

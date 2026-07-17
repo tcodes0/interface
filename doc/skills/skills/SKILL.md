@@ -16,10 +16,6 @@ raw file URL, fetch it.
 ---
 name: my-skill
 description: Use when the user asks to do X or mentions Y.
-always-apply: false
-user-invocable: true
-disable-model-invocation: false
-allowed-tools: ["execute_code"]
 ---
 
 # Skill Title
@@ -33,12 +29,8 @@ Instruction body here — procedures, rules, examples, references.
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------- |
 | `name`                     | String   | Kebab-case identifier. `^[a-z0-9][a-z0-9-]*$`. Stable — renaming breaks references.           |
 | `description`              | String   | **Primary trigger signal.** Write as "Use when [specific situation]". Vague = under-triggers. |
-| `always-apply`             | Boolean  | Auto-prime into every turn. Default: `false`.                                                 |
-| `user-invocable`           | Boolean  | Show in manual skill picker. Default: `true`. Set `false` for model-only skills.               |
-| `disable-model-invocation` | Boolean  | Exclude from the model-facing catalog. Manual invocation still works. Default: `false`.       |
-| `allowed-tools`            | String[] | Tools temporarily added to the agent's effective set while the skill is active.               |
 
-Only `name` and `description` are required. Omit optional fields rather than setting them to defaults.
+`name` and `description` are required.
 
 Keep the body focused and procedural: what to do, in what order, with concrete commands/examples.
 Link out to other skills by name rather than duplicating their content.

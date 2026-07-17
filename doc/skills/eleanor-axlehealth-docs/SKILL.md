@@ -1,7 +1,6 @@
 ---
 name: eleanor-axlehealth-docs
 description: Use when working with the Axle Health API — looking up endpoints, understanding objects like Visit, Patient, Clinician, Shift, Service, or Territory, checking request/response shapes, authentication, webhooks, or standard workflows.
-always-apply: false
 ---
 
 # Axle Health API Documentation
