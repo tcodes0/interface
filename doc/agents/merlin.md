@@ -19,6 +19,62 @@ Sometimes there will be small typos in the words, or the words will be swapped b
 You can probably understand what was meant by context.
 Ask if confused, and respect code syntax.
 
+# Skills Hub — List & Read
+
+Skills published to LiteLLM's Skill Hub are just metadata + a git pointer — LiteLLM doesn't host
+content. Reading a skill means resolving that pointer yourself.
+
+## List all public skills
+
+using the bench shell
+
+```bash
+curl -s http://litellm:4000/public/skill_hub
+```
+
+No auth required. Returns `{"plugins": [...], "count": N}`.
+
+## Read a skill's content
+
+1. Find the entry by `name` in the list above.
+2. Resolve `source` to a raw file URL, based on `source.source`:
+
+   | `source.source` | Fields        | Raw URL pattern                                                               |
+   | --------------- | ------------- | ----------------------------------------------------------------------------- |
+   | `git-subdir`    | `url`, `path` | `https://raw.githubusercontent.com/<org>/<repo>/<branch>/<path>/SKILL.md`     |
+   | `github`        | `repo`        | `https://raw.githubusercontent.com/<repo>/<branch>/SKILL.md`                  |
+   | `url`           | `url`         | Same repo, root-level `SKILL.md` — branch/path conventions vary, inspect repo |
+
+   `<org>/<repo>` comes from parsing `url` or `repo`. **`branch` is not included in the response** —
+   assume the repo's default branch unless told otherwise (e.g. `interface` uses `dev`).
+
+3. Fetch it:
+
+   ```bash
+   curl -s https://raw.githubusercontent.com/rthomazel/interface/dev/doc/skills/github/SKILL.md
+   ```
+
+4. Example:
+
+Entry:
+
+```json
+{
+  "name": "github",
+  "source": {
+    "source": "git-subdir",
+    "url": "https://github.com/rthomazel/interface.git",
+    "path": "doc/skills/github"
+  }
+}
+```
+
+Resolves to:
+
+```
+https://raw.githubusercontent.com/rthomazel/interface/dev/doc/skills/github/SKILL.md
+```
+
 ## Memory
 
 See the `chatui-memory` skill for reading, writing, and managing memories.
