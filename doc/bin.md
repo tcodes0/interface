@@ -5,31 +5,31 @@ Scripts use the standard header: `set -euo pipefail`, `trap 'err $LINENO' ERR`.
 
 ## Shell Scripts
 
-| Script                    | Purpose                                                                                                                                                                                    |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `snapshot`                | Interactive btrfs subvolume snapshot tool. Prompts for source subvolume under `/toplevel`, name, and read-only flag. Supports `--dry-run`.                                                 |
-| `system-snapshot`         | Non-interactive btrfs snapshot for automated use. Takes target subvolume names as args, keeps max 50 snapshots, trims old ones.                                                            |
-| `system-up`               | Full Arch Linux system update: snapshot → stop postgres → update pacman/AUR/mise globals → migrate postgres if major version changed → btrfs scrub optional → kexec into new kernel.       |
-| `btrfs-scrub`             | Runs `btrfs scrub` on specified disks.                                                                                                                                                     |
-| `app-inhibit-sleep`       | Watches if Firefox (or given apps) is playing audio via `playerctl`; calls `systemd-inhibit` to prevent idle sleep while playing.                                                          |
-| `lazy-git`                | Interactive git helper: stages, composits commitlint-compliant commit messages, and pushes repos listed in `$PUSH_REPOS`. Reads `$GIT_BRANCH`.                                             |
-| `lazy-jujutsu`            | Same as `lazy-git` but for jujutsu (`jj`).                                                                                                                                                 |
-| `extract`                 | Universal archive extractor. Detects format and calls the right tool (tar, unzip, 7z, etc.).                                                                                               |
-| `hue`                     | Philips Hue light controller (~425 lines). Talks to the Hue bridge REST API.                                                                                                               |
-| `compile-bin`             | Builds all Go tools under `src/` into `bin/`. Iterates `src/**/main.go`, runs `go build -race`.                                                                                            |
-| `bulk-curl-from-file`     | Runs curl for each URL in a file.                                                                                                                                                          |
-| `cpfgen`                  | CPF number generator (Brazilian tax ID).                                                                                                                                                   |
-| `dictation-keyboard-hook` | Push-to-talk dictation via whisper. Records with `pw-record` while `KEY_F2` held, POSTs WAV to `whisper` on release, types result via `ydotool`. Multilingual (auto-detect). |
-| `dir-rename`              | Compiled Go binary — bulk directory rename tool.                                                                                                                                           |
-| `download-youtube-id`     | Downloads a YouTube video by ID using `yt-dlp`.                                                                                                                                            |
-| `forex`                   | Compiled Go binary — currency exchange rate fetcher.                                                                                                                                       |
-| `game-audio-fix`          | Fixes audio for games (likely resets PulseAudio/PipeWire).                                                                                                                                 |
-| `mac-defaults`            | Applies `defaults write` settings for macOS.                                                                                                                                               |
-| `presentvalue`            | Compiled Go binary — present value financial calculator.                                                                                                                                   |
-| `rename`                  | Perl script for powerful batch file renaming (regex-based).                                                                                                                                |
-| `system-up`               | (see above)                                                                                                                                                                                |
-| `template`                | Scaffold script — creates new scripts from a template.                                                                                                                                     |
-| `typo`                    | Compiled binary — likely a typo/spell checker helper.                                                                                                                                      |
+| Script                    | Purpose                                                                                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `snapshot`                | Interactive btrfs subvolume snapshot tool. Prompts for source subvolume under `/toplevel`, name, and read-only flag. Supports `--dry-run`.                                           |
+| `system-snapshot`         | Non-interactive btrfs snapshot for automated use. Takes target subvolume names as args, keeps max 50 snapshots, trims old ones.                                                      |
+| `system-up`               | Full Arch Linux system update: snapshot → stop postgres → update pacman/AUR/mise globals → migrate postgres if major version changed → btrfs scrub optional → kexec into new kernel. |
+| `btrfs-scrub`             | Runs `btrfs scrub` on specified disks.                                                                                                                                               |
+| `app-inhibit-sleep`       | Watches if Firefox (or given apps) is playing audio via `playerctl`; calls `systemd-inhibit` to prevent idle sleep while playing.                                                    |
+| `lazy-git`                | Interactive git helper: stages, composits commitlint-compliant commit messages, and pushes repos listed in `$PUSH_REPOS`. Reads `$GIT_BRANCH`.                                       |
+| `lazy-jujutsu`            | Same as `lazy-git` but for jujutsu (`jj`).                                                                                                                                           |
+| `extract`                 | Universal archive extractor. Detects format and calls the right tool (tar, unzip, 7z, etc.).                                                                                         |
+| `hue`                     | Philips Hue light controller (~425 lines). Talks to the Hue bridge REST API.                                                                                                         |
+| `compile-bin`             | Builds all Go tools under `src/` into `bin/`. Iterates `src/**/main.go`, runs `go build -race`.                                                                                      |
+| `bulk-curl-from-file`     | Runs curl for each URL in a file.                                                                                                                                                    |
+| `cpfgen`                  | CPF number generator (Brazilian tax ID).                                                                                                                                             |
+| `dictation-keyboard-hook` | Push-to-talk dictation via whisper. Records with `pw-record` while `KEY_F2` held, POSTs WAV to `whisper` on release, types result via `ydotool`. Multilingual (auto-detect).         |
+| `dir-rename`              | Compiled Go binary — bulk directory rename tool.                                                                                                                                     |
+| `download-youtube-id`     | Downloads a YouTube video by ID using `yt-dlp`.                                                                                                                                      |
+| `forex`                   | Compiled Go binary — currency exchange rate fetcher.                                                                                                                                 |
+| `game-audio-fix`          | Fixes audio for games (likely resets PulseAudio/PipeWire).                                                                                                                           |
+| `mac-defaults`            | Applies `defaults write` settings for macOS.                                                                                                                                         |
+| `presentvalue`            | Compiled Go binary — present value financial calculator.                                                                                                                             |
+| `rename`                  | Perl script for powerful batch file renaming (regex-based).                                                                                                                          |
+| `system-up`               | (see above)                                                                                                                                                                          |
+| `template`                | Scaffold script — creates new scripts from a template.                                                                                                                               |
+| `typo`                    | Compiled binary — likely a typo/spell checker helper.                                                                                                                                |
 
 ## Go Sources (`src/`)
 

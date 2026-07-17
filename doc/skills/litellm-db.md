@@ -57,16 +57,16 @@ key-prefix namespacing convention and scoping the memory skill relies on.
 
 ## Where To Find Useful Information
 
-| Table                     | Contains                                                              |
-| -------------------------- | ---------------------------------------------------------------------- |
-| `LiteLLM_SpendLogs`        | Per-call log: every completion/tool call, cost, tokens, timing — see Logs section below |
-| `LiteLLM_MemoryTable`      | Backs `/v1/memory` — prefer the HTTP API (see `chatui-memory`) over querying this directly |
-| `LiteLLM_VerificationToken`| API keys (virtual keys), budgets, rate limits, scoping to team/user   |
-| `LiteLLM_UserTable`        | Proxy user records                                                     |
-| `LiteLLM_TeamTable`        | Team records, budget/spend rollups                                     |
-| `LiteLLM_ErrorLogs`        | Failed calls — check here first when a call silently fails             |
-| `LiteLLM_ModelTable`       | Configured models / deployments                                        |
-| `LiteLLM_AgentsTable`      | Agent records known to LiteLLM (distinct from LibreChat's `agents` collection — see `chatui`) |
+| Table                                                                                                          | Contains                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `LiteLLM_SpendLogs`                                                                                            | Per-call log: every completion/tool call, cost, tokens, timing — see Logs section below                               |
+| `LiteLLM_MemoryTable`                                                                                          | Backs `/v1/memory` — prefer the HTTP API (see `chatui-memory`) over querying this directly                            |
+| `LiteLLM_VerificationToken`                                                                                    | API keys (virtual keys), budgets, rate limits, scoping to team/user                                                   |
+| `LiteLLM_UserTable`                                                                                            | Proxy user records                                                                                                    |
+| `LiteLLM_TeamTable`                                                                                            | Team records, budget/spend rollups                                                                                    |
+| `LiteLLM_ErrorLogs`                                                                                            | Failed calls — check here first when a call silently fails                                                            |
+| `LiteLLM_ModelTable`                                                                                           | Configured models / deployments                                                                                       |
+| `LiteLLM_AgentsTable`                                                                                          | Agent records known to LiteLLM (distinct from LibreChat's `agents` collection — see `chatui`)                         |
 | `MonthlyGlobalSpend`, `DailyTagSpend`, `Last30dModelsBySpend`, `Last30dKeysBySpend`, `Last30dTopEndUsersSpend` | Pre-aggregated spend views — cheaper than aggregating `LiteLLM_SpendLogs` yourself for coarse-grained spend questions |
 
 ## Logs — `LiteLLM_SpendLogs`
@@ -75,19 +75,19 @@ This is the table to query for call volume, latency, cost, and token usage inves
 
 ### Key columns
 
-| Column                | Type      | Notes                                                                 |
-| ---------------------- | --------- | ---------------------------------------------------------------------- |
-| `request_id`           | text      | Primary identifier for a single call                                   |
-| `call_type`            | text      | See values below — filter on this to isolate real LLM calls            |
-| `model`, `model_group`, `custom_llm_provider` | text | Which model/provider served the call                          |
-| `spend`                | float     | Cost in USD. Rows can be `0` (e.g. cache hits, some tool calls) — filter `spend <> 0` for cost-bearing calls |
-| `total_tokens`, `prompt_tokens`, `completion_tokens` | int | Token accounting |
-| `"startTime"`, `"endTime"`, `"completionStartTime"` | timestamp (no tz) | Quote — camelCase columns. Use for date-range filters and computing duration manually |
-| `request_duration_ms`  | int       | Precomputed duration — matches `endTime - startTime` (cross-checked, see below) |
-| `status`                | text      | Call outcome                                                          |
-| `api_key`, `team_id`, `user`, `end_user`, `session_id` | text | Attribution — who/what made the call |
-| `metadata`, `messages`, `response`, `proxy_server_request` | jsonb | Full payloads — useful for deep debugging a specific `request_id` |
-| `mcp_namespaced_tool_name` | text  | Set when `call_type` is an MCP tool call, not a completion             |
+| Column                                                     | Type              | Notes                                                                                                        |
+| ---------------------------------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------ |
+| `request_id`                                               | text              | Primary identifier for a single call                                                                         |
+| `call_type`                                                | text              | See values below — filter on this to isolate real LLM calls                                                  |
+| `model`, `model_group`, `custom_llm_provider`              | text              | Which model/provider served the call                                                                         |
+| `spend`                                                    | float             | Cost in USD. Rows can be `0` (e.g. cache hits, some tool calls) — filter `spend <> 0` for cost-bearing calls |
+| `total_tokens`, `prompt_tokens`, `completion_tokens`       | int               | Token accounting                                                                                             |
+| `"startTime"`, `"endTime"`, `"completionStartTime"`        | timestamp (no tz) | Quote — camelCase columns. Use for date-range filters and computing duration manually                        |
+| `request_duration_ms`                                      | int               | Precomputed duration — matches `endTime - startTime` (cross-checked, see below)                              |
+| `status`                                                   | text              | Call outcome                                                                                                 |
+| `api_key`, `team_id`, `user`, `end_user`, `session_id`     | text              | Attribution — who/what made the call                                                                         |
+| `metadata`, `messages`, `response`, `proxy_server_request` | jsonb             | Full payloads — useful for deep debugging a specific `request_id`                                            |
+| `mcp_namespaced_tool_name`                                 | text              | Set when `call_type` is an MCP tool call, not a completion                                                   |
 
 ### `call_type` values seen in this DB
 
@@ -108,6 +108,7 @@ WHERE call_type = 'acompletion'
 ```
 
 Notes:
+
 - Use half-open date ranges (`>= start AND < end_exclusive`) rather than `BETWEEN`/`DATE()` casts —
   cheaper and avoids timezone-cast surprises since the columns have no tz.
 - `spend <> 0` is the right filter for "real" cost-bearing calls; a meaningful fraction of rows

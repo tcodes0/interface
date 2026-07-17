@@ -92,19 +92,19 @@ Maps volume labels to mount points and runs `btrfs scrub start` (or `cancel`).
 
 ## User systemd services (dotfiles/.config/systemd/user/)
 
-| Service                      | Timer                | Purpose                                                                                                                                                       |
-| ---------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `app-inhibit-sleep`          | always-on            | Watches `pacman`, `yay`, and Firefox audio via `playerctl`; calls `systemd-inhibit` to block idle sleep                                                       |
-| `forex@.service`             | hourly               | Fetches exchange rate for currency `%i`; reads env from `~/.config/t0/forex.env`                                                                              |
-| `game-audio-fix`             | every minute         | Corrects 5.1→2.0 audio routing for games                                                                                                                      |
-| `docker-prune`               | Saturdays 15–23h     | `docker system prune`                                                                                                                                         |
-| `system-update-notification` | Sundays 11:00        | `notify-send` reminder to run system update                                                                                                                   |
-| `ollama`                     | always-on            | `ollama serve` with ROCm (AMD GPU), listens on `0.0.0.0:11434` for Docker bridge access                                                                       |
-| `xkbcomp`                    | on graphical session | Loads custom XKB keymap from `dotfiles/.config/keymap.xkb`                                                                                                    |
-| `xset-rate`                  | on default target    | Sets key repeat: 140ms delay, 70ms interval                                                                                                                   |
-| `whisper`             | always-on            | `whisper` with model loaded on GPU (ROCm); listens on `127.0.0.1:8765` for dictation inference                                                         |
+| Service                      | Timer                | Purpose                                                                                                                                         |
+| ---------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `app-inhibit-sleep`          | always-on            | Watches `pacman`, `yay`, and Firefox audio via `playerctl`; calls `systemd-inhibit` to block idle sleep                                         |
+| `forex@.service`             | hourly               | Fetches exchange rate for currency `%i`; reads env from `~/.config/t0/forex.env`                                                                |
+| `game-audio-fix`             | every minute         | Corrects 5.1→2.0 audio routing for games                                                                                                        |
+| `docker-prune`               | Saturdays 15–23h     | `docker system prune`                                                                                                                           |
+| `system-update-notification` | Sundays 11:00        | `notify-send` reminder to run system update                                                                                                     |
+| `ollama`                     | always-on            | `ollama serve` with ROCm (AMD GPU), listens on `0.0.0.0:11434` for Docker bridge access                                                         |
+| `xkbcomp`                    | on graphical session | Loads custom XKB keymap from `dotfiles/.config/keymap.xkb`                                                                                      |
+| `xset-rate`                  | on default target    | Sets key repeat: 140ms delay, 70ms interval                                                                                                     |
+| `whisper`                    | always-on            | `whisper` with model loaded on GPU (ROCm); listens on `127.0.0.1:8765` for dictation inference                                                  |
 | `dictation-shortcut`         | always-on            | Push-to-talk dictation on `KEY_F2` (Keychron Q10); records via `pw-record`, transcribes via `whisper`, types via `ydotool`. Requires `whisper`. |
-| `docker` override            | —                    | Sets `DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK=false` so containers can reach host                                                                  |
+| `docker` override            | —                    | Sets `DOCKERD_ROOTLESS_ROOTLESSKIT_DISABLE_HOST_LOOPBACK=false` so containers can reach host                                                    |
 
 ## Prompt
 

@@ -235,7 +235,7 @@ CWD is the current directory the commands will be executed at.
 Example call of bench-shell_mcp_litellm:
 
 ```json
-{"commands": ["echo hello", "echo world"], "cwd": "/"}
+{ "commands": ["echo hello", "echo world"], "cwd": "/" }
 ```
 
 ## bench-context_mcp_litellm
@@ -310,7 +310,6 @@ Example calls of `web_search`:
 }
 ```
 
-
 ## Errors and common issues
 
 If the result of a tool call is the error "Please fix your mistakes" it indicates an incorrect tool call format, follow the examples above, wrap in JSON.
@@ -328,4 +327,7 @@ If there is no mention of creating files or interacting with the file, then the 
 Follow operator instructions below.
 
 <!-- End system prompt, operator instructions below -->
+
+```
+
 ```
