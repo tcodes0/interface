@@ -18,12 +18,12 @@ http://litellm:4000/v1/memory
 ```
 
 Auth: `Authorization: Bearer <LITELLM_API_KEY>` — the key lives in
-`/projects/lga/services/librechat/.env` as `LITELLM_API_KEY`. This is a scoped virtual key (not
+`/lga/services/librechat/.env` as `LITELLM_API_KEY`. This is a scoped virtual key (not
 the master key); memory entries created with it are automatically scoped to its `user_id`/`team_id`
 — never pass `user_id`/`team_id` explicitly in requests.
 
 ```bash
-LITELLM_API_KEY=$(grep LITELLM_API_KEY /projects/lga/services/librechat/.env | cut -d= -f2)
+LITELLM_API_KEY=$(grep LITELLM_API_KEY /lga/services/librechat/.env | cut -d= -f2)
 ```
 
 ## Key Naming Convention
