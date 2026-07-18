@@ -6,11 +6,12 @@ Before=sleep.target
 Type=oneshot
 RemainAfterExit=yes
 
-ExecStart=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop llm.service
-ExecStart=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop whisper.service
+ExecStart=-/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop llm.service
+ExecStart=-/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user stop whisper.service
+ExecStart=/usr/local/bin/memreserver
 
-ExecStop=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start llm.service
-ExecStop=/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start whisper.service
+ExecStop=-/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start llm.service
+ExecStop=-/usr/bin/runuser -u vacation -- /usr/bin/env XDG_RUNTIME_DIR=/run/user/1000 /usr/bin/systemctl --user start whisper.service
 
 [Install]
 WantedBy=sleep.target
