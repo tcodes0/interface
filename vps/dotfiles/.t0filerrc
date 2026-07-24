@@ -31,3 +31,9 @@ $HOME/.lscolors.sh
 # systemd system services
 $HOME/interface/vps/etc/systemd/system/tailscale-gro.service
 /etc/systemd/system/tailscale-gro.service
+
+$HOME/interface/vps/etc/systemd/system/docker-prune.service
+/etc/systemd/system/docker-prune.service
+
+$HOME/interface/vps/etc/systemd/system/docker-prune.timer
+/etc/systemd/system/docker-prune.timer
