@@ -1,11 +1,11 @@
-hardware gpu 48gb x 2
+hardware 2x A40 ampere 48gb each, 96gb total
 
 image vllm/vllm-openai:latest
 
 command
 
-poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.90 --max-num-batched-tokens 8192 --enable-prefix-caching --trust-remote-code --max-num-seqs 1
---max-model-len auto
+poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.94 --max-num-batched-tokens 2048 --enable-prefix-caching --trust-remote-code --max-num-seqs 1
+--max-model-len 500000
 --tensor-parallel-size 2
 --tool-call-parser poolside_v1
 --reasoning-parser poolside_v1
@@ -24,9 +24,9 @@ VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
 VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
 HF_TOKEN="{{ RUNPOD_SECRET_HF_TOKEN }}"
-HF_HUB_VERBOSITY=debug
-VLLM_LOGGING_LEVEL=debug
-TRANSFORMERS_VERBOSITY=debug
+HF_HUB_VERBOSITY=info # change to debug if needed
+VLLM_LOGGING_LEVEL=info # change to debug if needed
+TRANSFORMERS_VERBOSITY=info # change to debug if needed
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
@@ -43,4 +43,9 @@ notes:
 recommended context 262K, up to 1M with quality loss, see model card for int4 quant
 speculative decoding, add flag:
     --speculative-config '{"model":"poolside/Laguna-S-2.1-DFlash-INT4","num_speculative_tokens":15,"method":"dflash"}'
-57 tok/s on 2xA40
+
+perf:
+
+57-60 tok/s 181K context 0.9 gpu
+57-60 tok/s 460K context 0.93 gpu
+500K context 0.94 gpu
