@@ -31,7 +31,7 @@ VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
 TRITON_CACHE_DIR=/workspace/.cache/triton
 FLASHINFER_WORKSPACE_DIR=/workspace/.cache/flashinfer
-TORCH_LOGS="+inductor"
+TORCH_LOGS="+inductor" # very verbose omit if not debugging
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
 
 {
@@ -46,5 +46,6 @@ speculative config:
 increasing tokens increases speed directly, too high it crashes
 
 recommended context 262K, up to 1M
-
-around 31-35 tok/s on A40
+<30 tok/s on rtx 4500 blackwell nvfp4 quant
+33 tok/s on A40
+36 tok/s on A6000
