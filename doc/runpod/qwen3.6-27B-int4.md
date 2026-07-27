@@ -4,14 +4,16 @@ image vllm/vllm-openai:v0.25.0
 
 command
 
-cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.95 --max-num-batched-tokens 262000 --enable-prefix-caching --trust-remote-code
---max-model-len 4096
+cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.9 --max-num-batched-tokens 8192 --enable-prefix-caching --trust-remote-code
+--max-model-len 500000
 --tensor-parallel-size 1
 --reasoning-parser qwen3
 --enable-auto-tool-choice
 --tool-call-parser qwen3_coder
 --language-model-only
 --kv-cache-dtype fp8
+--speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
+--enforce-eager # with speculative needs this flag, crashes OOM
 
 disk 5gb
 
@@ -33,7 +35,8 @@ TORCH_LOGS="+inductor"
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
 
 speculative config:
---speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
+--speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}' --enforce-eager
 
-A40 135K context without quant
 recommended context 262K, up to 1M
+
+around 31-35 tok/s on A40
