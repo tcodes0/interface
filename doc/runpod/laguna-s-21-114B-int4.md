@@ -4,8 +4,8 @@ image vllm/vllm-openai:latest
 
 command
 
-poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.94 --max-num-batched-tokens 2048 --enable-prefix-caching --trust-remote-code --max-num-seqs 1
---max-model-len 500000
+poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.94 --max-num-batched-tokens 4096 --enable-prefix-caching --trust-remote-code --max-num-seqs 1
+--max-model-len 300000
 --tensor-parallel-size 2
 --tool-call-parser poolside_v1
 --reasoning-parser poolside_v1
@@ -15,6 +15,7 @@ poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0
 --compilation-config '{"pass_config":{"fuse_norm_quant":false}}' # simple compilation, reduces performance
 --override-generation-config '{"temperature":0.7,"top_p":0.95,"top_k":20}'
 --disable-custom-all-reduce
+--speculative-config '{"model":"poolside/Laguna-S-2.1-DFlash-INT4","num_speculative_tokens":15,"method":"dflash"}'
 
 disk 5gb
 
@@ -47,5 +48,5 @@ speculative decoding, add flag:
 perf:
 
 57-60 tok/s 181K context 0.9 gpu
-57-60 tok/s 460K context 0.93 gpu
-500K context 0.94 gpu
+57-60 tok/s 500K context 0.94 gpu
+65 tok/s 300K context 0.94 gpu spec decode
