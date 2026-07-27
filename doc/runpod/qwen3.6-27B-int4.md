@@ -1,4 +1,4 @@
-hardware gpu 48gb
+hardware A6000 48gb
 
 image vllm/vllm-openai:v0.25.0
 
@@ -14,6 +14,7 @@ cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilizatio
 --kv-cache-dtype fp8
 --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":5}'
 --enforce-eager # with speculative needs this flag, crashes OOM
+--override-generation-config '{"temperature":0.6, "presence_penalty": 1}'
 
 disk 5gb
 
@@ -23,9 +24,9 @@ VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
 VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
 HF_TOKEN="{{ RUNPOD_SECRET_HF_TOKEN }}"
-HF_HUB_VERBOSITY=debug
-VLLM_LOGGING_LEVEL=debug
-TRANSFORMERS_VERBOSITY=debug
+HF_HUB_VERBOSITY=info # set to debug if needed
+VLLM_LOGGING_LEVEL=info # set to debug if needed
+TRANSFORMERS_VERBOSITY=info # set to debug if needed
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
@@ -33,13 +34,6 @@ TRITON_CACHE_DIR=/workspace/.cache/triton
 FLASHINFER_WORKSPACE_DIR=/workspace/.cache/flashinfer
 TORCH_LOGS="+inductor" # very verbose omit if not debugging
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
-
-{
-"temperature": 0.6,
-"presence_penalty": 1
-}
-
-other params are already configured by model config
 
 speculative config:
 --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}' --enforce-eager

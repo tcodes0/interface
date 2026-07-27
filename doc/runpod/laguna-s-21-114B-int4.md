@@ -1,6 +1,6 @@
 hardware 2x A40 ampere 48gb each, 96gb total
 
-image vllm/vllm-openai:latest
+image vllm/vllm-openai:v0.26.0
 
 command
 
