@@ -12,7 +12,7 @@ cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilizatio
 --tool-call-parser qwen3_coder
 --language-model-only
 --kv-cache-dtype fp8
---speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}'
+--speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":5}'
 --enforce-eager # with speculative needs this flag, crashes OOM
 
 disk 5gb
@@ -34,8 +34,16 @@ FLASHINFER_WORKSPACE_DIR=/workspace/.cache/flashinfer
 TORCH_LOGS="+inductor"
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
 
+{
+"temperature": 0.6,
+"presence_penalty": 1
+}
+
+other params are already configured by model config
+
 speculative config:
 --speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}' --enforce-eager
+increasing tokens increases speed directly, too high it crashes
 
 recommended context 262K, up to 1M
 
