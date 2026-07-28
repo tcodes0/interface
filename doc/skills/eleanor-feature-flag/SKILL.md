@@ -57,6 +57,9 @@ All routes below are under `/v1/` and require the `Authorization: Key ...` heade
 | PUT | `/v1/flags/{key}/variation` | read-write | Set active variation for caller's env (body: `{"variation": "on"}`) |
 | PUT | `/v1/flags/{key}/variations/{name}` | read-write | Create/update a variation (body: `{"value": {...}, "description": "..."}`) |
 | DELETE | `/v1/flags/{key}/variations/{name}` | read-write | Soft delete a variation (409 if it's active anywhere) |
+| POST | `/v1/flags/{key}/conditions` | read-write | Schedule a future variation change, scoped to caller's resolved env |
+| GET | `/v1/flags/{key}/conditions` | any | List conditions for caller's resolved env |
+| DELETE | `/v1/flags/{key}/conditions/{id}` | read-write | Cancel a pending (or already-fired) condition |
 | POST | `/v1/environments` | read-write | Create an environment |
 | GET | `/v1/environments` | any | List environments (`?include_deleted=true` supported) |
 | DELETE | `/v1/environments/{id}` | read-write | Soft delete (409 on the `default` env -- undeletable) |
@@ -95,8 +98,27 @@ GET /v1/flags/ff-se-2887/value
 2. `PUT /v1/flags/{key}/variations/on` and `.../off` -- define variations with concrete values.
 3. `PUT /v1/flags/{key}/variation` with `{"variation": "on"}` -- activate one for the caller's env.
 
-**Roll out to another environment:** repeat step 3 with `?environment={id}` using a read-write key
+**Roll out to another environment:** repeat step 3 with `?environment={name}` using a read-write key
 (read-only keys can't do this even with the query param -- they're locked to their own env).
+
+**Schedule a future rollout (conditions):** instead of manually flipping the active variation,
+create a condition:
+
+```
+POST /v1/flags/{key}/conditions
+{ "variation": "on", "schedule": { "type": "date_match", "date": "2026-07-30" } }
+```
+
+`date_match` (`YYYY-MM-DD`, UTC) is currently the only schedule type. A background scheduler in
+the service fires once immediately on process startup (catches anything missed during downtime),
+then once per day at midnight UTC -- so day-granularity only, not exact-time. **Conditions are
+per-environment**, unlike flags/variations which are global: a condition created against a
+read-write key's default environment only affects that environment. To roll out the same date
+across multiple environments, create one condition per environment (`?environment={name}` for a
+read-write key). Poll `GET /v1/flags/{key}/conditions` or `GET /v1/flags/{key}/value` to confirm a
+condition fired -- there's no push notification. This feature was undocumented in the repo's
+`doc/design.md` until a follow-up PR (eleanorhealth/feature-flag#27) added a `## Scheduled
+Conditions` section -- check there for the full scheduler/idempotency semantics.
 
 ## The `ehff` CLI
 
@@ -115,6 +137,9 @@ the endpoints above is direct:
 | `ehff flag use <key> <variation> [--env <name>]` | `PUT /v1/flags/{key}/variation` |
 | `ehff variation set <flag-key> <name> (--bool true\|false \| --string <text> \| --json <json>)` | `PUT /v1/flags/{key}/variations/{name}` |
 | `ehff variation delete <flag-key> <name>` | `DELETE /v1/flags/{key}/variations/{name}` |
+| `ehff flag condition set <flag-key> --variation <name> --date <YYYY-MM-DD>` | `POST /v1/flags/{key}/conditions` |
+| `ehff flag condition get <flag-key>` | `GET /v1/flags/{key}/conditions` |
+| `ehff flag condition delete <flag-key> <id>` | `DELETE /v1/flags/{key}/conditions/{id}` |
 | `ehff env list` / `env create <name>` / `env delete <id>` | environments endpoints |
 | `ehff key list` / `key create <name> --env <name> [--read-only]` / `key delete <id>` | keys endpoints |
 | `ehff health` | `GET /health` |
