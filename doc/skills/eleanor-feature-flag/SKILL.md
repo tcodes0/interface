@@ -32,7 +32,10 @@ Auth header (handled automatically by the tool): `Authorization: Key ff-...`.
 ## Environments
 
 - A read-write key defaults to its own registered environment but can target another via
-  `?environment={id}` on any request -- see `env list` to find IDs.
+  `?environment={name}` on any request -- e.g. `?environment=qa` or `?environment=default`. **Note:
+  despite `doc/design.md` saying `{id}`, the live server (and `auth.go`) resolves this by
+  environment *name*, not UUID -- verified empirically 2026-07-28: `?environment=<uuid>` returns
+  404 "environment not found", `?environment=qa` works.** Use `env list` to find valid names.
 - A read-only key ignores `?environment` entirely and always resolves against its own registered
   environment. Read-only keys can also only issue `GET` requests (403 on anything else).
 - Every response is wrapped in an envelope naming the environment that was actually resolved:
