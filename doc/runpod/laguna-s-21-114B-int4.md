@@ -50,3 +50,7 @@ perf:
 57-60 tok/s 181K context 0.9 gpu
 57-60 tok/s 500K context 0.94 gpu
 65 tok/s 300K context 0.94 gpu spec decode
+
+extra docker args:
+--gpus all  --cap-add=SYS_PTRACE  --cap-add=SYS_RESOURCE  --security-opt seccomp=unconfined  --ulimit memlock=-1
+--ulimitcore=-1  --shm-size=16g --ipc=host
