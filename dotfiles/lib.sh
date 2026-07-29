@@ -82,7 +82,7 @@ log() {
 # Description: Log a message with DEBUG level and line number
 # Globals    : T0_COLOR (env) colored output if "true"
 # Args       : Any
-# STDERR     : INFO (pizza.sh:34) message + \n
+# STDERR     : DEBUG (pizza.sh:34) message + \n
 # Example    : log $LINENO inside for loop
 debug() {
   if [ "${T0_COLOR:-}" == "true" ]; then
@@ -105,11 +105,11 @@ err() {
   fi
 }
 
-# Description: Log a message with ERROR level and line number
+# Description: Log a message with WARN level and line number
 # Globals    : T0_COLOR (env) colored output if "true"
 # Args       : Any
 # STDERR     : WARN (pizza.sh:34) message + \n
-# Example    : err $LINENO cheese is dripping
+# Example    : warn $LINENO cheese is dripping
 warn() {
   if [ "${T0_COLOR:-}" == "true" ]; then
     __log "${LIB_COLOR_YELLOW}WARN" "$@" "${LIB_VISUAL_END}"

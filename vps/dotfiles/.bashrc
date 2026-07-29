@@ -74,11 +74,11 @@ UNDERLINE="\\[\\e[4m\\]"
 PROMPT_COMMAND="vcs_prompt '$(make_ps1 pre)' '$(make_ps1 post)' '$MAIN_COLOR$UNDERLINE%s$END'"
 
 # bash
-# src_file ".bashrc.linux.sh" do NOT source this file into VPS.
 src_file "$DOTFILES/.aliases.sh" "$LINENO"
 src_file "$DOTFILES/.aliases.linux.sh" "$LINENO"
 src_file "$DOTFILES/.functions.linux.sh" "$LINENO"
 src_file "$DOTFILES/.functions.sh" "$LINENO"
+# do NOT source .bashrc.linux.sh into VPS.
 
 # vps dotfiles
 src_file "$VPS_DOTFILES/.aliases.linux.vps.sh" "$LINENO"
