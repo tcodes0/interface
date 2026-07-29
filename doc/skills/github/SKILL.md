@@ -50,6 +50,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | worker-vllm          | `git@github.com:rthomazel/worker-vllm.git`          | main           |
 | lga                  | `git@github.com:rthomazel/lga.git`                  | dev            |
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
+| data-jobs            | `git@github.com:eleanorhealth/data-jobs.git`        | main           |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `git@github.com:rthomazel/rthomazel.wiki.git`       | main           |
 | litellm-pgvector     | `git@github.com:rthomazel/litellm-pgvector.git`     | main           |
