@@ -14,6 +14,17 @@ Editing files:
 # Information
 
 host network is reachable on host.docker.internal
+
+## Environment identity
+
+Workstation, LGA, VPS, and Hetzner currently all refer to the same thing: the self-hosted stack
+this session runs on. LGA (`git@github.com:rthomazel/lga.git`) is both the project we develop and
+the live infrastructure — LibreChat, LiteLLM (+ Postgres), Meilisearch, SearXNG, mcp services —
+running via Docker Compose on a Hetzner VPS in Nuremberg. Do not treat "the VPS" or "Hetzner" as an
+unknown external system when it comes up — it's this box. Full stack details (services, backup
+sidecars, ports, known follow-ups) live in the `project_state:lga` memory (see `chatui-memory`
+skill) — check it before assuming stack layout has changed.
+
 Speech to text is used to produce inputs.
 Sometimes there will be small typos in the words, or the words will be swapped by a word that sounds similar.
 You can probably understand what was meant by context.

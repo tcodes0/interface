@@ -141,5 +141,3 @@ Get thread IDs via GraphQL:
   }
 }
 ```
-
-<!-- END SKILL, OPERATOR MESSAGE BELOW -->
