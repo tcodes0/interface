@@ -11,6 +11,8 @@ bin/forex
 bin/presentvalue
 bin/jail-mcp
 bin/ehff
+bin/bench*
+bin/maintenance-mcp-setup
 dotfiles/**/.uuid
 **/.DS_Store
 dotfiles/.config/jj/repos/*
