@@ -5,7 +5,7 @@ image vllm/vllm-openai:v0.25.0
 command
 
 cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.9 --max-num-batched-tokens 8192 --enable-prefix-caching --trust-remote-code
---max-model-len 500000
+--max-model-len auto # 262k, up to 500k
 --tensor-parallel-size 1
 --reasoning-parser qwen3
 --enable-auto-tool-choice
@@ -36,10 +36,10 @@ FLASHINFER_WORKSPACE_DIR=/workspace/.cache/flashinfer
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
 
 speculative config:
---speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":2}' --enforce-eager
 increasing tokens increases speed directly, too high it crashes
 
 recommended context 262K, up to 1M
 <30 tok/s on rtx 4500 blackwell nvfp4 quant
 33 tok/s on A40
 36 tok/s on A6000
+This model is slow without sd, but sd causes OOM's and other crashes, need to run low context.
