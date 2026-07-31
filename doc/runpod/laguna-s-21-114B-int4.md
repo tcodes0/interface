@@ -4,7 +4,7 @@ image vllm/vllm-openai:v0.26.0
 
 command
 
-poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.94 --max-num-batched-tokens 4096 --enable-prefix-caching --trust-remote-code --max-num-seqs 1
+poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0.94 --max-num-batched-tokens 4096 --trust-remote-code --max-num-seqs 1
 --max-model-len 300000
 --tensor-parallel-size 2
 --tool-call-parser poolside_v1
@@ -15,7 +15,6 @@ poolside/Laguna-S-2.1-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilization 0
 --compilation-config '{"pass_config":{"fuse_norm_quant":false}}' # simple compilation, reduces performance
 --override-generation-config '{"temperature":0.7,"top_p":0.95,"top_k":20}'
 --disable-custom-all-reduce
---speculative-config '{"model":"poolside/Laguna-S-2.1-DFlash-INT4","num_speculative_tokens":15,"method":"dflash"}'
 
 disk 5gb
 
@@ -27,7 +26,7 @@ VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
 HF_TOKEN="{{ RUNPOD_SECRET_HF_TOKEN }}"
 HF_HUB_VERBOSITY=info # change to debug if needed
 VLLM_LOGGING_LEVEL=info # change to debug if needed
-TRANSFORMERS_VERBOSITY=info # change to debug if needed
+TRANSFORMERS_VERBOSITY=warning # change to debug if needed
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
