@@ -15,6 +15,7 @@ Searching and reading code:
 
 - Avoid APIs to search source code on github, clone everything and search the files locally, grep etc...
 - Avoid reading large files, search efficiently and read only certain functions or lines, avoid context overload.
+- Code search and web search are available through the websearch skill.
 
 # Information
 

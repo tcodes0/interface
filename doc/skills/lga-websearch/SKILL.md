@@ -72,20 +72,11 @@ curl -s -G 'http://websearch:8080/search' --data-urlencode 'q=python' \
 Fields worth checking per result: `engine`, `category`, `score`, `positions`, `url`, `title`,
 `publishedDate`.
 
-### Known quirk: `category` field in results is unreliable
-
-Results returned under `categories=<X>` do not reliably report `"category": "<X>"` in their own
-metadata -- they often show the engine's *first-listed* category instead (e.g. querying
-`categories=huggingface` can still show `"category": "it"` on hits if that engine is also tagged
-`it`). Don't use the per-result `category` field to verify which category filter actually ran --
-trust the request params and the *engine names* in the results instead.
-
 ### Known quirk: occasional empty JSON on first GET
 
 A `format=json` GET has intermittently returned `{"number_of_results": 0, "results": []}` on a
 first attempt with otherwise-valid params, then returned real results on retry (or via `-X POST`
-with the same params as form data). If a query looks empty and you're confident the category/engine
-is populated, retry once before concluding something is actually broken.
+with the same params as form data).
 
 ### `number_of_results` is not the count to trust
 
@@ -113,18 +104,10 @@ Engines differ in what they index, so query style matters:
 - `huggingface` -- only 3 engines live here (`huggingface`, `huggingface datasets`,
   `huggingface spaces`), and they match against repo/dataset/space **names and slugs**, not
   descriptive phrases. `q=python` or `q=llama` finds plenty; `q=large language model training
-  techniques` returns nothing useful even though the category is fully healthy. If a query against
+techniques` returns nothing useful even though the category is fully healthy. If a query against
   `huggingface` comes back empty, try a bare keyword before assuming the category is broken.
 
 ## Config source & templating
 
-The live `settings.yml` on the container is generated from a template at container start
-(`services/websearch/entrypoint.sh` in the `lga` repo), substituting secrets
-(`BRAVE_API_KEY`, `GITHUB_TOKEN`) into `settings.yml.template`. The source template lives at
-`lga/services/websearch/config/settings.yml.template`; `categories_as_tabs` and the `engines:` list
-there are the actual source of truth for which categories/engines exist.
-
-If `/config` shows an engine missing or a category returning zero results across every query,
-suspect a missing/misconfigured token in that engine's block in the template (e.g. `api_key`,
-`ghc_auth.token`) before assuming the category routing itself is broken -- an engine with a bad or
-absent credential fails silently rather than raising in `/config` or `/search`.
+The source template lives at `<lga repo>/services/websearch/config/settings.yml.template`;
+`categories_as_tabs` and the `engines:` list there are the actual source of truth for which categories/engines exist.
