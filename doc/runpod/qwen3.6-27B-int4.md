@@ -18,7 +18,7 @@ cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilizatio
 
 disk 5gb
 
-volume 23gb
+volume 25gb
 
 VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
@@ -26,13 +26,13 @@ VLLM_ALLOW_LONG_MAX_MODEL_LEN=1
 HF_TOKEN="{{ RUNPOD_SECRET_HF_TOKEN }}"
 HF_HUB_VERBOSITY=info # set to debug if needed
 VLLM_LOGGING_LEVEL=info # set to debug if needed
-TRANSFORMERS_VERBOSITY=info # set to debug if needed
+TRANSFORMERS_VERBOSITY=warning # set to debug if needed
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
 TRITON_CACHE_DIR=/workspace/.cache/triton
 FLASHINFER_WORKSPACE_DIR=/workspace/.cache/flashinfer
-TORCH_LOGS="+inductor" # very verbose omit if not debugging
+# TORCH_LOGS="+inductor" # very verbose omit if not debugging
 TORCHINDUCTOR_CACHE_DIR=/workspace/.cache/torchinductor
 
 speculative config:

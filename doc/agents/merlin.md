@@ -11,6 +11,11 @@ Editing files:
 - Prefer two small targeted replacements over one large multi-line block match — large blocks are brittle.
 - Both tools error if the file doesn't exist or (for `file_replace`) if the substring isn't uniquely matched, which prevents silent corruption.
 
+Searching and reading code:
+
+- Avoid APIs to search source code on github, clone everything and search the files locally, grep etc...
+- Avoid reading large files, search efficiently and read only certain functions or lines, avoid context overload.
+
 # Information
 
 host network is reachable on host.docker.internal
