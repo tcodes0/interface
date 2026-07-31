@@ -12,7 +12,7 @@ cyankiwi/Qwen3.6-27B-AWQ-INT4 --host 0.0.0.0 --port 8000 --gpu-memory-utilizatio
 --tool-call-parser qwen3_coder
 --language-model-only
 --kv-cache-dtype fp8
---speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":5}'
+--speculative-config '{"method":"qwen3_next_mtp","num_speculative_tokens":8}'
 --enforce-eager # with speculative needs this flag, crashes OOM
 --override-generation-config '{"temperature":0.6, "presence_penalty": 1}'
 
