@@ -43,3 +43,5 @@ recommended context 262K, up to 1M
 33 tok/s on A40
 36 tok/s on A6000
 This model is slow without sd, but sd causes OOM's and other crashes, need to run low context.
+
+look into MTP (multi token prediction) vs speculative decoding for moe qwen 3.6, community reports good results. --spec-method mtp --spec-tokens 2 ?
