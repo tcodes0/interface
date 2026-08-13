@@ -60,6 +60,24 @@ generated ad hoc, in place, by every single repo's setup script, with no
 diffing, no review, and no way to notice drift until a signature silently
 fails.
 
+## status: implemented
+
+Done as proposed below, with one adjustment: the `/lga/secrets/gpg_passphrase`
+fallback (LGA-specific, harmless elsewhere) was kept in the canonical file
+rather than stripped, since this is a personal-use tool and simplicity beats
+strict portability here.
+
+- Canonical wrapper lives at `interface/bin/gpg-passphrase-wrapper`.
+- `src/compose-setup/commit_signing.sh` now curls it from raw GitHub into
+  `/usr/local/bin/gpg-passphrase-wrapper`, falling back to the inline heredoc
+  if the fetch fails (offline, DNS, etc).
+- Consumer repos pick this up next time their `bin/setup` is regenerated via
+  `bin/compose-setup --commit <project>` — not backfilled repo-by-repo as
+  part of this change.
+- `doc/skills/github/SKILL.md` now notes `/usr/local/bin` is ephemeral in
+  agent containers, to avoid the drift that caused the original incident
+  (an agent hand-placing a copy on a persistent volume instead).
+
 ## proposal
 
 1. **Commit the canonical wrapper to `interface/bin/gpg-passphrase-wrapper`.**

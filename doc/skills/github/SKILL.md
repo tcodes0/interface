@@ -30,6 +30,8 @@ Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to the operator before continuing.
 
+**`/usr/local/bin` is ephemeral** in agent containers — `gpg-passphrase-wrapper` only exists there after `bin/setup` has run *this session*. If signing fails with "cannot exec" for that path, rerun `setup` rather than hand-placing a copy on a persistent volume (e.g. `/root/bin`) to work around it — a stale hand-edited copy there previously shadowed the real wrapper and silently broke signing for sessions that picked it up first. The canonical wrapper source lives at `interface/bin/gpg-passphrase-wrapper`; `bin/setup` fetches it from raw GitHub. See `doc/ideas/gpg-wrapper-versioning.md`.
+
 ### Repo Catalog
 
 | Mount                | Clone URL                                           | Default branch |

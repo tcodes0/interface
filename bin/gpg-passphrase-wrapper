@@ -1,0 +1,15 @@
+#! /usr/bin/env bash
+# Copyright 2025-present R. Thomazella. All rights reserved.
+# Use of this source code is governed by the BSD-3-Clause
+# license that can be found in the LICENSE file and online
+# at https://opensource.org/license/BSD-3-clause.
+#
+# Canonical gpg-passphrase-wrapper. bin/setup (commit_signing) fetches this file
+# instead of regenerating it inline -- this is the single source of truth.
+# See doc/ideas/gpg-wrapper-versioning.md. Never hand-edit a deployed copy;
+# fix it here and let bin/setup re-fetch it.
+_gpg_passphrase="${GPG_PASSPHRASE:-$(cat /run/secrets/gpg_passphrase 2>/dev/null)}"
+if [[ -z "${_gpg_passphrase}" && -f /lga/secrets/gpg_passphrase ]]; then
+  _gpg_passphrase="$(cat /lga/secrets/gpg_passphrase)"
+fi
+exec gpg --batch --passphrase "${_gpg_passphrase}" --pinentry-mode loopback "$@"
