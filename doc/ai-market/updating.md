@@ -105,6 +105,80 @@ table so this is auditable later.
 statically — this is how Alphabet's numbers were double-checked against SEC data (both matched
 exactly, good cross-validation signal that the pipeline is sound).
 
+## Updating Indicator 2 — GPU Scarcity
+
+First full pass done 2026-08-16. Notes for next time:
+
+**No single source covers both resale price and lead time reliably — expect to combine 3-4 sources
+per update.** Unlike indicator 1 (one XBRL endpoint covers all companies), GPU scarcity data is
+scattered across a marketplace site (resale), a rental marketplace's live API (cloud rental), and
+a handful of industry blogs/newsletters (lead times). Budget more search time for this sheet than
+for capex.
+
+**Compute Exchange's own blog/article pages return an empty body to a plain `curl`** (Next.js
+react-server-component streaming, similar to what capex.md's notes describe for some IR pages) —
+but its **product/category pages** (e.g. `compute.exchange/hardware-market/used-gpus`) render the
+price data server-side and work fine with a plain `curl -A 'Mozilla/5.0' ...`. If a Compute
+Exchange URL comes back as 0 bytes, look for the equivalent hardware-market/pricing page instead
+of the blog post.
+
+**Vast.ai has a public, unauthenticated marketplace API that's a much better source than scraping
+their pricing pages.** The pricing pages themselves (`vast.ai/pricing/gpu/<model>`) are Next.js
+pages that render price into a client-side JS bundle, not in the static HTML — `curl` gets a
+skeleton page with a loading-shimmer placeholder where the price should be, no amount of
+User-Agent spoofing fixes this since it's a code-splitting issue, not a bot-blocking one. Instead
+hit the marketplace API directly, which returns live, granular per-listing offers:
+
+```bash
+curl -s -G 'https://cloud.vast.ai/api/v0/bundles/' \
+  --data-urlencode 'q={"gpu_name":{"in":["H100 SXM"]},"num_gpus":{"eq":1},"rentable":{"eq":true},"order":[["dph_total","asc"]]}'
+```
+
+`gpu_name` must match Vast's internal naming exactly (`"H100 SXM"`, `"B200"`, etc. — hit the
+endpoint with no `q` filter first and inspect `set(o['gpu_name'] for o in offers)` if unsure of
+the exact string). `dph_total` is dollars-per-hour total (GPU + host overhead) for that listing;
+sort ascending and read off the low end of the distribution as the "representative" on-demand
+price, but eyeball the whole list first — a single outlier listing (e.g. one host at 3x everyone
+else) can badly skew a naive min/max range if quoted uncritically. This endpoint has no auth and
+no documented rate limit encountered so far; it's technically undocumented (found by inspecting
+network behavior of `cloud.vast.ai`, not from a published API doc), so verify it's still live and
+hasn't moved before relying on it again.
+
+**Lead-time claims across GPU-industry blogs vary by 2-4x depending on channel and buyer
+priority — don't average them, report the range and attribute each figure.** For the same month
+(Q2 2026), sources reported H200/B200 lead times anywhere from "8-16 weeks for priority OEM
+buyers" to "36-52 weeks through standard hyperscaler channels" to "30+ weeks for non-priority
+enterprise buyers." These aren't contradictory once you notice they're describing different
+buyer tiers/channels, not different points in time. Read the fine print on *who* the lead time
+applies to before treating two numbers as comparable.
+
+**Distinguish "on-demand spot rental price" from "1-year contract/committed rental price" — they
+can move in opposite directions at the same time and both are relevant to different halves of
+the indicator.** SemiAnalysis (a paid research firm's public newsletter) reported 1-year H100
+contract pricing *rising* ~40% Oct 2025 → Mar 2026 due to committed-capacity scarcity, while
+other secondary sources reported on-demand *spot* pricing *falling* sharply from the 2024 peak
+over a similar window — attributed to a wave of new neocloud entrants fragmenting spot supply.
+Both can be true simultaneously and the divergence itself is informative (see dashboard.md's
+current-read narrative) — don't collapse them into one "the rental price is $X" figure.
+
+**Treat single-outlet "industry newsletter" and SEO-content-farm sources (GPUaaS.com, GPUSmith,
+Value Add VC, Silicon Analysts, Lyceum Technology, etc.) as directionally useful but not
+authoritative on their own — look for the same figure corroborated across 2-3 independently
+operated sites before trusting it.** Several of these clearly aggregate from each other (nearly
+identical "36-52 weeks" and "3.6 million unit backlog" phrasing recurs verbatim across multiple
+sites), which means they may share a single upstream source rather than being truly independent
+confirmations — treat convergent phrasing with a bit of suspicion, not as N independent data
+points. SemiAnalysis is the one outlet in this space with a named research methodology (survey +
+transaction data across neoclouds) and is worth weighting more heavily than the unattributed
+aggregator sites.
+
+**Publish dates matter more here than for capex** — GPU market conditions in this cycle are
+moving fast enough that a "2026" article without a specific month can be stale by the time it's
+found via search. Check `datePublished`/`dateModified` in the page's JSON-LD (`grep -o
+'datePublished[^,]*' page.html`) before citing a figure, and prefer the search engine's own
+`publishedDate` field on the result (via the `lga-websearch` skill's JSON output) as a first-pass
+filter before fetching.
+
 ## Reminders
 
 - Don't manufacture precision a source doesn't provide (lead times, CoWoS utilization, HBM
