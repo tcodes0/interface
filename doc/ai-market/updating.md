@@ -263,6 +263,82 @@ three). Ending inventory, not average of beginning+ending.
 string — use the XBRL companyconcept API only**, same finding as capex.md's SEC EDGAR notes for
 indicator 1 (not re-litigated here, see that section). Confirmed again this pass for Micron.
 
+## Updating Indicator 4 — TSMC / Advanced Manufacturing
+
+First full pass done 2026-08-16, backfilled Q1 2025 to Q2 2026 (6 quarters) for both HPC revenue
+and CoWoS/packaging commentary. Notes for next time:
+
+**`investor.tsmc.com` is behind Cloudflare and blocks plain `curl` outright** ("Just a moment..."
+challenge page, HTTP 403 even with a browser-style `-A 'Mozilla/5.0'` User-Agent) — this applies
+to both the HTML quarterly-results pages and the PDF earnings-release/management-report/
+transcript files hosted there. Don't bother retrying with different UAs or referrers, it's a JS
+challenge, not a UA check. **Use SEC EDGAR instead**, which mirrors TSMC's own press release
+verbatim as a 6-K exhibit and isn't Cloudflare-protected:
+
+```
+https://data.sec.gov/submissions/CIK0001046179.json
+```
+
+TSMC's CIK is 1046179 (a 20-F/6-K foreign private issuer, not a 10-Q/10-K domestic filer like the
+companies in capex.md). Filter `filings.recent` for `form == "6-K"` and `filingDate` near the
+known earnings date (roughly Jan/Apr/Jul/Oct 15-18) to find the quarterly earnings 6-K among the
+many other 6-Ks TSMC files monthly (monthly revenue, board resolutions, dividend adjustments,
+etc. — most 6-Ks are *not* the quarterly earnings one, filter carefully). Fetch that filing's
+index page (`sec.gov/Archives/edgar/data/1046179/<accession-no-dashes>/`) and look for the
+`a<Q><YY>e_withguidancexfinal.htm` file specifically — that's exhibit 99.1, TSMC's actual earnings
+press release (revenue, EPS, margins, wafer revenue by node, next-quarter guidance). The 6-K
+wrapper document itself (`tsm-<date>x6k.htm`) is just a cover page pointing at the real exhibits
+(99.1 = press release, 99.2 = investor presentation as JPG images) — don't stop at the wrapper.
+**Unlike Micron in indicator 3's notes, SEC Archives HTML pages did NOT block this fetch** —
+contradicts the "Archives blocks bots" finding from indicator 1/3's notes. Not fully understood
+why (maybe UA-dependent, maybe inconsistent rate-limiting) — if a future session hits a block on
+a TSMC Archives fetch, that's not unprecedented, just retry or fall back to the XBRL/companyfacts
+API if one exists for the relevant figure.
+
+**TSMC's earnings-release press release (the SEC 6-K exhibit) never states HPC revenue or HPC
+%/growth at all** — it only has total consolidated revenue, EPS, margins, and wafer revenue by
+process node (2nm/3nm/5nm/7nm shipment %). **The HPC platform breakdown only exists in the
+earnings call transcript**, spoken by the CFO in prepared remarks each quarter under a
+"Moving on to revenue contribution by platform..." heading — always given as **% of that quarter's
+revenue plus a QoQ % change**, never an absolute dollar figure and (with one exception below)
+never a same-quarter YoY figure. This means every quarter's estimated HPC USD figure in tsmc.md is
+**derived** (`total revenue × HPC %`), and every quarterly YoY figure is doubly-derived (comparing
+two derived numbers) — see tsmc.md's own methodology note for the precision caveat this implies.
+**The one exception**: on the Q4/full-year call each January, TSMC states full-year HPC YoY growth
+verbatim (e.g. "HPC increased 48% year-over-year" for full-year 2025) — capture that whenever
+available, it's more trustworthy than the derived quarterly figures.
+
+**Transcript sourcing, in order of what actually worked this pass** (skip straight to whichever
+of these is available for the target quarter, don't necessarily try them in this order every
+time — availability seems to depend on which outlet happened to publish first/is still up):
+
+- **The Motley Fool** (`fool.com/earnings/call-transcripts/<year>/<month>/<day>/tsm-tsm-q<q>-<year>-earnings-call-transcript/` or an older `taiwan-semiconductor-manufacturing-tsm-q<q>-<year>-ear/` URL pattern for calls before ~mid-2025) — plain `curl -A 'Mozilla/5.0'` worked for Q2 2026 and Q3 2025 without issue. Includes a handy "Industry Glossary" section defining CoWoS/HPC/etc. in TSMC's own terms, useful for confirming you're reading the right acronym expansions.
+- **InsiderMonkey** (`insidermonkey.com/blog/taiwan-semiconductor-manufacturing-company-limited-nysetsm-q<q>-<year>-earnings-call-transcript-<id>/`) — also plain-curlable, no blocking. Used for Q1 2025, Q2 2025, Q4 2025, Q1 2026 in this pass (Fool's URL wasn't findable via search for those specific quarters, but InsiderMonkey's was). The numeric `<id>` suffix isn't guessable — find the exact URL via the `lga-websearch` skill's SearXNG instance (`site:insidermonkey.com` or a direct quarter+company query works well), don't try to construct it.
+- **SeekingAlpha** appeared frequently in search results as an alternative but wasn't tried directly this pass (paywall likely, per general SeekingAlpha behavior) — Fool/InsiderMonkey were sufficient. Worth trying only if both of those come up empty for a given quarter.
+- TSMC's own PDF transcripts (`investor.tsmc.com/.../TSMC%20<Q>Q<YY>%20Transcript.pdf`) exist and turned up readily in search results, but are Cloudflare-blocked same as everything else on that domain — don't bother.
+
+**CoWoS/advanced-packaging commentary is richest in the Q&A section of the earnings call, not the
+prepared remarks** — analysts ask about CoWoS/packaging capacity almost every single quarter
+(recurring names: Gokul Hariharan, Charlie Chan, Laura Chen), and C.C. Wei (CEO) answers with
+real qualitative color even when explicitly declining to give a number ("we probably update you
+next year," "I don't think I can give you a very specific number, but..."). This turned out to be
+a *better* source than any industry/secondary source tried for indicator 2 or 3's qualitative
+sections — TSMC's own management commentary is candid enough (e.g. Q2 2026: "our packaging
+capacity is so tight that now it's limiting my customers' growth") that TrendForce/industry
+corroboration wasn't needed for the first pass. Search the transcript text for "CoWoS",
+"packaging", and "capacity" (in that order of specificity) rather than trying to anticipate which
+analyst will ask — the relevant exchange could come from any of several recurring analysts and
+moves around within the call each quarter.
+
+**TSMC's capital budget (CapEx) guidance revisions are a useful proxy for packaging tightness**
+even though CapEx isn't packaging-specific: TSMC only ever gives a 10-20% range for what fraction
+of CapEx goes to advanced packaging/testing/mask-making (declined to narrow this further when an
+analyst explicitly pushed for a packaging-only breakout in Q4 2025's call), so don't try to derive
+a packaging-specific CapEx dollar figure — but tracking the *overall* CapEx guidance number
+quarter to quarter ($52-56B guided Jan 2026, raised to $60-64B by Jul 2026) is a decent
+corroborating signal, especially when management explicitly cites demand strength as the primary
+driver of a mid-year raise (as they did this pass).
+
 ## Reminders
 
 - Don't manufacture precision a source doesn't provide (lead times, CoWoS utilization, HBM

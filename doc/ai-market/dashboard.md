@@ -82,12 +82,12 @@ market may already have priced in the downturn.
 | Big Tech capex growth | [capex.md](./capex.md) | Bullish/accelerating: aggregate Big Tech capex (MSFT+GOOGL+META+AMZN+ORCL) YoY growth reaccelerated to +86.5% in Q2 2026 (from +71-75% through most of 2025), and every company raised or reaffirmed elevated forward guidance for the rest of 2026/FY27 (Alphabet raised to $195-205B, Amazon to ~$220B, Meta's floor to $130-145B, Oracle guiding ~$70B net cash outlay for FY27, Microsoft ~$175B FY27). No deceleration signal yet — the opposite. | 2026-08-16 |
 | GPU scarcity (lead times + resale) | [gpu-scarcity.md](./gpu-scarcity.md) | Mixed/first read: H100 SXM5 resale $22-27K (Compute Exchange), on-demand H100 rental $1.60-2.52/hr (Vast.ai live marketplace) — well off the ~$8-10/hr 2024 peak per secondary sources, suggesting the *on-demand spot* market has loosened. But H200/B200 lead times through standard hyperscaler/OEM channels remain 36-52 weeks (multiple independent sources), driven by HBM3e/CoWoS constraints rather than GPU die supply — i.e. the hardware-procurement layer is still tight even as spot rental $/hr has come down. No trend yet (first data point); the spot-vs-lead-time divergence itself is the notable signal. | 2026-08-16 |
 | HBM / memory | [memory.md](./memory.md) | Bullish/tight: HBM pricing rising (TrendForce, ~20% HBM3E hike planned for 2026, suppliers pushing for a 2027 HBM4 contract-price surge; NVIDIA cutting HBM configs for Rubin Ultra due to *supply* tightness, not soft demand). Server DRAM contract prices forecast +13-18% QoQ in 3Q26. Inventory days mixed: Micron (pure-play memory) at a series low of 120.5 days, down from 146.1 seven quarters ago — clean tightening signal. SK Hynix roughly flat/slightly down (122.8, off a 173.8 high in Q1 2025). Samsung's whole-company inventory days (not DS-segment-specific, disclosure limitation) rose to its highest reading in the series (124.5) this quarter — caveat-heavy, don't over-read. | 2026-08-16 |
-| TSMC HPC + CoWoS | [tsmc.md](./tsmc.md) | _not yet populated_ | — |
+| TSMC HPC + CoWoS | [tsmc.md](./tsmc.md) | Bullish/accelerating: HPC platform revenue grew from 59% of TSMC's revenue in Q1 2025 to 66% in Q2 2026 (+20% QoQ, the fastest quarterly HPC growth in the series), full-year 2025 HPC revenue +48% YoY. CoWoS/advanced packaging described as an active constraint on customer growth as of Q2 2026 — C.C. Wei (CEO), verbatim: "our packaging capacity is so tight that now it's limiting my customers' growth." TSMC raised its 2026 capital budget from $52-56B (Jan 2026 guidance) to $60-64B (Jul 2026), citing demand strength as the primary driver. No deceleration signal on either sub-indicator. | 2026-08-16 |
 | Compute market (H100 spot/rental) | [compute-market.md](./compute-market.md) | _not yet populated_ | — |
 
 ## Current read (narrative)
 
-**Indicators 1-3 (Big Tech capex, GPU scarcity, HBM/memory) populated as of 2026-08-16; indicators 4-5 not yet populated.**
+**Indicators 1-4 (Big Tech capex, GPU scarcity, HBM/memory, TSMC HPC + CoWoS) populated as of 2026-08-16; indicator 5 (compute market) not yet populated.**
 
 Capex growth is accelerating, not decelerating — aggregate hyperscaler capex YoY hit +86.5% in Q2
 2026, and forward guidance across all five companies points to more spend, not less, through the
@@ -109,16 +109,32 @@ gathered: HBM pricing is rising, server DRAM contract prices are forecast up 13-
 and Micron — the cleanest pure-play read among the three memory makers — has inventory days at a
 series low (120.5, down from 146.1 seven quarters back), all consistent with the upstream
 bottleneck story over the "scarcity is just fading" story implied by falling spot rental prices
-alone. SK Hynix's inventory
-days are roughly flat/slightly down over the same window, reinforcing the same read; Samsung's
-inventory days rose to a series high this quarter, but that figure is whole-company (Samsung
-doesn't disclose DS/semiconductor-segment inventory separately) and shouldn't be read as a
-memory-specific signal on its own. Taken together, indicator 3 is a **bullish/tight** confirmation
-of indicators 1-2: the choke point does look like it's sitting upstream at HBM/memory rather than
-at the GPU die itself. Nothing across the three populated indicators yet says demand is weakening.
+alone. SK Hynix's inventory days are roughly flat/slightly down over the same window, reinforcing
+the same read; Samsung's inventory days rose to a series high this quarter, but that figure is
+whole-company (Samsung doesn't disclose DS/semiconductor-segment inventory separately) and
+shouldn't be read as a memory-specific signal on its own. Taken together, indicator 3 is a
+**bullish/tight** confirmation of indicators 1-2: the choke point does look like it's sitting
+upstream at HBM/memory rather than at the GPU die itself.
 
-TSMC HPC + CoWoS (indicators 4-5) still need to be gathered to complete the cascade check —
-advanced packaging utilization in particular is the natural next place to look for confirmation or
-contradiction of the HBM-driven bottleneck story above.
+Indicator 4 (TSMC HPC + CoWoS) closes the loop and is the most unambiguous confirmation gathered
+so far. TSMC's HPC platform — the revenue category most exposed to AI accelerators — has grown
+from 59% of TSMC's total revenue in Q1 2025 to 66% in Q2 2026, and that growth is *accelerating*
+(+20% QoQ in Q2 2026, the fastest in the six quarters reviewed, following another +20% QoQ in Q1
+2026). More strikingly, TSMC's own management is now describing advanced packaging as an active
+bottleneck rather than simply strong demand: CEO C.C. Wei told analysts in July 2026 that
+"packaging capacity is so tight that now it's limiting my customers' growth," and TSMC raised its
+2026 capital budget twice in six months ($52-56B in January, to $60-64B by July) explicitly citing
+demand strength. This is TSMC's most direct capacity-constraint statement across the six quarters
+reviewed for this pass, and it corroborates indicator 2's GPU lead-time findings (HBM/CoWoS-gated,
+not GPU-die-gated) and indicator 3's HBM/memory tightness from the *supplier's supplier* side of
+the chain. Across all four populated indicators, nothing yet says demand is weakening — every
+layer of the physical supply chain checked so far (hyperscaler capex, GPU procurement lead times,
+HBM/memory, and now TSMC's own advanced packaging capacity) points the same direction: tight and
+getting tighter, not loosening.
+
+Only indicator 5 (compute market — H100 spot/rental) remains ungathered. Given indicator 2
+already captured on-demand rental pricing as part of the GPU scarcity read, indicator 5 may end up
+largely corroborating or refining that existing spot-market data rather than introducing a wholly
+new signal — worth keeping in mind when scoping that pass.
 
 See [updating.md](./updating.md) for the monthly/quarterly refresh process.
