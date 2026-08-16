@@ -83,7 +83,7 @@ market may already have priced in the downturn.
 | GPU scarcity (lead times + resale) | [gpu-scarcity.md](./gpu-scarcity.md) | Mixed/first read: H100 SXM5 resale $22-27K (Compute Exchange), on-demand H100 rental $1.60-2.52/hr (Vast.ai live marketplace) — well off the ~$8-10/hr 2024 peak per secondary sources, suggesting the *on-demand spot* market has loosened. But H200/B200 lead times through standard hyperscaler/OEM channels remain 36-52 weeks (multiple independent sources), driven by HBM3e/CoWoS constraints rather than GPU die supply — i.e. the hardware-procurement layer is still tight even as spot rental $/hr has come down. No trend yet (first data point); the spot-vs-lead-time divergence itself is the notable signal. | 2026-08-16 |
 | HBM / memory | [memory.md](./memory.md) | Bullish/tight: HBM pricing rising (TrendForce, ~20% HBM3E hike planned for 2026, suppliers pushing for a 2027 HBM4 contract-price surge; NVIDIA cutting HBM configs for Rubin Ultra due to *supply* tightness, not soft demand). Server DRAM contract prices forecast +13-18% QoQ in 3Q26. Inventory days mixed: Micron (pure-play memory) at a series low of 120.5 days, down from 146.1 seven quarters ago — clean tightening signal. SK Hynix roughly flat/slightly down (122.8, off a 173.8 high in Q1 2025). Samsung's whole-company inventory days (not DS-segment-specific, disclosure limitation) rose to its highest reading in the series (124.5) this quarter — caveat-heavy, don't over-read. | 2026-08-16 |
 | TSMC HPC + CoWoS | [tsmc.md](./tsmc.md) | Bullish/accelerating: HPC platform revenue grew from 59% of TSMC's revenue in Q1 2025 to 66% in Q2 2026 (+20% QoQ, the fastest quarterly HPC growth in the series), full-year 2025 HPC revenue +48% YoY. CoWoS/advanced packaging described as an active constraint on customer growth as of Q2 2026 — C.C. Wei (CEO), verbatim: "our packaging capacity is so tight that now it's limiting my customers' growth." TSMC raised its 2026 capital budget from $52-56B (Jan 2026 guidance) to $60-64B (Jul 2026), citing demand strength as the primary driver. No deceleration signal on either sub-indicator. | 2026-08-16 |
-| Compute market (H100 spot/rental) | [compute-market.md](./compute-market.md) | _not yet populated_ | — |
+| Compute market (H100 spot/rental) | [compute-market.md](./compute-market.md) | Mixed/consistent with indicator 2: ComputeTape's CT-H100 on-demand index reads $5.22/hr median (6 providers, flat week-over-week), with a wide $3.20-$12.29/hr spread across individual providers (Hyperstack cheapest, Azure priciest) and hyperscalers (AWS, Azure) explicitly "Quota Gated" while neoclouds (Hyperstack, Crusoe, CoreWeave) are "Available Limited" and only Lambda reports fully "Available." Vast.ai's live marketplace shows a similar spread: $1.60-$7.08/hr across 11 single-GPU listings (median $2.52/hr), with only 83 total H100 SXM GPUs rentable across 31 listings at query time — a thin order book, not a deep liquid market. No time-series trend yet (first data point), but the pattern — deep-pocketed/quota-gated hyperscaler capacity vs. thin, cheaper neocloud/spot supply — corroborates indicator 2's spot-vs-committed divergence rather than adding a new signal. | 2026-08-16 |
 
 ## Current read (narrative)
 
@@ -132,9 +132,21 @@ layer of the physical supply chain checked so far (hyperscaler capex, GPU procur
 HBM/memory, and now TSMC's own advanced packaging capacity) points the same direction: tight and
 getting tighter, not loosening.
 
-Only indicator 5 (compute market — H100 spot/rental) remains ungathered. Given indicator 2
-already captured on-demand rental pricing as part of the GPU scarcity read, indicator 5 may end up
-largely corroborating or refining that existing spot-market data rather than introducing a wholly
-new signal — worth keeping in mind when scoping that pass.
+Indicator 5 (compute market — H100 spot/rental) is now populated, and it mostly corroborates
+rather than extends the story from indicator 2, as anticipated. ComputeTape's CT-H100 index — an
+independent, methodologically-documented on-demand price series across six providers — reads
+$5.22/hr median as of mid-August 2026, flat week-over-week with zero same-provider price movement.
+But the real signal is in the composition, not the median: the two hyperscaler constituents (AWS
+$6.88/hr, Azure $12.29/hr) are both tagged "Quota Gated," while the three neoclouds (Hyperstack
+$3.20/hr, Crusoe $3.90/hr, CoreWeave $6.16/hr) are "Available Limited" and only Lambda ($4.29/hr)
+is fully "Available." Vast.ai's live marketplace shows the same shape independently — a
+$1.60-$7.08/hr spread across just 11 single-GPU listings (median $2.52/hr) and only 83 total H100
+SXM GPUs rentable across all 31 listings queried, a thin order book rather than a deep liquid
+market. Taken together this is the demand-side mirror of indicator 2's supply-side finding:
+hyperscaler-controlled committed capacity stays gated/expensive while a fragmented tier of
+neoclouds and spot listings offers cheaper, thinner supply. Nothing here reads as "compute glut" —
+available capacity is thin, not abundant, and pricing is flat rather than falling — so indicator 5
+doesn't shift the overall picture, it reinforces the same tight-upstream, loosening-at-the-margins
+structure indicators 1-4 already established.
 
 See [updating.md](./updating.md) for the monthly/quarterly refresh process.

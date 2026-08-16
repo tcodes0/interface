@@ -339,6 +339,73 @@ quarter to quarter ($52-56B guided Jan 2026, raised to $60-64B by Jul 2026) is a
 corroborating signal, especially when management explicitly cites demand strength as the primary
 driver of a mid-year raise (as they did this pass).
 
+## Updating Indicator 5 — Compute Market
+
+First full pass done 2026-08-16. Notes for next time:
+
+**ComputeTape (`computetape.com`) is a Next.js site with the same client-side-hydration problem
+noted for other sources in this doc (Compute Exchange, vast.ai pricing pages)** — a plain `curl` on
+most pages returns a React Server Component payload, not clean prose, so grepping for `$` prices
+directly against the rendered HTML is unreliable (dollar figures show up buried in RSC framing
+like `["$","span",...]`). **The index pages expose plain structured data endpoints that sidestep
+this entirely** — use those instead of scraping HTML:
+
+```
+https://www.computetape.com/indexes/h100/current.json   # today's snapshot, per-provider rows
+https://www.computetape.com/indexes/h100/current.csv
+https://www.computetape.com/indexes/h100/history.json   # daily index history
+https://www.computetape.com/indexes/h100/history.csv
+```
+
+All four are plain-curlable with a `Mozilla/5.0` UA, no auth, no rate limit encountered. Found the
+`/indexes/h100` page itself via the `lga-websearch` skill (query "ComputeTape H100 spot price
+index") rather than guessing the URL — ComputeTape also has `/gpu-pricing`, `/market`, and
+`/power-watch` sections that may be useful for future passes but weren't needed this time.
+
+**`current.json`'s `benchmark` object is the headline median; the `rows` array has full
+per-provider detail** (provider name, exact hardware config, hourly price, `sourceUrl`,
+`observedAt`/`reviewedAt`/`expiresAt` timestamps, and a plain-English `availability` field —
+observed values this pass were `Available`, `Available Limited`, and `Quota Gated`). The
+`availability` field is exactly the qualitative signal this indicator's methodology asks for and
+requires zero interpretation — prefer quoting it verbatim per provider over trying to summarize
+into a single index-wide number.
+
+**`history.csv` has five real columns worth tracking**: `date`, `on_demand_median`, `spot_median`,
+`normalized_h100e`, `n_providers` (plus `source` and two `restated_from_*` columns used only when a
+correction is issued — see below). `spot_median` and `normalized_h100e` were both flat/unchanging
+(`2.46` and `5.41` respectively) across the entire ~3-month history pulled this pass, while
+`on_demand_median` moved between `4.29` and `5.59` as `n_providers` shifted between 4, 6, and 7 —
+worth double-checking whether `spot_median`/`normalized_h100e` are genuinely stable or just
+infrequently-recomputed derived fields before trusting them as a trend signal in a future pass.
+
+**ComputeTape publishes explicit correction notices on the index page itself — read them before
+trusting a historical value.** This pass's page had one: an 8-day window (Jul 29 – Aug 6, 2026)
+where the published median was $6.52 across 4 providers, later corrected to $5.22 across 6
+providers after ComputeTape found that a 30-day editorial-review-expiry clock had dropped two
+cheaper neocloud constituents (Crusoe, Lambda) from the eligible sample, biasing the published
+median upward. `history.csv` keeps the superseded value in a `restated_from_median` /
+`restated_from_n_providers` column pair for the affected rows rather than silently overwriting
+them — a good append-only-history pattern, similar in spirit to this dashboard's own "never edit a
+historical row" rule. Don't just take the current `on_demand_median` column at face value for old
+dates without checking whether a correction note covers that window.
+
+**Vast.ai methodology for this indicator matches indicator 2's, with one addition: also run the
+query without the `num_gpus=1` filter to get a total-GPU-availability figure.** Indicator 2's
+established query (`gpu_name in ["H100 SXM"], num_gpus=1, rentable=true`) gives the clean per-GPU
+price distribution; drop just the `num_gpus` filter (keep `rentable: true`) and sum `num_gpus`
+across all returned offers to get a total-rentable-GPU-count proxy for availability —
+this pass found only 83 GPUs across 31 listings (multi-GPU bundles up to 8x included), which reads
+as a thin market rather than deep liquidity. Use the authenticated `api_keys-vast_ai_mcp_litellm`
+tool per indicator 2's notes, not the unauthenticated `cloud.vast.ai` endpoint.
+
+**Don't conflate ComputeTape's on-demand median with Vast.ai's median — they're structurally
+different panels (curated enterprise-grade providers vs. an open marketplace of individual
+hosts) and will diverge**, similar to how indicator 2's notes already warn about not blending spot
+vs. contract pricing. This pass: ComputeTape $5.22/hr (6 curated providers including two
+hyperscalers) vs. Vast.ai $2.52/hr median / $1.60-$7.08/hr range (11 independent host listings) —
+both are legitimate, non-contradictory reads of different market segments; report both, don't
+average them into one number.
+
 ## Reminders
 
 - Don't manufacture precision a source doesn't provide (lead times, CoWoS utilization, HBM
