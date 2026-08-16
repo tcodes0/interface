@@ -31,15 +31,14 @@ misleading. Instead look for multiple independent reports pointing in the same d
 
 ## What we're looking for
 
-Strongest bearish development:
-
 > H100 resale prices ↓ + H100 cloud rental prices ↓ + B200 cloud rental prices ↓ + independent
 > availability reports improving
 
-That would indicate the scarcity premium is disappearing across both the mature and current GPU
-generations.
-
-A weaker signal: H100 loosening while B200 remains expensive/constrained. That could simply
-represent normal generational turnover rather than an AI demand slowdown.
+For the purposes of the cycle dashboard, spot rental pricing should therefore be treated as an **emerging
+commoditization/depth indicator rather than a primary scarcity indicator**. A genuinely bearish signal would
+require several things to occur together: substantially deeper spot-market availability, falling utilization,
+persistent price declines, shorter committed-hardware lead times, and declining concentration of compute in hyperscalers.
+The transition we ultimately care about is from a **concentrated, capacity-constrained market** toward a **deep, liquid,
+commoditized market with excess capacity**.
 
 No scoring or automated conclusions — keep observations raw and interpret convergence manually.

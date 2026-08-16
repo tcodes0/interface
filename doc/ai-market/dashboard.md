@@ -149,4 +149,19 @@ available capacity is thin, not abundant, and pricing is flat rather than fallin
 doesn't shift the overall picture, it reinforces the same tight-upstream, loosening-at-the-margins
 structure indicators 1-4 already established.
 
+The GPU spot/rental market should be interpreted cautiously as a **young, thin, and highly fragmented
+segment of the broader AI compute market**, rather than as a direct proxy for overall GPU supply/demand.
+Current evidence shows a meaningful divergence between cheaper on-demand pricing and still-constrained
+committed infrastructure: hyperscaler and OEM procurement remains gated with 36–52 week lead times, while
+spot marketplaces contain relatively little total capacity and are increasingly supplied by a growing number
+of neocloud providers. This suggests that lower spot prices may reflect **market fragmentation and concentration
+of demand in hyperscaler-grade infrastructure**, rather than a broad compute glut.
+
+For the purposes of the cycle dashboard, spot rental pricing should therefore be treated as an **emerging
+commoditization/depth indicator rather than a primary scarcity indicator**. A genuinely bearish signal would
+require several things to occur together: substantially deeper spot-market availability, falling utilization,
+persistent price declines, shorter committed-hardware lead times, and declining concentration of compute in hyperscalers.
+The transition we ultimately care about is from a **concentrated, capacity-constrained market** toward a **deep, liquid,
+commoditized market with excess capacity**.
+
 See [updating.md](./updating.md) for the monthly/quarterly refresh process.
