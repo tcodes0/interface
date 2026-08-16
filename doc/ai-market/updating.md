@@ -1,7 +1,7 @@
 # Updating the AI Market Dashboard
 
-How to keep the indicator sheets current. Spec/rationale:
-[doc/ideas/investing/ai-market.md](../ideas/investing/ai-market.md).
+How to keep the indicator sheets current. For the rationale and full indicator dashboard, see
+[dashboard.md](./dashboard.md).
 
 ## Cadence
 

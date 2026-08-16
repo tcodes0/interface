@@ -1,39 +1,58 @@
 # Indicator 4 — TSMC / Advanced Manufacturing
 
-Methodology: [doc/ideas/investing/4.md](../ideas/investing/4.md).
-Two related indicators: TSMC HPC revenue (quarterly, whenever TSMC reports) and CoWoS /
-advanced-packaging utilization (monthly/quarterly depending on data availability — realistically
-quarterly is sufficient). Append-only, oldest first.
+Two related indicators (see [dashboard.md](./dashboard.md)):
 
-## 1. TSMC HPC revenue (primary)
+1. TSMC HPC revenue
+2. CoWoS / advanced packaging utilization and capacity
+
+Cadence: HPC quarterly, whenever TSMC reports. CoWoS monthly/quarterly depending on data
+availability, but realistically quarterly is sufficient for the dashboard — no need to chase
+every capacity announcement. Append-only, oldest first — never edit or delete a historical row.
+
+## 1. TSMC HPC revenue — primary
+
+TSMC reports revenue by platform, including HPC.
 
 | Quarter | HPC Revenue | HPC YoY Growth | HPC % of Revenue | Notes | Source | Last Updated |
 | --- | --- | --- | --- | --- | --- | --- |
 
-Most important field: HPC YoY growth. No need to isolate AI revenue from HPC — the category is
-exposed enough to AI accelerators to be a useful upstream proxy. Total TSMC revenue growth can be
-kept as context but isn't a core field.
+The most important field is HPC YoY growth. No need to attempt to isolate AI revenue from HPC —
+HPC includes other applications, but the category is sufficiently exposed to AI accelerators to
+provide a useful upstream proxy. Total TSMC revenue growth can be kept as context but doesn't
+need to be a core field.
+
+Source: TSMC quarterly earnings releases; TSMC investor presentations / financial reports.
 
 Signal: HPC growth accelerating → bullish; decelerating → warning; declining → bearish.
 
-Source: TSMC quarterly earnings releases, investor presentations / financial reports.
+## 2. CoWoS — capacity / utilization
 
-## 2. CoWoS — capacity / utilization (qualitative)
+Trickier because TSMC doesn't give a nice monthly "CoWoS utilization = 94%" number — like HBM
+pricing, don't manufacture precision that doesn't exist.
 
-| Period | Demand (Tight/Normal/Weak) | Utilization | Capacity / Expansion | Source | Notes |
+| Period | Demand (Tight/Normal/Weak) | Capacity / Expansion | Utilization | Source | Notes |
 | --- | --- | --- | --- | --- | --- |
 
-TSMC doesn't publish a clean utilization number — don't manufacture precision that doesn't exist.
-Focus on three things: demand/orders, utilization, capacity. **Capacity expansion ≠ bearish** —
-only concerning when capacity expansion and weakening orders/utilization occur together.
+Focus on three things:
 
-Sources: TSMC earnings calls / investor commentary / announcements; credible semiconductor
-research (particularly TrendForce); Reuters/Bloomberg for customer/order developments when
-primary data isn't available. Give TSMC's own commentary priority, use industry sources to fill
-gaps.
+- **Demand / orders**: strong customer demand, capacity fully booked, orders increasing/decreasing.
+- **Utilization**: high/tight, normalizing, falling.
+- **Capacity**: new CoWoS capacity coming online, expansion plans, geographic/fab expansion.
+
+Important distinction: **capacity expansion ≠ bearish**. We only care when capacity expansion and
+weakening orders/utilization occur together.
+
+## Sources
+
+**HPC revenue**: TSMC earnings releases; TSMC investor presentations.
+
+**CoWoS**: TSMC earnings calls / investor commentary; TSMC announcements; credible semiconductor
+research, particularly TrendForce; potentially Reuters/Bloomberg for customer/order developments
+when primary data isn't available. Give TSMC's own commentary priority, use industry sources to
+fill in the gaps.
 
 ## What we're looking for
 
 Key bearish combination: TSMC HPC growth decelerating + CoWoS demand/utilization weakening. The
-strongest signal is this happening *after* Big Tech capex and GPU/HBM indicators have already
-started deteriorating — confirmation moving upstream through the supply chain.
+strongest signal would be if that happens *after* Big Tech capex and GPU/HBM indicators have
+already started deteriorating — confirmation moving upstream through the physical supply chain.

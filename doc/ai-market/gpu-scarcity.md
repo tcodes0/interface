@@ -1,35 +1,41 @@
 # Indicator 2 — GPU Scarcity
 
-Methodology: [doc/ideas/investing/2.md](../ideas/investing/2.md).
-Purpose: track whether GPU supply is loosening and the scarcity premium is disappearing.
-Updated monthly. Two generations tracked: H100 (mature) and B200 (current). Append-only, oldest
-first.
+Purpose: track whether GPU supply is becoming easier to obtain and whether the scarcity premium
+is disappearing (see [dashboard.md](./dashboard.md)). Updated monthly. Two generations tracked:
+H100 (mature / last-generation) and B200 (current generation). Append-only, oldest first — never
+edit or delete a historical row.
 
 ## Quantitative — resale and rental prices
 
 | Month | GPU | Used/Resale Price | Cloud Rental Price | Source | Last Updated |
 | --- | --- | --- | --- | --- | --- |
 
-- H100 resale: Compute Exchange, monthly, record a range not a point estimate, keep GPU config
-  consistent month to month.
-- Cloud rental: Vast.ai, monthly snapshot, H100 and B200, keep methodology consistent.
-- B200 resale is **not tracked** — secondary market too immature.
+- **H100 resale**: Compute Exchange, monthly, record a price range not a point estimate, keep
+  GPU configuration consistent month to month.
+- **Cloud rental**: Vast.ai, monthly snapshot, H100 and B200, record a representative
+  price/range, keep methodology consistent between months.
+- **B200 resale is not tracked** — the secondary market is too immature for now.
 
 ## Qualitative — availability / lead time
 
 | Month | GPU | Availability / Lead-Time Observation | Source | Date |
 | --- | --- | --- | --- | --- |
 
-- Not a quantitative index — no standardized market-wide lead-time dataset exists and single
-  supplier quotes can mislead. Look for multiple independent reports pointing the same direction.
+Example observations: "6–8 weeks", "in stock", etc. Not treated as a quantitative index — there
+is no reliable standardized market-wide lead-time dataset, and individual supplier quotes can be
+misleading. Instead look for multiple independent reports pointing in the same direction.
 
 ## What we're looking for
 
-Strongest bearish combination: H100 resale ↓ + H100 cloud rental ↓ + B200 cloud rental ↓ +
-independent availability reports improving — scarcity premium disappearing across both
+Strongest bearish development:
+
+> H100 resale prices ↓ + H100 cloud rental prices ↓ + B200 cloud rental prices ↓ + independent
+> availability reports improving
+
+That would indicate the scarcity premium is disappearing across both the mature and current GPU
 generations.
 
-Weaker/ambiguous signal: H100 loosening while B200 stays expensive/constrained — could just be
-normal generational turnover, not a demand slowdown.
+A weaker signal: H100 loosening while B200 remains expensive/constrained. That could simply
+represent normal generational turnover rather than an AI demand slowdown.
 
-No scoring or automated conclusions — interpret convergence manually.
+No scoring or automated conclusions — keep observations raw and interpret convergence manually.
