@@ -79,7 +79,7 @@ market may already have priced in the downturn.
 
 | Indicator | Sheet | Current Read | Last Updated |
 | --- | --- | --- | --- |
-| Big Tech capex growth | [capex.md](./capex.md) | _not yet populated_ | — |
+| Big Tech capex growth | [capex.md](./capex.md) | Bullish/accelerating: aggregate Big Tech capex (MSFT+GOOGL+META+AMZN+ORCL) YoY growth reaccelerated to +86.5% in Q2 2026 (from +71-75% through most of 2025), and every company raised or reaffirmed elevated forward guidance for the rest of 2026/FY27 (Alphabet raised to $195-205B, Amazon to ~$220B, Meta's floor to $130-145B, Oracle guiding ~$70B net cash outlay for FY27, Microsoft ~$175B FY27). No deceleration signal yet — the opposite. | 2026-08-16 |
 | GPU scarcity (lead times + resale) | [gpu-scarcity.md](./gpu-scarcity.md) | _not yet populated_ | — |
 | HBM / memory | [memory.md](./memory.md) | _not yet populated_ | — |
 | TSMC HPC + CoWoS | [tsmc.md](./tsmc.md) | _not yet populated_ | — |
@@ -87,6 +87,13 @@ market may already have priced in the downturn.
 
 ## Current read (narrative)
 
-_Not yet populated — fill in once the first round of data is gathered._
+**Indicator 1 (Big Tech capex) populated as of 2026-08-16; indicators 2-5 not yet populated.**
+
+Capex growth is accelerating, not decelerating — aggregate hyperscaler capex YoY hit +86.5% in Q2
+2026, and forward guidance across all five companies points to more spend, not less, through the
+rest of 2026 and into FY27. On its own this is a **bullish** read for the primary demand-side
+indicator, i.e. the opposite of the setup this dashboard is watching for. It says nothing yet
+about GPU scarcity, HBM, or TSMC/CoWoS — those still need to be gathered before drawing any
+conclusion about convergence (or lack of it) across the supply chain layers.
 
 See [updating.md](./updating.md) for the monthly/quarterly refresh process.
