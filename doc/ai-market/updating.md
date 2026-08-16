@@ -144,6 +144,30 @@ no documented rate limit encountered so far; it's technically undocumented (foun
 network behavior of `cloud.vast.ai`, not from a published API doc), so verify it's still live and
 hasn't moved before relying on it again.
 
+**There's now a dedicated `api_keys-vast_ai_mcp_litellm` tool (authenticated, base URL
+`https://console.vast.ai/api/v0`) — confirmed working 2026-08-16, prefer it over the raw
+unauthenticated `curl` above.** It hits vast.ai's real (authenticated) REST API, not the
+undocumented public marketplace endpoint, so it's less likely to get rate-limited or silently
+changed out from under this workflow. Verified request shape (differs from the unauthenticated
+`cloud.vast.ai` endpoint above in two ways: no `q=` JSON-string query-param wrapper, and it needs
+a trailing slash or you'll get a 301):
+
+```
+method: POST
+path: /bundles/
+headers: {"Content-Type": "application/json"}
+body: {"gpu_name": {"in": ["H100 SXM"]}, "num_gpus": {"eq": 1}, "rentable": {"eq": true}, "order": [["dph_total", "asc"]], "limit": 20}
+```
+
+The filter fields go directly at the top level of the JSON body — no `q` wrapper needed here
+(that's a quirk of the public `cloud.vast.ai/api/v0/bundles/` endpoint, not this one). A bare
+`POST /bundles/` with an empty or minimal body (e.g. `{"limit": 3}`) also works and is a good way
+to sanity-check the tool/key are alive before building a full filter. Response shape (`{"offers":
+[...]}`, same `dph_total`/`gpu_name`/`rentable` fields) matches the unauthenticated endpoint, so
+the rest of this section's guidance on reading `dph_total`, watching for outliers, etc. still
+applies unchanged. Fall back to the plain `curl` only if the authenticated tool is unavailable or
+errors.
+
 **Lead-time claims across GPU-industry blogs vary by 2-4x depending on channel and buyer
 priority — don't average them, report the range and attribute each figure.** For the same month
 (Q2 2026), sources reported H200/B200 lead times anywhere from "8-16 weeks for priority OEM
@@ -178,6 +202,66 @@ found via search. Check `datePublished`/`dateModified` in the page's JSON-LD (`g
 'datePublished[^,]*' page.html`) before citing a figure, and prefer the search engine's own
 `publishedDate` field on the result (via the `lga-websearch` skill's JSON output) as a first-pass
 filter before fetching.
+
+## Updating Indicator 3 — HBM / Memory
+
+First full pass done 2026-08-16 (HBM pricing/server DRAM as of Aug 2026; inventory days backfilled
+Q4 2024 - Q2 2026). Notes for next time:
+
+**TrendForce press-center and news pages are directly curl-able**, same as noted for the GPU
+scarcity indicator's earlier research — `curl -A 'Mozilla/5.0' <url>` renders server-side fine, no
+JS-rendering problem. Good, reliable source for HBM/DRAM qualitative pricing direction. JSON-LD
+`datePublished` is present in the page head (`grep -o 'datePublished[^,]*' page.html`), useful for
+freshness-checking the same way indicator 2's notes recommend for GPU lead-time articles.
+**TrendForce doesn't publish a clean numeric HBM contract price series** — everything found is
+directional ("~20% hike", "13-18% QoQ") or about deltas, not absolute price levels. Stick with
+Rising/Stable/Falling + quoted percentage deltas, don't try to build a price index. Treat articles
+repeated near-verbatim across secondary outlets (TechTimes, BigGo Finance, Reddit, KuCoin news,
+etc.) as one underlying TrendForce source, not independent confirmations — same caution as
+indicator 2's notes on convergent-phrasing sources.
+
+**Memory-maker inventory days must be derived, not sourced directly** — nobody publishes it
+cleanly for all three companies. Fixed formula (documented in memory.md itself, keep both docs in
+sync if it ever changes): `ending Inventory ÷ that quarter's COGS × actual calendar days in the
+quarter` (actual day-count, not an averaged 91.25 — exact period dates are available for all
+three). Ending inventory, not average of beginning+ending.
+
+- **Micron**: SEC EDGAR XBRL company-concept API (CIK 0000723125), `InventoryNet` +
+  `CostOfGoodsAndServicesSold`, derived to quarterly the same way capex.md documents for capex
+  (group cumulative FYTD facts by `start`, sort by `end`, diff consecutive values). Fiscal year
+  ends ~Aug 28/29, offsetting fiscal quarters ~1 quarter behind calendar quarters — same pattern
+  as Oracle in capex.md, keep both labels.
+- **SK Hynix / Samsung**: no SEC filings (KRX-listed) — use stockanalysis.com's
+  `quote/krx/<ticker>/financials/balance-sheet/?p=quarterly` and `financials/?p=quarterly` pages,
+  both plain-curlable, no blocking encountered. Cross-check the scraped revenue figure against
+  each company's own press release before trusting the rest of the page (done this pass for both
+  — matched closely). Neither ticker's income-statement page exposes a direct "Cost of Revenue"
+  line in what's rendered server-side; COGS is derived as `Revenue − Gross Profit` instead — worth
+  re-checking whether a cleaner line item exists deeper in the page before continuing to rely on
+  the derived version. **Don't use stockanalysis.com's `ratios/?p=quarterly` "Inventory Turnover"
+  row** — its quarterly-vs-annualized convention was never verified; derive from raw
+  Inventory/COGS instead, as above.
+- **Samsung's inventory (and revenue/COGS) is whole-company, not DS-segment-specific, and this is
+  now confirmed structural, not just unavailable-this-pass**: Samsung's own interim consolidated
+  financial statements' segment-information note states plainly that segment-level assets and
+  liabilities (which includes inventory) are excluded from disclosure because they aren't
+  regularly provided to the Management Committee. Checked the full quarterly financial statements
+  PDF (`images.samsung.com/.../<year>_con_quarter<NN>_all.pdf`, extracted via `pdfminer.six`), not
+  just the press release — the caveat holds at that level of detail too, no need to re-check DART
+  or the annual/semiannual report specifically, this is Samsung's stated disclosure policy.
+  Keep reporting the whole-company figure (flagged "(whole-co.)" inline per memory.md's
+  convention) rather than dropping Samsung from the table — it's the best available proxy — but
+  don't read a whole-company inventory move as a memory-specific signal without corroboration from
+  Micron/SK Hynix or DS-segment revenue/profit commentary in the earnings release.
+- Samsung's newsroom (`news.samsung.com`) was flaky again this pass (timeouts on a plain curl);
+  `news.samsungsemiconductor.com` mirrors the same press releases and was reliably reachable —
+  try that host first before falling back to secondary sources (pulse2, techtimes, bubblear,
+  investing.com's earnings-slide coverage all covered the same Q2 2026 release in enough detail to
+  cross-check).
+
+**SEC EDGAR Archives HTML pages block automated requests even with a descriptive User-Agent
+string — use the XBRL companyconcept API only**, same finding as capex.md's SEC EDGAR notes for
+indicator 1 (not re-litigated here, see that section). Confirmed again this pass for Micron.
 
 ## Reminders
 
