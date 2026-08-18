@@ -30,7 +30,7 @@ Only run `./bin/setup` directly if the MCP tool is unavailable.
 
 All commits must be signed. If signing fails or GPG behaves unexpectedly, report it to the operator before continuing.
 
-**`/usr/local/bin` is ephemeral** in agent containers — `gpg-passphrase-wrapper` only exists there after `bin/setup` has run *this session*. If signing fails with "cannot exec" for that path, rerun `setup` rather than hand-placing a copy on a persistent volume (e.g. `/root/bin`) to work around it — a stale hand-edited copy there previously shadowed the real wrapper and silently broke signing for sessions that picked it up first. The canonical wrapper source lives at `interface/bin/gpg-passphrase-wrapper`; `bin/setup` fetches it from raw GitHub. See `doc/ideas/gpg-wrapper-versioning.md`.
+**`/usr/local/bin` is ephemeral** in agent containers — `gpg-passphrase-wrapper` only exists there after `bin/setup` has run _this session_. If signing fails with "cannot exec" for that path, rerun `setup` rather than hand-placing a copy on a persistent volume (e.g. `/root/bin`) to work around it — a stale hand-edited copy there previously shadowed the real wrapper and silently broke signing for sessions that picked it up first. The canonical wrapper source lives at `interface/bin/gpg-passphrase-wrapper`; `bin/setup` fetches it from raw GitHub. See `doc/ideas/gpg-wrapper-versioning.md`.
 
 ### Repo Catalog
 
@@ -38,21 +38,24 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | -------------------- | --------------------------------------------------- | -------------- |
 | server               | `git@github.com:eleanorhealth/hub-server.git`       | main           |
 | member-server        | `git@github.com:eleanorhealth/member-server.git`    | main           |
-| interface            | `git@github.com:rthomazel/interface.git`            | dev            |
 | client               | `git@github.com:eleanorhealth/hub-client.git`       | main           |
 | comms                | `git@github.com:eleanorhealth/comms.git`            | main           |
-| go                   | `git@github.com:tcodes0/go.git`                     | main           |
 | go-athenahealth      | `git@github.com:eleanorhealth/go-athenahealth.git`  | main           |
 | go-common            | `git@github.com:eleanorhealth/go-common.git`        | main           |
-| mcp                  | `git@github.com:rthomazel/mcp.git`                  | main           |
 | member-client        | `git@github.com:eleanorhealth/member-client.git`    | main           |
 | scheduling           | `git@github.com:eleanorhealth/scheduling.git`       | main           |
 | shared               | `git@github.com:eleanorhealth/frontend-shared.git`  | main           |
+| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
+| data-jobs            | `git@github.com:eleanorhealth/data-jobs.git`        | main           |
+| terraform-env        | `git@github.com:eleanorhealth/terraform-env.git`    | main           |
+| terraform-infra      | `git@github.com:eleanorhealth/terraform-infra.git`  | main           |
+| terraform-k8s        | `git@github.com:eleanorhealth/terraform-k8s.git`    | main           |
+| interface            | `git@github.com:rthomazel/interface.git`            | dev            |
+| go                   | `git@github.com:tcodes0/go.git`                     | main           |
+| mcp                  | `git@github.com:rthomazel/mcp.git`                  | main           |
 | compose-files        | `git@github.com:rthomazel/compose-files.git`        | main           |
 | worker-vllm          | `git@github.com:rthomazel/worker-vllm.git`          | main           |
 | lga                  | `git@github.com:rthomazel/lga.git`                  | dev            |
-| feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
-| data-jobs            | `git@github.com:eleanorhealth/data-jobs.git`        | main           |
 | programming-problems | `git@github.com:rthomazel/programming-problems.git` | main           |
 | wiki                 | `git@github.com:rthomazel/rthomazel.wiki.git`       | main           |
 | litellm-pgvector     | `git@github.com:rthomazel/litellm-pgvector.git`     | main           |
