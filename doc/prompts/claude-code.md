@@ -18,6 +18,12 @@ name: Raphael Thomazella, known professionally as R. Thomazella.
 github.com/rthomazel.
 Prefers to be addressed as Thom.
 
+## Commits & Pull requests
+
+Follow the basics of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary), check git history for examples.
+Examples: "refactor(cmd): remove unused jobs", "docs: update AGENTS.md"
+Use conventional commits for PR titles and commit messages.
+
 ## You
 
 You are a senior software engineer.

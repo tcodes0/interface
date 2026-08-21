@@ -92,7 +92,8 @@ EOF
 }
 
 refresh_collations() {
-  local dbs=(comms comms_test hub hub_test member member_test postgres template1)
+  local dbs
+  dbs=$(psql -U postgres -Atc "SELECT datname FROM pg_database;")
 
   log $LINENO collation update on "${dbs[*]}"
 
@@ -106,7 +107,7 @@ postgres_up() {
 
   current_pg_major=$(extract_version psql --version)
   # delete all lines but the 3rd line
-  new_pg_major=$(yay --sync --refresh --info postgresql | sed '3!d')
+  new_pg_major=$(yay --sync --info postgresql | awk '/^[[:space:]]*Version[[:space:]]*:/ {print $3}' | cut -d. -f1)
   new_pg_major=$(extract_version "$new_pg_major")
 
   # .0 is necessary because regex is capturing the dot
@@ -137,6 +138,17 @@ system_up() {
   yay --sync linux linux-api-headers linux-firmware linux-headers --needed --noconfirm
   # update everything but linux from repositories
   yay --repo --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm
+
+  if [ "$1" == "skip" ]; then
+    warn $LINENO "skipping AUR update, to run manually:"
+    warn $LINENO "yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed"
+    warn $LINENO "to run script with AUR update: $0 aur"
+    sleep 3
+
+    return
+  fi
+
+  fatal $LINENO "kaboom"
 
   # update everything but linux from AUR
   if ! yay --aur --sync --sysupgrade --ignore linux,linux-api-headers,linux-firmware,linux-headers --needed --noconfirm; then
@@ -282,14 +294,10 @@ for tool, versions in data.items():
   done
 }
 
-cleanup_packages() {
-  # 19GB of build dependencies of llama.cpp
-  yay --remove --recursive --recursive rocm-hip-sdk --noconfirm
-}
-
 ### script ###
 
 main() {
+  local aurHandling=${1:-"skip"}
   check_dependencies
 
   do_snapshot
@@ -303,16 +311,15 @@ main() {
   mise_update_globals
   mise_root_update
   mise_prune_versions
-  system_up
+  system_up "$aurHandling"
   services start postgresql || err $LINENO "failed to start postgresql"
   refresh_collations
 
   cleanup "$pg_update"
-  cleanup_packages
   btrfs_check_wait
 
   success_message
   cleanup_child_processes
 }
 
-main
+main "$@"
