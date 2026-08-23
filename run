@@ -12,7 +12,7 @@ push_vllm_amd64() {
 
   if [[ -z "$vllmVersion" ]] || [[ -z "$template" ]]; then
     echo "Usage: $0 <vllm_version> <template>"
-    echo "Example: $0 0.27.1 qwen35"
+    echo "Example: $0 v0.27.1 qwen35"
     exit 1
   fi
 
