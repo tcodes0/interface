@@ -6,6 +6,34 @@ trap 'echo fatal: $0:$LINENO >&2' ERR
 
 cmd="${1:-help}"
 
+push_vllm_amd64() {
+  vllmVersion="${1:-}"
+  template="${2:-}"
+
+  if [[ -z "$vllmVersion" ]] || [[ -z "$template" ]]; then
+    echo "Usage: $0 <vllm_version> <template>"
+    echo "Example: $0 0.27.1 qwen35"
+    exit 1
+  fi
+
+  version="$(git describe --tags --abbrev=0 --match "vllm/$template*")"
+  version="${version#vllm/"$template"}"
+  commit="$(git rev-parse --short HEAD)"
+  date="$(date +%Y.%m.%d.%H:%M)"
+
+  oldPWD="$(pwd)"
+  cd src/vllm/"$template" || exit 1
+
+  echo docker buildx build --platform linux/amd64 \
+    --build-arg VLLM_VERSION="${vllmVersion}" \
+    --build-arg VERSION="${version}_${commit}_$date" \
+    -t ghcr.io/rthomazel/interface/vllm/"$template":"$version" \
+    -t ghcr.io/rthomazel/interface/vllm/"$template":latest \
+    --push .
+
+  cd "$oldPWD" || true
+}
+
 case "$cmd" in
 # -- run shfmt and oxfmt
 format)
@@ -23,6 +51,10 @@ lint)
 # -- install required dev tools
 setup)
   bin/setup
+  ;;
+# -- build and push VLLM amd64 docker image with custom entrypoint
+vllm:pushImage)
+  push_vllm_amd64 "$@"
   ;;
 help | *)
   echo "Usage: ./run <command>"
