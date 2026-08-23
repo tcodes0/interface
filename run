@@ -28,7 +28,7 @@ push_vllm_amd64() {
     --build-arg VERSION="${version}_${commit}_$date" \
     -t ghcr.io/rthomazel/interface/vllm/"$template":"$version" \
     -t ghcr.io/rthomazel/interface/vllm/"$template":latest \
-    --load "$dir"
+    --push "$dir"
 }
 
 case "$cmd" in
