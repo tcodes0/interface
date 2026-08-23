@@ -110,4 +110,6 @@ fi
 
 echo [INFO] Running image version "${VERSION:-"unknown"}"
 
+/usr/sbin/sshd
+
 exec vllm serve "$MODEL_NAME" "${ARGS[@]}"
