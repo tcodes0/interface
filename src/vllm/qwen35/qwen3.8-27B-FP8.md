@@ -33,6 +33,17 @@ vllm/vllm-openai:v0.27.1
 not supported well in clients yet, to disable add
 --default-chat-template-kwargs '{"preserve_thinking": false}'
 
+## per request tuning
+
+add to litellm JSON params
+
+"extra_body": {
+    "chat_template_kwargs": {
+      "enable_thinking": false,
+      "preserve_thinking": false
+    }
+  }
+
 # generation config
 
 TEMPERATURE=1.0
