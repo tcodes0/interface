@@ -20,14 +20,15 @@ push_vllm_amd64() {
   version="${version#vllm/"$template"/}"
   commit="$(git rev-parse --short HEAD)"
   date="$(date +%Y.%m.%d.%H:%M)"
+  dir="src/vllm/$template"
 
   docker buildx build --platform linux/amd64 \
-    --build-context default="src/vllm/$template" \
+    --build-context default="$dir" \
     --build-arg VLLM_VERSION="${vllmVersion}" \
     --build-arg VERSION="${version}_${commit}_$date" \
     -t ghcr.io/rthomazel/interface/vllm/"$template":"$version" \
     -t ghcr.io/rthomazel/interface/vllm/"$template":latest \
-    --load .
+    --load "$dir"
 }
 
 case "$cmd" in
