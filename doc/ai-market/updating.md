@@ -173,14 +173,14 @@ priority — don't average them, report the range and attribute each figure.** F
 (Q2 2026), sources reported H200/B200 lead times anywhere from "8-16 weeks for priority OEM
 buyers" to "36-52 weeks through standard hyperscaler channels" to "30+ weeks for non-priority
 enterprise buyers." These aren't contradictory once you notice they're describing different
-buyer tiers/channels, not different points in time. Read the fine print on *who* the lead time
+buyer tiers/channels, not different points in time. Read the fine print on _who_ the lead time
 applies to before treating two numbers as comparable.
 
 **Distinguish "on-demand spot rental price" from "1-year contract/committed rental price" — they
 can move in opposite directions at the same time and both are relevant to different halves of
 the indicator.** SemiAnalysis (a paid research firm's public newsletter) reported 1-year H100
-contract pricing *rising* ~40% Oct 2025 → Mar 2026 due to committed-capacity scarcity, while
-other secondary sources reported on-demand *spot* pricing *falling* sharply from the 2024 peak
+contract pricing _rising_ ~40% Oct 2025 → Mar 2026 due to committed-capacity scarcity, while
+other secondary sources reported on-demand _spot_ pricing _falling_ sharply from the 2024 peak
 over a similar window — attributed to a wave of new neocloud entrants fragmenting spot supply.
 Both can be true simultaneously and the divergence itself is informative (see dashboard.md's
 current-read narrative) — don't collapse them into one "the rental price is $X" figure.
@@ -283,7 +283,7 @@ TSMC's CIK is 1046179 (a 20-F/6-K foreign private issuer, not a 10-Q/10-K domest
 companies in capex.md). Filter `filings.recent` for `form == "6-K"` and `filingDate` near the
 known earnings date (roughly Jan/Apr/Jul/Oct 15-18) to find the quarterly earnings 6-K among the
 many other 6-Ks TSMC files monthly (monthly revenue, board resolutions, dividend adjustments,
-etc. — most 6-Ks are *not* the quarterly earnings one, filter carefully). Fetch that filing's
+etc. — most 6-Ks are _not_ the quarterly earnings one, filter carefully). Fetch that filing's
 index page (`sec.gov/Archives/edgar/data/1046179/<accession-no-dashes>/`) and look for the
 `a<Q><YY>e_withguidancexfinal.htm` file specifically — that's exhibit 99.1, TSMC's actual earnings
 press release (revenue, EPS, margins, wafer revenue by node, next-quarter guidance). The 6-K
@@ -322,7 +322,7 @@ prepared remarks** — analysts ask about CoWoS/packaging capacity almost every 
 (recurring names: Gokul Hariharan, Charlie Chan, Laura Chen), and C.C. Wei (CEO) answers with
 real qualitative color even when explicitly declining to give a number ("we probably update you
 next year," "I don't think I can give you a very specific number, but..."). This turned out to be
-a *better* source than any industry/secondary source tried for indicator 2 or 3's qualitative
+a _better_ source than any industry/secondary source tried for indicator 2 or 3's qualitative
 sections — TSMC's own management commentary is candid enough (e.g. Q2 2026: "our packaging
 capacity is so tight that now it's limiting my customers' growth") that TrendForce/industry
 corroboration wasn't needed for the first pass. Search the transcript text for "CoWoS",
@@ -334,7 +334,7 @@ moves around within the call each quarter.
 even though CapEx isn't packaging-specific: TSMC only ever gives a 10-20% range for what fraction
 of CapEx goes to advanced packaging/testing/mask-making (declined to narrow this further when an
 analyst explicitly pushed for a packaging-only breakout in Q4 2025's call), so don't try to derive
-a packaging-specific CapEx dollar figure — but tracking the *overall* CapEx guidance number
+a packaging-specific CapEx dollar figure — but tracking the _overall_ CapEx guidance number
 quarter to quarter ($52-56B guided Jan 2026, raised to $60-64B by Jul 2026) is a decent
 corroborating signal, especially when management explicitly cites demand strength as the primary
 driver of a mid-year raise (as they did this pass).
