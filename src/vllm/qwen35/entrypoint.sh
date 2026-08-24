@@ -19,6 +19,10 @@ LOG_FILE=${LOG_FILE:-"$LOG_DIR/vllm-$(date +%Y%m%d-%H%M%S).log"}
 mkdir -p "$LOG_DIR"
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+TZ=${TZ:-America/Sao_Paulo}
+printf 'export TZ=%q\n' "$TZ" >/etc/profile.d/timezone.sh
+export TZ
+
 MODEL_NAME=${MODEL_NAME:-"Qwen/Qwen3.8-27B-FP8"}
 GPU_MEMORY_UTILIZATION=${GPU_MEMORY_UTILIZATION:-0.9}
 MAX_NUM_BATCHED_TOKENS=${MAX_NUM_BATCHED_TOKENS:-2048}
