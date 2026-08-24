@@ -81,7 +81,7 @@ def choose_log(directory: Path) -> Path:
     candidates = [path for path in directory.glob("vllm-*.log") if LOG_PATTERN.match(path.name)]
     if not candidates:
         raise FileNotFoundError(f"No vllm-YYYYMMDD-HHMMSS.log files found in {directory}")
-    return min(candidates, key=lambda path: LOG_PATTERN.match(path.name).group(1))
+    return max(candidates, key=lambda path: LOG_PATTERN.match(path.name).group(1))
 
 
 def read_tail(path: Path) -> list[str]:
