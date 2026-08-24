@@ -1,0 +1,155 @@
+#!/usr/bin/env python3
+"""Monitor vLLM metrics and recent errors in a log file."""
+
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import re
+import subprocess
+import sys
+import time
+from pathlib import Path
+from typing import Iterable
+
+
+def ensure_dependencies() -> None:
+    if importlib.util.find_spec("rich") is not None:
+        return
+    print("Installing required dependency: rich", file=sys.stderr)
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "--break-system-packages", "--quiet", "rich"])
+    except subprocess.CalledProcessError as error:
+        raise SystemExit(
+            "Could not install 'rich'. Try running: "
+            f"{sys.executable} -m pip install --break-system-packages rich"
+        ) from error
+
+
+ensure_dependencies()
+
+from rich.console import Console, Group  # noqa: E402
+from rich.live import Live  # noqa: E402
+from rich.table import Table  # noqa: E402
+from rich.text import Text  # noqa: E402
+
+DEFAULT_DIRECTORY = Path("/workspace/logs")
+LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
+TAIL_LINES = 500
+
+METRIC_PATTERNS = {
+    "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
+    "KV cache usage": re.compile(r"GPU KV cache usage:\s*([\d.]+)%"),
+    "Prefix hit rate": re.compile(r"Prefix cache hit rate:\s*([\d.]+)%"),
+    "Mean acceptance length": re.compile(r"Mean acceptance length:\s*([\d.]+)"),
+    "Accepted throughput": re.compile(r"Accepted throughput:\s*([\d.]+)\s*tokens/s"),
+    "Drafted throughput": re.compile(r"Drafted throughput:\s*([\d.]+)\s*tokens/s"),
+    "Accepted tokens": re.compile(r"Accepted:\s*(\d+)\s*tokens"),
+    "Drafted tokens": re.compile(r"Drafted:\s*(\d+)\s*tokens"),
+    "Draft acceptance": re.compile(r"Avg Draft acceptance rate:\s*([\d.]+)%"),
+}
+POSITION_PATTERN = re.compile(r"Per-position acceptance rate:\s*([\d.,\s]+)")
+HTTP_PATTERN = re.compile(r'"[^"\n]+HTTP/[\d.]+"\s+(\d{3})(?:\s+([^\r\n]*))?')
+ERROR_PATTERN = re.compile(r"\bERROR\b|Traceback \(most recent call last\)|(?:Error|Exception):")
+
+
+def choose_log(directory: Path) -> Path:
+    candidates = [path for path in directory.glob("vllm-*.log") if LOG_PATTERN.match(path.name)]
+    if not candidates:
+        raise FileNotFoundError(f"No vllm-YYYYMMDD-HHMMSS.log files found in {directory}")
+    return min(candidates, key=lambda path: LOG_PATTERN.match(path.name).group(1))
+
+
+def read_tail(path: Path) -> list[str]:
+    with path.open(encoding="utf-8", errors="replace") as log_file:
+        return log_file.readlines()[-TAIL_LINES:]
+
+
+def parse_metrics(lines: Iterable[str]) -> dict[str, str]:
+    metrics: dict[str, str] = {}
+    for line in lines:
+        for label, pattern in METRIC_PATTERNS.items():
+            match = pattern.search(line)
+            if match:
+                value = match.group(1)
+                suffix = " tokens/s" if "throughput" in label.lower() else "%" if "rate" in label.lower() or "usage" in label.lower() else ""
+                metrics[label] = f"{value}{suffix}"
+        match = POSITION_PATTERN.search(line)
+        if match:
+            values = [float(value) * 100 for value in re.findall(r"\d+(?:\.\d+)?", match.group(1))]
+            metrics["Position acceptance"] = ", ".join(f"{value:.1f}%" for value in values)
+    return metrics
+
+
+def error_lines(lines: list[str]) -> list[str]:
+    events: list[list[str]] = []
+    current: list[str] = []
+    for line in lines:
+        status_match = HTTP_PATTERN.search(line)
+        is_error = bool(ERROR_PATTERN.search(line)) or bool(status_match and not 200 <= int(status_match.group(1)) < 300)
+        if is_error:
+            if current and not (line.lstrip().startswith("call") or line.lstrip().startswith("_")):
+                events.append(current)
+                current = []
+            current.append(line.rstrip("\n"))
+        elif current and (line.startswith((" ", "\t")) or not line.startswith("(")):
+            current.append(line.rstrip("\n"))
+        elif current:
+            events.append(current)
+            current = []
+    if current:
+        events.append(current)
+    return events[-1] if events else []
+
+
+def render_table(metrics: dict[str, str], log_path: Path) -> Table:
+    table = Table(title=f"vLLM monitor — {log_path}", show_header=True, header_style="bold cyan")
+    table.add_column("Metric", style="bold")
+    table.add_column("Value", justify="right")
+    labels = [
+        "Generation throughput", "KV cache usage", "Prefix hit rate", "Mean acceptance length",
+        "Accepted throughput", "Drafted throughput", "Accepted tokens", "Drafted tokens",
+        "Position acceptance", "Draft acceptance",
+    ]
+    for label in labels:
+        table.add_row(label, metrics.get(label, "—"))
+    return table
+
+
+def display(console: Console, path: Path) -> None:
+    lines = read_tail(path)
+    errors = error_lines(lines)
+    console.clear()
+    if errors:
+        output = Text(f"ERROR DETECTED\n\n" + "\n".join(errors), style="bold red")
+        console.print(Group(Text(f"Monitoring: {path}"), output))
+    else:
+        console.print(render_table(parse_metrics(lines), path))
+        console.print("Refreshing every 2 seconds. Press Ctrl-C to exit.", style="dim")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("directory", nargs="?", type=Path, default=DEFAULT_DIRECTORY)
+    args = parser.parse_args()
+    try:
+        log_path = choose_log(args.directory)
+        console = Console()
+        with Live(console=console, refresh_per_second=1, screen=False) as live:
+            while True:
+                lines = read_tail(log_path)
+                errors = error_lines(lines)
+                if errors:
+                    renderable = Group(Text(f"Monitoring: {log_path}"), Text("\nERROR DETECTED\n\n" + "\n".join(errors), style="bold red"))
+                else:
+                    renderable = Group(render_table(parse_metrics(lines), log_path), Text("Refreshing every 2 seconds. Press Ctrl-C to exit.", style="dim"))
+                live.update(renderable)
+                time.sleep(2)
+    except KeyboardInterrupt:
+        print()
+    except (FileNotFoundError, OSError) as error:
+        raise SystemExit(str(error)) from error
+
+
+if __name__ == "__main__":
+    main()
