@@ -9,6 +9,7 @@ import re
 import subprocess
 import sys
 import time
+import urllib.request
 from pathlib import Path
 from typing import Iterable
 
@@ -16,13 +17,36 @@ from typing import Iterable
 def ensure_dependencies() -> None:
     if importlib.util.find_spec("rich") is not None:
         return
+
     print("Installing required dependency: rich", file=sys.stderr)
+    pip_command = [
+        sys.executable,
+        "-m",
+        "pip",
+        "install",
+        "--break-system-packages",
+        "--quiet",
+        "rich",
+    ]
+
     try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "--break-system-packages", "--quiet", "rich"])
-    except subprocess.CalledProcessError as error:
+        subprocess.check_call(pip_command)
+        return
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        pass
+
+    # Some minimal virtual environments omit pip. Bootstrap it before retrying.
+    try:
+        bootstrap = urllib.request.urlopen(
+            "https://bootstrap.pypa.io/get-pip.py", timeout=30
+        ).read()
+        subprocess.run([sys.executable, "-"], input=bootstrap, check=True)
+        subprocess.check_call(pip_command)
+    except (OSError, subprocess.CalledProcessError) as error:
         raise SystemExit(
-            "Could not install 'rich'. Try running: "
-            f"{sys.executable} -m pip install --break-system-packages rich"
+            "Could not install 'rich'. Try running:\n"
+            f"  {sys.executable} -m ensurepip --upgrade\n"
+            f"  {sys.executable} -m pip install rich"
         ) from error
 
 
