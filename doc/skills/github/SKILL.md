@@ -47,6 +47,8 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | shared               | `git@github.com:eleanorhealth/frontend-shared.git`  | main           |
 | feature-flag         | `git@github.com:eleanorhealth/feature-flag.git`     | main           |
 | data-jobs            | `git@github.com:eleanorhealth/data-jobs.git`        | main           |
+| backend              | `git@github.com:eleanorhealth/backend.git`          | main           |
+| walkin-client        | `git@github.com:eleanorhealth/walkin-client.git`    | main           |
 | terraform-env        | `git@github.com:eleanorhealth/terraform-env.git`    | main           |
 | terraform-infra      | `git@github.com:eleanorhealth/terraform-infra.git`  | main           |
 | terraform-k8s        | `git@github.com:eleanorhealth/terraform-k8s.git`    | main           |
