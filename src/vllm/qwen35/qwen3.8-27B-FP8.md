@@ -5,15 +5,13 @@ https://huggingface.co/Qwen/Qwen3.8-27B-FP8
 
 # hardware (vast.ai prices)
 
-- 48GB vram
-
-| gpu count | gpu             | cost $/h |
-| --------- | --------------- | -------- |
-| 2         | RTX 3090        | 0.3      |
-| 2         | RTX PRO 4000 BW | 0.44     |
-| 1         | 48 GB RTX 4090  | 0.6      |
-| 1         | RTX 6000 Ada    | 0.63     |
-| 1         | RTX PRO 5000 BW | 0.74     |
+| num | gpu             | cost $/h | vram |
+| --- | --------------- | -------- | ---- |
+| 2   | RTX 3090        | 0.3      | 48   |
+| 2   | RTX PRO 4000 BW | 0.44     | 48   |
+| 1   | 48 GB RTX 4090  | 0.6      | 48   |
+| 1   | RTX 6000 Ada    | 0.63     | 48   |
+| 1   | RTX PRO 5000 BW | 0.74     | 48   |
 
 # image
 
