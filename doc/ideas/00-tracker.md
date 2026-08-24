@@ -25,7 +25,7 @@ largest number: 29
 
 ## current
 
-- [ ] **[29] [HGH] [8]** WireGuard VPN through the VPS 
+- [ ] **[29] [HGH] [8]** WireGuard VPN through the VPS
 - [ ] **[26] [LOW] [1]** add 2-pin jumper to chassis intrusion header (JCI1) on ArchAM5 motherboard — grounds the floating pin on nct6799 and clears the persistent `intrusion0` alarm at hardware level
 - [ ] **[27] [LOW] [3]** use Infisical for runtime secret injection in personal projects; deploy secret server on the LGA machine alongside the existing provider so it's always available
 - [ ] **[25] [MED] [5]** [go-update-reusable-workflow.md](./go-update-reusable-workflow.md) reusable GH Actions workflow for Go dep updates + Go version bumping across Dockerfiles, go.mod, and .tool-versions

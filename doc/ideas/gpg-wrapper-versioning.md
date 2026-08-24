@@ -21,7 +21,7 @@ sessions), and its contents were broken:
 ```bash
 #!/usr/bin/env bash
 _gpg_passphrase=8ocVuWuor+
-exec gpg --batch --passphrase  --pinentry-mode loopback 
+exec gpg --batch --passphrase  --pinentry-mode loopback
 ```
 
 The passphrase was hardcoded literally (instead of resolved from
@@ -50,7 +50,7 @@ all correct. But this heredoc only ever writes to `/usr/local/bin`, a path that
 doesn't persist and doesn't exist in every container flavor. At some point an
 agent session, working in an environment where `/usr/local/bin` wasn't usable
 or didn't exist, manually flattened/inlined the resolved passphrase into a
-copy at `/root/bin` (a path that *is* persistent) to unblock itself — losing
+copy at `/root/bin` (a path that _is_ persistent) to unblock itself — losing
 the quoting and `"$@"` in the process. That broken copy then silently shadowed
 the correct template on every subsequent session that happened to source
 `/root/bin` first in `$PATH`, or where `bin/setup` didn't rerun to overwrite it.

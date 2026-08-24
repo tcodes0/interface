@@ -42,7 +42,7 @@ notes:
 
 recommended context 262K, up to 1M with quality loss, see model card for int4 quant
 speculative decoding, add flag:
-    --speculative-config '{"model":"poolside/Laguna-S-2.1-DFlash-INT4","num_speculative_tokens":15,"method":"dflash"}'
+--speculative-config '{"model":"poolside/Laguna-S-2.1-DFlash-INT4","num_speculative_tokens":15,"method":"dflash"}'
 
 perf:
 
@@ -51,5 +51,5 @@ perf:
 65 tok/s 300K context 0.94 gpu spec decode
 
 extra docker args:
---gpus all  --cap-add=SYS_PTRACE  --cap-add=SYS_RESOURCE  --security-opt seccomp=unconfined  --ulimit memlock=-1
---ulimitcore=-1  --shm-size=16g --ipc=host
+--gpus all --cap-add=SYS_PTRACE --cap-add=SYS_RESOURCE --security-opt seccomp=unconfined --ulimit memlock=-1
+--ulimitcore=-1 --shm-size=16g --ipc=host

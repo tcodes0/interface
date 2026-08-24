@@ -41,7 +41,7 @@ dashboard. It's extremely difficult to interpret without knowing how AI usage is
 
 > **Hardware demand ≈ AI workload × compute required per unit of workload**
 
-An efficiency improvement can *increase* hardware demand if it causes AI usage to explode — e.g.
+An efficiency improvement can _increase_ hardware demand if it causes AI usage to explode — e.g.
 5× efficiency with 10× workload growth still requires roughly 2× the compute. So efficiency is
 treated as a qualitative wildcard, not a quantitative market-timing signal. Instead its effect is
 observed indirectly through indicator 5.2, the compute market (see
@@ -49,15 +49,15 @@ observed indirectly through indicator 5.2, the compute market (see
 
 ## Core dashboard
 
-| Indicator | Bullish | Bearish |
-| --- | --- | --- |
-| Big Tech capex growth | Accelerating | Decelerating |
-| GPU lead times | Long/increasing | Short/decreasing |
-| GPU resale prices | High/increasing | Falling |
-| HBM prices/orders | Tight/rising | Falling |
-| Memory inventories | Low | Rising |
-| TSMC HPC growth | Accelerating | Decelerating |
-| Advanced packaging utilization | High/rising | Falling |
+| Indicator                      | Bullish         | Bearish          |
+| ------------------------------ | --------------- | ---------------- |
+| Big Tech capex growth          | Accelerating    | Decelerating     |
+| GPU lead times                 | Long/increasing | Short/decreasing |
+| GPU resale prices              | High/increasing | Falling          |
+| HBM prices/orders              | Tight/rising    | Falling          |
+| Memory inventories             | Low             | Rising           |
+| TSMC HPC growth                | Accelerating    | Decelerating     |
+| Advanced packaging utilization | High/rising     | Falling          |
 
 **Hierarchy:**
 
@@ -77,13 +77,13 @@ market may already have priced in the downturn.
 
 ## Snapshot
 
-| Indicator | Sheet | Current Read | Last Updated |
-| --- | --- | --- | --- |
-| Big Tech capex growth | [capex.md](./capex.md) | Bullish/accelerating: aggregate Big Tech capex (MSFT+GOOGL+META+AMZN+ORCL) YoY growth reaccelerated to +86.5% in Q2 2026 (from +71-75% through most of 2025), and every company raised or reaffirmed elevated forward guidance for the rest of 2026/FY27 (Alphabet raised to $195-205B, Amazon to ~$220B, Meta's floor to $130-145B, Oracle guiding ~$70B net cash outlay for FY27, Microsoft ~$175B FY27). No deceleration signal yet — the opposite. | 2026-08-16 |
-| GPU scarcity (lead times + resale) | [gpu-scarcity.md](./gpu-scarcity.md) | Mixed/first read: H100 SXM5 resale $22-27K (Compute Exchange), on-demand H100 rental $1.60-2.52/hr (Vast.ai live marketplace) — well off the ~$8-10/hr 2024 peak per secondary sources, suggesting the *on-demand spot* market has loosened. But H200/B200 lead times through standard hyperscaler/OEM channels remain 36-52 weeks (multiple independent sources), driven by HBM3e/CoWoS constraints rather than GPU die supply — i.e. the hardware-procurement layer is still tight even as spot rental $/hr has come down. No trend yet (first data point); the spot-vs-lead-time divergence itself is the notable signal. | 2026-08-16 |
-| HBM / memory | [memory.md](./memory.md) | Bullish/tight: HBM pricing rising (TrendForce, ~20% HBM3E hike planned for 2026, suppliers pushing for a 2027 HBM4 contract-price surge; NVIDIA cutting HBM configs for Rubin Ultra due to *supply* tightness, not soft demand). Server DRAM contract prices forecast +13-18% QoQ in 3Q26. Inventory days mixed: Micron (pure-play memory) at a series low of 120.5 days, down from 146.1 seven quarters ago — clean tightening signal. SK Hynix roughly flat/slightly down (122.8, off a 173.8 high in Q1 2025). Samsung's whole-company inventory days (not DS-segment-specific, disclosure limitation) rose to its highest reading in the series (124.5) this quarter — caveat-heavy, don't over-read. | 2026-08-16 |
-| TSMC HPC + CoWoS | [tsmc.md](./tsmc.md) | Bullish/accelerating: HPC platform revenue grew from 59% of TSMC's revenue in Q1 2025 to 66% in Q2 2026 (+20% QoQ, the fastest quarterly HPC growth in the series), full-year 2025 HPC revenue +48% YoY. CoWoS/advanced packaging described as an active constraint on customer growth as of Q2 2026 — C.C. Wei (CEO), verbatim: "our packaging capacity is so tight that now it's limiting my customers' growth." TSMC raised its 2026 capital budget from $52-56B (Jan 2026 guidance) to $60-64B (Jul 2026), citing demand strength as the primary driver. No deceleration signal on either sub-indicator. | 2026-08-16 |
-| Compute market (H100 spot/rental) | [compute-market.md](./compute-market.md) | Mixed/consistent with indicator 2: ComputeTape's CT-H100 on-demand index reads $5.22/hr median (6 providers, flat week-over-week), with a wide $3.20-$12.29/hr spread across individual providers (Hyperstack cheapest, Azure priciest) and hyperscalers (AWS, Azure) explicitly "Quota Gated" while neoclouds (Hyperstack, Crusoe, CoreWeave) are "Available Limited" and only Lambda reports fully "Available." Vast.ai's live marketplace shows a similar spread: $1.60-$7.08/hr across 11 single-GPU listings (median $2.52/hr), with only 83 total H100 SXM GPUs rentable across 31 listings at query time — a thin order book, not a deep liquid market. No time-series trend yet (first data point), but the pattern — deep-pocketed/quota-gated hyperscaler capacity vs. thin, cheaper neocloud/spot supply — corroborates indicator 2's spot-vs-committed divergence rather than adding a new signal. | 2026-08-16 |
+| Indicator                          | Sheet                                    | Current Read                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Last Updated |
+| ---------------------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Big Tech capex growth              | [capex.md](./capex.md)                   | Bullish/accelerating: aggregate Big Tech capex (MSFT+GOOGL+META+AMZN+ORCL) YoY growth reaccelerated to +86.5% in Q2 2026 (from +71-75% through most of 2025), and every company raised or reaffirmed elevated forward guidance for the rest of 2026/FY27 (Alphabet raised to $195-205B, Amazon to ~$220B, Meta's floor to $130-145B, Oracle guiding ~$70B net cash outlay for FY27, Microsoft ~$175B FY27). No deceleration signal yet — the opposite.                                                                                                                                                                                                                                                                                                                                                                                                                                                         | 2026-08-16   |
+| GPU scarcity (lead times + resale) | [gpu-scarcity.md](./gpu-scarcity.md)     | Mixed/first read: H100 SXM5 resale $22-27K (Compute Exchange), on-demand H100 rental $1.60-2.52/hr (Vast.ai live marketplace) — well off the ~$8-10/hr 2024 peak per secondary sources, suggesting the _on-demand spot_ market has loosened. But H200/B200 lead times through standard hyperscaler/OEM channels remain 36-52 weeks (multiple independent sources), driven by HBM3e/CoWoS constraints rather than GPU die supply — i.e. the hardware-procurement layer is still tight even as spot rental $/hr has come down. No trend yet (first data point); the spot-vs-lead-time divergence itself is the notable signal.                                                                                                                                                                                                                                                                                   | 2026-08-16   |
+| HBM / memory                       | [memory.md](./memory.md)                 | Bullish/tight: HBM pricing rising (TrendForce, ~20% HBM3E hike planned for 2026, suppliers pushing for a 2027 HBM4 contract-price surge; NVIDIA cutting HBM configs for Rubin Ultra due to _supply_ tightness, not soft demand). Server DRAM contract prices forecast +13-18% QoQ in 3Q26. Inventory days mixed: Micron (pure-play memory) at a series low of 120.5 days, down from 146.1 seven quarters ago — clean tightening signal. SK Hynix roughly flat/slightly down (122.8, off a 173.8 high in Q1 2025). Samsung's whole-company inventory days (not DS-segment-specific, disclosure limitation) rose to its highest reading in the series (124.5) this quarter — caveat-heavy, don't over-read.                                                                                                                                                                                                      | 2026-08-16   |
+| TSMC HPC + CoWoS                   | [tsmc.md](./tsmc.md)                     | Bullish/accelerating: HPC platform revenue grew from 59% of TSMC's revenue in Q1 2025 to 66% in Q2 2026 (+20% QoQ, the fastest quarterly HPC growth in the series), full-year 2025 HPC revenue +48% YoY. CoWoS/advanced packaging described as an active constraint on customer growth as of Q2 2026 — C.C. Wei (CEO), verbatim: "our packaging capacity is so tight that now it's limiting my customers' growth." TSMC raised its 2026 capital budget from $52-56B (Jan 2026 guidance) to $60-64B (Jul 2026), citing demand strength as the primary driver. No deceleration signal on either sub-indicator.                                                                                                                                                                                                                                                                                                   | 2026-08-16   |
+| Compute market (H100 spot/rental)  | [compute-market.md](./compute-market.md) | Mixed/consistent with indicator 2: ComputeTape's CT-H100 on-demand index reads $5.22/hr median (6 providers, flat week-over-week), with a wide $3.20-$12.29/hr spread across individual providers (Hyperstack cheapest, Azure priciest) and hyperscalers (AWS, Azure) explicitly "Quota Gated" while neoclouds (Hyperstack, Crusoe, CoreWeave) are "Available Limited" and only Lambda reports fully "Available." Vast.ai's live marketplace shows a similar spread: $1.60-$7.08/hr across 11 single-GPU listings (median $2.52/hr), with only 83 total H100 SXM GPUs rentable across 31 listings at query time — a thin order book, not a deep liquid market. No time-series trend yet (first data point), but the pattern — deep-pocketed/quota-gated hyperscaler capacity vs. thin, cheaper neocloud/spot supply — corroborates indicator 2's spot-vs-committed divergence rather than adding a new signal. | 2026-08-16   |
 
 ## Current read (narrative)
 
@@ -100,8 +100,8 @@ it at $8-10/hr then vs. $1.60-2.52/hr on Vast.ai's live marketplace today) — t
 would be bearish (scarcity premium fading). But H200/B200 procurement lead times through standard
 hyperscaler/OEM channels are still running 36-52 weeks per multiple independent sources, gated by
 HBM3e memory and TSMC CoWoS packaging capacity rather than GPU die supply — that's still a
-bullish/tight read. The likely explanation is that the *on-demand spot rental* market and the
-*committed/contract hardware procurement* market are decoupling: over 300 new neocloud providers
+bullish/tight read. The likely explanation is that the _on-demand spot rental_ market and the
+_committed/contract hardware procurement_ market are decoupling: over 300 new neocloud providers
 entered in 2025, fragmenting spot supply and pulling spot $/hr down, while long-lead-time
 committed capacity (the kind hyperscalers actually build data centers around) remains bottlenecked
 upstream at HBM/CoWoS. This lines up with what indicator 3 (HBM/memory) shows now that it's
@@ -118,7 +118,7 @@ upstream at HBM/memory rather than at the GPU die itself.
 
 Indicator 4 (TSMC HPC + CoWoS) closes the loop and is the most unambiguous confirmation gathered
 so far. TSMC's HPC platform — the revenue category most exposed to AI accelerators — has grown
-from 59% of TSMC's total revenue in Q1 2025 to 66% in Q2 2026, and that growth is *accelerating*
+from 59% of TSMC's total revenue in Q1 2025 to 66% in Q2 2026, and that growth is _accelerating_
 (+20% QoQ in Q2 2026, the fastest in the six quarters reviewed, following another +20% QoQ in Q1
 2026). More strikingly, TSMC's own management is now describing advanced packaging as an active
 bottleneck rather than simply strong demand: CEO C.C. Wei told analysts in July 2026 that
@@ -126,7 +126,7 @@ bottleneck rather than simply strong demand: CEO C.C. Wei told analysts in July 
 2026 capital budget twice in six months ($52-56B in January, to $60-64B by July) explicitly citing
 demand strength. This is TSMC's most direct capacity-constraint statement across the six quarters
 reviewed for this pass, and it corroborates indicator 2's GPU lead-time findings (HBM/CoWoS-gated,
-not GPU-die-gated) and indicator 3's HBM/memory tightness from the *supplier's supplier* side of
+not GPU-die-gated) and indicator 3's HBM/memory tightness from the _supplier's supplier_ side of
 the chain. Across all four populated indicators, nothing yet says demand is weakening — every
 layer of the physical supply chain checked so far (hyperscaler capex, GPU procurement lead times,
 HBM/memory, and now TSMC's own advanced packaging capacity) points the same direction: tight and

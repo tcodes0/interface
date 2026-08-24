@@ -120,8 +120,8 @@ want []int
 {[]int{3, 3}, 6, []int{0, 1}},
 }
 
-func TestCases(t *testing.T) {
-for _, tc := range testCases {
+func TestCases(t \*testing.T) {
+for \_, tc := range testCases {
 got := twoSum(tc.nums, tc.target)
 if !slices.Equal(got, tc.want) {
 t.Errorf("twoSum(%v, %d) = %v; want %v", tc.nums, tc.target, got, tc.want)
@@ -255,7 +255,7 @@ Example call of `bench-context_mcp_litellm`:
 ## bench-file_replace_mcp_litellm
 
 You have a file editing tool at your disposal: "bench-file_replace_mcp_litellm" this is the exact tool name. The tool must be called exactly with this name.
-It takes _____ arguments and returns ______________.
+It takes **\_** arguments and returns **\*\***\_\_**\*\***.
 For this tool to work there must be some text in a file that you want to replace with another text.
 Do NOT use to start a new file, to start a new file use bench-shell_mcp_litellm "cat", or bench-shell_mcp_litellm "python3" and write some python that outputs to the file.
 Another trick is to write a token ("replace target") with one of the methods above using the shell and then replace it with the actual content: "replace target" -> "my file content"

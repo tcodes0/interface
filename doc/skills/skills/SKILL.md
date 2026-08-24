@@ -25,10 +25,10 @@ Instruction body here — procedures, rules, examples, references.
 
 ### Frontmatter Fields
 
-| Key                        | Type     | Description                                                                                   |
-| --------------------------- | -------- | ----------------------------------------------------------------------------------------------- |
-| `name`                     | String   | Kebab-case identifier. `^[a-z0-9][a-z0-9-]*$`. Stable — renaming breaks references.           |
-| `description`              | String   | **Primary trigger signal.** Write as "Use when [specific situation]". Vague = under-triggers. |
+| Key           | Type   | Description                                                                                   |
+| ------------- | ------ | --------------------------------------------------------------------------------------------- |
+| `name`        | String | Kebab-case identifier. `^[a-z0-9][a-z0-9-]*$`. Stable — renaming breaks references.           |
+| `description` | String | **Primary trigger signal.** Write as "Use when [specific situation]". Vague = under-triggers. |
 
 `name` and `description` are required.
 
@@ -55,10 +55,10 @@ No auth required. Returns `{"plugins": [...], "count": N}`. Each entry has `name
 2. Resolve `source` to a raw file URL, based on `source.source`:
 
    | `source.source` | Fields        | Raw URL pattern                                                               |
-   | ---------------- | ------------- | ------------------------------------------------------------------------------ |
-   | `git-subdir`     | `url`, `path` | `https://raw.githubusercontent.com/<org>/<repo>/<branch>/<path>/SKILL.md`     |
-   | `github`         | `repo`        | `https://raw.githubusercontent.com/<repo>/<branch>/SKILL.md`                  |
-   | `url`            | `url`         | Same repo, root-level `SKILL.md` — branch/path conventions vary, inspect repo |
+   | --------------- | ------------- | ----------------------------------------------------------------------------- |
+   | `git-subdir`    | `url`, `path` | `https://raw.githubusercontent.com/<org>/<repo>/<branch>/<path>/SKILL.md`     |
+   | `github`        | `repo`        | `https://raw.githubusercontent.com/<repo>/<branch>/SKILL.md`                  |
+   | `url`           | `url`         | Same repo, root-level `SKILL.md` — branch/path conventions vary, inspect repo |
 
    `<org>/<repo>` comes from parsing `url` or `repo`. **`branch` is not included in the response** —
    assume the repo's default branch unless told otherwise (e.g. `interface` uses `dev`).
@@ -115,13 +115,13 @@ key/lookup pattern). Re-posting the same `name` with updated fields **updates in
 
 Other management endpoints, all under `/claude-code/plugins`:
 
-| Method | Path                          | Purpose                          |
-| ------ | ------------------------------ | --------------------------------- |
-| GET    | `/claude-code/plugins`         | List all (add `?enabled_only=true` to filter) |
-| GET    | `/claude-code/plugins/{name}`  | Get one                          |
-| POST   | `/claude-code/plugins/{name}/enable`  | Enable a disabled skill   |
-| POST   | `/claude-code/plugins/{name}/disable` | Disable without deleting  |
-| DELETE | `/claude-code/plugins/{name}` | Remove from the registry entirely |
+| Method | Path                                  | Purpose                                       |
+| ------ | ------------------------------------- | --------------------------------------------- |
+| GET    | `/claude-code/plugins`                | List all (add `?enabled_only=true` to filter) |
+| GET    | `/claude-code/plugins/{name}`         | Get one                                       |
+| POST   | `/claude-code/plugins/{name}/enable`  | Enable a disabled skill                       |
+| POST   | `/claude-code/plugins/{name}/disable` | Disable without deleting                      |
+| DELETE | `/claude-code/plugins/{name}`         | Remove from the registry entirely             |
 
 All of the above require the `Authorization` header; `/public/skill_hub` does not.
 
