@@ -38,11 +38,11 @@ not supported well in clients yet, to disable add
 add to litellm JSON params
 
 "extra_body": {
-    "chat_template_kwargs": {
-      "enable_thinking": false,
-      "preserve_thinking": false
-    }
-  }
+"chat_template_kwargs": {
+"enable_thinking": false,
+"preserve_thinking": false
+}
+}
 
 # generation config
 
@@ -62,7 +62,7 @@ REPETITION_PENALTY=1.0
 VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
 VLLM_ALLOW_LONG_MAX_MODEL_LEN=0
-HF_TOKEN=***********
+HF_TOKEN=****\*\*\*****
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch

@@ -13,6 +13,14 @@ err() {
   echo "ERROR: command failed at line $1" >&2
 }
 
+VLLM_MONITOR_PATH=${VLLM_MONITOR_PATH:-/usr/local/bin/vllm-monitor}
+VLLM_MONITOR_URL=${VLLM_MONITOR_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/bin/vllm-monitor}
+
+if [[ ! -x "$VLLM_MONITOR_PATH" ]]; then
+  curl -fsSL "$VLLM_MONITOR_URL" -o "$VLLM_MONITOR_PATH"
+  chmod +x "$VLLM_MONITOR_PATH"
+fi
+
 LOG_DIR=${LOG_DIR:-/workspace/logs}
 LOG_FILE=${LOG_FILE:-"$LOG_DIR/vllm-$(date +%Y%m%d-%H%M%S).log"}
 
