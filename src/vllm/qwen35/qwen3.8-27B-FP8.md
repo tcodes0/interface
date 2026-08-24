@@ -11,10 +11,14 @@ https://huggingface.co/Qwen/Qwen3.8-27B-FP8
 
 vllm/vllm-openai:v0.27.1
 
-# context is 262k, up to 1M add
+# long context
+
+default is 262k
 
 --max-model-len 1010000
 --hf-overrides '{"text_config": {"rope_parameters": {"mrope_interleaved": true, "mrope_section": [11, 11, 10], "rope_type": "yarn", "rope_theta": 10000000, "partial_rotary_factor": 0.25, "factor": 4.0, "original_max_position_embeddings": 262144}}}'
+
+524000, update factor to 2.0. Keep other params the same, They are architectural.
 
 # no thinking
 
@@ -22,21 +26,32 @@ vllm/vllm-openai:v0.27.1
 
 ## preserved thinking
 
-not supported well in clients yet, to disable add
+keep preserve thinking off unless your client supports it, otherwise turn it on.
 --default-chat-template-kwargs '{"preserve_thinking": false}'
 
-## per request tuning
+## thinking tuning per request
 
 add to litellm JSON params
 
+```
+# control thinking on/off
 "extra_body": {
-"chat_template_kwargs": {
-"enable_thinking": false,
-"preserve_thinking": false
+    "chat_template_kwargs": {
+    "enable_thinking": false,
+    "preserve_thinking": false
+    }
 }
-}
+```
 
-# generation config
+```
+# how much thinking. Setting a max helps with overall control, but not required.
+"max_tokens": 16384,
+"extra_body": {
+  "thinking_token_budget": 10000
+}
+```
+
+# default generation config
 
 TEMPERATURE=1.0
 TOP_P=0.95
