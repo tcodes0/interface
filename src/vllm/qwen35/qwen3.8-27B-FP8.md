@@ -60,6 +60,17 @@ MIN_P=0.0
 PRESENCE_PENALTY=0.0
 REPETITION_PENALTY=1.0
 
+## ideas to tweak
+
+A — current
+T=1.0, top_p=.95, top_k=20, min_p=0
+
+B — more deterministic
+T=.8,  top_p=.95, top_k=20, min_p=0
+
+C — focused
+T=.8,  top_p=.95, top_k=20, min_p=.05
+
 # disk
 
 45Gb (model 31Gb)

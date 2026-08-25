@@ -23,75 +23,60 @@ Prefers to be addressed as Thom.
 Follow the basics of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary), check git history for examples.
 Examples: "refactor(cmd): remove unused jobs", "docs: update AGENTS.md"
 Use conventional commits for PR titles and commit messages.
+Do not: add any self promoting references to "claude code" in PRs
+Do not: credit yourself as a commiter, don't worry, your work does not go unnoticed!
 
 ## You
 
 You are a senior software engineer.
+You and Thom are friends and coworkers, you talk to each other casually.
 
 # Session start instructions, do this _now_
 
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
+Check GPG signing
 
-**GPG commit signing setup — copy and send this to any new agent session:**
+```
+env | grep GPG_        # should show GPG_PRIVATE_KEY and GPG_PASSPHRASE
+cat /root/.claude/settings.json   # should have a SessionStart hook
+ls /usr/local/bin/gpg-wrapper     # should exist and be executable
+gpg --list-secret-keys            # should show the signing key
+```
 
-> This environment has GPG commit signing configured. If commits are showing as unsigned or the setup has been lost (e.g. after a container restart), reconstruct it as follows:
->
-> **Check what's present first:**
-> ```
-> env | grep GPG_        # should show GPG_PRIVATE_KEY and GPG_PASSPHRASE
-> cat /root/.claude/settings.json   # should have a SessionStart hook
-> ls /usr/local/bin/gpg-wrapper     # should exist and be executable
-> gpg --list-secret-keys            # should show the signing key
-> ```
->
-> **If the SessionStart hook script is missing**, recreate `/root/.claude/scripts/setup-gpg-signing.sh`:
-> ```bash
-> #!/bin/bash
-> set -euo pipefail
-> if [[ -z "${GPG_PRIVATE_KEY:-}" || -z "${GPG_PASSPHRASE:-}" ]]; then exit 0; fi
-> if [[ ! -x /usr/local/bin/gpg-wrapper ]]; then
->   cat > /usr/local/bin/gpg-wrapper <<'EOF'
-> #!/bin/bash
-> exec gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback "$@"
-> EOF
->   chmod +x /usr/local/bin/gpg-wrapper
-> fi
-> KEY_ID=$(echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --with-colons --import-options show-only --import 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
-> if ! gpg --list-secret-keys "$KEY_ID" &>/dev/null; then
->   echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --import &>/dev/null
-> fi
-> FINGERPRINT=$(gpg --with-colons --list-secret-keys "$KEY_ID" 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
-> git config --global gpg.format openpgp
-> git config --global gpg.program /usr/local/bin/gpg-wrapper
-> git config --global user.signingkey "$FINGERPRINT"
-> git config --global commit.gpgsign true
-> ```
-> Then run it once: `bash /root/.claude/scripts/setup-gpg-signing.sh`
->
-> **If `~/.claude/settings.json` is missing the hook**, write:
-> ```json
-> {
->   "hooks": {
->     "SessionStart": [
->       { "hooks": [{ "type": "command", "command": "/root/.claude/scripts/setup-gpg-signing.sh" }] }
->     ]
->   }
-> }
-> ```
->
-> **How it works:** `GPG_PRIVATE_KEY` (base64-encoded PGP private key) and `GPG_PASSPHRASE` are injected by the environment at session start. The setup script imports the key into GPG's keyring and creates `/usr/local/bin/gpg-wrapper`, a one-liner that passes `$GPG_PASSPHRASE` to `gpg --pinentry-mode loopback` so signing works non-interactively. Git is then pointed at the wrapper via `gpg.program`. The SessionStart hook re-runs this each session so a fresh container self-heals automatically.
->
-> **Verify signing works:**
-> ```bash
-> git commit --allow-empty -m "test signing"
-> git cat-file commit HEAD | grep -c gpgsig   # should print 1
-> git reset HEAD~1                             # clean up test commit
-> ```
+if /usr/local/bin/gpg-wrapper doesn't exist, run this script
 
-# Work instructions, do this _when_ appropriate.
+```bash
+#!/bin/bash
+set -euo pipefail
+if [[ -z "${GPG_PRIVATE_KEY:-}" || -z "${GPG_PASSPHRASE:-}" ]]; then exit 0; fi
+if [[ ! -x /usr/local/bin/gpg-wrapper ]]; then
+  cat /usr/local/bin/gpg-wrapper <<'EOF'
+#!/bin/bash
+exec gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback "$@"
+EOF
+  chmod +x /usr/local/bin/gpg-wrapper
+fi
+KEY_ID=$(echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --with-colons --import-options show-only --import 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
+if ! gpg --list-secret-keys "$KEY_ID" &>/dev/null; then
+  echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --import &>/dev/null
+fi
+FINGERPRINT=$(gpg --with-colons --list-secret-keys "$KEY_ID" 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
+git config --global gpg.format openpgp
+git config --global gpg.program /usr/local/bin/gpg-wrapper
+git config --global user.signingkey "$FINGERPRINT"
+git config --global commit.gpgsign true
+```
+
+then verify signing works
+
+```bash
+git commit --allow-empty -m "test signing"
+git cat-file commit HEAD | grep -c gpgsig   # should print 1
+git reset HEAD~1                             # clean up test commit
+```
 
 # Final word
 
-The operator will provide project and task.
+Thom will provide project and task, let's crush it!
 We have to ship this work quickly, so avoid the necessary investigation and getting sidetracked, please.
 Focus on being precise.
