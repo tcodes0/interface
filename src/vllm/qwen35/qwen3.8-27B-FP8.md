@@ -11,6 +11,10 @@ https://huggingface.co/Qwen/Qwen3.8-27B-FP8
 
 vllm/vllm-openai:v0.27.1
 
+# docker flags
+
+-p 8000:8000 -p 22:22 --shm-size=16g --cap-add=SYS_PTRACE --cap-add=SYS_NICE --security-opt=seccomp=unconfined --ulimit=memlock=-1
+
 # long context
 
 default is 262k
