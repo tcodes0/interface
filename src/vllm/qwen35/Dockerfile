@@ -5,7 +5,22 @@ FROM vllm/vllm-openai:${VLLM_VERSION}
 USER root
 
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends openssh-server \
+  && apt-get install -y --no-install-recommends \
+    openssh-server \
+    strace \
+    lsof \
+    psmisc \
+    htop \
+    sysstat \
+    numactl \
+    pciutils \
+    iproute2 \
+    dnsutils \
+    curl \
+    jq \
+    less \
+    tree \
+    nano \
   && rm -rf /var/lib/apt/lists/* \
   && mkdir -p /run/sshd
 
