@@ -1,21 +1,24 @@
-# links
+# Qwen/Qwen3.8-27B-FP8
 
-https://github.com/vllm-project/recipes/blob/main/Qwen/Qwen3.5.md
 https://huggingface.co/Qwen/Qwen3.8-27B-FP8
 
-# hardware
+## links
 
-48GB, gives around 160K context.
+https://github.com/vllm-project/recipes/blob/main/Qwen/Qwen3.5.md
 
-# image
+## hardware
 
-vllm/vllm-openai:v0.27.1
+48GB minimum
 
-# docker flags
+## image
+
+ghcr.io/rthomazel/interface/vllm/qwen35:v0.0.6 or latest
+
+## docker flags
 
 -p 8000:8000 -p 22:22 --shm-size=16g --cap-add=SYS_PTRACE --cap-add=SYS_NICE --security-opt=seccomp=unconfined --ulimit=memlock=-1
 
-# long context
+## long context
 
 default is 262k
 
@@ -24,21 +27,21 @@ default is 262k
 
 524000, update factor to 2.0. Keep other params the same, They are architectural.
 
-# no thinking
+## no thinking
 
 --default-chat-template-kwargs '{"enable_thinking": false}'
 
-## preserved thinking
+### preserved thinking
 
 keep preserve thinking off unless your client supports it, otherwise turn it on.
 --default-chat-template-kwargs '{"preserve_thinking": false}'
 
-## thinking tuning per request
+### thinking tuning per request
 
 add to litellm JSON params
 
 ```
-# control thinking on/off
+## control thinking on/off
 "extra_body": {
     "chat_template_kwargs": {
     "enable_thinking": false,
@@ -48,8 +51,8 @@ add to litellm JSON params
 ```
 
 ```
-# how much thinking. Setting a max helps with overall control, but not required.
-# effort: low, medium, xhigh, none
+## how much thinking. Setting a max helps with overall control, but not required.
+## effort: low, medium, xhigh, none
 "max_tokens": 16384,
 "extra_body": {
   "thinking_token_budget": 10000,
@@ -57,7 +60,7 @@ add to litellm JSON params
 }
 ```
 
-# default generation config
+## default generation config
 
 TEMPERATURE=1.0
 TOP_P=0.95
@@ -66,22 +69,22 @@ MIN_P=0.0
 PRESENCE_PENALTY=0.0
 REPETITION_PENALTY=1.0
 
-## ideas to tweak
+### ideas to tweak
 
 A — current
 T=1.0, top_p=.95, top_k=20, min_p=0
 
 B — more deterministic
-T=.8,  top_p=.95, top_k=20, min_p=0
+T=.8, top_p=.95, top_k=20, min_p=0
 
 C — focused
-T=.8,  top_p=.95, top_k=20, min_p=.05
+T=.8, top_p=.95, top_k=20, min_p=.05
 
-# disk
+## disk
 
 45Gb (model 31Gb)
 
-# env
+## env
 
 VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
@@ -103,3 +106,14 @@ TRANSFORMERS_VERBOSITY=info
 > very verbose omit if not debugging
 
 TORCH_LOGS="+inductor"
+
+# unsloth/Qwen3.8-27B-NVFP4
+
+hard to run on 2 RTX 4000 PRO
+
+## env
+
+add
+
+NCCL_P2P_DISABLE=1 # maybe not needed on 1 card
+EXTRA_ARGS=--disable-custom-all-reduce
