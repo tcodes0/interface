@@ -82,14 +82,16 @@ T=.8, top_p=.95, top_k=20, min_p=.05
 
 ## disk
 
-45Gb (model 31Gb)
+model 31Gb
+disk 10Gb
+volume 40Gb
 
 ## env
 
 VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
 VLLM_ALLOW_LONG_MAX_MODEL_LEN=0
-HF_TOKEN=****\*\*\*****
+HF_TOKEN=***********
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
@@ -108,6 +110,8 @@ TRANSFORMERS_VERBOSITY=info
 TORCH_LOGS="+inductor"
 
 # unsloth/Qwen3.8-27B-NVFP4
+
+https://huggingface.co/unsloth/Qwen3.8-27B-NVFP4
 
 hard to run on 2 RTX 4000 PRO
 
