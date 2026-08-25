@@ -45,9 +45,11 @@ add to litellm JSON params
 
 ```
 # how much thinking. Setting a max helps with overall control, but not required.
+# effort: low, medium, xhigh, none
 "max_tokens": 16384,
 "extra_body": {
-  "thinking_token_budget": 10000
+  "thinking_token_budget": 10000,
+  "reasoning_effort": "medium"
 }
 ```
 
