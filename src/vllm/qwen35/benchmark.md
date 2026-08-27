@@ -235,3 +235,43 @@ Per-position acceptance (%):
   Position 3:                            42.94
   Position 4:                            38.74
 ```
+
+## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 3, 72tok/s, 550K
+
+```
+============ Serving Benchmark Result ============
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  284.05
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.07
+Output token throughput (tok/s):         72.10
+Peak output token throughput (tok/s):    32.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          360.50
+---------------Time to First Token----------------
+Mean TTFT (ms):                          2168.54
+Median TTFT (ms):                        2093.09
+P99 TTFT (ms):                           3223.01
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          11.76
+Median TPOT (ms):                        10.02
+P99 TPOT (ms):                           27.76
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           36.00
+Median ITL (ms):                         33.50
+P99 ITL (ms):                            49.16
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     68.81
+Acceptance length:                       3.06
+Drafts:                                  6686
+Draft tokens:                            20058
+Accepted tokens:                         13801
+Per-position acceptance (%):
+  Position 0:                            76.56
+  Position 1:                            68.76
+  Position 2:                            61.10
+==================================================
+```
