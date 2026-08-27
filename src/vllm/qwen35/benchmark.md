@@ -187,3 +187,43 @@ Per-position acceptance (%):
   Position 3:                            44.92
 ==================================================
 ```
+
+## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 3, 78tok/s, 433K
+
+```
+============ Serving Benchmark Result ============
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  262.27
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.08
+Output token throughput (tok/s):         78.09
+Peak output token throughput (tok/s):    27.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          390.44
+---------------Time to First Token----------------
+Mean TTFT (ms):                          820.51
+Median TTFT (ms):                        657.87
+P99 TTFT (ms):                           3280.38
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          12.02
+Median TPOT (ms):                        10.79
+P99 TPOT (ms):                           22.12
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           37.88
+Median ITL (ms):                         37.83
+P99 ITL (ms):                            42.52
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     71.86
+Acceptance length:                       3.16
+Drafts:                                  6491
+Draft tokens:                            19473
+Accepted tokens:                         13994
+Per-position acceptance (%):
+  Position 0:                            79.46
+  Position 1:                            71.14
+  Position 2:                            64.98
+==================================================
+```
