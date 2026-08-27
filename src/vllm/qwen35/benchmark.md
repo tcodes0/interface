@@ -18,7 +18,7 @@ ssh into instance
 ```
 vllm bench serve \
   --base-url http://127.0.0.1:8000 \
-  --model unsloth/Qwen3.8-27B-NVFP4 \
+  --model "$VLLM_MODEL_NAME" \
   --num-prompts 20 \
   --random-input-len 4096 \
   --random-output-len 1024 \
@@ -191,4 +191,10 @@ Per-position acceptance (%):
   Position 1:                            64.58
   Position 2:                            55.83
 ==================================================
+```
+
+## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 3, tok/s, 511K
+
+```
+
 ```

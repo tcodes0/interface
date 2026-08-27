@@ -6,9 +6,9 @@ use a global redirect on entrypoint
 
 > exec > >(tee -a "$LOG_FILE") 2>&1
 
-then tail log file
+then tail newest log file
 
-> tail -f log_file
+> tail -f $(find /workspace/logs | sort -r | head -1)
 
 use bin/vllm-monitor once openai server is running.
 
@@ -16,7 +16,7 @@ use bin/vllm-monitor once openai server is running.
 
 > nvidia-smi dmon -s pucm -d 1
 
-helps on bugs and other issues where things seem stuck and you're wondering if the GPU is being used. 
+helps on bugs and other issues where things seem stuck and you're wondering if the GPU is being used.
 
 ### view Machine resource usage and process information like CPU usage
 
@@ -26,8 +26,8 @@ helps on bugs and other issues where things seem stuck and you're wondering if t
 
 ### watch model download
 
-> watch du -sh /workspace/.huggingface
+> watch -n 1 du -s /workspace/.huggingface
 
 ### watch compilation cache
 
-> watch du -sh /workspace/.cache
+> watch -n 1 du -s /workspace/.cache
