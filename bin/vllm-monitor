@@ -73,7 +73,6 @@ METRIC_PATTERNS = {
     "Draft acceptance": re.compile(r"Avg Draft acceptance rate:\s*([\d.]+)%"),
 }
 POSITION_PATTERN = re.compile(r"Per-position acceptance rate:\s*([\d.,\s]+)")
-HTTP_PATTERN = re.compile(r'"[^"\n]+HTTP/[\d.]+"\s+(\d{3})(?:\s+([^\r\n]*))?')
 ERROR_PATTERN = re.compile(r"\bERROR\b|Traceback \(most recent call last\)|(?:Error|Exception):")
 
 
@@ -109,8 +108,7 @@ def error_lines(lines: list[str]) -> list[str]:
     events: list[list[str]] = []
     current: list[str] = []
     for line in lines:
-        status_match = HTTP_PATTERN.search(line)
-        is_error = bool(ERROR_PATTERN.search(line)) or bool(status_match and not 200 <= int(status_match.group(1)) < 300)
+        is_error = bool(ERROR_PATTERN.search(line))
         if is_error:
             if current and not (line.lstrip().startswith("call") or line.lstrip().startswith("_")):
                 events.append(current)
