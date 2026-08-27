@@ -9,7 +9,7 @@
 | PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K  | nvfp4   | done   |
 | PRO 4000 BW | 3   | 0.66      | 72 GB | 3?  | 60?   | 1M?   | fp8     | skip   |
 | PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 75?   | 165K? | fp8     | skip   |
-| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 82?   | 550K? | nvfp4   | todo   |
+| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 83    | 417K  | nvfp4   | done   |
 | 5090 BW     | 2   | 0.76      | 64 GB | 3?  | 110?  | 800K? | fp8     | todo   |
 
 # command
@@ -190,40 +190,51 @@ Per-position acceptance (%):
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 3, 78tok/s, 433K
 
-```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  262.27
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.08
 Output token throughput (tok/s):         78.09
-Peak output token throughput (tok/s):    27.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          390.44
----------------Time to First Token----------------
 Mean TTFT (ms):                          820.51
-Median TTFT (ms):                        657.87
-P99 TTFT (ms):                           3280.38
------Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          12.02
-Median TPOT (ms):                        10.79
-P99 TPOT (ms):                           22.12
----------------Inter-token Latency----------------
-Mean ITL (ms):                           37.88
-Median ITL (ms):                         37.83
-P99 ITL (ms):                            42.52
----------------Speculative Decoding---------------
-Acceptance rate (%):                     71.86
 Acceptance length:                       3.16
-Drafts:                                  6491
-Draft tokens:                            19473
-Accepted tokens:                         13994
+Acceptance rate (%):                     71.86
 Per-position acceptance (%):
   Position 0:                            79.46
   Position 1:                            71.14
   Position 2:                            64.98
-==================================================
+
+## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 5, 83tok/s, 417K
+
+```
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  245.96
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.08
+Output token throughput (tok/s):         83.27
+Peak output token throughput (tok/s):    26.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          416.33
+---------------Time to First Token---------------
+Mean TTFT (ms):                          786.59
+Median TTFT (ms):                        673.76
+P99 TTFT (ms):                           2505.38
+-----Time per Output Token (excl. 1st token)-----
+Mean TPOT (ms):                          11.25
+Median TPOT (ms):                        10.33
+P99 TPOT (ms):                           18.53
+---------------Inter-token Latency---------------
+Mean ITL (ms):                           40.80
+Median ITL (ms):                         40.78
+P99 ITL (ms):                            43.49
+---------------Speculative Decoding--------------
+Acceptance rate (%):                     52.68
+Acceptance length:                       3.63
+Drafts:                                  5643
+Draft tokens:                            28215
+Accepted tokens:                         14864
+Per-position acceptance (%):
+  Position 0:                            73.12
+  Position 1:                            59.33
+  Position 2:                            49.28
+  Position 3:                            42.94
+  Position 4:                            38.74
 ```
