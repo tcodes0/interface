@@ -99,6 +99,7 @@ fi
 # after aliases
 src_dotfile ".functions.sh" "$LINENO"
 src_dotfile ".functions_env.sh" "$LINENO"
+src "$HOME/Desktop/interface/priv/.bashrc" "$DOTFILES/.bashrc:$LINENO"
 
 # start tmux on login only if not already in a tmux session,
 # if in a terminal emulator, and if the user is me

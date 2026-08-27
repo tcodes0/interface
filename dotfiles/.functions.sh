@@ -81,6 +81,40 @@ aliasg() {
 
 #- - - - - - - - - - -
 
+git() {
+  # Only intercept `git fetch`
+  if [[ $1 != fetch ]]; then
+    command git "$@"
+    return
+  fi
+
+  local fetch_head
+  fetch_head=$(command git rev-parse --git-path FETCH_HEAD 2>/dev/null) || {
+    # Not a git repository.
+    command git "$@"
+    return
+  }
+
+  if [[ -f $fetch_head ]]; then
+    local now last age
+    local threshold=${GIT_FETCH_MIN_INTERVAL:-180} # default to 3 minutes
+
+    now=$(date +%s)
+    last=$(stat -c %Y "$fetch_head" 2>/dev/null ||
+      stat -f %m "$fetch_head")
+    age=$((now - last))
+
+    if ((age < threshold)); then
+      warn $LINENO "Last fetch was $age seconds ago, skipping. Use \"command git fetch\" to bypass this check."
+      return 0
+    fi
+  fi
+
+  command git "$@"
+}
+
+#- - - - - - - - - - -
+
 # lazy commit
 gcmsg() {
   if [ "$*" ]; then

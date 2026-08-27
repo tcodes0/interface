@@ -1,4 +1,6 @@
 #! /usr/bin/env bash
+#
+# Setup interactive prompt. Sourcing on non-interactive shells causes tput to complain, avoid.
 
 rand_256_color() {
   local color

@@ -1,0 +1,23 @@
+[Unit]
+Description=Whisper speech to text server (GPU)
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+ExecStart=/usr/bin/docker \
+    run \
+    --name whisper \
+    --device=/dev/kfd \
+    --device=/dev/dri \
+    --group-add render \
+    --ipc=host \
+    -v %h/Desktop/compose-files/whisper/models/:/models:ro \
+    -p 127.0.0.1:8765:8765 \
+    --rm \
+    whisper
+Restart=on-failure
+RestartSec=5
+ExecStop=/usr/bin/docker stop whisper
+
+[Install]
+WantedBy=default.target

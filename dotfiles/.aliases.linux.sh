@@ -38,8 +38,10 @@ alias vi=nano
 alias unmount="umount"
 alias uux="chmod u+x"
 alias sunano='sudo nano'
-alias jrn='journalctl --reverse'
+alias jrn='journalctl --reverse --catalog'
 alias jrnu='journalctl --user --reverse --catalog'
+alias jrnf='journalctl --follow --catalog'
+alias jrnuf='journalctl --user --follow --catalog'
 alias mouse="rivalcfg"
 alias ol="ollama"
 # --audio fixes stuttering, --target peak allows hdr like experience, --demuxer was recommended by warnings

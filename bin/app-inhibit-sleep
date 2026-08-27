@@ -18,7 +18,6 @@ trap 'cleanup' EXIT
 
 readonly inhibition_duration_secs=65
 readonly pooling_interval_secs=60
-readonly playing="Playing"
 apps=("$@")
 children=()
 
@@ -47,17 +46,6 @@ cleanup() {
   done
 }
 
-check_firefox_playback() {
-  # playerctl will error if there are no players, ignore that
-  local status
-  status=$(playerctl --player=plasma-browser-integration status 2>&1 || true)
-
-  if [ "$status" = "$playing" ]; then
-    systemd-inhibit --what=idle --who="$0" --why='Firefox is playing audio' sleep $inhibition_duration_secs &
-    children+=("$!")
-  fi
-}
-
 check_app_running() {
   local app="$1"
 
@@ -77,8 +65,6 @@ if requested_help "$*"; then
 fi
 
 while true; do
-  check_firefox_playback
-
   for app in "${apps[@]}"; do
     check_app_running "$app"
   done

@@ -1,0 +1,19 @@
+[Unit]
+Description=lga-maintenance MCP server (bench)
+Documentation=https://github.com/rthomazel/mcp
+After=network.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=%h/bin/benchmcphttp
+Environment=BENCH_MCP_TRANSPORT=mcp-proxy
+Environment=BENCH_MCP_TIMEOUT=15s
+Environment=BENCH_MCP_BACKGROUND_TIMEOUT=5m
+Environment=BENCH_MCP_EDIT_MAX_LINES=100
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
