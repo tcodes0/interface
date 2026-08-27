@@ -17,7 +17,6 @@ VLLM_MONITOR_PATH=${VLLM_MONITOR_PATH:-/usr/local/bin/vllm-monitor}
 VLLM_MONITOR_URL=${VLLM_MONITOR_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/bin/vllm-monitor}
 TMUX_CONF_PATH=${TMUX_CONF_PATH:-/root/.tmux.conf}
 TMUX_CONF_URL=${TMUX_CONF_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/dotfiles/.tmux.conf}
-TMUX_START=${TMUX_START:-false}
 
 if [[ ! -x "$VLLM_MONITOR_PATH" ]]; then
   curl -fsSL "$VLLM_MONITOR_URL" -o "$VLLM_MONITOR_PATH"
@@ -102,6 +101,7 @@ ARGS=(
 [[ "$ENFORCE_EAGER" == true ]] && ARGS+=(--enforce-eager)
 [[ "$LANGUAGE_MODEL_ONLY" == true ]] && ARGS+=(--language-model-only)
 
+# build compound configs
 if [[ "$SPECULATIVE_CONFIG" == true ]]; then
   ARGS+=(
     --speculative-config
@@ -135,11 +135,14 @@ if [[ -n "$EXTRA_ARGS" ]]; then
   ARGS+=("${EXTRA_ARGS_ARRAY[@]}")
 fi
 
+# .bashrc setup
 if [[ -n "${VLLM_API_KEY:-}" ]]; then
   printf 'export VLLM_API_KEY=%q\n' "$VLLM_API_KEY" >>/root/.bashrc
 fi
 
 printf 'export VLLM_MODEL_NAME=%q\n' "$MODEL_NAME" >>/root/.bashrc
+
+TMUX_START=${TMUX_START:-false}
 
 if [[ "$TMUX_START" == true ]] && ! grep -Fq '# vLLM tmux startup' /root/.bashrc; then
   cat >>/root/.bashrc <<'EOF'
@@ -152,6 +155,7 @@ fi
 EOF
 fi
 
+# start sshd and vllm server
 echo [INFO] Running image version "${VERSION:-"unknown"}"
 
 /usr/sbin/sshd
