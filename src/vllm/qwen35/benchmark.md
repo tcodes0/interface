@@ -1,15 +1,16 @@
 # setups to benchmark
 
-| RTX card    | num | $/h       | VRAM  | MTP | tok/s | KV    | quant | status |
-| ----------- | --- | --------- | ----- | --- | ----- | ----- | ----- | ------ |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3?  | 65?   | 165K? | fp8   | skip   |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3?  | 71?   | 550K? | nvfp4 | todo   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 66.2  | 165K  | fp8   | done   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K  | nvfp4 | done   |
-| PRO 4000 BW | 3   | 0.66      | 72 GB | 3?  | 60?   | 1M?   | fp8   | skip   |
-| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 75?   | 165K? | fp8   | skip   |
-| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 82?   | 550K? | nvfp4 | todo   |
-| 5090 BW     | 2   | 0.76      | 64 GB | 3?  | 110?  | 800K? | fp8   | todo   |
+| RTX card    | num | $/h       | VRAM  | MTP | tok/s | KV    | quant   | status |
+| ----------- | --- | --------- | ----- | --- | ----- | ----- | ------- | ------ |
+| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3?  | 65?   | 165K? | fp8     | skip   |
+| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3?  | 85    | 498K  | awqint4 | done   |
+| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3?  | 72    | 514   | nvfp4   | done   |
+| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 66.2  | 165K  | fp8     | done   |
+| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K  | nvfp4   | done   |
+| PRO 4000 BW | 3   | 0.66      | 72 GB | 3?  | 60?   | 1M?   | fp8     | skip   |
+| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 75?   | 165K? | fp8     | skip   |
+| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 82?   | 550K? | nvfp4   | todo   |
+| 5090 BW     | 2   | 0.76      | 64 GB | 3?  | 110?  | 800K? | fp8     | todo   |
 
 # command
 
@@ -116,122 +117,35 @@ Per-position acceptance (%):
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 4090 48Gb, MTP 2, 61tok/s, 522K
 
-```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  332.58
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.06
-Output token throughput (tok/s):         61.58
-Peak output token throughput (tok/s):    29.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          307.89
----------------Time to First Token----------------
-Mean TTFT (ms):                          1437.58
-Median TTFT (ms):                        1323.61
-P99 TTFT (ms):                           3214.02
------Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          14.85
-Median TPOT (ms):                        13.45
-P99 TPOT (ms):                           29.19
----------------Inter-token Latency----------------
-Mean ITL (ms):                           35.92
-Median ITL (ms):                         35.87
-P99 ITL (ms):                            37.72
----------------Speculative Decoding---------------
-Acceptance rate (%):                     71.04
-Acceptance length:                       2.42
-Drafts:                                  8459
-Draft tokens:                            16918
-Accepted tokens:                         12018
+Output token throughput (tok/s): 61.58
+Mean TTFT (ms): 1437.58
+Acceptance rate (%): 71.04
+Acceptance length: 2.42
 Per-position acceptance (%):
-  Position 0:                            76.18
-  Position 1:                            65.89
-==================================================
-```
+Position 0: 76.18
+Position 1: 65.89
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 4090 48Gb, MTP 3, 72tok/s, 514K
 
-```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  284.33
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.07
-Output token throughput (tok/s):         72.03
-Peak output token throughput (tok/s):    28.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          360.14
----------------Time to First Token----------------
-Mean TTFT (ms):                          1389.47
-Median TTFT (ms):                        1333.93
-P99 TTFT (ms):                           2278.44
------Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          12.54
-Median TPOT (ms):                        10.85
-P99 TPOT (ms):                           24.92
----------------Inter-token Latency----------------
-Mean ITL (ms):                           37.35
-Median ITL (ms):                         37.29
-P99 ITL (ms):                            39.14
----------------Speculative Decoding---------------
-Acceptance rate (%):                     66.11
-Acceptance length:                       2.98
-Drafts:                                  6869
-Draft tokens:                            20607
-Accepted tokens:                         13624
+Output token throughput (tok/s): 72.03
+Mean TTFT (ms): 1389.47
+Acceptance rate (%): 66.11
+Acceptance length: 2.98
 Per-position acceptance (%):
-  Position 0:                            77.93
-  Position 1:                            64.58
-  Position 2:                            55.83
-==================================================
-```
+Position 0: 77.93
+Position 1: 64.58
+Position 2: 55.83
 
 ## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 3, 82tok/s, 511K
 
-```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  249.74
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.08
-Output token throughput (tok/s):         82.01
-Peak output token throughput (tok/s):    30.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          410.03
----------------Time to First Token----------------
-Mean TTFT (ms):                          1564.14
-Median TTFT (ms):                        1500.32
-P99 TTFT (ms):                           2598.48
------Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          10.68
-Median TPOT (ms):                        9.65
-P99 TPOT (ms):                           15.40
----------------Inter-token Latency----------------
-Mean ITL (ms):                           34.15
-Median ITL (ms):                         34.03
-P99 ITL (ms):                            36.39
----------------Speculative Decoding---------------
-Acceptance rate (%):                     73.40
-Acceptance length:                       3.20
-Drafts:                                  6396
-Draft tokens:                            19188
-Accepted tokens:                         14084
+Output token throughput (tok/s): 82.01
+Mean TTFT (ms): 1564.14
+Acceptance rate (%): 73.40
+Acceptance length: 3.20
 Per-position acceptance (%):
-  Position 0:                            84.44
-  Position 1:                            72.58
-  Position 2:                            63.18
-==================================================
-```
+Position 0: 84.44
+Position 1: 72.58
+Position 2: 63.18
 
 ## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 4, 85tok/s, 498K
 
