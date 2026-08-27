@@ -15,10 +15,18 @@ err() {
 
 VLLM_MONITOR_PATH=${VLLM_MONITOR_PATH:-/usr/local/bin/vllm-monitor}
 VLLM_MONITOR_URL=${VLLM_MONITOR_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/bin/vllm-monitor}
+TMUX_CONF_PATH=${TMUX_CONF_PATH:-/root/.tmux.conf}
+TMUX_CONF_URL=${TMUX_CONF_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/dotfiles/.tmux.conf}
 
 if [[ ! -x "$VLLM_MONITOR_PATH" ]]; then
   curl -fsSL "$VLLM_MONITOR_URL" -o "$VLLM_MONITOR_PATH"
   chmod +x "$VLLM_MONITOR_PATH"
+fi
+
+if [[ ! -f "$TMUX_CONF_PATH" ]]; then
+  if ! curl -fsSL "$TMUX_CONF_URL" -o "$TMUX_CONF_PATH"; then
+    echo "[WARN] Could not download tmux configuration from $TMUX_CONF_URL" >&2
+  fi
 fi
 
 LOG_DIR=${LOG_DIR:-/workspace/logs}
