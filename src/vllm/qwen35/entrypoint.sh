@@ -15,14 +15,14 @@ err() {
 
 VLLM_MONITOR_PATH=${VLLM_MONITOR_PATH:-/usr/local/bin/vllm-monitor}
 VLLM_MONITOR_URL=${VLLM_MONITOR_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/bin/vllm-monitor}
+TMUX_CONF_PATH=${TMUX_CONF_PATH:-/root/.tmux.conf}
+TMUX_CONF_URL=${TMUX_CONF_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/dotfiles/.tmux.conf}
+TMUX_START=${TMUX_START:-false}
 
 if [[ ! -x "$VLLM_MONITOR_PATH" ]]; then
   curl -fsSL "$VLLM_MONITOR_URL" -o "$VLLM_MONITOR_PATH"
   chmod +x "$VLLM_MONITOR_PATH"
 fi
-
-TMUX_CONF_PATH=${TMUX_CONF_PATH:-/root/.tmux.conf}
-TMUX_CONF_URL=${TMUX_CONF_URL:-https://raw.githubusercontent.com/rthomazel/interface/dev/dotfiles/.tmux.conf}
 
 if [[ ! -f "$TMUX_CONF_PATH" ]]; then
   if ! curl -fsSL "$TMUX_CONF_URL" -o "$TMUX_CONF_PATH"; then
@@ -140,6 +140,17 @@ if [[ -n "${VLLM_API_KEY:-}" ]]; then
 fi
 
 printf 'export VLLM_MODEL_NAME=%q\n' "$MODEL_NAME" >>/root/.bashrc
+
+if [[ "$TMUX_START" == true ]] && ! grep -Fq '# vLLM tmux startup' /root/.bashrc; then
+  cat >>/root/.bashrc <<'EOF'
+
+# vLLM tmux startup
+if [[ -z "${TMUX:-}" && $- == *i* ]]; then
+  tmux attach || tmux new-session
+  tmux source-file "$HOME/.tmux.conf"
+fi
+EOF
+fi
 
 echo [INFO] Running image version "${VERSION:-"unknown"}"
 
