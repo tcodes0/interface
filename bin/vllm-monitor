@@ -59,7 +59,7 @@ from rich.text import Text  # noqa: E402
 
 DEFAULT_DIRECTORY = Path("/workspace/logs")
 LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
-TAIL_LINES = 500
+TAIL_LINES = 20
 
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
