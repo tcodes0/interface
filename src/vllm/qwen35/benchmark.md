@@ -190,14 +190,14 @@ Per-position acceptance (%):
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 3, 78tok/s, 433K
 
-Output token throughput (tok/s):         78.09
-Mean TTFT (ms):                          820.51
-Acceptance length:                       3.16
-Acceptance rate (%):                     71.86
+Output token throughput (tok/s): 78.09
+Mean TTFT (ms): 820.51
+Acceptance length: 3.16
+Acceptance rate (%): 71.86
 Per-position acceptance (%):
-  Position 0:                            79.46
-  Position 1:                            71.14
-  Position 2:                            64.98
+Position 0: 79.46
+Position 1: 71.14
+Position 2: 64.98
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 5, 83tok/s, 417K
 
