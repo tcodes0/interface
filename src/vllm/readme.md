@@ -26,11 +26,11 @@ helps on bugs and other issues where things seem stuck and you're wondering if t
 
 ### watch model download
 
-> watch -n 1 du -s /workspace/.huggingface
+> watch -n 1 du -sh /workspace/.huggingface
 
 ### watch compilation cache
 
-> watch -n 1 du -s /workspace/.cache
+> watch -n 1 du -sh /workspace/.cache
 
 ### inspect cache for size
 

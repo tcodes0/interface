@@ -63,7 +63,7 @@ LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
 TAIL_LINES = 20
 STARTUP_LINE = "API server: HTTP server started"
 LIVE_REFRESH_PER_SECOND = float(os.environ.get("VLLM_MONITOR_LIVE_REFRESH_PER_SECOND", "1"))
-STARTUP_POLL_INTERVAL = float(os.environ.get("VLLM_MONITOR_STARTUP_POLL_INTERVAL", "0.5"))
+STARTUP_POLL_INTERVAL = float(os.environ.get("VLLM_MONITOR_STARTUP_POLL_INTERVAL", "0.1"))
 
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
@@ -97,7 +97,7 @@ def read_tail(path: Path) -> list[str]:
 def wait_for_startup(path: Path, live: Live) -> None:
     while True:
         lines = [line for line in read_tail(path) if STARTUP_LINE not in line]
-        live.update(Group(Text(f"Monitoring: {path}"), Text("\n".join(lines))))
+        live.update(Group(Text(f"Monitoring: {path}"), Text("".join(lines))))
         if any(STARTUP_LINE in line for line in read_tail(path)):
             return
         time.sleep(STARTUP_POLL_INTERVAL)
