@@ -233,8 +233,43 @@ Per-position acceptance (%):
 ==================================================
 ```
 
-## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 4, tok/s, K
+## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 4, 85tok/s, 498K
 
 ```
-
+============ Serving Benchmark Result ============
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  241.50
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.08
+Output token throughput (tok/s):         84.80
+Peak output token throughput (tok/s):    28.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          424.01
+---------------Time to First Token----------------
+Mean TTFT (ms):                          1598.19
+Median TTFT (ms):                        1528.49
+P99 TTFT (ms):                           2725.34
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          10.24
+Median TPOT (ms):                        10.63
+P99 TPOT (ms):                           13.04
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           36.75
+Median ITL (ms):                         36.60
+P99 ITL (ms):                            38.77
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     64.85
+Acceptance length:                       3.59
+Drafts:                                  5701
+Draft tokens:                            22804
+Accepted tokens:                         14789
+Per-position acceptance (%):
+  Position 0:                            86.35
+  Position 1:                            69.53
+  Position 2:                            58.60
+  Position 3:                            44.92
+==================================================
 ```

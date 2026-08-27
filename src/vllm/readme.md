@@ -31,3 +31,15 @@ helps on bugs and other issues where things seem stuck and you're wondering if t
 ### watch compilation cache
 
 > watch -n 1 du -s /workspace/.cache
+
+### inspect cache for size
+
+> du -h --max-depth=2 /workspace/.cache | sort -h
+
+### zip cache for download
+
+tar -cf /workspace/cache.tar -C /workspace/.cache triton vllm/torch_compile_cache
+
+### rsync to host machine
+
+rsync -ah --info=progress2 -e "ssh -p <port>" root@<ip>:/workspace/cache.tar ./src/vllm/qwen35/.cache
