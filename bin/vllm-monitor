@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
+import os
 import re
 import subprocess
 import sys
@@ -61,6 +62,8 @@ DEFAULT_DIRECTORY = Path("/workspace/logs")
 LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
 TAIL_LINES = 20
 STARTUP_LINE = "API server: HTTP server started"
+LIVE_REFRESH_PER_SECOND = float(os.environ.get("VLLM_MONITOR_LIVE_REFRESH_PER_SECOND", "1"))
+STARTUP_POLL_INTERVAL = float(os.environ.get("VLLM_MONITOR_STARTUP_POLL_INTERVAL", "0.5"))
 
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
@@ -91,13 +94,13 @@ def read_tail(path: Path) -> list[str]:
         return log_file.readlines()[-TAIL_LINES:]
 
 
-def wait_for_startup(path: Path, console: Console) -> None:
+def wait_for_startup(path: Path, live: Live) -> None:
     while True:
-        lines = read_tail(path)
-        if any(STARTUP_LINE in line for line in lines):
+        lines = [line for line in read_tail(path) if STARTUP_LINE not in line]
+        live.update(Group(Text(f"Monitoring: {path}"), Text("\n".join(lines))))
+        if any(STARTUP_LINE in line for line in read_tail(path)):
             return
-        console.print(f"Waiting for vLLM startup: {STARTUP_LINE}", style="dim")
-        time.sleep(0.5)
+        time.sleep(STARTUP_POLL_INTERVAL)
 
 
 def parse_metrics(lines: Iterable[str]) -> dict[str, str]:
@@ -173,8 +176,8 @@ def main() -> None:
     try:
         log_path = choose_log(args.directory)
         console = Console()
-        wait_for_startup(log_path, console)
-        with Live(console=console, refresh_per_second=1, screen=False) as live:
+        with Live(console=console, refresh_per_second=LIVE_REFRESH_PER_SECOND, screen=False) as live:
+            wait_for_startup(log_path, live)
             while True:
                 lines = read_tail(log_path)
                 errors = error_lines(lines)
