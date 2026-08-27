@@ -60,6 +60,7 @@ from rich.text import Text  # noqa: E402
 DEFAULT_DIRECTORY = Path("/workspace/logs")
 LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
 TAIL_LINES = 20
+STARTUP_LINE = "API server: HTTP server started"
 
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
@@ -88,6 +89,15 @@ def choose_log(directory: Path) -> Path:
 def read_tail(path: Path) -> list[str]:
     with path.open(encoding="utf-8", errors="replace") as log_file:
         return log_file.readlines()[-TAIL_LINES:]
+
+
+def wait_for_startup(path: Path, console: Console) -> None:
+    while True:
+        lines = read_tail(path)
+        if any(STARTUP_LINE in line for line in lines):
+            return
+        console.print(f"Waiting for vLLM startup: {STARTUP_LINE}", style="dim")
+        time.sleep(2)
 
 
 def parse_metrics(lines: Iterable[str]) -> dict[str, str]:
@@ -163,6 +173,7 @@ def main() -> None:
     try:
         log_path = choose_log(args.directory)
         console = Console()
+        wait_for_startup(log_path, console)
         with Live(console=console, refresh_per_second=1, screen=False) as live:
             while True:
                 lines = read_tail(log_path)
