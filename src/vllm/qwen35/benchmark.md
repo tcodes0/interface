@@ -1,13 +1,13 @@
 # setups to benchmark
 
-| RTX card    | num | $/h       | VRAM  | MTP | tok/s | KV    | quant   | status |
-| ----------- | --- | --------- | ----- | --- | ----- | ----- | ------- | ------ |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 4   | 85    | 498K  | awqint4 | done   |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3   | 72    | 514K  | nvfp4   | done   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 66.2  | 165K  | fp8     | done   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K  | nvfp4   | done   |
-| PRO 5000 BW | 1   | 0.73      | 48 GB | 3?  | 83    | 417K  | nvfp4   | done   |
-| 5090 BW     | 2   | 0.76      | 64 GB | 3?  | 110?  | 800K? | fp8     | todo   |
+| RTX card    | num | $/h       | VRAM  | MTP | tok/s | KV   | quant   | status |
+| ----------- | --- | --------- | ----- | --- | ----- | ---- | ------- | ------ |
+| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 4   | 85    | 498K | awqint4 | done   |
+| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3   | 72    | 514K | nvfp4   | done   |
+| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 66    | 165K | fp8     | done   |
+| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K | nvfp4   | done   |
+| PRO 5000 BW | 1   | 0.73      | 48 GB | 5   | 83    | 417K | nvfp4   | done   |
+| 5090 BW     | 2   | 0.76      | 64 GB | 5   | 90    | 494  | fp8     | done   |
 
 # command
 
@@ -273,5 +273,47 @@ Per-position acceptance (%):
   Position 0:                            76.56
   Position 1:                            68.76
   Position 2:                            61.10
+==================================================
+```
+
+## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 5, 90tok/s, 492K
+
+```
+============ Serving Benchmark Result ============
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  226.81
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.09
+Output token throughput (tok/s):         90.29
+Peak output token throughput (tok/s):    32.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          451.47
+---------------Time to First Token----------------
+Mean TTFT (ms):                          1342.35
+Median TTFT (ms):                        1281.05
+P99 TTFT (ms):                           2285.59
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          9.77
+Median TPOT (ms):                        6.76
+P99 TPOT (ms):                           29.01
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           32.36
+Median ITL (ms):                         32.12
+P99 ITL (ms):                            33.06
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     46.35
+Acceptance length:                       3.32
+Drafts:                                  6180
+Draft tokens:                            30900
+Accepted tokens:                         14322
+Per-position acceptance (%):
+  Position 0:                            59.76
+  Position 1:                            51.28
+  Position 2:                            44.69
+  Position 3:                            39.32
+  Position 4:                            36.70
 ==================================================
 ```
