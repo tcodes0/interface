@@ -10,8 +10,8 @@ description: Use for all VCS operations — working with git repos, creating bra
 It's better to clone the repository to read code than using the GitHub API to fetch files.
 
 ```bash
-git clone git@github.com:<org>/<repo>.git /projects/<repo>-<purpose-mmm-dd>
-cd /projects/<repo>-<purpose-mmm-dd>
+git clone git@github.com:<org>/<repo>.git /projects/<repo>
+cd /projects/<repo>
 git config --local gpg.program /usr/local/bin/gpg-passphrase-wrapper
 git checkout -b <branch-name>
 ```
@@ -99,13 +99,13 @@ Shell `git` still handles cloning, committing, and pushing.
 
 > Resist the urge to credit yourself as co-author in the commits, don't worry, your work does not go unnoticed.
 
-**When to delete the clone:**
+**When to checkout the clone's default branch:**
 
-- _PR workflow:_ delete after the PR is merged.
-- _Dev-direct workflow:_ keep the clone for the duration of work on that repo in the session. Delete only when the block of work is finished — not after each individual commit.
+- _PR workflow:_ After the PR is merged.
+- _Dev-direct workflow:_ No, leave the clone on dev.
 
 ```bash
-rm -rf /projects/<repo>-<purpose-mmm-dd>
+rm -rf /projects/<repo>
 ```
 
 > Warning: A few projects are permanently cloned
