@@ -1,13 +1,18 @@
-# setups to benchmark
+# Qwen/Qwen3.8-27B benchmarks
 
-| RTX card    | num | $/h       | VRAM  | MTP | tok/s | KV   | quant   | status |
-| ----------- | --- | --------- | ----- | --- | ----- | ---- | ------- | ------ |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 4   | 85    | 498K | awqint4 | done   |
-| 4090 48 GB  | 1   | 0.39-0.59 | 48 GB | 3   | 72    | 514K | nvfp4   | done   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 66    | 165K | fp8     | done   |
-| PRO 4000 BW | 2   | 0.49      | 48 GB | 3   | 75    | 432K | nvfp4   | done   |
-| PRO 5000 BW | 1   | 0.73      | 48 GB | 5   | 83    | 417K | nvfp4   | done   |
-| 5090 BW     | 2   | 0.76      | 64 GB | 5   | 90    | 494  | fp8     | done   |
+| n   | RTX card    | $/h  | VRAM  | MTP | tok/s | KV   | quant   | status | competitive    |
+| --- | ----------- | ---- | ----- | --- | ----- | ---- | ------- | ------ | -------------- |
+| 2   | PRO 4000 BW | 0.49 | 48 GB | 3   | 66    | 165K | fp8     | done   | no, slow       |
+| 2   | PRO 4000 BW | 0.49 | 48 GB | 3   | 75    | 432K | nvfp4   | done   | yes, cost      |
+| 1   | 4090 48 GB  | 0.59 | 48 GB | 3   | 72    | 514K | nvfp4   | done   | maybe          |
+| 1   | 4090 48 GB  | 0.59 | 48 GB | 4   | 85    | 498K | awqint4 | done   | no, quality    |
+| 1   | PRO 5000 BW | 0.73 | 48 GB | 5   | 83    | 417K | nvfp4   | done   | no, same price |
+| 2   | 5090 BW     | 0.76 | 64 GB | 4   | 91    | 480K | fp8     | done   | yes, best ⭐    |
+
+### todo
+
+4090 nvfp4 mtp 4
+4000 nvfp4 mtp 4
 
 # command
 
@@ -238,82 +243,69 @@ Per-position acceptance (%):
 
 ## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 3, 72tok/s, 550K
 
-```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  284.05
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.07
-Output token throughput (tok/s):         72.10
-Peak output token throughput (tok/s):    32.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          360.50
----------------Time to First Token----------------
-Mean TTFT (ms):                          2168.54
-Median TTFT (ms):                        2093.09
-P99 TTFT (ms):                           3223.01
------Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          11.76
-Median TPOT (ms):                        10.02
-P99 TPOT (ms):                           27.76
----------------Inter-token Latency----------------
-Mean ITL (ms):                           36.00
-Median ITL (ms):                         33.50
-P99 ITL (ms):                            49.16
----------------Speculative Decoding---------------
-Acceptance rate (%):                     68.81
-Acceptance length:                       3.06
-Drafts:                                  6686
-Draft tokens:                            20058
-Accepted tokens:                         13801
+Output token throughput (tok/s): 72.10
+Mean TTFT (ms): 2168.54
+Mean TPOT (ms): 11.76
+Mean ITL (ms): 36.00
+Acceptance rate (%): 68.81
+Acceptance length: 3.06
 Per-position acceptance (%):
-  Position 0:                            76.56
-  Position 1:                            68.76
-  Position 2:                            61.10
-==================================================
-```
+Position 0: 76.56
+Position 1: 68.76
+Position 2: 61.10
 
 ## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 5, 90tok/s, 492K
 
+Output token throughput (tok/s): 90.29
+Mean TTFT (ms): 1342.35
+Mean TPOT (ms): 9.77
+Mean ITL (ms): 32.36
+Acceptance rate (%): 46.35
+Acceptance length: 3.32
+Per-position acceptance (%):
+Position 0: 59.76
+Position 1: 51.28
+Position 2: 44.69
+Position 3: 39.32
+Position 4: 36.70
+
+## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
+
 ```
 ============ Serving Benchmark Result ============
 Successful requests:                     20
 Failed requests:                         0
 Maximum request concurrency:             1
-Benchmark duration (s):                  226.81
+Benchmark duration (s):                  225.30
 Total input tokens:                      81920
 Total generated tokens:                  20480
 Request throughput (req/s):              0.09
-Output token throughput (tok/s):         90.29
-Peak output token throughput (tok/s):    32.00
+Output token throughput (tok/s):         90.90
+Peak output token throughput (tok/s):    33.00
 Peak concurrent requests:                2.00
-Total token throughput (tok/s):          451.47
+Total token throughput (tok/s):          454.50
 ---------------Time to First Token----------------
-Mean TTFT (ms):                          1342.35
-Median TTFT (ms):                        1281.05
-P99 TTFT (ms):                           2285.59
+Mean TTFT (ms):                          2505.14
+Median TTFT (ms):                        2455.52
+P99 TTFT (ms):                           3440.77
 -----Time per Output Token (excl. 1st token)------
-Mean TPOT (ms):                          9.77
-Median TPOT (ms):                        6.76
-P99 TPOT (ms):                           29.01
+Mean TPOT (ms):                          8.56
+Median TPOT (ms):                        7.80
+P99 TPOT (ms):                           11.87
 ---------------Inter-token Latency----------------
-Mean ITL (ms):                           32.36
-Median ITL (ms):                         32.12
-P99 ITL (ms):                            33.06
+Mean ITL (ms):                           32.06
+Median ITL (ms):                         31.57
+P99 ITL (ms):                            35.69
 ---------------Speculative Decoding---------------
-Acceptance rate (%):                     46.35
-Acceptance length:                       3.32
-Drafts:                                  6180
-Draft tokens:                            30900
-Accepted tokens:                         14322
+Acceptance rate (%):                     68.80
+Acceptance length:                       3.75
+Drafts:                                  5464
+Draft tokens:                            21856
+Accepted tokens:                         15037
 Per-position acceptance (%):
-  Position 0:                            59.76
-  Position 1:                            51.28
-  Position 2:                            44.69
-  Position 3:                            39.32
-  Position 4:                            36.70
+  Position 0:                            84.35
+  Position 1:                            74.34
+  Position 2:                            62.76
+  Position 3:                            53.75
 ==================================================
 ```
