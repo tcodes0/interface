@@ -60,14 +60,20 @@ from rich.live import Live  # noqa: E402
 from rich.table import Table  # noqa: E402
 from rich.text import Text  # noqa: E402
 
-DEFAULT_DIRECTORY = Path("/workspace/logs")
+DEFAULT_DIRECTORY = Path(os.environ.get("VLLM_MONITOR_DIRECTORY", "/workspace/logs"))
 LOG_PATTERN = re.compile(r"^vllm-(\d{8}-\d{6})\.log$")
-TAIL_LINES = 20
+TAIL_LINES = int(os.environ.get("VLLM_MONITOR_TAIL_LINES", "20"))
 STARTUP_LINE = "API server: HTTP server started"
 LIVE_REFRESH_PER_SECOND = float(os.environ.get("VLLM_MONITOR_LIVE_REFRESH_PER_SECOND", "1"))
 STARTUP_POLL_INTERVAL = float(os.environ.get("VLLM_MONITOR_STARTUP_POLL_INTERVAL", "0.1"))
 DIRECTORY_SAMPLE_INTERVAL = 1.0
-MONITORED_DIRECTORIES = (Path("/workspace/.cache"), Path("/workspace/.huggingface"))
+MONITORED_DIRECTORIES = tuple(
+    Path(path.strip())
+    for path in os.environ.get(
+        "VLLM_MONITOR_DIRECTORIES", "/workspace/.cache,/workspace/.huggingface"
+    ).split(",")
+    if path.strip()
+)
 
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
