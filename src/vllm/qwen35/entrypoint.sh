@@ -57,6 +57,7 @@ LANGUAGE_MODEL_ONLY=${LANGUAGE_MODEL_ONLY:-true}
 # speculative config
 SPECULATIVE_CONFIG=${SPECULATIVE_CONFIG:-true}
 SC_NUM_SPECULATIVE_TOKENS=${SC_NUM_SPECULATIVE_TOKENS:-2}
+SC_MODEL=${SC_MODEL:-""}
 SC_METHOD=${SC_METHOD:-"qwen3_5_mtp"} # 3_5 is correct, it's the architecture
 
 # generation config
@@ -105,7 +106,7 @@ ARGS=(
 if [[ "$SPECULATIVE_CONFIG" == true ]]; then
   ARGS+=(
     --speculative-config
-    "{\"method\":\"$SC_METHOD\",\"num_speculative_tokens\":$SC_NUM_SPECULATIVE_TOKENS}"
+    "{\"method\":\"$SC_METHOD\",\"num_speculative_tokens\":$SC_NUM_SPECULATIVE_TOKENS,\"model\":\"$SC_MODEL\"}"
   )
 fi
 

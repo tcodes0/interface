@@ -13,6 +13,7 @@
 
 4090 nvfp4 mtp 4
 4000 nvfp4 mtp 4
+--speculative-config '{"method":"dflash","model":"incoai/Qwen3.8-27B-DFlash2","num_speculative_tokens":7}'
 
 # command
 
