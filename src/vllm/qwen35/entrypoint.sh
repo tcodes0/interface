@@ -48,6 +48,7 @@ REASONING_PARSER=${REASONING_PARSER:-"qwen3"}
 TOOL_CALL_PARSER=${TOOL_CALL_PARSER:-"qwen3_coder"}
 KV_CACHE_DTYPE=${KV_CACHE_DTYPE:-"fp8"}
 EXTRA_ARGS=${EXTRA_ARGS:-""}
+MAX_NUM_SEQS=${MAX_NUM_SEQS:-256}
 
 # booleans
 ENABLE_PREFIX_CACHING=${ENABLE_PREFIX_CACHING:-true}
@@ -97,6 +98,7 @@ ARGS=(
   --reasoning-parser "$REASONING_PARSER"
   --tool-call-parser "$TOOL_CALL_PARSER"
   --kv-cache-dtype "$KV_CACHE_DTYPE"
+  --max-num-seqs "$MAX_NUM_SEQS"
 )
 
 [[ "$ENABLE_PREFIX_CACHING" == true ]] && ARGS+=(--enable-prefix-caching)
