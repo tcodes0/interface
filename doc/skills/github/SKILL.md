@@ -53,7 +53,7 @@ All commits must be signed. If signing fails or GPG behaves unexpectedly, report
 | terraform-infra      | `git@github.com:eleanorhealth/terraform-infra.git`  | main           |
 | terraform-k8s        | `git@github.com:eleanorhealth/terraform-k8s.git`    | main           |
 | interface            | `git@github.com:rthomazel/interface.git`            | dev            |
-| go                   | `git@github.com:tcodes0/go.git`                     | main           |
+| go                   | `git@github.com:rthomazel/go.git`                   | main           |
 | mcp                  | `git@github.com:rthomazel/mcp.git`                  | main           |
 | compose-files        | `git@github.com:rthomazel/compose-files.git`        | main           |
 | worker-vllm          | `git@github.com:rthomazel/worker-vllm.git`          | main           |

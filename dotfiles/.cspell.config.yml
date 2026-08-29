@@ -169,6 +169,9 @@ words:
   - noatime
   - noconfirm
   - nolint
+  - mcpkeys
+  - mcpbench
+  - mcppostgres
   - Nower
   - OBAT
   - ollama
