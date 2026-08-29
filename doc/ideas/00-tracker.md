@@ -19,12 +19,13 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 29
+largest number: 30
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
+- [ ] **[30] [HGH] [8]** vLLM controller MCP
 - [ ] **[29] [HGH] [8]** WireGuard VPN through the VPS
 - [ ] **[26] [LOW] [1]** add 2-pin jumper to chassis intrusion header (JCI1) on ArchAM5 motherboard — grounds the floating pin on nct6799 and clears the persistent `intrusion0` alarm at hardware level
 - [ ] **[27] [LOW] [3]** use Infisical for runtime secret injection in personal projects; deploy secret server on the LGA machine alongside the existing provider so it's always available
