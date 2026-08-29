@@ -34,12 +34,17 @@ watch -n 1 du -sh /workspace/.cache
 
 ### inspect cache for size
 
-du -h --max-depth=2 /workspace/.cache | sort -h
+du -h --max-depth=2 /workspace/.cache | sort -rh
 
 ### zip cache for download
 
 tar -cf /workspace/cache.tar -C /workspace/.cache triton vllm/torch_compile_cache
 
-### rsync to host machine
+### cache rsync to host machine
 
-rsync -ah --info=progress2 -e "ssh -p <port>" root@<ip>:/workspace/cache.tar ./src/vllm/qwen35/.cache
+rsync -ah --info=progress2 -e "ssh -p <port>" root@<ip>:/workspace/cache.tar /home/vacation/Desktop/interface/src/vllm/qwen35/.cache
+
+### cache rsync to remote
+
+rsync -ah --info=progress2 -e "ssh -p <port>" /home/vacation/Desktop/interface/src/vllm/qwen35/.cache/<file> root@<ip>:/workspace/cache.tar
+tar -xf /workspace/cache.tar -C /workspace/.cache
