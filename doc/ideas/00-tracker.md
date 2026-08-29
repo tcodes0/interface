@@ -19,12 +19,13 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 30
+largest number: 31
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
+- [ ] **[31] [HGH] [5]** [netdiag.md](./netdiag.md) netdiag: go client/server harness that characterizes the client network's outbound connectivity before [29] — 7 staged tests (HTTPS/443 → WG handshake on 51820/443 → persistent UDP → bidirectional traffic), server logs observed source IP:port per test and returns it via a minimal HTTP control plane
 - [ ] **[30] [HGH] [8]** vLLM controller MCP
 - [ ] **[29] [HGH] [8]** WireGuard VPN through the VPS
 - [ ] **[26] [LOW] [1]** add 2-pin jumper to chassis intrusion header (JCI1) on ArchAM5 motherboard — grounds the floating pin on nct6799 and clears the persistent `intrusion0` alarm at hardware level
