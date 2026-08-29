@@ -220,7 +220,7 @@ def error_lines(lines: list[str]) -> list[str]:
     return events[-1] if events else []
 
 
-def render_table(metrics: dict[str, str], log_path: Path) -> Table:
+def render_table(metrics: dict[str, str], log_path: Path, gpu_lines: Iterable[str] = ()) -> Table:
     table = Table(title=f"vLLM monitor — {log_path}", show_header=True, header_style="bold cyan")
     table.add_column("Metric", style="bold")
     table.add_column("Value", justify="right")
@@ -231,6 +231,8 @@ def render_table(metrics: dict[str, str], log_path: Path) -> Table:
     ]
     for label in labels:
         table.add_row(label, metrics.get(label, "—"))
+    for gpu_line in gpu_lines:
+        table.add_row("GPU", gpu_line)
     return table
 
 
@@ -264,7 +266,8 @@ def main() -> None:
                     if errors:
                         renderable = Group(Text(f"Monitoring: {log_path}"), Text("\nERROR DETECTED\n\n" + "\n".join(errors), style="bold red"))
                     else:
-                        renderable = Group(render_table(parse_metrics(lines), log_path), Text("Refreshing every 2 seconds. Press Ctrl-C to exit.", style="dim"))
+                        _, gpu_lines = directory_monitor.snapshot()
+                        renderable = Group(render_table(parse_metrics(lines), log_path, gpu_lines), Text("Refreshing every 2 seconds. Press Ctrl-C to exit.", style="dim"))
                     live.update(renderable)
                     time.sleep(2)
         finally:
