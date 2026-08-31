@@ -20,6 +20,7 @@ Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
 - [x] spec decoded dflash 7 tokens -- slower with higher context
 - [ ] tweak thinking mode per request
 - [ ] benchmark at 250k context
+- [ ] spec decode model field has to be omitted if empty
 
 ### fast benchmark
 

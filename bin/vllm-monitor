@@ -141,7 +141,7 @@ class DirectoryMonitor:
                     fields = line.split()
                     if len(fields) >= 6 and fields[0].isdigit():
                         gpu_stats.append(
-                            f"ID {fields[0]} SM {fields[4]}% MEM {fields[5]}%"
+                            f"GPU {fields[0]} SM {fields[4]}% MEM {fields[5]}%"
                         )
                 with self._lock:
                     self.gpu_stats = gpu_stats
