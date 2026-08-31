@@ -9,13 +9,19 @@
 | 1   | PRO 5000 BW | 0.73 | 48 GB | 5   | 83    | 417K | nvfp4   | done   | no, same price |
 | 2   | 5090 BW     | 0.76 | 64 GB | 4   | 91    | 480K | fp8     | done   | yes, best ⭐   |
 
+## best config so far
+
+Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
+
 ### todo
 
-4090 nvfp4 mtp 4
-4000 nvfp4 mtp 4
---speculative-config '{"method":"dflash","model":"incoai/Qwen3.8-27B-DFlash2","num_speculative_tokens":7}'
+- [ ] 4090 nvfp4 mtp 4
+- [ ] 4000 nvfp4 mtp 4
+- [x] spec decoded dflash 7 tokens -- slower with higher context
+- [ ] tweak thinking mode per request
+- [ ] benchmark at 250k context
 
-# command
+### fast benchmark
 
 ssh into instance
 
@@ -25,6 +31,24 @@ vllm bench serve \
   --model "$VLLM_MODEL_NAME" \
   --num-prompts 20 \
   --random-input-len 4096 \
+  --random-output-len 1024 \
+  --max-concurrency 1 \
+  --header "Authorization=Bearer $VLLM_API_KEY" \
+  --temperature 1.0 \
+  --top-p 0.95 \
+  --top-k 20
+```
+
+### full native context benchmark
+
+ssh into instance
+
+```
+vllm bench serve \
+  --base-url http://127.0.0.1:8000 \
+  --model "$VLLM_MODEL_NAME" \
+  --num-prompts 6 \
+  --random-input-len 250000 \
   --random-output-len 1024 \
   --max-concurrency 1 \
   --header "Authorization=Bearer $VLLM_API_KEY" \
@@ -102,18 +126,18 @@ Position 2: 63.18
 
 ## cyankiwi/Qwen3.6-27B-AWQ-INT4 RTX 4090 48Gb, MTP 4, 85tok/s, 498K
 
-Output token throughput (tok/s):         84.80
-Mean TTFT (ms):                          1598.19
-Mean TPOT (ms):                          10.24
-Mean ITL (ms):                           36.75
-Acceptance rate (%):                     64.85
-Acceptance length:                       3.59
-Draft tokens:                            22804
+Output token throughput (tok/s): 84.80
+Mean TTFT (ms): 1598.19
+Mean TPOT (ms): 10.24
+Mean ITL (ms): 36.75
+Acceptance rate (%): 64.85
+Acceptance length: 3.59
+Draft tokens: 22804
 Per-position acceptance (%):
-  Position 0:                            86.35
-  Position 1:                            69.53
-  Position 2:                            58.60
-  Position 3:                            44.92
+Position 0: 86.35
+Position 1: 69.53
+Position 2: 58.60
+Position 3: 44.92
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 3, 78tok/s, 433K
 
@@ -128,18 +152,18 @@ Position 2: 64.98
 
 ## unsloth/Qwen3.8-27B-NVFP4 RTX 5000 48Gb, MTP 5, 83tok/s, 417K
 
-Output token throughput (tok/s):         83.27
-Mean TTFT (ms):                          786.59
-Mean TPOT (ms):                          11.25
-Mean ITL (ms):                           40.80
-Acceptance rate (%):                     52.68
-Acceptance length:                       3.63
-Draft tokens:                            28215
-  Position 0:                            73.12
-  Position 1:                            59.33
-  Position 2:                            49.28
-  Position 3:                            42.94
-  Position 4:                            38.74
+Output token throughput (tok/s): 83.27
+Mean TTFT (ms): 786.59
+Mean TPOT (ms): 11.25
+Mean ITL (ms): 40.80
+Acceptance rate (%): 52.68
+Acceptance length: 3.63
+Draft tokens: 28215
+Position 0: 73.12
+Position 1: 59.33
+Position 2: 49.28
+Position 3: 42.94
+Position 4: 38.74
 
 ## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 3, 72tok/s, 550K
 
@@ -169,24 +193,9 @@ Position 2: 44.69
 Position 3: 39.32
 Position 4: 36.70
 
-## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
-
-```
-Output token throughput (tok/s):         90.90
-Mean TTFT (ms):                          2505.14
-Mean TPOT (ms):                          8.56
-Mean ITL (ms):                           32.06
-Acceptance rate (%):                     68.80
-Per-position acceptance (%):
-Draft tokens:                            21856
-Acceptance length:                       3.75
-  Position 0:                            84.35
-  Position 1:                            74.34
-  Position 2:                            62.76
-  Position 3:                            53.75
-```
-
 ## Qwen/Qwen3.8-27B-FP8 fp16 KV, dflash, 8k batch, 2 RTX 5090, MTP 7 eager, 127tok/s, 226K
+
+not good with higher context, feels slower than 70tok/s
 
 KV_CACHE_DTYPE=auto
 SC_NUM_SPECULATIVE_TOKENS=7
@@ -196,35 +205,12 @@ MAX_NUM_BATCHED_TOKENS=8192
 SC_ENFORCE_EAGER=true
 
 ```
-============ Serving Benchmark Result ============
-Successful requests:                     20
-Failed requests:                         0
-Maximum request concurrency:             1
-Benchmark duration (s):                  161.15
-Total input tokens:                      81920
-Total generated tokens:                  20480
-Request throughput (req/s):              0.12
 Output token throughput (tok/s):         127.09
-Peak output token throughput (tok/s):    39.00
-Peak concurrent requests:                2.00
-Total token throughput (tok/s):          635.44
----------------Time to First Token----------------
 Mean TTFT (ms):                          1787.39
-Median TTFT (ms):                        1784.45
-P99 TTFT (ms):                           1830.07
------Time per Output Token (excl. 1st token)------
 Mean TPOT (ms):                          6.13
-Median TPOT (ms):                        5.37
-P99 TPOT (ms):                           12.01
----------------Inter-token Latency----------------
 Mean ITL (ms):                           26.38
-Median ITL (ms):                         26.38
-P99 ITL (ms):                            27.20
----------------Speculative Decoding---------------
 Acceptance rate (%):                     47.33
 Acceptance length:                       4.31
-Drafts:                                  4754
-Draft tokens:                            33278
 Accepted tokens:                         15752
 Per-position acceptance (%):
   Position 0:                            71.62
@@ -235,3 +221,45 @@ Per-position acceptance (%):
   Position 5:                            37.51
   Position 6:                            35.09
 ```
+
+## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
+
+```
+============ Serving Benchmark Result ============
+Successful requests:                     20
+Failed requests:                         0
+Maximum request concurrency:             1
+Benchmark duration (s):                  225.30
+Total input tokens:                      81920
+Total generated tokens:                  20480
+Request throughput (req/s):              0.09
+Output token throughput (tok/s):         90.90
+Peak output token throughput (tok/s):    33.00
+Peak concurrent requests:                2.00
+Total token throughput (tok/s):          454.50
+---------------Time to First Token----------------
+Mean TTFT (ms):                          2505.14
+Median TTFT (ms):                        2455.52
+P99 TTFT (ms):                           3440.77
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          8.56
+Median TPOT (ms):                        7.80
+P99 TPOT (ms):                           11.87
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           32.06
+Median ITL (ms):                         31.57
+P99 ITL (ms):                            35.69
+---------------Speculative Decoding---------------
+Acceptance rate (%):                     68.80
+Acceptance length:                       3.75
+Drafts:                                  5464
+Draft tokens:                            21856
+Accepted tokens:                         15037
+Per-position acceptance (%):
+  Position 0:                            84.35
+  Position 1:                            74.34
+  Position 2:                            62.76
+  Position 3:                            53.75
+==================================================
+```
+
