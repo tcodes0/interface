@@ -12,7 +12,6 @@ The control plane will also expose a very small MCP interface over standard inpu
 
 The control server and MCP server will use the same Go binary in different modes and can run together in Docker Compose. The MCP layer will remain a thin interface over the control plane. A small Python wrapper can later expose the stdio MCP interface over SSE if needed. The design is intentionally focused on lifecycle management rather than full infrastructure orchestration, leaving automatic provisioning and more sophisticated worker management for a future phase.
 
-
 Here’s the implementation plan I’d use for v1. It keeps the system intentionally small while leaving the right seams for future orchestration.
 
 ## 1. Components
@@ -26,21 +25,21 @@ control --mode=mcp
 
 The server process owns:
 
-* SQLite
-* Vast API integration
-* worker registration
-* heartbeats
-* worker state
-* Vast instance state
-* idle detection
-* termination
-* reconciliation
+- SQLite
+- Vast API integration
+- worker registration
+- heartbeats
+- worker state
+- Vast instance state
+- idle detection
+- termination
+- reconciliation
 
 The MCP process owns only:
 
-* stdio MCP transport
-* three high-level tools
-* forwarding commands to the control server
+- stdio MCP transport
+- three high-level tools
+- forwarding commands to the control server
 
 No Vast logic should live in the MCP layer.
 
@@ -91,6 +90,16 @@ last_request_at
 terminated_at
 ```
 
+plus a join table:
+
+```text
+worker_information
+----------------
+id
+worker_id
+...extra heartbeat fields (maybe jsonb?)
+```
+
 The important relationship:
 
 ```text
@@ -126,11 +135,11 @@ It gathers whatever information is readily available:
 
 ```text
 worker_id
-hostname
-Vast instance ID
-model
-vLLM version/configuration
-GPU information
+Vast instance ID (VAST_CONTAINERLABEL)
+model (VLLM_MODEL_NAME)
+image version (VERSION)
+vLLM version/configuration (VLLM_CMD_LINE)
+GPU_INFO $(nvidia-smi --query-gpu=index,name,memory.total --format=csv,noheader)
 ```
 
 Then:
@@ -193,7 +202,7 @@ last_heartbeat_at = now()
 
 rather than trusting the worker's clock.
 
-`last_request_at` is independently obtained from the vLLM log.
+`last_request_at` is obtained from the vLLM log.
 
 This gives us two completely separate signals:
 
@@ -204,6 +213,34 @@ last_heartbeat_at
 last_request_at
     = When did this worker last receive a request?
 ```
+
+### 4.1 Extra heartbeat fields
+
+For booting workers the extra fields are valuable to monitor boot, where most failures happen.
+.hugginface size
+.cache size
+each gpu: SM % and memory %
+see repo interface bin/vllm-monitor for how to get these metrics
+
+For running workers the following is useful to measure worker performance
+
+"Generation throughput"
+"KV cache usage"
+"Prefix hit rate"
+"Mean acceptance length"
+"Accepted throughput"
+"Drafted throughput"
+"Accepted tokens"
+"Drafted tokens"
+"Position acceptance"
+"Draft acceptance"
+
+see repo interface bin/vllm-monitor for how to get these metrics from the vllm log, only available after instance is running
+
+For running workers could be useful to grep the log for "error" of similar patterns that appear in stack traces
+
+error: boolean
+stack_trace: slice of the vllm log around the error
 
 ## 5. Log monitoring
 
@@ -367,60 +404,6 @@ history
 
 Keep this extremely small.
 
-### `start_worker`
-
-Input:
-
-```text
-query: string
-```
-
-The query is matched against worker/instance metadata.
-
-For example:
-
-```text
-start_worker("qwen")
-```
-
-could match:
-
-```text
-model = Qwen/...
-name = qwen-primary
-```
-
-Or:
-
-```text
-start_worker("primary")
-```
-
-could match the manually configured instance name.
-
-The MCP layer doesn't need to know how matching works. It simply passes the query to the control plane.
-
-The control plane:
-
-```text
-query
-  ↓
-find suitable stopped instance
-  ↓
-start via Vast API
-  ↓
-wait or return STARTING
-```
-
-If nothing matches:
-
-```text
-ERROR:
-No available worker matching "qwen".
-```
-
-Crucially, **it does not create a new Vast instance**.
-
 ### `stop_worker`
 
 Same query mechanism:
@@ -451,47 +434,50 @@ gemma           STOPPED    Vast STOPPED
 
 With a query, return the matching worker/instance details.
 
-## 10. Query matching
+## 9.1 future tools (out of scope for now)
 
-I would keep this deliberately fuzzy rather than inventing a query language.
+### `list_templates`
 
-The controller can search fields such as:
+Input: none
+
+returns a list of vast.ai templates.
+
+### `start_worker`
+
+Input:
 
 ```text
-name
-hostname
-model
-GPU
-worker metadata
-Vast metadata
+template: string
 ```
+
+The query is matched against vast.ai templates
 
 For example:
 
 ```text
-"qwen"
+start_worker("qwen38-fp8-5090-next")
 ```
 
-could match:
+The MCP layer doesn't need to know how matching works. It simply passes the template to the control plane.
+
+The control plane:
 
 ```text
-name: qwen-primary
-model: Qwen/Qwen3.8-27B-FP8
+templates
+  ↓
+find suitable template by name
+  ↓
+chooses hardware based on decision algo (tbd)
+  ↓
+creates instance
 ```
 
-If multiple instances match, don't arbitrarily choose one.
-
-Return something like:
+If no exact name match:
 
 ```text
-Multiple workers match "qwen":
-- qwen-primary
-- qwen-secondary
-
-Specify a more specific query.
+ERROR:
+No available template matching "qwen38-fp8-5090-next". Try list templates
 ```
-
-That gives you a safe MCP interface without having to define the final naming scheme now.
 
 ## 11. Control-plane HTTP API
 
@@ -504,13 +490,14 @@ POST /workers/:id/heartbeat
 GET  /workers
 GET  /workers/:id
 
-POST /workers/start
 POST /workers/stop
 ```
 
 The MCP adapter calls these APIs.
 
 The HTTP API also gives you a useful CLI/debugging interface later.
+
+Get workers by id should return detailed worker information (format tbd)
 
 ## 12. CLI
 

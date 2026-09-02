@@ -150,6 +150,8 @@ if [[ -n "${VLLM_API_KEY:-}" ]]; then
   } >>/root/.bashrc
 fi
 
+printf 'export VLLM_MODEL_NAME=%q\n' "$MODEL_NAME" >>/root/.bashrc
+
 ALIASES=${ALIASES:-false}
 
 if [[ "$ALIASES" == true ]]; then
@@ -162,8 +164,6 @@ if [[ "$ALIASES" == true ]]; then
     printf 'alias ll="ls -lSAi"\n'
   } >>/root/.bashrc
 fi
-
-printf 'export VLLM_MODEL_NAME=%q\n' "$MODEL_NAME" >>/root/.bashrc
 
 TMUX_START=${TMUX_START:-false}
 
@@ -182,5 +182,7 @@ fi
 echo [INFO] Running image version "${VERSION:-"unknown"}"
 
 /usr/sbin/sshd
+
+printf 'export VLLM_CMD_LINE=%q\n' "${ARGS[*]}" >>/root/.bashrc
 
 exec vllm serve "$MODEL_NAME" "${ARGS[@]}"
