@@ -17,10 +17,9 @@ Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
 
 - [ ] 4090 nvfp4 mtp 4
 - [ ] 4000 nvfp4 mtp 4
-- [x] spec decoded dflash 7 tokens -- slower with higher context
 - [ ] tweak thinking mode per request
-- [ ] benchmark at 250k context
-- [ ] spec decode model field has to be omitted if empty
+- [ ] benchmark at 50k context
+- [ ] MAX_NUM_BATCHED_TOKENS=8192
 
 ### fast benchmark
 
@@ -40,7 +39,11 @@ vllm bench serve \
   --top-k 20
 ```
 
-### full native context benchmark
+### realistic context benchmark
+
+native model context 262K
+average prefix cache hit rate (0.8)
+262*.2 =~ 50K (tokens recomputed from scratch each turn)
 
 ssh into instance
 
@@ -48,9 +51,9 @@ ssh into instance
 vllm bench serve \
   --base-url http://127.0.0.1:8000 \
   --model "$VLLM_MODEL_NAME" \
-  --num-prompts 6 \
-  --random-input-len 250000 \
-  --random-output-len 1024 \
+  --num-prompts 8 \
+  --random-input-len 50000 \
+  --random-output-len 4000 \
   --max-concurrency 1 \
   --header "Authorization=Bearer $VLLM_API_KEY" \
   --temperature 1.0 \
@@ -225,6 +228,8 @@ Per-position acceptance (%):
 
 ## Qwen/Qwen3.8-27B-FP8 2 RTX 5090, MTP 4, 91tok/s, 480K
 
+MAX_NUM_BATCHED_TOKENS=8192 seems to improve TTFT dramatically
+
 ```
 ============ Serving Benchmark Result ============
 Successful requests:                     20
@@ -263,4 +268,3 @@ Per-position acceptance (%):
   Position 3:                            53.75
 ==================================================
 ```
-
