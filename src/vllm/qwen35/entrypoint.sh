@@ -60,7 +60,7 @@ SPECULATIVE_CONFIG=${SPECULATIVE_CONFIG:-true}
 SC_NUM_SPECULATIVE_TOKENS=${SC_NUM_SPECULATIVE_TOKENS:-2}
 SC_MODEL=${SC_MODEL:-""}
 SC_ENFORCE_EAGER=${SC_ENFORCE_EAGER:-"false"}
-SC_METHOD=${SC_METHOD:-"qwen3_5_mtp"} # 3_5 is correct, it's the architecture
+SC_METHOD=${SC_METHOD:-"mtp"}
 
 # generation config
 OVERRIDE_GENERATION_CONFIG=${OVERRIDE_GENERATION_CONFIG:-true}
@@ -107,10 +107,14 @@ ARGS=(
 
 # build compound configs
 if [[ "$SPECULATIVE_CONFIG" == true ]]; then
-  ARGS+=(
-    --speculative-config
-    "{\"method\":\"$SC_METHOD\",\"num_speculative_tokens\":$SC_NUM_SPECULATIVE_TOKENS,\"model\":\"$SC_MODEL\",\"enforce_eager\":$SC_ENFORCE_EAGER}"
-  )
+
+  SPEC_CONFIG="{\"method\":\"$SC_METHOD\",\"num_speculative_tokens\":$SC_NUM_SPECULATIVE_TOKENS,\"enforce_eager\":$SC_ENFORCE_EAGER}"
+
+  [[ -n "$SC_MODEL" ]] &&
+    SPEC_CONFIG="${SPEC_CONFIG%\}},\"model\":\"$SC_MODEL\"}"
+
+  ARGS+=(--speculative-config "$SPEC_CONFIG")
+
 fi
 
 if [[ "$OVERRIDE_GENERATION_CONFIG" == true ]]; then
@@ -141,7 +145,22 @@ fi
 
 # .bashrc setup
 if [[ -n "${VLLM_API_KEY:-}" ]]; then
-  printf 'export VLLM_API_KEY=%q\n' "$VLLM_API_KEY" >>/root/.bashrc
+  {
+    printf 'export VLLM_API_KEY=%q\n' "$VLLM_API_KEY"
+  } >>/root/.bashrc
+fi
+
+ALIASES=${ALIASES:-false}
+
+if [[ "$ALIASES" == true ]]; then
+  {
+    printf 'alias g=grep\n'
+    printf 'alias l=less\n'
+    printf 'alias t=cat\n'
+    printf 'alias ls="ls -ph --color=always"\n'
+    printf 'alias la="ls -A"\n'
+    printf 'alias ll="ls -lSAi"\n'
+  } >>/root/.bashrc
 fi
 
 printf 'export VLLM_MODEL_NAME=%q\n' "$MODEL_NAME" >>/root/.bashrc
