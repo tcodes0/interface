@@ -815,3 +815,16 @@ inf() {
     infisical "$@"
   fi
 }
+
+#----------------
+
+bad_vast_host() {
+  case "$1" in
+  145602)
+    echo "shit. slow internet"
+    ;;
+  *)
+    echo "ok"
+    ;;
+  esac
+}
