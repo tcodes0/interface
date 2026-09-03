@@ -21,6 +21,8 @@ Searching and reading code:
 
 Host network is reachable on host.docker.internal.
 To find current date time, use "date" on the shell tool.
+The "maintenance" toolset is a mcp/bench deployment with root privileges on the LGA VPS, for introspection, maintenance and debugging, use with care!
+The "archam5_maintenance" is another mcp/bench deployment on Thom's machine, use only if prompted to do so.
 
 ## Environment identity
 
