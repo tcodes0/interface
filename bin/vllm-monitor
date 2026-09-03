@@ -78,6 +78,7 @@ GPU_STATS_COMMAND = ("nvidia-smi", "dmon", "-s", "pucm", "-d", "1", "-c", "1")
 METRIC_PATTERNS = {
     "Generation throughput": re.compile(r"Avg generation throughput:\s*([\d.]+)\s*tokens/s"),
     "KV cache usage": re.compile(r"GPU KV cache usage:\s*([\d.]+)%"),
+    "KV Cache size": re.compile(r"GPU KV cache size:\s*([\d,]+)\s+tokens"),
     "Prefix hit rate": re.compile(r"Prefix cache hit rate:\s*([\d.]+)%"),
     "Mean acceptance length": re.compile(r"Mean acceptance length:\s*([\d.]+)"),
     "Accepted throughput": re.compile(r"Accepted throughput:\s*([\d.]+)\s*tokens/s"),
@@ -188,6 +189,7 @@ def parse_metrics(lines: Iterable[str]) -> dict[str, str]:
             if match:
                 value = match.group(1)
                 suffix = " tokens/s" if "throughput" in label.lower() else "%" if "rate" in label.lower() or "usage" in label.lower() else ""
+                value = value.replace(",", "")
                 metrics[label] = f"{value}{suffix}"
         match = POSITION_PATTERN.search(line)
         if match:
@@ -225,7 +227,7 @@ def render_table(metrics: dict[str, str], log_path: Path, gpu_lines: Iterable[st
     table.add_column("Metric", style="bold")
     table.add_column("Value", justify="right")
     labels = [
-        "Generation throughput", "KV cache usage", "Prefix hit rate", "Mean acceptance length",
+        "Generation throughput", "KV Cache size", "KV cache usage", "Prefix hit rate", "Mean acceptance length",
         "Accepted throughput", "Drafted throughput", "Accepted tokens", "Drafted tokens",
         "Position acceptance", "Draft acceptance",
     ]
