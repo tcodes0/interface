@@ -33,6 +33,7 @@ largest number: 31
 - [ ] **[24] [MED] [5]** [mcp-gcp-integration.md](./mcp-gcp-integration.md) integrate GCP (Cloud Build + BigQuery) into API Key MCP; builds on [21] auth layer, subsumes [09] and enables [17]
 
 ## done 2026
+
 - [x] **[25] [MED] [5]** [go-update-reusable-workflow.md](./go-update-reusable-workflow.md) reusable GH Actions workflow for Go dep updates + Go version bumping across Dockerfiles, go.mod, and .tool-versions
 - [x] **[28] [MED] [2]** [gpg-wrapper-versioning.md](./gpg-wrapper-versioning.md) commit gpg-passphrase-wrapper to interface/bin, have bin/setup curl it from raw GitHub instead of regenerating inline; a stale hand-flattened copy silently broke commit signing across sessions
 

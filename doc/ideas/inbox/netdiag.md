@@ -2,16 +2,16 @@
 
 Go client/server pair that characterizes what the client's network permits, before building the
 own WireGuard VPN ([29]). Tailscale is unavailable/blocked on the client network, so we're
-evaluating our own WireGuard infrastructure. The harness only *characterizes* the network —
+evaluating our own WireGuard infrastructure. The harness only _characterizes_ the network —
 no VPN logic, no traffic relay, no bypassing anything without authorization.
 
 ## Topology
 
-| Node | Role |
-|------|------|
-| Windows PC (permanently in client network, Ethernet) | future exit node; runs test **client** |
-| Linux PC (travels between networks) | future exit-node consumer; will also run client |
-| Hetzner VPS (fixed public IP) | runs test **server**; later, coordination server. Coordinates only — no app traffic unless a relay becomes necessary |
+| Node                                                 | Role                                                                                                                 |
+| ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| Windows PC (permanently in client network, Ethernet) | future exit node; runs test **client**                                                                               |
+| Linux PC (travels between networks)                  | future exit-node consumer; will also run client                                                                      |
+| Hetzner VPS (fixed public IP)                        | runs test **server**; later, coordination server. Coordinates only — no app traffic unless a relay becomes necessary |
 
 ## The harness
 

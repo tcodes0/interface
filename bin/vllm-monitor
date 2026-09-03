@@ -172,8 +172,8 @@ def wait_for_startup(path: Path, live: Live, directory_monitor: DirectoryMonitor
     while True:
         lines = read_tail(path)
         directory_line, gpu_lines = directory_monitor.snapshot()
-        renderable = [Text(f"Monitoring: {path}"), Text(directory_line)]
-        renderable.extend(Text(gpu_line) for gpu_line in gpu_lines)
+        gpu_line = "  ".join(gpu_lines)
+        renderable = [Text(f"Monitoring: {path}"), Text(directory_line + ("  " + gpu_line if gpu_line else ""))]
         renderable.append(Text("".join(line for line in lines if STARTUP_LINE not in line)))
         live.update(Group(*renderable))
         if server_started(lines):

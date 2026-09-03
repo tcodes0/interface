@@ -91,7 +91,7 @@ volume 40Gb
 VLLM_API_KEY=sk-keepit69
 HF_HOME=/workspace/.huggingface
 VLLM_ALLOW_LONG_MAX_MODEL_LEN=0
-HF_TOKEN=***********
+HF_TOKEN=\***\*\*\*\*\*\***
 XDG_CACHE_HOME=/workspace/.cache
 VLLM_CACHE_ROOT=/workspace/.cache/vllm
 TORCH_HOME=/workspace/.cache/torch
