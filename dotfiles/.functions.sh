@@ -823,6 +823,9 @@ bad_vast_host() {
   145602)
     echo "shit. slow internet"
     ;;
+  559731)
+    echo "good. good internet"
+    ;;
   *)
     echo "ok"
     ;;

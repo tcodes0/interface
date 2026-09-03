@@ -37,22 +37,22 @@ Check GPG signing
 ```
 env | grep GPG_        # should show GPG_PRIVATE_KEY and GPG_PASSPHRASE
 cat /root/.claude/settings.json   # should have a SessionStart hook
-ls /usr/local/bin/gpg-wrapper     # should exist and be executable
+ls $HOME/bin/gpg-wrapper     # should exist and be executable
 gpg --list-secret-keys            # should show the signing key
 ```
 
-if /usr/local/bin/gpg-wrapper doesn't exist, run this script
+if $HOME/bin/gpg-wrapper doesn't exist, run this script
 
 ```bash
 #!/bin/bash
 set -euo pipefail
 if [[ -z "${GPG_PRIVATE_KEY:-}" || -z "${GPG_PASSPHRASE:-}" ]]; then exit 0; fi
-if [[ ! -x /usr/local/bin/gpg-wrapper ]]; then
-  cat /usr/local/bin/gpg-wrapper <<'EOF'
+if [[ ! -x $HOME/bin/gpg-wrapper ]]; then
+  cat $HOME/bin/gpg-wrapper <<'EOF'
 #!/bin/bash
 exec gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback "$@"
 EOF
-  chmod +x /usr/local/bin/gpg-wrapper
+  chmod +x $HOME/bin/gpg-wrapper
 fi
 KEY_ID=$(echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --with-colons --import-options show-only --import 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
 if ! gpg --list-secret-keys "$KEY_ID" &>/dev/null; then
@@ -60,7 +60,7 @@ if ! gpg --list-secret-keys "$KEY_ID" &>/dev/null; then
 fi
 FINGERPRINT=$(gpg --with-colons --list-secret-keys "$KEY_ID" 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
 git config --global gpg.format openpgp
-git config --global gpg.program /usr/local/bin/gpg-wrapper
+git config --global gpg.program $HOME/bin/gpg-wrapper
 git config --global user.signingkey "$FINGERPRINT"
 git config --global commit.gpgsign true
 ```
