@@ -818,7 +818,7 @@ inf() {
 
 #----------------
 
-bad_vast_host() {
+vast_bad_host() {
   case "$1" in
   145602)
     echo "shit. slow internet"
