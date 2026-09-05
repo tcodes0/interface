@@ -27,10 +27,6 @@ default is 262k
 
 524000, update factor to 2.0. Keep other params the same, They are architectural.
 
-## no thinking
-
---default-chat-template-kwargs '{"enable_thinking": false}'
-
 ### preserved thinking
 
 keep preserve thinking off unless your client supports it, otherwise turn it on.
