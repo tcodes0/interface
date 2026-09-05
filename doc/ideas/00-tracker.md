@@ -19,12 +19,13 @@ importance according to [focus.md](../focus.md): [LOW] [MED] [HGH]
 | 8     | large       |
 | 13    | project     |
 
-largest number: 31
+largest number: 32
 
 <!--ideas ------------------------------------------------------------------------------------------------------------------  -->
 
 ## current
 
+- [ ] **[32] [MED] [3]** [preserve-thinking.md](./preserve-thinking.md) how to run preserved thinking mode on qwen 3.8 using a web frontend.
 - [ ] **[31] [HGH] [5]** [netdiag.md](./netdiag.md) netdiag: go client/server harness that characterizes the client network's outbound connectivity before [29] — 7 staged tests (HTTPS/443 → WG handshake on 51820/443 → persistent UDP → bidirectional traffic), server logs observed source IP:port per test and returns it via a minimal HTTP control plane
 - [ ] **[30] [HGH] [8]** vLLM controller MCP
 - [ ] **[29] [HGH] [8]** WireGuard VPN through the VPS
