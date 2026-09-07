@@ -4,28 +4,34 @@ The name of the engineering practice becoming popular in 25, 26 is spec-driven d
 There are steps: specify, plan, tasks and implementation.
 Markdown Knowledge Graph Is an organization strategy that links markdown files together making them easy to navigate for humans and agents, saving context.
 
-So from basic to auxiliary, Markdown as the file format, English as the language, I'd use OKF in everything.
+So from basic to auxiliary, Markdown as the file format, English as the language, use OKF (Open Knowledge Format) in everything.
 You only stand to gain from this, Machine readable, organizable, extensible.
 Save everything in git, review and commit in the repository Alongside the code.
 Existing markdown files can be left alone but should be given an OKF front matter.
 I think SDD is only for specs and OKF Markdown can be anything, not just specs.
 SDD is a methodology for writing markdown files describing implementation.
-Specs should live in the SPC directory.
+Specs should live in the SPC/ directory.
 
-Specifications can be reversed engineered from current implementation code.
-If so, they should be marked in their metadata reverse-engineered: true.
-Existing documentation can be left alone with just the addition of a front matter, Documentation is not a specification, but can be made into one.
-For a specification to be reverse engineered, it should be reviewed carefully.
+> OKF spec https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md
+
+Specifications cannot be reversed engineered from current implementation code.
+Intent is only known before implementation, so a document made from code is documentation.
+They should be marked in their metadata reverse-engineered: true.
+Reverse engineered docs should be reviewed carefully and focus on the current behavior.
+Besides different names and different metadata, specs and documentation are essentially the same.
+However, it's important not to confuse the two and keep them conceptually separate.
+Existing documentation just needs the addition of a front matter.
 
 - Markdown -> representation.
 - English -> human/agent-readable content.
 - OKF -> lightweight structure/metadata convention.
-- wikilinks -> relationships.
+- wikilinks -> navigation.
+- frontmatter -> relationships.
 - software metadata -> more nuanced relationships between spec files in the frontmatter.
 - Git -> persistence/history/review.
 - Graph -> derived structure.
-- IWE/OKq -> tooling over the structure, visual graph navigation.
-- SPC -> location/convention for specifications.
+- IWE -> tooling over the structure, visual graph navigation.
+- SPC/ -> location/convention for specifications.
 - SDD -> methodology for creating and maintaining specifications.
 - Agent/Human -> consumer/producer of all of the above.
 
@@ -37,14 +43,14 @@ For a specification to be reverse engineered, it should be reviewed carefully.
 > - [ ] https://github.com/github/spec-kit/blob/main/README.md
 > - [ ] https://kiro.dev/blog/from-chat-to-specs-deep-dive/
 
-| Level | Artifact      | Kind                          |
-| ----- | ------------- | ----------------------------- |
-| 3     | Spec          | Intent, behavior, description |
-| 2     | Documentation | Software knowledge            |
-| 1     | Document      | Knowledge                     |
-| 0     | `.md` file    | Text                          |
+| Artifact      | Kind                          |
+| ------------- | ----------------------------- |
+| Spec          | Intent, behavior, description |
+| Documentation | Software behavior, no intent  |
 
 ```
+# SDD workflow
+
 Constitution, markdown file with high level guidelines
     -> is read as a starting point to
 Specify, describe behavior and intent of a change to the software
@@ -61,9 +67,27 @@ Ship
 ### metadata
 
 Front matter metadata should be used to enrich documents.
-Nuanced software relationships between files, Implemented by, Super seeds, Consumer.
-Fields like author can help identify the type of artifact, Specs will mostly be human authored.
-Reverse engineered expectations will be authored by agents and should have reverse engineered set to true.
+Nuanced software relationships between files, Implemented by, Superseeds, Consumer.
+Fields like author, reviewed-by can help identify the type of artifact, specs will mostly be human authored.
+Fields like status can support files in different stages of maturity.
+An ID field can be added to frontmatter to make the relationships resilient to moves and renames, in this case, front matter relationship should reference by ID.
+
+#### changelog
+
+Specs and documentation should end with a changelog.
+Format: `## Changelog`
+Followed by: "```yaml"
+Entries:
+
+```yaml
+- date: yyyy-mm-dd
+  type: string enum
+  summary: string
+  refs: []string
+```
+
+Tracks the history, evolution and lifecycle of a spec.
+YAML is chosen to make it parsable and easy to search for.
 
 ## Software modelling
 
@@ -76,6 +100,8 @@ Human developers no longer need to read code to understand the structure of the 
 Model file metadata will be authored by agents, Software model, true.
 
 ```
+# SDD workflow, including requirements and modelling
+
 | non technical     technical
 |--------------|-----------------|
 Intent         |
@@ -112,40 +138,60 @@ Model
 | low     | code       | programming          |
 | machine | executable | machine              |
 
-## future considerations
+## Staleness
 
-Automation on generation and verification of model files, synchronization, extraction.
+> Incorrect documentation is worse than no documentation.
 
-# tools
+The main risk of the methodology is having documentation, specs and models fall out of sync with the code.
+This is mitigated by agents, they can read, check and update the documents as part of their regular work.
+
+- Add explicit prompting and workflow steps to review and correct documents.
+- Treat gaps in documentation as bugs.
+- Start agent workflows by reading documentation.
+- End workflows by updating documentation and models.
+
+Special attention is necessary with model files since they are middle level.
+These documents drift from code more frequently.
+
+- Regular software engineering workflows, like bug fixes, should always review model files and make updates.
+- Continuous integration of documentation and models against the code they document is strongly encouraged.
+
+### tools
 
 - github.com/iwe-org/iwe
-- https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md
 
-# workflows
+#### Tooling opportunities
 
-## foundation
+- Automatic generation and verification of model files, synchronization, extraction.
+- Lookup map of relationships by ID.
 
-- add a spc directory.
+## workflows
+
+### foundation
+
+- add a spc/ directory.
 - adopt OKF frontmatter for all files.
-- write spc/constitution.md with high level guidelines.
+- human writes spc/constitution.md with high level guidelines.
 - define your OKF metadata fields and rules in the constitution.
 - organize spec files by feature directories.
-- add a model sub directory to each feature with implementation details.
+- add a model sub directory to each feature to house implementation details.
 
-## new work
+### new work
 
-- write rough spec files after discussing behavior and design with non technical folks.
+- human and agent write rough spec files after discussing behavior and design with non technical folks.
 - work through SDD steps, constitution, spec plan tasks code ship.
-- generate model after final QA'd code.
+- agent generates model after final QA'd code.
+- human reviews model
 
-## spec from files
+### documentation from code
 
 - agent reads code for a feature and/or reviews documentation.
-- produces a reverse-engineered spec for review, adds proper metadata.
-- review, discussion.
-- spec is commited.
-- models are generated.
+- produces a reverse-engineered doc for review, adds proper metadata.
+- human review, discussion.
+- doc is commited.
+- agents generates models.
+- human reviews.
 
-## spec change
+### spec change
 
 - same as new work but mostly updating existing specs and models
