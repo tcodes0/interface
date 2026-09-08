@@ -9,6 +9,7 @@ https://github.com/vllm-project/recipes/blob/main/Qwen/Qwen3.5.md
 ## hardware
 
 48GB minimum
+2x 5090 recommended
 
 ## image
 
@@ -105,15 +106,13 @@ TRANSFORMERS_VERBOSITY=info
 
 TORCH_LOGS="+inductor"
 
+> if it hangs on two gpus
+
+NCCL_P2P_DISABLE=1 # maybe not needed on 1 card
+EXTRA_ARGS=--disable-custom-all-reduce
+
 # unsloth/Qwen3.8-27B-NVFP4
 
 https://huggingface.co/unsloth/Qwen3.8-27B-NVFP4
 
 hard to run on 2 RTX 4000 PRO
-
-## env
-
-add
-
-NCCL_P2P_DISABLE=1 # maybe not needed on 1 card
-EXTRA_ARGS=--disable-custom-all-reduce
