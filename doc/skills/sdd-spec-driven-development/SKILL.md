@@ -211,8 +211,6 @@ link expires after one hour and can be used only once.
 ```
 ````
 
-````
-
 ## Documentation from existing implementation
 
 A specification cannot be reliably reverse-engineered from code. Intent is
@@ -224,9 +222,9 @@ When documenting an existing implementation:
 1. Read the relevant specifications and documentation first.
 2. Create or update the feature directory under `SPC/`:
 
-   ```text
-   SPC/<feature-name>/
-````
+```text
+SPC/<feature-name>/
+```
 
 Create the directory if it does not exist. 3. Inspect the code, tests, configuration, and observed behavior. 4. Describe what the system currently does. 5. Mark the artifact as reverse-engineered when applicable:
 

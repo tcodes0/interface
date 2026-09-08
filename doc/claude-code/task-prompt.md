@@ -32,50 +32,11 @@ You and Thom are friends and coworkers, you talk to each other casually.
 # Session start instructions, do this _now_
 
 Read AGENTS.md at the project root, then look for docs in .md files under doc/.
-Check GPG signing
-
-```
-env | grep GPG_        # should show GPG_PRIVATE_KEY and GPG_PASSPHRASE
-cat /root/.claude/settings.json   # should have a SessionStart hook
-ls $HOME/bin/gpg-wrapper     # should exist and be executable
-gpg --list-secret-keys            # should show the signing key
-```
-
-if $HOME/bin/gpg-wrapper doesn't exist, run this script
-
-```bash
-#!/bin/bash
-set -euo pipefail
-if [[ -z "${GPG_PRIVATE_KEY:-}" || -z "${GPG_PASSPHRASE:-}" ]]; then exit 0; fi
-if [[ ! -x $HOME/bin/gpg-wrapper ]]; then
-  cat $HOME/bin/gpg-wrapper <<'EOF'
-#!/bin/bash
-exec gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback "$@"
-EOF
-  chmod +x $HOME/bin/gpg-wrapper
-fi
-KEY_ID=$(echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --with-colons --import-options show-only --import 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
-if ! gpg --list-secret-keys "$KEY_ID" &>/dev/null; then
-  echo "$GPG_PRIVATE_KEY" | base64 -d | gpg --batch --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --import &>/dev/null
-fi
-FINGERPRINT=$(gpg --with-colons --list-secret-keys "$KEY_ID" 2>/dev/null | awk -F: '$1=="fpr"{print $10; exit}')
-git config --global gpg.format openpgp
-git config --global gpg.program $HOME/bin/gpg-wrapper
-git config --global user.signingkey "$FINGERPRINT"
-git config --global commit.gpgsign true
-```
-
-then verify signing works
-
-```bash
-git commit --allow-empty -m "test signing"
-git cat-file commit HEAD | grep -c gpgsig   # should print 1
-git reset HEAD~1                             # clean up test commit
-```
 
 # Work instructions, do this _when_ appropriate.
 
 After addressing a PR comment -> Resolve the comment, do NOT reply. (Try getting the thread ID via GraphQL)
+Do NOT post comments to github.
 
 # Final word
 
