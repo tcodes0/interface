@@ -35,7 +35,7 @@ alias sed='gsed'
 alias caf="caffeinate"
 alias tableplus="LD_LIBRARY_PATH=/opt/tableplus/lib tableplus"
 alias maclog="log show --predicate 'processID == 0' --start \$(date "+%Y-%m-%d") --debug"
-alias chromevpn='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --proxy-server="socks5://localhost:31337"'
+alias chromevpnold='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --proxy-server="socks5://localhost:31337"'
 alias act="act --container-architecture linux/amd64"
 alias pbc='pbcopy'
 alias pbp='pbpaste'

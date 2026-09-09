@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+set -u
+
+PROXY_PORT=31337
+PROXY_HOST=127.0.0.1
+
+CLOUD_SHELL_PID=""
+
+log_info() {
+    echo "[INFO] $*"
+}
+
+log_warn() {
+    echo "[WARN] $*" >&2
+}
+
+log_error() {
+    echo "[ERROR] $*" >&2
+}
+
+cleanup() {
+    if [[ -n "$CLOUD_SHELL_PID" ]] && kill -0 "$CLOUD_SHELL_PID" 2>/dev/null; then
+        log_info "Stopping Cloud Shell SSH..."
+        kill "$CLOUD_SHELL_PID" 2>/dev/null || true
+        wait "$CLOUD_SHELL_PID" 2>/dev/null || true
+        log_info "Cloud Shell SSH stopped"
+    fi
+}
+
+trap cleanup EXIT INT TERM
+
+kill_chrome() {
+    log_info "Checking for existing Google Chrome instances..."
+
+    if ! pgrep -x google-chrome-stable >/dev/null; then
+        log_info "No existing Chrome instance found"
+        return 0
+    fi
+
+    log_warn "Existing Chrome instance found; terminating it"
+
+    pkill -x google-chrome-stable || true
+
+    for _ in {1..50}; do
+        if ! pgrep -x google-chrome-stable >/dev/null; then
+            log_info "Existing Chrome instance terminated"
+            return 0
+        fi
+        sleep 0.1
+    done
+
+    log_error "Failed to terminate existing Chrome instance"
+    return 1
+}
+
+start_cloud_shell() {
+    log_info "Starting Cloud Shell SSH tunnel..."
+
+    gcloud alpha cloud-shell ssh \
+        --project=ele-qa-436057 \
+        --authorize-session \
+        -- -D "$PROXY_PORT" -CNq &
+
+    CLOUD_SHELL_PID=$!
+
+    log_info "Cloud Shell SSH started (PID $CLOUD_SHELL_PID)"
+}
+
+wait_for_proxy() {
+    log_info "Waiting for SOCKS5 proxy on $PROXY_HOST:$PROXY_PORT..."
+
+    for _ in {1..100}; do
+        # Check that something is accepting TCP connections.
+        if (echo >/dev/tcp/"$PROXY_HOST"/"$PROXY_PORT") 2>/dev/null; then
+            log_info "SOCKS5 proxy is available"
+            return 0
+        fi
+
+        # If gcloud has already exited, don't wait for the timeout.
+        if ! kill -0 "$CLOUD_SHELL_PID" 2>/dev/null; then
+            log_error "Cloud Shell SSH exited before the SOCKS5 proxy became available"
+            wait "$CLOUD_SHELL_PID" 2>/dev/null || true
+            return 1
+        fi
+
+        sleep 0.1
+    done
+
+    log_error "Timed out waiting for SOCKS5 proxy"
+    return 1
+}
+
+start_chrome() {
+    log_info "Starting Google Chrome through SOCKS5 proxy..."
+
+    google-chrome-stable \
+        --proxy-server="socks5://${PROXY_HOST}:${PROXY_PORT}"
+
+    local status=$?
+
+    log_info "Google Chrome exited with status $status"
+
+    return "$status"
+}
+
+main() {
+    log_info "Starting Chrome via Cloud Shell SOCKS5 proxy"
+
+    kill_chrome || return 1
+
+    start_cloud_shell
+
+    wait_for_proxy || return 1
+
+    start_chrome
+}
+
+main "$@"
